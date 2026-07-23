@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HEX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f0f;
+  --surface: #1a1a1a;
+  --surface2: #222;
+  --accent: #00bcd4;
+  --text: #e0e0e0;
+  --muted: #888;
+  --p1: #f44336;
+  --p2: #2196f3;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Noto Sans JP', 'Noto Sans', sans-serif; background: var(--bg); color: var(--text); }
+button { font-family: inherit; cursor: pointer; border: none; outline: none; }
+
+.screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; flex-direction: column; overflow-y: auto; }
+.screen.active { display: flex; }
+
+/* HEADER */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; background: var(--surface);
+  border-bottom: 1px solid #2a2a2a; flex-shrink: 0; min-height: 54px;
+}
+.header-logo {
+  font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900;
+  color: var(--accent); letter-spacing: 3px; cursor: pointer;
+  text-shadow: 0 0 12px rgba(0,188,212,0.5);
+}
+.header-right { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--surface2); border: 1px solid #333;
+  font-size: 18px; display: flex; align-items: center; justify-content: center;
+  color: var(--text); box-shadow: var(--shadow);
+}
+.icon-btn:active { background: #333; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 14px 24px; font-size: 16px; font-weight: 700;
+  border-radius: var(--radius); min-height: 52px; box-shadow: var(--shadow);
+}
+.btn:active { opacity: 0.8; }
+.btn-primary { background: var(--accent); color: #000; }
+.btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+.btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid #333; }
+.btn-sm { padding: 10px 18px; font-size: 14px; min-height: 44px; }
+.btn-full { width: 100%; }
+
+/* SPLASH */
+#splash-screen { background: var(--bg); align-items: center; justify-content: center; gap: 24px; }
+.splash-logo {
+  font-family: 'Orbitron', sans-serif; font-size: 60px; font-weight: 900;
+  color: var(--accent); letter-spacing: 8px;
+  animation: glow 1.4s ease-in-out infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 20px rgba(0,188,212,0.4); }
+  to   { text-shadow: 0 0 60px rgba(0,188,212,1), 0 0 100px rgba(0,188,212,0.4); }
+}
+.splash-sub { font-size: 12px; color: var(--muted); letter-spacing: 4px; }
+.spinner { width: 44px; height: 44px; border: 3px solid #222; border-top: 3px solid var(--accent); border-radius: 50%; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* HOME */
+#home-screen { align-items: stretch; }
+.home-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; gap: 14px; }
+.home-title { font-family: 'Orbitron', sans-serif; font-size: 40px; font-weight: 900; color: var(--accent); letter-spacing: 6px; text-shadow: 0 0 30px rgba(0,188,212,0.5); }
+.home-sub { font-size: 12px; color: var(--muted); letter-spacing: 3px; margin-bottom: 20px; }
+.home-btns { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 280px; }
+
+/* MODE */
+#mode-screen { align-items: stretch; }
+.mode-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; gap: 14px; }
+.mode-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.diff-grid { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 300px; }
+.diff-card {
+  padding: 16px 18px; border-radius: var(--radius); border: 2px solid #2a2a2a;
+  background: var(--surface); cursor: pointer; box-shadow: var(--shadow); min-height: 68px;
+}
+.diff-card.selected { border-color: var(--accent); background: rgba(0,188,212,0.07); }
+.diff-card-title { font-size: 16px; font-weight: 700; }
+.diff-card-desc { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.mode-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 300px; }
+
+/* GAME */
+#game-screen { align-items: stretch; }
+.game-body { flex: 1; display: flex; flex-direction: column; padding: 8px 12px; overflow: hidden; min-height: 0; }
+.info-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; background: var(--surface); border-radius: var(--radius);
+  margin-bottom: 6px; box-shadow: var(--shadow); flex-shrink: 0;
+}
+.turn-badge { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; }
+.turn-dot { width: 11px; height: 11px; border-radius: 50%; }
+.mode-badge { font-size: 11px; color: var(--muted); background: var(--bg); padding: 4px 10px; border-radius: 20px; }
+
+.swap-bar {
+  display: none; background: var(--surface); border-radius: var(--radius);
+  border: 1px solid rgba(0,188,212,0.3); padding: 10px 14px;
+  margin-bottom: 6px; flex-shrink: 0; box-shadow: var(--shadow);
+}
+.swap-bar-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 3px; }
+.swap-bar-desc { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.swap-bar-btns { display: flex; gap: 8px; }
+.swap-bar-btns button { flex: 1; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 700; }
+#btn-stay-action { background: var(--surface2); color: var(--text); border: 1px solid #444; }
+#btn-swap-action { background: var(--p1); color: #fff; }
+
+.log-bar { font-size: 12px; color: var(--muted); text-align: center; min-height: 16px; margin-bottom: 4px; flex-shrink: 0; }
+
+#board-container { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; min-height: 0; }
+#board-svg { display: block; }
+
+/* RESULT */
+#result-screen { align-items: stretch; }
+.result-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; gap: 12px; text-align: center; }
+.result-icon { font-size: 60px; }
+.result-msg { font-size: 28px; font-weight: 900; }
+.result-sub { font-size: 14px; color: var(--muted); }
+.result-btns { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 260px; margin-top: 20px; }
+
+/* HOWTO */
+#howto-screen { align-items: stretch; }
+.howto-body { flex: 1; overflow-y: auto; padding: 16px 20px 48px; }
+.howto-section { margin-bottom: 24px; }
+.howto-section-title { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #2a2a2a; }
+.howto-card { background: var(--surface); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 8px; border: 1px solid #2a2a2a; box-shadow: var(--shadow); }
+.howto-card-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.howto-card-body { font-size: 13px; color: #bbb; line-height: 1.7; }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.82); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: var(--surface); border-radius: 20px; padding: 26px 22px; max-width: 340px; width: 100%; border: 1px solid #2a2a2a; box-shadow: 0 8px 40px rgba(0,0,0,0.7); text-align: center; }
+.modal-icon { font-size: 38px; margin-bottom: 10px; }
+.modal-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.modal-body { font-size: 14px; color: #bbb; line-height: 1.7; white-space: pre-line; margin-bottom: 14px; }
+.modal-info { background: var(--bg); border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; text-align: left; border-left: 3px solid var(--accent); }
+.modal-info-label { font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 5px; }
+.modal-info-text { font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+@keyframes winPulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash-screen" class="screen active">
+  <div class="splash-logo">HEX</div>
+  <div class="splash-sub" id="splash-sub">六角形連結ゲーム</div>
+  <div class="spinner"></div>
+</div>
+
+<!-- HOME -->
+<div id="home-screen" class="screen">
+  <div class="header">
+    <div class="header-logo" onclick="goHome()">HEX</div>
+    <div class="header-right">
+      <button class="icon-btn" id="lb0" onclick="toggleLang()">🇯🇵</button>
+      <button class="icon-btn" onclick="openHowto()">？</button>
+    </div>
+  </div>
+  <div class="home-body">
+    <div class="home-title">HEX</div>
+    <div class="home-sub" id="home-sub">CONNECTION STRATEGY GAME</div>
+    <div class="home-btns">
+      <button class="btn btn-primary btn-full" id="btn-solo" onclick="showMode('ai')">1人用（AI対戦）</button>
+      <button class="btn btn-outline btn-full" id="btn-two" onclick="showMode('two')">2人対戦</button>
+    </div>
+  </div>
+</div>
+
+<!-- DIFFICULTY -->
+<div id="mode-screen" class="screen">
+  <div class="header">
+    <div class="header-logo" onclick="goHome()">HEX</div>
+    <div class="header-right">
+      <button class="icon-btn" id="lb1" onclick="toggleLang()">🇯🇵</button>
+      <button class="icon-btn" onclick="openHowto()">？</button>
+    </div>
+  </div>
+  <div class="mode-body">
+    <div class="mode-title" id="diff-title">難易度を選んでください</div>
+    <div class="diff-grid">
+      <div class="diff-card" id="diff-easy" onclick="selectDiff('easy')">
+        <div class="diff-card-title" id="d-easy">かんたん</div>
+        <div class="diff-card-desc" id="d-easy-d">AIはランダムに石を置きます</div>
+      </div>
+      <div class="diff-card" id="diff-normal" onclick="selectDiff('normal')">
+        <div class="diff-card-title" id="d-normal">ふつう</div>
+        <div class="diff-card-desc" id="d-normal-d">勝利・阻止を狙う中程度のAI</div>
+      </div>
+      <div class="diff-card" id="diff-hard" onclick="selectDiff('hard')">
+        <div class="diff-card-title" id="d-hard">むずかしい</div>
+        <div class="diff-card-desc" id="d-hard-d">MCTSで先読みする本格AI</div>
+      </div>
+    </div>
+    <div class="mode-actions">
+      <button class="btn btn-primary btn-full" id="btn-start-ai" onclick="startGame('ai')" style="display:none;" id="btn-start">ゲーム開始</button>
+      <button class="btn btn-ghost btn-full btn-sm" id="btn-back" onclick="showScreen('home-screen')">戻る</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="game-screen" class="screen">
+  <div class="header">
+    <div class="header-logo" onclick="goHome()">HEX</div>
+    <div class="header-right">
+      <button class="icon-btn" id="lb2" onclick="toggleLang()">🇯🇵</button>
+      <button class="icon-btn" onclick="openHowto()">？</button>
+    </div>
+  </div>
+  <div class="game-body">
+    <div class="info-bar">
+      <div class="turn-badge">
+        <div class="turn-dot" id="turn-dot"></div>
+        <span id="turn-info">--</span>
+      </div>
+      <div class="mode-badge" id="mode-badge"></div>
+      <button class="btn btn-ghost btn-sm" id="btn-home-game" onclick="goHome()">ホーム</button>
+    </div>
+    <div class="swap-bar" id="swap-bar">
+      <div class="swap-bar-title" id="swap-bar-title">🔄 スワップのチャンス</div>
+      <div class="swap-bar-desc" id="swap-bar-desc"></div>
+      <div class="swap-bar-btns">
+        <button id="btn-stay-action" onclick="doStay()">そのまま</button>
+        <button id="btn-swap-action" onclick="doSwap()">スワップ</button>
+      </div>
+    </div>
+    <div class="log-bar" id="log-bar"></div>
+    <div id="board-container">
+      <svg id="board-svg"></svg>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="result-screen" class="screen">
+  <div class="header">
+    <div class="header-logo" onclick="goHome()">HEX</div>
+    <div class="header-right">
+      <button class="icon-btn" id="lb3" onclick="toggleLang()">🇯🇵</button>
+    </div>
+  </div>
+  <div class="result-body">
+    <div class="result-icon" id="result-icon">🏆</div>
+    <div class="result-msg" id="result-msg"></div>
+    <div class="result-sub" id="result-sub"></div>
+    <div class="result-btns">
+      <button class="btn btn-primary btn-full" id="btn-again" onclick="restartGame()">もう一度</button>
+      <button class="btn btn-ghost btn-full" id="btn-home-result" onclick="goHome()">ホームへ戻る</button>
+    </div>
+  </div>
+</div>
+
+<!-- HOW-TO -->
+<div id="howto-screen" class="screen">
+  <div class="header">
+    <div class="header-logo" onclick="goHome()">HEX</div>
+    <div class="header-right">
+      <button class="icon-btn" id="lb4" onclick="toggleLang()">🇯🇵</button>
+      <button class="btn btn-ghost btn-sm" id="btn-close-howto" onclick="closeHowto()">閉じる</button>
+    </div>
+  </div>
+  <div class="howto-body" id="howto-body"></div>
+</div>
+
+<!-- SWAP MODAL -->
+<div class="modal-overlay" id="swap-modal">
+  <div class="modal-box">
+    <div class="modal-icon" id="sm-icon">🔄</div>
+    <div class="modal-title" id="sm-title"></div>
+    <div class="modal-body" id="sm-body"></div>
+    <div class="modal-info">
+      <div class="modal-info-label" id="sm-info-label">💡 スワップとは？</div>
+      <div class="modal-info-text" id="sm-info-text">先手は有利なので、後手は初手を「自分の石」として奪えるルールです。強い手を打つと奪われる→お互い公平な手になる仕組み。</div>
+    </div>
+    <button class="btn btn-primary btn-full" id="btn-modal-ok" onclick="closeSwapModal()">OK、わかった！</button>
+  </div>
+</div>
+
+<script>
+// =====================
+// i18n
+// =====================
+var lang = 'ja';
+
+var TEXTS = {
+  ja: {
+    splashSub: '六角形連結ゲーム',
+    homeSub: 'CONNECTION STRATEGY GAME',
+    btnSolo: '1人用（AI対戦）', btnTwo: '2人対戦',
+    diffTitle: '難易度を選んでください',
+    dEasy: 'かんたん', dEasyD: 'AIはランダムに石を置きます',
+    dNormal: 'ふつう', dNormalD: '勝利・阻止を狙う中程度のAI',
+    dHard: 'むずかしい', dHardD: 'MCTSで先読みする本格AI',
+    btnStart: 'ゲーム開始', btnBack: '戻る',
+    btnHome: 'ホーム', btnHomeR: 'ホームへ戻る',
+    btnAgain: 'もう一度', btnClose: '閉じる',
+    btnStay: 'そのまま', btnSwap: 'スワップ',
+    btnOk: 'OK、わかった！',
+    swapChance: '\uD83D\uDD04 スワップのチャンス',
+    swapDesc: 'P2: P1の初手を引き継いで担当辺を入れ替えますか？',
+    swapAiThink: 'AIがスワップするか判断中…',
+    logStay: 'スワップなし → そのまま続行',
+    logSwap: 'スワップ！担当辺が入れ替わりました',
+    yourTurn: 'あなたの番', aiTurn: 'AI 思考中…',
+    p1Turn: 'Player1 の番', p2Turn: 'Player2 の番',
+    aiLabel: 'AI: ', twoLabel: '2人対戦',
+    winYou: 'あなたの勝利！', winAI: 'AIの勝利！',
+    winP1: 'Player1 の勝利！', winP2: 'Player2 の勝利！',
+    winDirTB: '上辺〜下辺を繋ぎました', winDirLR: '左辺〜右辺を繋ぎました',
+    swapModalAITitle: 'AIがスワップしました！',
+    swapModalAIBody: 'AIが初手を引き継ぎました。\nあなた → 赤（上↔下）\nAI → 青（左↔右）\n\n次はあなたの番です！',
+    swapModal2PTitle: 'スワップ！役割交代！',
+    swapModal2PBody: 'Player2が初手を引き継ぎました。\nPlayer1 → 青（左↔右）\nPlayer2 → 赤（上↔下）\n\n次はPlayer1の番です！',
+    smInfoLabel: '\uD83D\uDCA1 スワップとは？',
+    smInfoText: '先手は有利なので、後手は初手を「自分の石」として奪えるルールです。強い手を打つと奪われる→お互い公平な手になる仕組み。',
+    howto: [
+      { title: '基本ルール', items: [
+        { t: '目的', b: '自分が担当する対向する2辺を、石の連結で繋いだプレイヤーが勝ちです。' },
+        { t: '手番', b: '交互に1つずつ空いているマスに石を置きます。置いた石は動かせません。' },
+        { t: '引き分けなし', b: 'Hexは理論上必ずどちらかが勝ちます。引き分けは存在しません。' }
+      ]},
+      { title: '担当する辺', items: [
+        { t: '\uD83D\uDD34 Player1（赤）', b: '上辺〜下辺を繋ぐ' },
+        { t: '\uD83D\uDD35 Player2（青）', b: '左辺〜右辺を繋ぐ' }
+      ]},
+      { title: 'スワップルール（パイ・ルール）', items: [
+        { t: 'なぜ必要？', b: 'Hexは先手が理論上必ず勝てるほど有利です。後手の不利を解消するためのルールです。' },
+        { t: 'どうやって？', b: 'Player1が初手を打った後、Player2は「そのまま続行」か「スワップ」を選べます。スワップすると、P1の石をP2が引き継ぎ、担当辺が入れ替わります。' },
+        { t: '結果は？', b: 'P1が強い手を打つとスワップされて不利になる。弱い手だとスワップされず後手が有利。→P1は公平な手を打つしかなくなります。' }
+      ]},
+      { title: 'AI難易度', items: [
+        { t: 'かんたん', b: 'ランダムに石を置きます。初心者向け。' },
+        { t: 'ふつう', b: '即勝ちの手・相手の即勝ちを阻止、中央優先で打ちます。' },
+        { t: 'むずかしい', b: 'MCTS（モンテカルロ木探索）で複数手先を読む本格的なAIです。' }
+      ]}
+    ]
+  },
+  en: {
+    splashSub: 'HEX CONNECTION STRATEGY',
+    homeSub: 'CONNECTION STRATEGY GAME',
+    btnSolo: 'vs AI', btnTwo: '2 Players',
+    diffTitle: 'Select Difficulty',
+    dEasy: 'Easy', dEasyD: 'AI places stones randomly',
+    dNormal: 'Normal', dNormalD: 'AI blocks and targets wins',
+    dHard: 'Hard', dHardD: 'Full MCTS lookahead AI',
+    btnStart: 'Start Game', btnBack: 'Back',
+    btnHome: 'Home', btnHomeR: 'Back to Home',
+    btnAgain: 'Play Again', btnClose: 'Close',
+    btnStay: 'Stay', btnSwap: 'Swap',
+    btnOk: 'Got it!',
+    swapChance: '\uD83D\uDD04 Swap Opportunity',
+    swapDesc: 'P2: Take P1\'s first stone and switch sides?',
+    swapAiThink: 'AI deciding swap…',
+    logStay: 'No swap — continuing',
+    logSwap: 'Swapped! Sides have switched.',
+    yourTurn: 'Your Turn', aiTurn: 'AI Thinking…',
+    p1Turn: 'Player1\'s Turn', p2Turn: 'Player2\'s Turn',
+    aiLabel: 'AI: ', twoLabel: '2P',
+    winYou: 'You Win!', winAI: 'AI Wins!',
+    winP1: 'Player1 Wins!', winP2: 'Player2 Wins!',
+    winDirTB: 'Connected Top to Bottom', winDirLR: 'Connected Left to Right',
+    swapModalAITitle: 'AI Swapped!',
+    swapModalAIBody: 'AI claimed the first move.\nYou → Red (Top-Bottom)\nAI → Blue (Left-Right)\n\nYour turn!',
+    swapModal2PTitle: 'Swapped!',
+    swapModal2PBody: 'Player2 claimed the first move.\nPlayer1 → Blue (Left-Right)\nPlayer2 → Red (Top-Bottom)\n\nPlayer1\'s turn!',
+    smInfoLabel: '\uD83D\uDCA1 What is Swap?',
+    smInfoText: 'The first player has a big advantage. The swap rule lets the second player claim the first move, balancing the game.',
+    howto: [
+      { title: 'Basic Rules', items: [
+        { t: 'Objective', b: 'Connect your two opposite edges with a chain of your stones to win.' },
+        { t: 'Turns', b: 'Players take turns placing one stone on any empty hex. Stones never move.' },
+        { t: 'No Draws', b: 'Hex always produces a winner. Draws are mathematically impossible.' }
+      ]},
+      { title: 'Edges', items: [
+        { t: '\uD83D\uDD34 Player1 (Red)', b: 'Connect Top edge to Bottom edge' },
+        { t: '\uD83D\uDD35 Player2 (Blue)', b: 'Connect Left edge to Right edge' }
+      ]},
+      { title: 'Swap Rule (Pie Rule)', items: [
+        { t: 'Why?', b: 'Hex gives a massive advantage to the first player. The swap rule balances this.' },
+        { t: 'How?', b: 'After P1\'s first move, P2 can Stay or Swap. Swapping claims P1\'s stone and switches which edges each player connects.' },
+        { t: 'Result?', b: 'P1 is incentivized to play a fair opening — too strong and it gets stolen, too weak and P2 won\'t swap.' }
+      ]},
+      { title: 'AI Difficulty', items: [
+        { t: 'Easy', b: 'Random placement. Good for beginners.' },
+        { t: 'Normal', b: 'Wins immediately when possible, blocks threats, prefers center.' },
+        { t: 'Hard', b: 'Uses MCTS (Monte Carlo Tree Search) to look several moves ahead.' }
+      ]}
+    ]
+  }
+};
+
+function tx(key) { return TEXTS[lang][key] || ''; }
+
+function applyLang() {
+  var flag = lang === 'ja' ? '\uD83C\uDDEF\uD83C\uDDF5' : '\uD83C\uDDFA\uD83C\uDDF8';
+  var lbs = document.querySelectorAll('[id^="lb"]');
+  for (var i = 0; i < lbs.length; i++) lbs[i].textContent = flag;
+  document.getElementById('splash-sub').textContent = tx('splashSub');
+  document.getElementById('home-sub').textContent = tx('homeSub');
+  document.getElementById('btn-solo').textContent = tx('btnSolo');
+  document.getElementById('btn-two').textContent = tx('btnTwo');
+  document.getElementById('diff-title').textContent = tx('diffTitle');
+  document.getElementById('d-easy').textContent = tx('dEasy');
+  document.getElementById('d-easy-d').textContent = tx('dEasyD');
+  document.getElementById('d-normal').textContent = tx('dNormal');
+  document.getElementById('d-normal-d').textContent = tx('dNormalD');
+  document.getElementById('d-hard').textContent = tx('dHard');
+  document.getElementById('d-hard-d').textContent = tx('dHardD');
+  document.getElementById('btn-start-ai').textContent = tx('btnStart');
+  document.getElementById('btn-back').textContent = tx('btnBack');
+  document.getElementById('btn-home-game').textContent = tx('btnHome');
+  document.getElementById('btn-again').textContent = tx('btnAgain');
+  document.getElementById('btn-home-result').textContent = tx('btnHomeR');
+  document.getElementById('btn-close-howto').textContent = tx('btnClose');
+  document.getElementById('btn-stay-action').textContent = tx('btnStay');
+  document.getElementById('btn-swap-action').textContent = tx('btnSwap');
+  document.getElementById('btn-modal-ok').textContent = tx('btnOk');
+  document.getElementById('sm-info-label').textContent = tx('smInfoLabel');
+  document.getElementById('sm-info-text').textContent = tx('smInfoText');
+  renderHowto();
+  if (document.getElementById('game-screen').classList.contains('active')) updateTurnInfo();
+}
+
+function toggleLang() {
+  lang = lang === 'ja' ? 'en' : 'ja';
+  applyLang();
+}
+
+// =====================
+// How-to
+// =====================
+function renderHowto() {
+  var data = TEXTS[lang].howto;
+  var html = '';
+  for (var s = 0; s < data.length; s++) {
+    var sec = data[s];
+    html += '<div class="howto-section"><div class="howto-section-title">' + sec.title + '</div>';
+    for (var i = 0; i < sec.items.length; i++) {
+      html += '<div class="howto-card"><div class="howto-card-title">' + sec.items[i].t + '</div><div class="howto-card-body">' + sec.items[i].b + '</div></div>';
+    }
+    html += '</div>';
+  }
+  document.getElementById('howto-body').innerHTML = html;
+}
+
+// =====================
+// Screen management
+// =====================
+var prevScreen = 'home-screen';
+
+function showScreen(id) {
+  var all = document.querySelectorAll('.screen');
+  for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() { showScreen('home-screen'); }
+
+function openHowto() {
+  var cur = document.querySelector('.screen.active');
+  prevScreen = cur ? cur.id : 'home-screen';
+  if (prevScreen === 'splash-screen') prevScreen = 'home-screen';
+  renderHowto();
+  showScreen('howto-screen');
+}
+
+function closeHowto() { showScreen(prevScreen); }
+
+// =====================
+// Game State
+// =====================
+var N = 11;
+var gameMode = 'ai';
+var aiDifficulty = 'easy';
+var board = [];
+var currentPlayer = 1;
+var swapPhase = false;
+var swapDone = false;
+var gameOver = false;
+var moveCount = 0;
+var lastMove = null;
+var swapped = false;
+var winPath = [];
+var uf = [];
+var TOP, BOTTOM, LEFT_N, RIGHT_N;
+var DIRS = [[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0]];
+
+// Geometry
+var HEX_SIZE = 20;
+var HEX_H = 20 * 1.732;
+
+function calcHexSize() {
+  var uiH = 54 + 6 + 54 + 6 + 16 + 4 + 16;
+  var availW = Math.min(window.innerWidth, 600) - 24;
+  var availH = window.innerHeight - uiH - 20;
+  var sW = availW / (1.5*(N-1) + 0.866*(N-1) + 5.6);
+  var sH = availH / (1.732*(N-1) + 5.6);
+  HEX_SIZE = Math.max(10, Math.min(sW, sH));
+  HEX_H = HEX_SIZE * 1.732;
+}
+
+// =====================
+// Union-Find
+// =====================
+function ufInit() {
+  TOP = N*N; BOTTOM = N*N+1; LEFT_N = N*N+2; RIGHT_N = N*N+3;
+  uf = [];
+  for (var i = 0; i < N*N+4; i++) uf.push(i);
+}
+
+function ufFind(x) {
+  while (uf[x] !== x) { uf[x] = uf[uf[x]]; x = uf[x]; }
+  return x;
+}
+
+function ufUnion(a, b) { a = ufFind(a); b = ufFind(b); if (a !== b) uf[a] = b; }
+function ufConn(a, b) { return ufFind(a) === ufFind(b); }
+
+// =====================
+// Board
+// =====================
+function idx(r, c) { return r*N+c; }
+
+function initBoard() {
+  board = [];
+  for (var i = 0; i < N; i++) { board.push([]); for (var j = 0; j < N; j++) board[i].push(0); }
+  ufInit();
+  currentPlayer = 1; swapPhase = false; swapDone = false;
+  gameOver = false; moveCount = 0; lastMove = null; swapped = false; winPath = [];
+}
+
+function placeStone(r, c, p) {
+  board[r][c] = p;
+  var id = idx(r, c);
+  if (p === 1) { if (r === 0) ufUnion(id, TOP); if (r === N-1) ufUnion(id, BOTTOM); }
+  else { if (c === 0) ufUnion(id, LEFT_N); if (c === N-1) ufUnion(id, RIGHT_N); }
+  for (var d = 0; d < DIRS.length; d++) {
+    var nr = r+DIRS[d][0], nc = c+DIRS[d][1];
+    if (nr >= 0 && nr < N && nc >= 0 && nc < N && board[nr][nc] === p) ufUnion(id, idx(nr, nc));
+  }
+}
+
+function checkWin(p) { return p === 1 ? ufConn(TOP, BOTTOM) : ufConn(LEFT_N, RIGHT_N); }
+
+function rebuildUF() {
+  ufInit();
+  for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) if (board[r][c]) placeStone(r, c, board[r][c]);
+}
+
+function findWinPath(p) {
+  var vis = [], prev = [], q = [];
+  for (var i = 0; i < N*N; i++) { vis.push(false); prev.push(-1); }
+  if (p === 1) { for (var c = 0; c < N; c++) if (board[0][c] === 1) { q.push(idx(0,c)); vis[idx(0,c)] = true; } }
+  else { for (var r = 0; r < N; r++) if (board[r][0] === 2) { q.push(idx(r,0)); vis[idx(r,0)] = true; } }
+  var found = -1;
+  while (q.length) {
+    var cur = q.shift(), cr = Math.floor(cur/N), cc = cur%N;
+    if (p === 1 && cr === N-1) { found = cur; break; }
+    if (p === 2 && cc === N-1) { found = cur; break; }
+    for (var d = 0; d < DIRS.length; d++) {
+      var nr = cr+DIRS[d][0], nc = cc+DIRS[d][1];
+      if (nr >= 0 && nr < N && nc >= 0 && nc < N && !vis[idx(nr,nc)] && board[nr][nc] === p) {
+        vis[idx(nr,nc)] = true; prev[idx(nr,nc)] = cur; q.push(idx(nr,nc));
+      }
+    }
+  }
+  var path = [], cur = found;
+  while (cur !== -1) { path.push(cur); cur = prev[cur]; }
+  return path;
+}
+
+// =====================
+// SVG Board
+// =====================
+function hexCenter(r, c) {
+  var pad = HEX_SIZE * 2.8;
+  return { x: HEX_SIZE*1.5*c + HEX_SIZE*0.866*r + pad, y: HEX_H*r + HEX_H*0.5 + pad*0.9 };
+}
+
+function hexPts(cx, cy, s) {
+  var pts = [];
+  for (var i = 0; i < 6; i++) {
+    var a = Math.PI/180*(60*i-30);
+    pts.push(+(cx+s*Math.cos(a)).toFixed(2) + ',' + +(cy+s*Math.sin(a)).toFixed(2));
+  }
+  return pts.join(' ');
+}
+
+function renderBoard() {
+  var svg = document.getElementById('board-svg');
+  var pad = HEX_SIZE * 2.8;
+  var last = hexCenter(N-1, N-1);
+  var W = Math.ceil(last.x + pad*1.5);
+  var H = Math.ceil(last.y + pad);
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+  var winSet = {};
+  for (var i = 0; i < winPath.length; i++) winSet[winPath[i]] = true;
+
+  var html = '';
+  var es = HEX_SIZE * 0.52;
+
+  // Edge markers
+  for (var c = 0; c < N; c++) {
+    var p = hexCenter(0, c);
+    html += '<rect x="'+(p.x-es*1.1)+'" y="'+(p.y-HEX_H*0.5-es*0.9)+'" width="'+(es*2.2)+'" height="'+(es*0.65)+'" fill="rgba(244,67,54,0.85)" rx="3"/>';
+  }
+  for (var c = 0; c < N; c++) {
+    var p = hexCenter(N-1, c);
+    html += '<rect x="'+(p.x-es*1.1)+'" y="'+(p.y+HEX_H*0.5+es*0.25)+'" width="'+(es*2.2)+'" height="'+(es*0.65)+'" fill="rgba(244,67,54,0.85)" rx="3"/>';
+  }
+  for (var r = 0; r < N; r++) {
+    var p = hexCenter(r, 0);
+    html += '<rect x="'+(p.x-HEX_SIZE*1.5-es*0.9)+'" y="'+(p.y-es*1.1)+'" width="'+(es*0.65)+'" height="'+(es*2.2)+'" fill="rgba(33,150,243,0.85)" rx="3"/>';
+  }
+  for (var r = 0; r < N; r++) {
+    var p = hexCenter(r, N-1);
+    html += '<rect x="'+(p.x+HEX_SIZE*1.5+es*0.25)+'" y="'+(p.y-es*1.1)+'" width="'+(es*0.65)+'" height="'+(es*2.2)+'" fill="rgba(33,150,243,0.85)" rx="3"/>';
+  }
+
+  // Cells
+  for (var r = 0; r < N; r++) {
+    for (var c = 0; c < N; c++) {
+      var p = hexCenter(r, c);
+      var pts = hexPts(p.x, p.y, HEX_SIZE-1.2);
+      var v = board[r][c], isW = winSet[idx(r,c)];
+      var fill, stroke, sw;
+      if (v === 1) { fill = isW ? '#ff7070' : '#f44336'; stroke = isW ? '#fff' : '#b71c1c'; sw = isW ? 2.5 : 1; }
+      else if (v === 2) { fill = isW ? '#64b5f6' : '#2196f3'; stroke = isW ? '#fff' : '#0d47a1'; sw = isW ? 2.5 : 1; }
+      else { fill = '#252525'; stroke = '#3a3a3a'; sw = 1; }
+      var anim = isW ? ' style="animation:winPulse 0.8s ease infinite;"' : '';
+      html += '<polygon id="cell-' + r + '-' + c + '" points="' + pts + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"' + anim + '/>';
+    }
+  }
+  svg.innerHTML = html;
+
+  for (var r = 0; r < N; r++) {
+    for (var c = 0; c < N; c++) {
+      (function(row, col) {
+        var el = document.getElementById('cell-' + row + '-' + col);
+        if (!el) return;
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', function() { onCellClick(row, col); });
+        el.addEventListener('mouseenter', function() { onHover(row, col, true); });
+        el.addEventListener('mouseleave', function() { onHover(row, col, false); });
+      })(r, c);
+    }
+  }
+}
+
+function onHover(r, c, on) {
+  if (gameOver || swapPhase || board[r][c]) return;
+  var el = document.getElementById('cell-' + r + '-' + c);
+  if (el) el.setAttribute('fill', on ? (currentPlayer===1 ? 'rgba(244,67,54,0.3)' : 'rgba(33,150,243,0.3)') : '#252525');
+}
+
+// =====================
+// Game Flow
+// =====================
+function showMode(mode) {
+  gameMode = mode;
+  if (mode === 'ai') {
+    var cards = document.querySelectorAll('.diff-card');
+    for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
+    document.getElementById('btn-start-ai').style.display = 'none';
+    showScreen('mode-screen');
+  } else {
+    startGame('two');
+  }
+}
+
+function selectDiff(diff) {
+  aiDifficulty = diff;
+  var cards = document.querySelectorAll('.diff-card');
+  for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
+  document.getElementById('diff-' + diff).classList.add('selected');
+  document.getElementById('btn-start-ai').style.display = 'block';
+}
+
+function startGame(mode) {
+  gameMode = mode;
+  calcHexSize();
+  initBoard();
+  var badge = mode === 'ai' ? (tx('aiLabel') + tx('d' + aiDifficulty.charAt(0).toUpperCase() + aiDifficulty.slice(1))) : tx('twoLabel');
+  document.getElementById('mode-badge').textContent = badge;
+  document.getElementById('swap-bar').style.display = 'none';
+  document.getElementById('log-bar').textContent = '';
+  showScreen('game-screen');
+  updateTurnInfo();
+  renderBoard();
+}
+
+function updateTurnInfo() {
+  var dot = document.getElementById('turn-dot');
+  var info = document.getElementById('turn-info');
+  var label, color;
+  if (gameMode === 'ai') {
+    label = currentPlayer === 1 ? tx('yourTurn') : tx('aiTurn');
+    color = currentPlayer === 1 ? '#f44336' : '#2196f3';
+  } else {
+    label = currentPlayer === 1 ? tx('p1Turn') : tx('p2Turn');
+    color = currentPlayer === 1 ? '#f44336' : '#2196f3';
+  }
+  dot.style.background = color;
+  info.textContent = label;
+  info.style.color = color;
+}
+
+function setLog(msg) { document.getElementById('log-bar').textContent = msg; }
+
+function onCellClick(r, c) {
+  if (gameOver || swapPhase || board[r][c]) return;
+  if (gameMode === 'ai' && currentPlayer !== 1) return;
+  var isFirst = (moveCount === 0);
+  placeStone(r, c, currentPlayer);
+  playSound('place');
+  moveCount++;
+  if (isFirst) { lastMove = {r:r,c:c}; swapPhase = true; renderBoard(); showSwapUI(); return; }
+  afterPlace(r, c);
+}
+
+function showSwapUI() {
+  var bar = document.getElementById('swap-bar');
+  bar.style.display = 'block';
+  if (gameMode === 'ai') {
+    document.getElementById('swap-bar-title').textContent = tx('swapAiThink');
+    document.getElementById('swap-bar-desc').textContent = '';
+    document.getElementById('btn-stay-action').style.display = 'none';
+    document.getElementById('btn-swap-action').style.display = 'none';
+    setTimeout(function() { aiDecideSwap(); }, 700);
+  } else {
+    document.getElementById('swap-bar-title').textContent = tx('swapChance');
+    document.getElementById('swap-bar-desc').textContent = tx('swapDesc');
+    document.getElementById('btn-stay-action').style.display = '';
+    document.getElementById('btn-swap-action').style.display = '';
+  }
+}
+
+function doStay() {
+  swapPhase = false;
+  document.getElementById('swap-bar').style.display = 'none';
+  setLog(tx('logStay'));
+  currentPlayer = 2;
+  updateTurnInfo();
+  renderBoard();
+}
+
+function doSwap() {
+  var r = lastMove.r, c = lastMove.c;
+  board[r][c] = 0; ufInit();
+  board[r][c] = 2; placeStone(r, c, 2);
+  swapped = true; swapPhase = false; swapDone = true;
+  document.getElementById('swap-bar').style.display = 'none';
+  currentPlayer = 1;
+  updateTurnInfo();
+  renderBoard();
+  var isAI = gameMode === 'ai';
+  showSwapModal(isAI ? tx('swapModalAITitle') : tx('swapModal2PTitle'), isAI ? tx('swapModalAIBody') : tx('swapModal2PBody'));
+  setLog(tx('logSwap'));
+}
+
+function aiDecideSwap() {
+  var r = lastMove.r, c = lastMove.c;
+  var center = Math.floor(N/2);
+  if (Math.abs(r-center)+Math.abs(c-center) <= 2) {
+    doSwap();
+  } else {
+    doStay();
+    setTimeout(function() { aiMove(); }, 400);
+  }
+}
+
+function afterPlace(r, c) {
+  var won = checkWin(currentPlayer);
+  renderBoard();
+  if (won) {
+    winPath = findWinPath(currentPlayer);
+    renderBoard();
+    setTimeout(function() { endGame(currentPlayer); }, 900);
+    return;
+  }
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  updateTurnInfo();
+  if (gameMode === 'ai' && currentPlayer === 2) setTimeout(function() { aiMove(); }, 300);
+}
+
+function endGame(winner) {
+  gameOver = true;
+  playSound('win');
+  var msg = gameMode === 'ai' ? (winner === 1 ? tx('winYou') : tx('winAI')) : (winner === 1 ? tx('winP1') : tx('winP2'));
+  var color = winner === 1 ? '#f44336' : '#2196f3';
+  var icon = winner === 1 ? '\uD83C\uDFC6' : (gameMode === 'ai' ? '\uD83E\uDD16' : '\uD83C\uDF89');
+  document.getElementById('result-icon').textContent = icon;
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('result-msg').style.color = color;
+  document.getElementById('result-sub').textContent = winner === 1 ? tx('winDirTB') : tx('winDirLR');
+  showScreen('result-screen');
+}
+
+function restartGame() { startGame(gameMode); }
+
+// =====================
+// Swap Modal
+// =====================
+function showSwapModal(title, body) {
+  document.getElementById('sm-title').textContent = title;
+  document.getElementById('sm-body').textContent = body;
+  document.getElementById('swap-modal').classList.add('open');
+}
+
+function closeSwapModal() { document.getElementById('swap-modal').classList.remove('open'); }
+
+// =====================
+// AI
+// =====================
+function getEmpty() {
+  var cells = [];
+  for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) if (!board[r][c]) cells.push({r:r,c:c});
+  return cells;
+}
+
+function aiMove() {
+  if (gameOver) return;
+  var move = aiDifficulty === 'easy' ? aiEasy() : aiDifficulty === 'normal' ? aiNormal() : aiHard();
+  if (!move) return;
+  placeStone(move.r, move.c, 2);
+  playSound('place');
+  moveCount++;
+  afterPlace(move.r, move.c);
+}
+
+function aiEasy() {
+  var e = getEmpty();
+  return e.length ? e[Math.floor(Math.random()*e.length)] : null;
+}
+
+function aiNormal() {
+  var e = getEmpty();
+  if (!e.length) return null;
+  for (var i = 0; i < e.length; i++) {
+    board[e[i].r][e[i].c] = 2; rebuildUF(); var w = checkWin(2);
+    board[e[i].r][e[i].c] = 0; rebuildUF(); if (w) return e[i];
+  }
+  for (var i = 0; i < e.length; i++) {
+    board[e[i].r][e[i].c] = 1; rebuildUF(); var w = checkWin(1);
+    board[e[i].r][e[i].c] = 0; rebuildUF(); if (w) return e[i];
+  }
+  var best = null, bestS = 999, ctr = Math.floor(N/2);
+  for (var i = 0; i < e.length; i++) {
+    var s = Math.abs(e[i].c-ctr)*0.5 + Math.abs(e[i].r-ctr)*0.3;
+    if (s < bestS) { bestS = s; best = e[i]; }
+  }
+  return best;
+}
+
+function aiHard() {
+  var e = getEmpty();
+  if (!e.length) return null;
+  for (var i = 0; i < e.length; i++) {
+    board[e[i].r][e[i].c] = 2; rebuildUF(); var w = checkWin(2);
+    board[e[i].r][e[i].c] = 0; rebuildUF(); if (w) return e[i];
+  }
+  for (var i = 0; i < e.length; i++) {
+    board[e[i].r][e[i].c] = 1; rebuildUF(); var w = checkWin(1);
+    board[e[i].r][e[i].c] = 0; rebuildUF(); if (w) return e[i];
+  }
+  var best = null, bestS = -1;
+  for (var i = 0; i < e.length; i++) {
+    var wins = 0;
+    for (var s = 0; s < 80; s++) wins += simulate(e[i].r, e[i].c);
+    if (wins/80 > bestS) { bestS = wins/80; best = e[i]; }
+  }
+  return best || e[0];
+}
+
+function simulate(sr, sc) {
+  var saved = [];
+  for (var r = 0; r < N; r++) { saved.push([]); for (var c = 0; c < N; c++) saved[r].push(board[r][c]); }
+  board[sr][sc] = 2;
+  var e = [];
+  for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) if (!board[r][c]) e.push({r:r,c:c});
+  for (var i = e.length-1; i > 0; i--) { var j = Math.floor(Math.random()*(i+1)); var t2 = e[i]; e[i] = e[j]; e[j] = t2; }
+  var sp = 1;
+  for (var i = 0; i < e.length; i++) { board[e[i].r][e[i].c] = sp; sp = sp===1?2:1; }
+  rebuildUF();
+  var res = checkWin(2) ? 1 : 0;
+  for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) board[r][c] = saved[r][c];
+  rebuildUF();
+  return res;
+}
+
+// ========== SOUND ==========
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return audioCtx;
+}
+function playSound(type) {
+  var ctx = getAudioCtx();
+  if (!ctx) return;
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  if (type === 'place') {
+    osc.frequency.setValueAtTime(440, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.1);
+  } else if (type === 'win') {
+    osc.frequency.setValueAtTime(523, ctx.currentTime);
+    osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
+    osc.frequency.setValueAtTime(784, ctx.currentTime + 0.30);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.55);
+  }
+}
+
+// =====================
+// Init
+// =====================
+renderHowto();
+setTimeout(function() { showScreen('home-screen'); }, 2200);
+</script>
+</body>
+</html>

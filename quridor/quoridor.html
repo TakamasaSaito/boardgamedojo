@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Quoridor / コリドール</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Noto+Sans:wght@300;400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#0f0f0f;--accent:#00bcd4;--p1:#00bcd4;--p2:#ff6b35;
+  --text:#e0e0e0;--cell:#1a1a2e;--shadow:0 4px 16px rgba(0,0,0,0.5);--gap:14px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP','Noto Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:1000;background:#0f0f0f;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:splashFade 0.6s ease 2.8s forwards;}
+@keyframes splashFade{to{opacity:0;pointer-events:none;}}
+.splash-logo{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,8vw,4rem);font-weight:900;color:var(--accent);letter-spacing:0.1em;animation:splashPulse 1.4s ease-in-out infinite alternate;}
+@keyframes splashPulse{from{text-shadow:0 0 20px rgba(0,188,212,0.5);}to{text-shadow:0 0 60px rgba(0,188,212,1),0 0 100px rgba(0,188,212,0.4);}}
+.splash-sub{margin-top:12px;font-size:1rem;color:rgba(224,224,224,0.6);letter-spacing:0.3em;}
+.splash-bar{margin-top:40px;width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.splash-bar-fill{height:100%;background:var(--accent);border-radius:2px;animation:barFill 2.4s ease forwards;}
+@keyframes barFill{from{width:0;}to{width:100%;}}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.hidden{display:none;}
+.modal-box{background:#161622;border:1px solid rgba(0,188,212,0.3);border-radius:16px;padding:28px 20px;max-width:400px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,0.8),0 0 60px rgba(0,188,212,0.1);animation:modalIn 0.3s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:none;}}
+.modal-title{font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:700;color:var(--accent);text-align:center;margin-bottom:22px;}
+.modal-section{margin-bottom:18px;}
+.modal-label{font-size:0.75rem;color:rgba(224,224,224,0.45);letter-spacing:0.1em;margin-bottom:8px;text-transform:uppercase;}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-opt{flex:1;min-width:72px;padding:11px 8px;border-radius:10px;border:1px solid rgba(0,188,212,0.25);background:rgba(0,188,212,0.04);color:var(--text);font-size:0.88rem;cursor:pointer;transition:all 0.2s;font-family:'Noto Sans JP',sans-serif;min-height:44px;}
+.btn-opt:hover{background:rgba(0,188,212,0.13);border-color:var(--accent);}
+.btn-opt.active{background:rgba(0,188,212,0.22);border-color:var(--accent);color:var(--accent);font-weight:700;}
+.btn-start{width:100%;padding:15px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),#0097a7);color:#0f0f0f;font-size:1.05rem;font-weight:700;cursor:pointer;margin-top:6px;transition:all 0.2s;font-family:'Noto Sans JP',sans-serif;min-height:50px;box-shadow:0 4px 20px rgba(0,188,212,0.35);}
+.btn-start:hover{transform:translateY(-2px);}
+.help-content{max-height:58vh;overflow-y:auto;padding-right:4px;}
+.help-content::-webkit-scrollbar{width:4px;}
+.help-content::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+.help-section{margin-bottom:14px;}
+.help-section h3{color:var(--accent);font-size:0.85rem;margin-bottom:6px;font-family:'Orbitron',sans-serif;}
+.help-section p,.help-section li{font-size:0.8rem;color:rgba(224,224,224,0.72);line-height:1.6;}
+.help-section ul{padding-left:14px;}
+.help-close{width:100%;padding:11px;border-radius:10px;border:1px solid rgba(0,188,212,0.3);background:transparent;color:var(--accent);cursor:pointer;margin-top:14px;font-family:'Noto Sans JP',sans-serif;font-size:0.88rem;min-height:44px;}
+.win-icon{font-size:2.8rem;text-align:center;margin-bottom:10px;}
+.win-name{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;text-align:center;margin-bottom:6px;}
+.win-sub{text-align:center;color:rgba(224,224,224,0.55);font-size:0.85rem;margin-bottom:22px;}
+.btn-win-group{display:flex;gap:10px;}
+.btn-win{flex:1;padding:13px;border-radius:10px;border:none;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:0.88rem;font-weight:700;min-height:46px;transition:all 0.2s;}
+.btn-win.primary{background:linear-gradient(135deg,var(--accent),#0097a7);color:#0f0f0f;}
+.btn-win.secondary{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);color:var(--text);}
+
+/* ===== WALL DIR MODAL (mini popup) ===== */
+#wallDirModal{
+  position:fixed;inset:0;z-index:600;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding-bottom:100px;
+  background:rgba(0,0,0,0.6);
+  animation:wdFadeIn 0.18s ease;
+}
+#wallDirModal.hidden{display:none;}
+@keyframes wdFadeIn{from{opacity:0;}to{opacity:1;}}
+.wd-box{
+  background:#1a1a2e;
+  border:1px solid rgba(255,107,53,0.4);
+  border-radius:20px;padding:20px 16px 16px;
+  width:calc(100% - 20px);max-width:480px;
+  box-shadow:0 -4px 40px rgba(0,0,0,0.7),0 0 40px rgba(255,107,53,0.1);
+  animation:wdSlideUp 0.22s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes wdSlideUp{from{transform:translateY(40px);opacity:0;}to{transform:none;opacity:1;}}
+.wd-title{
+  font-family:'Orbitron',sans-serif;font-size:0.85rem;font-weight:700;
+  color:rgba(224,224,224,0.5);text-align:center;letter-spacing:0.15em;
+  margin-bottom:14px;
+}
+.wd-choices{display:flex;gap:12px;}
+.wd-btn{
+  flex:1;border:none;border-radius:14px;cursor:pointer;
+  padding:16px 8px 14px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  transition:all 0.18s;min-height:100px;
+  font-family:'Noto Sans JP',sans-serif;
+}
+.wd-btn.horiz{background:rgba(255,107,53,0.12);border:1.5px solid rgba(255,107,53,0.35);}
+.wd-btn.vert{background:rgba(255,107,53,0.12);border:1.5px solid rgba(255,107,53,0.35);}
+.wd-btn:hover,.wd-btn:active{background:rgba(255,107,53,0.25);border-color:var(--p2);transform:scale(1.02);}
+.wd-icon{display:flex;align-items:center;justify-content:center;width:52px;height:52px;}
+/* horizontal wall icon: 2 horizontal bars */
+.wi-h{display:flex;flex-direction:column;gap:6px;width:100%;}
+.wi-h span{display:block;width:100%;height:6px;border-radius:3px;background:var(--p2);box-shadow:0 0 8px rgba(255,107,53,0.7);}
+/* vertical wall icon: 2 vertical bars */
+.wi-v{display:flex;flex-direction:row;gap:6px;height:100%;}
+.wi-v span{display:block;height:100%;width:6px;border-radius:3px;background:var(--p2);box-shadow:0 0 8px rgba(255,107,53,0.7);}
+.wd-lbl{font-size:0.85rem;font-weight:700;color:var(--p2);}
+.wd-sub{font-size:0.68rem;color:rgba(224,224,224,0.4);text-align:center;line-height:1.4;}
+.wd-cancel{
+  width:100%;margin-top:10px;padding:10px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);background:transparent;
+  color:rgba(224,224,224,0.4);font-family:'Noto Sans JP',sans-serif;
+  font-size:0.8rem;cursor:pointer;min-height:40px;
+}
+
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid rgba(0,188,212,0.13);background:rgba(15,15,15,0.97);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(--accent);letter-spacing:0.06em;}
+.header-actions{display:flex;gap:8px;}
+.icon-btn{width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.04);color:var(--text);font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.icon-btn:hover{background:rgba(0,188,212,0.13);border-color:var(--accent);}
+
+/* GAME WRAPPER */
+#game-wrapper{display:flex;flex-direction:column;align-items:center;padding:10px 10px 20px;gap:8px;}
+
+/* BOARD CONTAINER — needs position:relative for overlay */
+#board-container{width:100%;max-width:500px;position:relative;}
+
+#board{
+  width:100%;display:grid;
+  background:#070710;border-radius:12px;overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,0.7),0 0 0 1px rgba(0,188,212,0.18);
+  touch-action:none;user-select:none;position:relative;
+}
+
+/* CELLS */
+.cell{aspect-ratio:1;background:var(--cell);position:relative;display:flex;align-items:center;justify-content:center;transition:background 0.12s;}
+.cell.highlight{background:rgba(0,188,212,0.18);cursor:pointer;}
+.cell.highlight::after{content:'';position:absolute;inset:18%;border-radius:50%;background:rgba(0,188,212,0.4);animation:hlPulse 0.75s ease-in-out infinite;}
+@keyframes hlPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(0.78);opacity:0.45;}}
+
+/* PAWNS */
+.pawn{width:76%;height:76%;border-radius:50%;position:absolute;z-index:10;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.58rem;font-family:'Orbitron',sans-serif;pointer-events:none;transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1);}
+.pawn-p1{background:radial-gradient(circle at 35% 35%,#4dd0e1,var(--p1),#006064);color:#003040;box-shadow:0 0 14px rgba(0,188,212,0.7),0 3px 8px rgba(0,0,0,0.5);}
+.pawn-p2{background:radial-gradient(circle at 35% 35%,#ffab91,var(--p2),#bf360c);color:#3e1000;box-shadow:0 0 14px rgba(255,107,53,0.7),0 3px 8px rgba(0,0,0,0.5);}
+
+/* GAPS */
+.gap-h{background:#070710;height:var(--gap);position:relative;cursor:pointer;}
+.gap-v{background:#070710;width:var(--gap);position:relative;cursor:pointer;}
+.gap-corner{background:#070710;width:var(--gap);height:var(--gap);}
+
+/* Wall segments in gaps */
+.wall-seg{position:absolute;border-radius:4px;transition:background 0.1s,box-shadow 0.1s;pointer-events:none;}
+.gap-h .wall-seg{left:1px;right:1px;top:2px;bottom:2px;}
+.gap-v .wall-seg{top:1px;bottom:1px;left:2px;right:2px;}
+.wall-seg.placed-p1{background:var(--p1);box-shadow:0 0 8px rgba(0,188,212,0.85);}
+.wall-seg.placed-p2{background:var(--p2);box-shadow:0 0 8px rgba(255,107,53,0.85);}
+
+/* ===== WALL PREVIEW OVERLAY ===== */
+/* Canvas-like overlay that sits on top of the board */
+#wall-overlay{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:20;border-radius:12px;overflow:hidden;
+}
+/* Individual preview bar rendered absolutely inside overlay */
+.prev-bar{
+  position:absolute;border-radius:5px;
+  transition:opacity 0.12s;
+}
+.prev-bar.valid{
+  background:rgba(0,188,212,0.55);
+  box-shadow:0 0 12px rgba(0,188,212,0.6),0 0 4px rgba(0,188,212,0.8);
+}
+.prev-bar.invalid{
+  background:rgba(255,50,50,0.55);
+  box-shadow:0 0 10px rgba(255,50,50,0.5);
+}
+
+/* ACTION BAR */
+.action-bar{width:100%;max-width:500px;display:flex;gap:8px;}
+.action-btn{flex:1;padding:13px 6px;border-radius:12px;border:none;font-family:'Noto Sans JP',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.18s;min-height:48px;display:flex;align-items:center;justify-content:center;gap:4px;}
+.action-btn.mode-move{background:rgba(0,188,212,0.08);border:1px solid rgba(0,188,212,0.25);color:var(--accent);}
+.action-btn.mode-move.active{background:rgba(0,188,212,0.22);border-color:var(--accent);}
+.action-btn.mode-wall{background:rgba(255,107,53,0.06);border:1px solid rgba(255,107,53,0.25);color:var(--p2);}
+.action-btn.mode-wall.active{background:rgba(255,107,53,0.2);border-color:var(--p2);}
+.action-btn:active{transform:scale(0.97);}
+.dir-badge{font-size:0.62rem;padding:2px 6px;border-radius:6px;background:rgba(255,107,53,0.2);color:var(--p2);font-weight:700;letter-spacing:0.05em;}
+
+/* MODE BAR */
+.mode-bar{width:100%;max-width:500px;display:flex;align-items:center;justify-content:space-between;padding:7px 13px;background:rgba(0,188,212,0.04);border-radius:10px;border:1px solid rgba(0,188,212,0.13);}
+.mode-text{font-size:0.75rem;color:rgba(224,224,224,0.45);}
+.action-hint{font-size:0.72rem;color:var(--accent);background:rgba(0,188,212,0.1);padding:2px 9px;border-radius:20px;}
+
+/* STATUS BAR */
+.status-bar{width:100%;max-width:500px;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#161622;border-radius:12px;border:1px solid rgba(255,255,255,0.06);box-shadow:var(--shadow);}
+.player-info{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:90px;padding:4px 6px;border-radius:8px;transition:background 0.2s;}
+.player-info.active-p{background:rgba(255,255,255,0.04);}
+.player-label{font-size:0.65rem;letter-spacing:0.12em;color:rgba(224,224,224,0.35);font-family:'Orbitron',sans-serif;}
+.player-name{font-size:0.82rem;font-weight:700;}
+.p1-color{color:var(--p1);}
+.p2-color{color:var(--p2);}
+.active-p .player-name{filter:drop-shadow(0 0 6px currentColor);}
+.turn-indicator{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.turn-text{font-size:0.65rem;color:rgba(224,224,224,0.35);letter-spacing:0.12em;}
+.turn-dot{width:10px;height:10px;border-radius:50%;animation:tdot 1s ease-in-out infinite;}
+@keyframes tdot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.6);}}
+.wall-pips{display:flex;flex-wrap:wrap;gap:2px;max-width:60px;justify-content:center;margin-top:2px;}
+.wpip{width:7px;height:7px;border-radius:2px;transition:all 0.2s;}
+.wpip.c1{background:rgba(0,188,212,0.65);}
+.wpip.c2{background:rgba(255,107,53,0.65);}
+.wpip.cu{background:rgba(255,255,255,0.1);}
+.walls-count{font-size:0.7rem;color:rgba(224,224,224,0.45);}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-logo">QUORIDOR</div>
+  <div class="splash-sub">コリドール</div>
+  <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+</div>
+
+<!-- MENU -->
+<div class="modal-overlay" id="menuModal">
+  <div class="modal-box">
+    <div class="modal-title" id="menuTitle">QUORIDOR</div>
+    <div class="modal-section">
+      <div class="modal-label" id="lbl-mode">ゲームモード</div>
+      <div class="btn-group">
+        <button class="btn-opt active" id="btn-1p" onclick="selectMode(1)">🤖 <span id="lbl-1p">1人プレイ</span></button>
+        <button class="btn-opt" id="btn-2p" onclick="selectMode(2)">👥 <span id="lbl-2p">2人対戦</span></button>
+      </div>
+    </div>
+    <div class="modal-section" id="diff-section">
+      <div class="modal-label" id="lbl-diff">AI難易度</div>
+      <div class="btn-group">
+        <button class="btn-opt" id="diff-easy" onclick="selectDiff('easy')"><span id="lbl-easy">かんたん</span></button>
+        <button class="btn-opt active" id="diff-normal" onclick="selectDiff('normal')"><span id="lbl-normal">ふつう</span></button>
+        <button class="btn-opt" id="diff-hard" onclick="selectDiff('hard')"><span id="lbl-hard">むずかしい</span></button>
+      </div>
+    </div>
+    <button class="btn-start" onclick="startGame()"><span id="lbl-start">ゲーム開始</span></button>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="modal-overlay hidden" id="helpModal">
+  <div class="modal-box">
+    <div class="modal-title" id="help-title">使い方</div>
+    <div class="help-content">
+      <div class="help-section">
+        <h3 id="h-goal">🎯 目的</h3>
+        <p id="h-goal-text">自分のコマを反対側のゴールラインに先に到達させたプレイヤーの勝ちです。</p>
+      </div>
+      <div class="help-section">
+        <h3 id="h-move">🚶 コマの移動</h3>
+        <ul>
+          <li id="h-m1">「移動」ボタン選択 → 光っているマスをタップ</li>
+          <li id="h-m2">上下左右1マス移動できます</li>
+          <li id="h-m3">壁があると通過不可</li>
+          <li id="h-m4">相手コマの背後に壁・端がなければ飛び越え可</li>
+          <li id="h-m5">飛び越え不可なら斜め移動可</li>
+        </ul>
+      </div>
+      <div class="help-section">
+        <h3 id="h-wall">🧱 壁の設置</h3>
+        <ul>
+          <li id="h-w1">「壁」ボタンを押すと縦・横の選択が出る</li>
+          <li id="h-w2">選択後、盤面上でスライドして設置場所を確認</li>
+          <li id="h-w3">水色＝設置OK ／ 赤＝設置不可</li>
+          <li id="h-w4">各プレイヤー10枚まで</li>
+          <li id="h-w5">ゴールへの道を完全に塞ぐ配置は禁止</li>
+        </ul>
+      </div>
+      <div class="help-section">
+        <h3 id="h-ai">🤖 AI</h3>
+        <p id="h-ai-text">AIは自動でターンを実行します。難易度により戦略が変わります。</p>
+      </div>
+    </div>
+    <button class="help-close" onclick="closeHelp()"><span id="lbl-close">閉じる</span></button>
+  </div>
+</div>
+
+<!-- WIN -->
+<div class="modal-overlay hidden" id="winModal">
+  <div class="modal-box">
+    <div class="win-icon">🏆</div>
+    <div class="win-name" id="win-name"></div>
+    <div class="win-sub" id="win-sub"></div>
+    <div class="btn-win-group">
+      <button class="btn-win secondary" onclick="showMenu()"><span id="lbl-menu">メニュー</span></button>
+      <button class="btn-win primary" onclick="retryGame()"><span id="lbl-retry">もう一度</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- WALL DIR MODAL -->
+<div id="wallDirModal" class="hidden">
+  <div class="wd-box">
+    <div class="wd-title" id="wd-title">どちらに壁を置きますか？</div>
+    <div class="wd-choices">
+
+      <button class="wd-btn horiz" onclick="chooseWallDir('horizontal')">
+        <div class="wd-icon">
+          <div class="wi-h"><span></span><span></span></div>
+        </div>
+        <div class="wd-lbl" id="wd-lbl-h">横向き</div>
+        <div class="wd-sub" id="wd-sub-h">左右を塞ぐ</div>
+      </button>
+
+      <button class="wd-btn vert" onclick="chooseWallDir('vertical')">
+        <div class="wd-icon">
+          <div class="wi-v"><span></span><span></span></div>
+        </div>
+        <div class="wd-lbl" id="wd-lbl-v">縦向き</div>
+        <div class="wd-sub" id="wd-sub-v">上下を塞ぐ</div>
+      </button>
+
+    </div>
+    <button class="wd-cancel" id="wd-cancel" onclick="closeWallDirModal()">キャンセル</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">QUORIDOR</div>
+  <div class="header-actions">
+    <button class="icon-btn" id="lang-btn" onclick="toggleLang()">🇯🇵</button>
+    <button class="icon-btn" onclick="openHelp()">❓</button>
+    <button class="icon-btn" onclick="showMenu()">☰</button>
+  </div>
+</header>
+
+<!-- GAME -->
+<div id="game-wrapper">
+
+  <div id="board-container">
+    <div id="board"></div>
+    <div id="wall-overlay"></div>
+  </div>
+
+  <div class="action-bar">
+    <button class="action-btn mode-move active" id="btn-move" onclick="setActionMode('move')">
+      🚶 <span id="lbl-btn-move">移動</span>
+    </button>
+    <button class="action-btn mode-wall" id="btn-wall" onclick="openWallDirModal()">
+      🧱 <span id="lbl-btn-wall">壁</span>
+      <span class="dir-badge" id="dir-badge">－</span>
+    </button>
+  </div>
+
+  <div class="mode-bar">
+    <span class="mode-text" id="mode-text">移動モード</span>
+    <span class="action-hint" id="action-hint">タップで移動</span>
+  </div>
+
+  <div class="status-bar">
+    <div class="player-info active-p" id="p1-info">
+      <div class="player-label">P1</div>
+      <div class="player-name p1-color" id="p1-name">プレイヤー1</div>
+      <div class="wall-pips" id="p1-pips"></div>
+      <div class="walls-count" id="p1-wc">壁: 10</div>
+    </div>
+    <div class="turn-indicator">
+      <div class="turn-text" id="turn-lbl">TURN</div>
+      <div class="turn-dot" id="turn-dot"></div>
+    </div>
+    <div class="player-info" id="p2-info">
+      <div class="player-label">P2</div>
+      <div class="player-name p2-color" id="p2-name">AI</div>
+      <div class="wall-pips" id="p2-pips"></div>
+      <div class="walls-count" id="p2-wc">壁: 10</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== LANG =====
+var lang = 'ja';
+var T = {
+  ja:{
+    menuTitle:'QUORIDOR',
+    lMode:'ゲームモード',l1p:'1人プレイ',l2p:'2人対戦',
+    lDiff:'AI難易度',lEasy:'かんたん',lNormal:'ふつう',lHard:'むずかしい',
+    lStart:'ゲーム開始',hTitle:'使い方',
+    hGoal:'\uD83C\uDFAF 目的',hGoalT:'自分のコマを反対側のゴールラインに先に到達させたプレイヤーの勝ちです。',
+    hMove:'\uD83D\uDEB6 コマの移動',
+    hM1:'「移動」ボタン選択 → 光っているマスをタップ',
+    hM2:'上下左右1マス移動できます',hM3:'壁があると通過不可',
+    hM4:'相手コマの背後に壁・端がなければ飛び越え可',hM5:'飛び越え不可なら斜め移動可',
+    hWall:'\uD83E\uDDF1 壁の設置',
+    hW1:'「壁」ボタンを押すと縦・横の選択が出る',
+    hW2:'選択後、盤面上でスライドして設置場所を確認',
+    hW3:'水色＝設置OK ／ 赤＝設置不可',hW4:'各プレイヤー10枚まで',
+    hW5:'ゴールへの道を完全に塞ぐ配置は禁止',
+    hAI:'\uD83E\uDD16 AI',hAIT:'AIは自動でターンを実行します。難易度により戦略が変わります。',
+    lClose:'閉じる',lMenu:'メニュー',lRetry:'もう一度',
+    turnLbl:'TURN',mMove:'移動モード',mWall:'壁モード',
+    hMove2:'タップで移動',hWall2:'盤面をなぞって設置',
+    bMove:'移動',bWall:'壁',
+    dH:'横',dV:'縦',dNone:'－',
+    wdTitle:'どちらに壁を置きますか？',
+    wdLblH:'横向き',wdSubH:'上下を塞ぐ',
+    wdLblV:'縦向き',wdSubV:'左右を塞ぐ',
+    wdCancel:'キャンセル',
+    p1n:'プレイヤー1',p2n:'プレイヤー2',ain:'AI',
+    wl:'壁: ',winSub:'ゴール到達！',winTitle:'の勝ち！'
+  },
+  en:{
+    menuTitle:'QUORIDOR',
+    lMode:'Game Mode',l1p:'1 Player',l2p:'2 Players',
+    lDiff:'AI Difficulty',lEasy:'Easy',lNormal:'Normal',lHard:'Hard',
+    lStart:'Start Game',hTitle:'How to Play',
+    hGoal:'\uD83C\uDFAF Goal',hGoalT:'Be the first to move your pawn to the opposite side.',
+    hMove:'\uD83D\uDEB6 Moving',
+    hM1:'Select Move, tap a highlighted cell',
+    hM2:'Move one square in any direction',hM3:'Cannot pass through walls',
+    hM4:'Jump over opponent if path is clear',hM5:'If jump blocked, move diagonally',
+    hWall:'\uD83E\uDDF1 Walls',
+    hW1:'Tap Wall button to choose direction',
+    hW2:'Slide over the board to preview placement',
+    hW3:'Cyan = valid, Red = invalid',hW4:'10 walls each',
+    hW5:'Cannot block all paths to goal',
+    hAI:'\uD83E\uDD16 AI',hAIT:'AI plays automatically. Difficulty affects strategy.',
+    lClose:'Close',lMenu:'Menu',lRetry:'Play Again',
+    turnLbl:'TURN',mMove:'Move Mode',mWall:'Wall Mode',
+    hMove2:'Tap to move',hWall2:'Slide to place wall',
+    bMove:'Move',bWall:'Wall',
+    dH:'H',dV:'V',dNone:'－',
+    wdTitle:'Choose wall direction',
+    wdLblH:'Horizontal',wdSubH:'Blocks up/down',
+    wdLblV:'Vertical',wdSubV:'Blocks left/right',
+    wdCancel:'Cancel',
+    p1n:'Player 1',p2n:'Player 2',ain:'AI',
+    wl:'Walls: ',winSub:'Reached the goal!',winTitle:' wins!'
+  }
+};
+function t(k){ return T[lang][k] || k; }
+
+function applyLang() {
+  var map = {
+    menuTitle:'menuTitle','lbl-mode':'lMode','lbl-1p':'l1p','lbl-2p':'l2p',
+    'lbl-diff':'lDiff','lbl-easy':'lEasy','lbl-normal':'lNormal','lbl-hard':'lHard',
+    'lbl-start':'lStart','help-title':'hTitle',
+    'h-goal':'hGoal','h-goal-text':'hGoalT','h-move':'hMove',
+    'h-m1':'hM1','h-m2':'hM2','h-m3':'hM3','h-m4':'hM4','h-m5':'hM5',
+    'h-wall':'hWall','h-w1':'hW1','h-w2':'hW2','h-w3':'hW3','h-w4':'hW4','h-w5':'hW5',
+    'h-ai':'hAI','h-ai-text':'hAIT',
+    'lbl-close':'lClose','lbl-menu':'lMenu','lbl-retry':'lRetry',
+    'turn-lbl':'turnLbl','lbl-btn-move':'bMove','lbl-btn-wall':'bWall',
+    'wd-title':'wdTitle','wd-lbl-h':'wdLblH','wd-sub-h':'wdSubH',
+    'wd-lbl-v':'wdLblV','wd-sub-v':'wdSubV','wd-cancel':'wdCancel'
+  };
+  var k;
+  for (k in map) { var el=document.getElementById(k); if(el) el.textContent=t(map[k]); }
+  document.getElementById('lang-btn').textContent = lang==='ja' ? '\uD83C\uDDEF\uD83C\uDDF5' : '\uD83C\uDDFA\uD83C\uDDF8';
+  updateDirBadge();
+  updateStatusBar();
+  updateModeBar();
+}
+function toggleLang(){ lang=lang==='ja'?'en':'ja'; applyLang(); }
+
+// ===== STATE =====
+var gs = null;
+var gameMode = 1;
+var aiDiff = 'normal';
+var actionMode = 'move';   // 'move' | 'wall'
+var wallDir = 'horizontal';
+var validMoves = [];
+var previewWall = null;    // {dir, wx, wy}
+var previewValid = false;
+var gameActive = false;
+var aiThinking = false;
+
+// Board layout cache (computed after buildBoard)
+var boardRect = null;      // bounding rect of #board
+var cellSize = 0;          // px width of one cell
+var gapSize = 0;           // px width of gap (--gap)
+
+function makeState(){
+  return {
+    boardSize:9,
+    players:[
+      {id:0,x:4,y:8,walls:10,goalY:0},
+      {id:1,x:4,y:0,walls:10,goalY:8}
+    ],
+    walls:{horizontal:[],vertical:[]},
+    currentPlayer:0
+  };
+}
+
+// ===== MENU =====
+function selectMode(m){
+  gameMode=m;
+  document.getElementById('btn-1p').className=m===1?'btn-opt active':'btn-opt';
+  document.getElementById('btn-2p').className=m===2?'btn-opt active':'btn-opt';
+  document.getElementById('diff-section').style.display=m===1?'':'none';
+}
+function selectDiff(d){
+  aiDiff=d;
+  document.getElementById('diff-easy').className=d==='easy'?'btn-opt active':'btn-opt';
+  document.getElementById('diff-normal').className=d==='normal'?'btn-opt active':'btn-opt';
+  document.getElementById('diff-hard').className=d==='hard'?'btn-opt active':'btn-opt';
+}
+function showMenu(){ gameActive=false; document.getElementById('menuModal').className='modal-overlay'; document.getElementById('winModal').className='modal-overlay hidden'; }
+function openHelp(){ document.getElementById('helpModal').className='modal-overlay'; }
+function closeHelp(){ document.getElementById('helpModal').className='modal-overlay hidden'; }
+
+function startGame(){
+  document.getElementById('menuModal').className='modal-overlay hidden';
+  resetGame();
+  gameActive=true;
+  buildBoard();
+  renderCells();
+  updateWallGapDisplay();
+  updateStatusBar();
+  updateModeBar();
+  if(gameMode===1&&gs.currentPlayer===1) setTimeout(doAI,700);
+}
+function retryGame(){
+  document.getElementById('winModal').className='modal-overlay hidden';
+  resetGame();
+  gameActive=true;
+  buildBoard();
+  renderCells();
+  updateWallGapDisplay();
+  updateStatusBar();
+  updateModeBar();
+  if(gameMode===1&&gs.currentPlayer===1) setTimeout(doAI,700);
+}
+function resetGame(){
+  gs=makeState();
+  actionMode='move';
+  wallDir='horizontal';
+  validMoves=[];
+  previewWall=null;
+  previewValid=false;
+  aiThinking=false;
+  cellEls={}; hGapEls={}; vGapEls={};
+  var board=document.getElementById('board');
+  board.innerHTML='';
+  board.className='';
+  clearOverlay();
+  document.getElementById('btn-move').className='action-btn mode-move active';
+  document.getElementById('btn-wall').className='action-btn mode-wall';
+  updateDirBadge();
+}
+
+// ===== WALL DIR MODAL =====
+function openWallDirModal(){
+  if(!gameActive) return;
+  if(gameMode===1&&gs.currentPlayer===1) return;
+  if(gs.players[gs.currentPlayer].walls<=0) return;
+  document.getElementById('wallDirModal').className='';
+}
+function closeWallDirModal(){
+  document.getElementById('wallDirModal').className='hidden';
+  // If we were already in wall mode, go back to move
+  if(actionMode==='wall') setActionMode('move');
+}
+function chooseWallDir(dir){
+  document.getElementById('wallDirModal').className='hidden';
+  wallDir=dir;
+  updateDirBadge();
+  // Enter wall mode
+  actionMode='wall';
+  document.getElementById('btn-move').className='action-btn mode-move';
+  document.getElementById('btn-wall').className='action-btn mode-wall active';
+  recalcMoves();
+  renderCells();
+  updateModeBar();
+}
+
+function updateDirBadge(){
+  var b=document.getElementById('dir-badge');
+  if(!b) return;
+  if(actionMode!=='wall') b.textContent=t('dNone');
+  else b.textContent=wallDir==='horizontal'?t('dH'):t('dV');
+}
+
+// ===== LOGIC =====
+function hasWall(x1,y1,x2,y2){
+  var i;
+  if(y1===y2){
+    var lx=Math.min(x1,x2);
+    var vw=gs.walls.vertical;
+    for(i=0;i<vw.length;i++) if(vw[i].x===lx&&(vw[i].y===y1||vw[i].y===y1-1)) return true;
+  } else if(x1===x2){
+    var ly=Math.min(y1,y2);
+    var hw=gs.walls.horizontal;
+    for(i=0;i<hw.length;i++) if(hw[i].y===ly&&(hw[i].x===x1||hw[i].x===x1-1)) return true;
+  }
+  return false;
+}
+
+function getMoves(pid){
+  var p=gs.players[pid], opp=gs.players[1-pid], size=gs.boardSize;
+  var dirs=[[0,-1],[0,1],[-1,0],[1,0]];
+  var moves=[], i, di;
+  for(di=0;di<dirs.length;di++){
+    var dx=dirs[di][0],dy=dirs[di][1];
+    var nx=p.x+dx,ny=p.y+dy;
+    if(nx<0||nx>=size||ny<0||ny>=size) continue;
+    if(hasWall(p.x,p.y,nx,ny)) continue;
+    if(nx===opp.x&&ny===opp.y){
+      var jx=nx+dx,jy=ny+dy;
+      if(jx>=0&&jx<size&&jy>=0&&jy<size&&!hasWall(nx,ny,jx,jy)){
+        moves.push({x:jx,y:jy});
+      } else {
+        var perps=dx===0?[[-1,0],[1,0]]:[[0,-1],[0,1]];
+        for(i=0;i<perps.length;i++){
+          var sx=nx+perps[i][0],sy=ny+perps[i][1];
+          if(sx<0||sx>=size||sy<0||sy>=size) continue;
+          if(!hasWall(nx,ny,sx,sy)) moves.push({x:sx,y:sy});
+        }
+      }
+    } else { moves.push({x:nx,y:ny}); }
+  }
+  var seen={},res=[];
+  for(i=0;i<moves.length;i++){var k2=moves[i].x+'_'+moves[i].y;if(!seen[k2]){seen[k2]=true;res.push(moves[i]);}}
+  return res;
+}
+
+function bfsWithWalls(pid,wH,wV){
+  var p=gs.players[pid],goalY=p.goalY,size=gs.boardSize;
+  var orig=gs.walls; gs.walls={horizontal:wH,vertical:wV};
+  var q=[{x:p.x,y:p.y,d:0}],vis={},res=-1;
+  vis[p.x+'_'+p.y]=true;
+  var dirs=[[0,-1],[0,1],[-1,0],[1,0]];
+  while(q.length>0){
+    var cur=q.shift();
+    if(cur.y===goalY){res=cur.d;break;}
+    for(var di=0;di<dirs.length;di++){
+      var nx=cur.x+dirs[di][0],ny=cur.y+dirs[di][1];
+      if(nx<0||nx>=size||ny<0||ny>=size) continue;
+      var vk=nx+'_'+ny; if(vis[vk]) continue;
+      if(hasWall(cur.x,cur.y,nx,ny)) continue;
+      vis[vk]=true; q.push({x:nx,y:ny,d:cur.d+1});
+    }
+  }
+  gs.walls=orig; return res;
+}
+function canReach(pid,wH,wV){ return bfsWithWalls(pid,wH,wV)>=0; }
+function bfsDist(pid){ return bfsWithWalls(pid,gs.walls.horizontal,gs.walls.vertical); }
+
+function wExists(dir,x,y){
+  var list=dir==='horizontal'?gs.walls.horizontal:gs.walls.vertical;
+  for(var i=0;i<list.length;i++) if(list[i].x===x&&list[i].y===y) return true;
+  return false;
+}
+function wOverlap(dir,x,y){
+  if(dir==='horizontal'){
+    if(wExists('horizontal',x,y)) return true;
+    if(wExists('horizontal',x-1,y)) return true;
+    if(wExists('horizontal',x+1,y)) return true;
+    if(wExists('vertical',x,y)) return true;
+  } else {
+    if(wExists('vertical',x,y)) return true;
+    if(wExists('vertical',x,y-1)) return true;
+    if(wExists('vertical',x,y+1)) return true;
+    if(wExists('horizontal',x,y)) return true;
+  }
+  return false;
+}
+function validWall(dir,x,y){
+  var size=gs.boardSize;
+  if(x<0||x>size-2||y<0||y>size-2) return false;
+  if(wOverlap(dir,x,y)) return false;
+  var nH=gs.walls.horizontal.slice(),nV=gs.walls.vertical.slice();
+  if(dir==='horizontal') nH.push({x:x,y:y}); else nV.push({x:x,y:y});
+  if(!canReach(0,nH,nV)) return false;
+  if(!canReach(1,nH,nV)) return false;
+  return true;
+}
+function doPlaceWall(dir,x,y,owner){
+  var obj={x:x,y:y,owner:owner};
+  if(dir==='horizontal') gs.walls.horizontal.push(obj);
+  else gs.walls.vertical.push(obj);
+  gs.players[gs.currentPlayer].walls--;
+  playSound('wall');
+}
+
+function movePawn(x,y){ gs.players[gs.currentPlayer].x=x; gs.players[gs.currentPlayer].y=y; }
+function checkWin(){ for(var i=0;i<2;i++) if(gs.players[i].y===gs.players[i].goalY) return i; return -1; }
+
+function endTurn(){
+  var w=checkWin(); if(w>=0){playSound('win');showWin(w);return;}
+  gs.currentPlayer=1-gs.currentPlayer;
+  previewWall=null;
+  // Reset to move mode after placing wall
+  if(actionMode==='wall'){
+    actionMode='move';
+    document.getElementById('btn-move').className='action-btn mode-move active';
+    document.getElementById('btn-wall').className='action-btn mode-wall';
+    updateDirBadge();
+  }
+  recalcMoves();
+  renderCells();
+  updateWallGapDisplay();
+  clearOverlay();
+  updateStatusBar();
+  updateModeBar();
+  if(gameMode===1&&gs.currentPlayer===1&&!aiThinking){
+    aiThinking=true;
+    setTimeout(doAI,750);
+  }
+}
+
+function recalcMoves(){ validMoves=actionMode==='move'?getMoves(gs.currentPlayer):[]; }
+
+// ===== AI =====
+function doAI(){
+  if(!gameActive){aiThinking=false;return;}
+  var pid=1,opp=0;
+  var myD=bfsDist(pid),oppD=bfsDist(opp);
+  var tryWall=false;
+  if(aiDiff==='easy') tryWall=gs.players[pid].walls>0&&Math.random()<0.1;
+  else if(aiDiff==='normal') tryWall=gs.players[pid].walls>0&&oppD<=4&&Math.random()<0.5;
+  else tryWall=gs.players[pid].walls>0&&(oppD<myD||oppD<=3)&&Math.random()<0.72;
+  if(tryWall){var placed=aiWall(pid);if(!placed){aiThinking=false;aiMove(pid);return;}}
+  else aiMove(pid);
+  aiThinking=false;
+}
+function aiMove(pid){
+  var moves=getMoves(pid);
+  if(moves.length===0){gs.currentPlayer=1-gs.currentPlayer;renderCells();updateStatusBar();return;}
+  var goalY=gs.players[pid].goalY,best=moves[0],bestS=-999;
+  for(var i=0;i<moves.length;i++){
+    var s=goalY===0?-moves[i].y:moves[i].y;
+    if(aiDiff==='hard') s+=(4-Math.abs(moves[i].x-4))*0.1;
+    if(s>bestS){bestS=s;best=moves[i];}
+  }
+  movePawn(best.x,best.y); endTurn();
+}
+function aiWall(pid){
+  var opp=1-pid,oppP=gs.players[opp];
+  var dirs=['horizontal','vertical'],cands=[];
+  var di,dx,dy,wx,wy;
+  for(dy=-3;dy<=3;dy++) for(dx=-3;dx<=3;dx++){
+    wx=oppP.x+dx;wy=oppP.y+dy;
+    for(di=0;di<dirs.length;di++){
+      if(!validWall(dirs[di],wx,wy)) continue;
+      var nH=gs.walls.horizontal.slice(),nV=gs.walls.vertical.slice();
+      if(dirs[di]==='horizontal') nH.push({x:wx,y:wy}); else nV.push({x:wx,y:wy});
+      var orig=gs.walls; gs.walls={horizontal:nH,vertical:nV};
+      var nOD=bfsDist(opp),nMD=bfsDist(pid); gs.walls=orig;
+      cands.push({dir:dirs[di],x:wx,y:wy,score:nOD-nMD});
+    }
+  }
+  if(cands.length===0) return false;
+  cands.sort(function(a,b){return b.score-a.score;});
+  var chosen;
+  if(aiDiff==='easy') chosen=cands[Math.floor(Math.random()*cands.length)];
+  else if(aiDiff==='normal') chosen=cands[Math.floor(Math.random()*Math.min(4,cands.length))];
+  else chosen=cands[0];
+  doPlaceWall(chosen.dir,chosen.x,chosen.y,pid);
+  endTurn(); return true;
+}
+
+// ===== UI =====
+function setActionMode(m){
+  actionMode=m;
+  previewWall=null;
+  clearOverlay();
+  document.getElementById('btn-move').className='action-btn mode-move'+(m==='move'?' active':'');
+  document.getElementById('btn-wall').className='action-btn mode-wall'+(m==='wall'?' active':'');
+  updateDirBadge();
+  recalcMoves();
+  renderCells();
+  updateModeBar();
+}
+function updateModeBar(){
+  document.getElementById('mode-text').textContent=actionMode==='move'?t('mMove'):t('mWall');
+  document.getElementById('action-hint').textContent=actionMode==='move'?t('hMove2'):t('hWall2');
+}
+function updateStatusBar(){
+  if(!gs) return;
+  document.getElementById('p1-name').textContent=t('p1n');
+  document.getElementById('p2-name').textContent=gameMode===1?t('ain'):t('p2n');
+  document.getElementById('p1-wc').textContent=t('wl')+gs.players[0].walls;
+  document.getElementById('p2-wc').textContent=t('wl')+gs.players[1].walls;
+  renderPips('p1-pips',gs.players[0].walls,false);
+  renderPips('p2-pips',gs.players[1].walls,true);
+  var dot=document.getElementById('turn-dot');
+  dot.style.background=gs.currentPlayer===0?'#00bcd4':'#ff6b35';
+  document.getElementById('p1-info').className='player-info'+(gs.currentPlayer===0?' active-p':'');
+  document.getElementById('p2-info').className='player-info'+(gs.currentPlayer===1?' active-p':'');
+  document.getElementById('turn-lbl').textContent=t('turnLbl');
+}
+function renderPips(id,count,isP2){
+  var el=document.getElementById(id);if(!el)return;
+  el.innerHTML='';
+  for(var i=0;i<10;i++){var p=document.createElement('div');p.className='wpip '+(i<count?(isP2?'c2':'c1'):'cu');el.appendChild(p);}
+}
+
+// ===== BOARD BUILD =====
+var cellEls={},hGapEls={},vGapEls={};
+
+function buildBoard(){
+  var board=document.getElementById('board');
+  board.innerHTML='';
+  cellEls={};hGapEls={};vGapEls={};
+  var size=gs.boardSize,total=size*2-1;
+  var colT='';
+  for(var c=0;c<total;c++){if(c>0) colT+=' '; colT+=c%2===0?'1fr':'var(--gap)';}
+  board.style.gridTemplateColumns=colT;
+
+  for(var row=0;row<total;row++){
+    for(var col=0;col<total;col++){
+      var el=document.createElement('div');
+      var isC=(row%2===0&&col%2===0);
+      var isH=(row%2===1&&col%2===0);
+      var isV=(row%2===0&&col%2===1);
+      var isK=(row%2===1&&col%2===1);
+
+      if(isC){
+        var cx=col/2,cy=row/2;
+        el.className='cell';
+        el.onclick=makeCClick(cx,cy);
+        el.onmouseover=makeCHov(cx,cy);
+        el.onmouseout=clearPreviewIfWall;
+        el.ontouchmove=makeCTouch(cx,cy);
+        cellEls[cx+'_'+cy]=el;
+      } else if(isH){
+        var gx=col/2,gy=(row-1)/2;
+        el.className='gap-h';
+        el.onclick=makeGClick(gx,gy,'h');
+        el.onmouseover=makeGHov(gx,gy,'h');
+        el.onmouseout=clearPreviewIfWall;
+        el.ontouchmove=makeGTouch(gx,gy,'h');
+        hGapEls[gx+'_'+gy]=el;
+        var s=document.createElement('div');s.className='wall-seg';el.appendChild(s);
+      } else if(isV){
+        var gx2=(col-1)/2,gy2=row/2;
+        el.className='gap-v';
+        el.onclick=makeGClick(gx2,gy2,'v');
+        el.onmouseover=makeGHov(gx2,gy2,'v');
+        el.onmouseout=clearPreviewIfWall;
+        el.ontouchmove=makeGTouch(gx2,gy2,'v');
+        vGapEls[gx2+'_'+gy2]=el;
+        var s2=document.createElement('div');s2.className='wall-seg';el.appendChild(s2);
+      } else if(isK){
+        el.className='gap-corner';
+      }
+      board.appendChild(el);
+    }
+  }
+
+  // Compute layout metrics after DOM paint
+  setTimeout(computeBoardMetrics, 60);
+}
+
+function computeBoardMetrics(){
+  var board=document.getElementById('board');
+  boardRect=board.getBoundingClientRect();
+  // cell size = (boardWidth - 8 gaps * gapSize) / 9
+  var gapPx=14; // matches --gap
+  gapSize=gapPx;
+  cellSize=(boardRect.width - 8*gapPx) / 9;
+}
+
+function renderCells(){
+  if(!gs) return;
+  var size=gs.boardSize;
+  for(var cy=0;cy<size;cy++){
+    for(var cx=0;cx<size;cx++){
+      var cell=cellEls[cx+'_'+cy];if(!cell) continue;
+      cell.innerHTML='';
+      if(cy===0) cell.style.background='rgba(0,188,212,0.06)';
+      else if(cy===8) cell.style.background='rgba(255,107,53,0.06)';
+      else cell.style.background='';
+      var isV=false;
+      for(var vi=0;vi<validMoves.length;vi++) if(validMoves[vi].x===cx&&validMoves[vi].y===cy){isV=true;break;}
+      cell.className=isV?'cell highlight':'cell';
+      var p0=gs.players[0],p1=gs.players[1];
+      if(p0.x===cx&&p0.y===cy){var pw=document.createElement('div');pw.className='pawn pawn-p1';pw.textContent='P1';cell.appendChild(pw);}
+      if(p1.x===cx&&p1.y===cy){var pw2=document.createElement('div');pw2.className='pawn pawn-p2';pw2.textContent=gameMode===1?'AI':'P2';cell.appendChild(pw2);}
+    }
+  }
+}
+
+// ===== GAP WALL SEGMENTS =====
+function updateWallGapDisplay(){
+  if(!gs) return;
+  var k,el,seg;
+  for(k in hGapEls){seg=hGapEls[k].querySelector('.wall-seg');if(seg) seg.className='wall-seg';}
+  for(k in vGapEls){seg=vGapEls[k].querySelector('.wall-seg');if(seg) seg.className='wall-seg';}
+  var i,w,cls;
+  for(i=0;i<gs.walls.horizontal.length;i++){
+    w=gs.walls.horizontal[i];cls=w.owner===1?'placed-p2':'placed-p1';
+    setGSeg('h',w.x,w.y,cls);setGSeg('h',w.x+1,w.y,cls);
+  }
+  for(i=0;i<gs.walls.vertical.length;i++){
+    w=gs.walls.vertical[i];cls=w.owner===1?'placed-p2':'placed-p1';
+    setGSeg('v',w.x,w.y,cls);setGSeg('v',w.x,w.y+1,cls);
+  }
+}
+function setGSeg(type,x,y,cls){
+  var el=type==='h'?hGapEls[x+'_'+y]:vGapEls[x+'_'+y];
+  if(!el) return;
+  var seg=el.querySelector('.wall-seg');if(!seg) return;
+  seg.className='wall-seg '+cls;
+}
+
+// ===== OVERLAY PREVIEW =====
+// Draws semi-transparent wall bars directly over cells+gaps
+function clearOverlay(){
+  var ov=document.getElementById('wall-overlay');
+  if(ov) ov.innerHTML='';
+}
+
+function gridPxX(col){
+  // col in grid units (0..8 for cells, 0.5 between cells = gap)
+  // cell col n starts at: n*(cellSize+gapSize)
+  return col*(cellSize+gapSize);
+}
+function gridPxY(row){
+  return row*(cellSize+gapSize);
+}
+
+function drawOverlay(wx,wy,dir,isValid){
+  clearOverlay();
+  var ov=document.getElementById('wall-overlay');
+  if(!ov||cellSize===0) return;
+
+  var cls=isValid?'valid':'invalid';
+  var thickness=Math.max(gapSize,8);
+
+  if(dir==='horizontal'){
+    // horizontal wall at (wx,wy): sits between row wy and wy+1
+    // spans cols wx and wx+1 (2 cells + 1 gap between them)
+    var x1=gridPxX(wx);
+    var y1=gridPxY(wy)+cellSize; // top of gap between wy and wy+1
+    var totalW=cellSize+gapSize+cellSize;
+    var bar=document.createElement('div');
+    bar.className='prev-bar '+cls;
+    bar.style.left=x1+'px';
+    bar.style.top=y1+'px';
+    bar.style.width=totalW+'px';
+    bar.style.height=thickness+'px';
+    ov.appendChild(bar);
+  } else {
+    // vertical wall at (wx,wy): sits between col wx and wx+1
+    // spans rows wy and wy+1
+    var x2=gridPxX(wx)+cellSize; // left edge of gap between wx and wx+1
+    var y2=gridPxY(wy);
+    var totalH=cellSize+gapSize+cellSize;
+    var bar2=document.createElement('div');
+    bar2.className='prev-bar '+cls;
+    bar2.style.left=x2+'px';
+    bar2.style.top=y2+'px';
+    bar2.style.width=thickness+'px';
+    bar2.style.height=totalH+'px';
+    ov.appendChild(bar2);
+  }
+}
+
+// ===== COORD FROM POINTER =====
+function wallCoordsFromPointer(clientX, clientY){
+  if(!boardRect||cellSize===0) computeBoardMetrics();
+  if(!boardRect) return null;
+
+  var relX=clientX-boardRect.left;
+  var relY=clientY-boardRect.top;
+  var step=cellSize+gapSize;
+
+  // Which cell or gap column/row?
+  var colF=relX/step; // fractional col
+  var rowF=relY/step;
+
+  // Round to nearest wall position
+  var wx, wy;
+  if(wallDir==='horizontal'){
+    // horizontal wall: snap to nearest row-boundary between 0..7, col 0..7
+    wy=Math.round(rowF)-1;  // gap index between row wy and wy+1
+    // Clamp: wy in 0..size-2
+    if(wy<0) wy=0;
+    if(wy>gs.boardSize-2) wy=gs.boardSize-2;
+    wx=Math.floor(colF);
+    if(wx<0) wx=0;
+    if(wx>gs.boardSize-2) wx=gs.boardSize-2;
+  } else {
+    // vertical wall: snap to nearest col-boundary
+    wx=Math.round(colF)-1;
+    if(wx<0) wx=0;
+    if(wx>gs.boardSize-2) wx=gs.boardSize-2;
+    wy=Math.floor(rowF);
+    if(wy<0) wy=0;
+    if(wy>gs.boardSize-2) wy=gs.boardSize-2;
+  }
+  return {wx:wx,wy:wy};
+}
+
+// ===== HANDLERS =====
+function makeCClick(cx,cy){
+  return function(){
+    if(!gameActive) return;
+    if(gameMode===1&&gs.currentPlayer===1) return;
+    if(actionMode==='wall'){
+      // treat cell click as gap click based on proximity
+      var coords=wallCoordsFromPointer(0,0); // fallback, not ideal
+      return;
+    }
+    var ok=false;
+    for(var i=0;i<validMoves.length;i++) if(validMoves[i].x===cx&&validMoves[i].y===cy){ok=true;break;}
+    if(!ok) return;
+    playSound('move'); movePawn(cx,cy); endTurn();
+  };
+}
+
+// Hover on cell — in wall mode, show preview based on pointer
+function makeCHov(cx,cy){
+  return function(e){
+    if(!gameActive||actionMode!=='wall') return;
+    if(gameMode===1&&gs.currentPlayer===1) return;
+    var src=e||window.event;
+    var coords=wallCoordsNearCell(cx,cy);
+    if(!coords) return;
+    previewWall={dir:wallDir,wx:coords.wx,wy:coords.wy};
+    previewValid=validWall(wallDir,coords.wx,coords.wy)&&gs.players[gs.currentPlayer].walls>0;
+    drawOverlay(coords.wx,coords.wy,wallDir,previewValid);
+  };
+}
+
+function wallCoordsNearCell(cx,cy){
+  // For cell (cx,cy) hovering in wall mode, suggest nearby wall
+  if(wallDir==='horizontal'){
+    var wy=cy>0?cy-1:0; // wall above or below
+    return {wx:Math.min(cx,gs.boardSize-2), wy:Math.min(wy,gs.boardSize-2)};
+  } else {
+    var wx=cx>0?cx-1:0;
+    return {wx:Math.min(wx,gs.boardSize-2), wy:Math.min(cy,gs.boardSize-2)};
+  }
+}
+
+function makeGHov(gx,gy,gapType){
+  return function(){
+    if(!gameActive||actionMode!=='wall') return;
+    if(gameMode===1&&gs.currentPlayer===1) return;
+    var coords=resolveWallCoords(gx,gy,gapType);
+    previewWall={dir:wallDir,wx:coords.wx,wy:coords.wy};
+    previewValid=validWall(wallDir,coords.wx,coords.wy)&&gs.players[gs.currentPlayer].walls>0;
+    drawOverlay(coords.wx,coords.wy,wallDir,previewValid);
+  };
+}
+
+function makeGClick(gx,gy,gapType){
+  return function(){
+    if(!gameActive) return;
+    if(gameMode===1&&gs.currentPlayer===1) return;
+    if(actionMode!=='wall') return;
+    if(gs.players[gs.currentPlayer].walls<=0) return;
+    var coords=resolveWallCoords(gx,gy,gapType);
+    if(!validWall(wallDir,coords.wx,coords.wy)) return;
+    doPlaceWall(wallDir,coords.wx,coords.wy,gs.currentPlayer);
+    previewWall=null; endTurn();
+  };
+}
+
+// Touch handlers — track finger move on board
+function makeCTouch(cx,cy){
+  return function(e){
+    e.preventDefault();
+    if(!gameActive||actionMode!=='wall') return;
+    var touch=e.touches[0];
+    handleBoardTouch(touch.clientX,touch.clientY);
+  };
+}
+function makeGTouch(gx,gy,gapType){
+  return function(e){
+    e.preventDefault();
+    if(!gameActive||actionMode!=='wall') return;
+    var touch=e.touches[0];
+    handleBoardTouch(touch.clientX,touch.clientY);
+  };
+}
+
+function handleBoardTouch(clientX,clientY){
+  if(!boardRect) computeBoardMetrics();
+  var coords=wallCoordsFromPointer(clientX,clientY);
+  if(!coords) return;
+  previewWall={dir:wallDir,wx:coords.wx,wy:coords.wy};
+  previewValid=validWall(wallDir,coords.wx,coords.wy)&&gs.players[gs.currentPlayer].walls>0;
+  drawOverlay(coords.wx,coords.wy,wallDir,previewValid);
+}
+
+// Board-level touchend: place wall where preview is
+document.getElementById('board') && (function(){
+  // attached after DOM, see initBoardEvents
+})();
+
+function initBoardEvents(){
+  var board=document.getElementById('board');
+  board.addEventListener('touchend', function(e){
+    if(!gameActive||actionMode!=='wall') return;
+    if(gameMode===1&&gs.currentPlayer===1) return;
+    if(!previewWall||!previewValid) return;
+    if(gs.players[gs.currentPlayer].walls<=0) return;
+    doPlaceWall(previewWall.dir,previewWall.wx,previewWall.wy,gs.currentPlayer);
+    previewWall=null; endTurn();
+  },{passive:true});
+
+  // Mouse click on board in wall mode
+  board.addEventListener('click', function(e){
+    if(!gameActive||actionMode!=='wall') return;
+    if(gameMode===1&&gs.currentPlayer===1) return;
+    if(!previewWall||!previewValid) return;
+    if(gs.players[gs.currentPlayer].walls<=0) return;
+    doPlaceWall(previewWall.dir,previewWall.wx,previewWall.wy,gs.currentPlayer);
+    previewWall=null; endTurn();
+  });
+
+  board.addEventListener('mousemove', function(e){
+    if(!gameActive||actionMode!=='wall') return;
+    if(gameMode===1&&gs.currentPlayer===1) return;
+    if(!boardRect) computeBoardMetrics();
+    var coords=wallCoordsFromPointer(e.clientX,e.clientY);
+    if(!coords) return;
+    previewWall={dir:wallDir,wx:coords.wx,wy:coords.wy};
+    previewValid=validWall(wallDir,coords.wx,coords.wy)&&gs.players[gs.currentPlayer].walls>0;
+    drawOverlay(coords.wx,coords.wy,wallDir,previewValid);
+  });
+
+  board.addEventListener('mouseleave', function(){
+    previewWall=null; clearOverlay();
+  });
+
+  board.addEventListener('touchmove', function(e){
+    if(!gameActive||actionMode!=='wall') return;
+    e.preventDefault();
+    var touch=e.touches[0];
+    handleBoardTouch(touch.clientX,touch.clientY);
+  },{passive:false});
+}
+
+function resolveWallCoords(gx,gy,gapType){
+  return {wx:gx,wy:gy};
+}
+
+function clearPreviewIfWall(){
+  if(actionMode==='wall'){ previewWall=null; clearOverlay(); }
+}
+
+// ===== WIN =====
+function showWin(pid){
+  gameActive=false;
+  var name=gameMode===1?(pid===0?t('p1n'):t('ain')):(pid===0?t('p1n'):t('p2n'));
+  var el=document.getElementById('win-name');
+  el.textContent=name+t('winTitle');
+  el.style.color=pid===0?'#00bcd4':'#ff6b35';
+  document.getElementById('win-sub').textContent=t('winSub');
+  document.getElementById('winModal').className='modal-overlay';
+}
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown',function(e){
+  if(e.key==='m'||e.key==='M') setActionMode('move');
+  if(e.key==='w'||e.key==='W') openWallDirModal();
+});
+
+// ===== INIT =====
+// ========== SOUND ==========
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return audioCtx;
+}
+function playSound(type) {
+  var ctx = getAudioCtx();
+  if (!ctx) return;
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  if (type === 'move') {
+    osc.frequency.setValueAtTime(440, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.1);
+  } else if (type === 'wall') {
+    osc.frequency.setValueAtTime(250, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.2);
+  } else if (type === 'win') {
+    osc.frequency.setValueAtTime(523, ctx.currentTime);
+    osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
+    osc.frequency.setValueAtTime(784, ctx.currentTime + 0.30);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.55);
+  }
+}
+
+window.addEventListener('load',function(){
+  gs=makeState();
+  applyLang();
+  selectMode(1);
+  selectDiff('normal');
+  initBoardEvents();
+});
+</script>
+</body>
+</html>

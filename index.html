@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BoardGameDojo</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<!-- Google Analytics: 実装時に GA_MEASUREMENT_ID を置換してこのコメントを外す -->
+<!--
+<script src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date()); gtag('config', 'GA_MEASUREMENT_ID');
+</script>
+-->
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0f0f0f;
+  --surface:  #1a1a1a;
+  --surface2: #222222;
+  --accent:   #00bcd4;
+  --accent-glow: rgba(0,188,212,0.18);
+  --text:     #e0e0e0;
+  --muted:    #888888;
+  --border:   rgba(255,255,255,0.07);
+  --radius:   12px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans JP", "Noto Sans", sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── HEADER ─── */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.site-logo {
+  font-family: "Orbitron", sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-shadow: 0 0 20px rgba(0,188,212,0.45);
+}
+
+#lang-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+}
+#lang-btn:hover { border-color: var(--accent); }
+
+/* ─── HERO ─── */
+.hero {
+  text-align: center;
+  padding: 52px 24px 44px;
+  max-width: 720px;
+  margin: 0 auto;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0,188,212,0.07) 0%, transparent 65%);
+}
+
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.hero-catch {
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--text);
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+
+.hero-sub {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  line-height: 1.7;
+}
+
+.hero-chips {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(0,188,212,0.3);
+  background: rgba(0,188,212,0.08);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+/* ─── MAIN ─── */
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 24px 72px;
+}
+
+/* ─── CATEGORY ─── */
+.cat-section {
+  margin-bottom: 52px;
+}
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cat-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cat-count {
+  font-size: 10px;
+  color: #444;
+  letter-spacing: 1px;
+}
+
+/* ─── CARD GRID ─── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 520px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+}
+
+@media (min-width: 860px) {
+  .card-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ─── GAME CARD ─── */
+.game-card {
+  display: block;
+  text-decoration: none;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 18px 16px 16px;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.game-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.game-card:hover {
+  border-color: rgba(0,188,212,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.55);
+}
+
+.game-card:hover::after { opacity: 1; }
+
+.game-card:active { transform: translateY(0); opacity: 0.85; }
+
+.card-icon {
+  font-size: 26px;
+  line-height: 1;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.card-name {
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-name-jp {
+  font-family: "Noto Sans JP", "Noto Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center;
+  padding: 24px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: #3a3a3a;
+  letter-spacing: 1px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="site-header">
+    <a href="index.html" class="site-logo">BoardGameDojo</a>
+    <button id="lang-btn" onclick="toggleLang()">&#127471;&#127477;</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Browser Board Games</div>
+  <div class="hero-catch" id="hero-catch">集まったら、すぐ一局。</div>
+  <div class="hero-sub" id="hero-sub">12種類の本格2人用ボードゲームを、ブラウザだけで。</div>
+  <div class="hero-chips">
+    <span class="chip" id="chip-count">12 GAMES</span>
+    <span class="chip" id="chip-free">無料</span>
+    <span class="chip" id="chip-dl">ダウンロード不要</span>
+  </div>
+</section>
+
+<!-- GAME GRID -->
+<main>
+
+  <!-- A: ならべる・つなぐ -->
+  <section class="cat-section">
+    <div class="cat-header">
+      <span class="cat-title" id="cat-a">ならべる・つなぐ</span>
+      <span class="cat-count">5</span>
+    </div>
+    <div class="card-grid">
+
+      <a class="game-card" href="connect4/">
+        <span class="card-icon">🔴</span>
+        <div class="card-name">Connect Four</div>
+        <div class="card-desc" id="d-c4">縦・横・斜めに先に4つ並べた方が勝ち</div>
+      </a>
+
+      <a class="game-card" href="vidro/">
+        <span class="card-icon">🟢</span>
+        <div class="card-name">VIDRO</div>
+        <div class="card-desc" id="d-vi">コマを置くか弾いて、縦・横・斜めに3つ並べろ</div>
+      </a>
+
+      <a class="game-card" href="egg/">
+        <span class="card-icon">🥚</span>
+        <div class="card-name">EGG</div>
+        <div class="card-desc" id="d-eg">石を4つ並べたら勝ち。ただし3つ並びは禁手</div>
+      </a>
+
+      <a class="game-card" href="dice-gomoku/dice-gomoku.html">
+        <span class="card-icon">🎲</span>
+        <div class="card-name-jp" id="n-dg">サイコロ五目並べ</div>
+        <div class="card-desc" id="d-dg">サイコロで使えるコマが変わる五目並べ</div>
+      </a>
+
+      <a class="game-card" href="hex/">
+        <span class="card-icon">💠</span>
+        <div class="card-name">HEX</div>
+        <div class="card-desc" id="d-hx">対向する2辺を石の連結で繋いだ方が勝ち</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- B: 置く・配置する -->
+  <section class="cat-section">
+    <div class="cat-header">
+      <span class="cat-title" id="cat-b">置く・配置する</span>
+      <span class="cat-count">3</span>
+    </div>
+    <div class="card-grid">
+
+      <a class="game-card" href="hive/">
+        <span class="card-icon">🐝</span>
+        <div class="card-name">HIVE</div>
+        <div class="card-desc" id="d-hi">昆虫タイルを並べて相手の女王蜂を囲む</div>
+      </a>
+
+      <a class="game-card" href="quantik/">
+        <span class="card-icon">🔷</span>
+        <div class="card-name">QUANTIK</div>
+        <div class="card-desc" id="d-qu">縦・横・2&#215;2エリアに4種類の形を揃えたら勝ち</div>
+      </a>
+
+      <a class="game-card" href="the-ONE/">
+        <span class="card-icon">&#128226;</span>
+        <div class="card-name">the ONE</div>
+        <div class="card-desc" id="d-to">タイルを回転させてO・N・Eを横一列に揃える</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- C: 動かす・押す -->
+  <section class="cat-section">
+    <div class="cat-header">
+      <span class="cat-title" id="cat-c">動かす・押す</span>
+      <span class="cat-count">4</span>
+    </div>
+    <div class="card-grid">
+
+      <a class="game-card" href="onitama/">
+        <span class="card-icon">⛩</span>
+        <div class="card-name">ONITAMA</div>
+        <div class="card-desc" id="d-on">移動カードで師を動かし、相手の師を倒す</div>
+      </a>
+
+      <a class="game-card" href="quridor/">
+        <span class="card-icon">🧱</span>
+        <div class="card-name">QUORIDOR</div>
+        <div class="card-desc" id="d-qr">壁を建てながら相手陣地へ一番乗りを目指す</div>
+      </a>
+
+      <a class="game-card" href="noccanocca/">
+        <span class="card-icon">&#9823;</span>
+        <div class="card-name-jp">NOCCA&#215;NOCCA</div>
+        <div class="card-desc" id="d-nn">乗り上げながら相手の初期配置列に到達せよ</div>
+      </a>
+
+      <a class="game-card" href="ostle/">
+        <span class="card-icon">&#128165;</span>
+        <div class="card-name">OSTLE</div>
+        <div class="card-desc" id="d-os">駒を押し合って相手の駒を2個盤外に落としたら勝ち</div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span id="footer-copy">&copy; 2025 BoardGameDojo</span>
+</footer>
+
+<script>
+var lang = "ja";
+
+var TJA = {
+  catch:    "集まったら、すぐ一局。",
+  sub:      "12種類の本格2人用ボードゲームを、ブラウザだけで。",
+  chipFree: "無料",
+  chipDl:   "ダウンロード不要",
+  catA:     "ならべる・つなぐ",
+  catB:     "置く・配置する",
+  catC:     "動かす・押す",
+  nDg:      "サイコロ五目並べ",
+  dC4:  "縦・横・斜めに先に4つ並べた方が勝ち",
+  dVi:  "コマを置くか弾いて、縦・横・斜めに3つ並べろ",
+  dEg:  "石を4つ並べたら勝ち。ただし3つ並びは禁手",
+  dDg:  "サイコロで使えるコマが変わる五目並べ",
+  dHx:  "対向する2辺を石の連結で繋いだ方が勝ち",
+  dHi:  "昆虫タイルを並べて相手の女王蜂を囲む",
+  dQu:  "縦・横・2\xD72エリアに4種類の形を揃えたら勝ち",
+  dTo:  "タイルを回転させてO・N・Eを横一列に揃える",
+  dOn:  "移動カードで師を動かし、相手の師を倒す",
+  dQr:  "壁を建てながら相手陣地へ一番乗りを目指す",
+  dNn:  "乗り上げながら相手の初期配置列に到達せよ",
+  dOs:  "駒を押し合って相手の駒を2個盤外に落としたら勝ち"
+};
+
+var TEN = {
+  catch:    "Play a quick game, right now.",
+  sub:      "12 two-player board games. No download needed.",
+  chipFree: "Free",
+  chipDl:   "No download",
+  catA:     "Align & Connect",
+  catB:     "Place & Build",
+  catC:     "Move & Push",
+  nDg:      "Dice Gomoku",
+  dC4:  "Drop pieces to line up 4 in a row",
+  dVi:  "Place or flick — align 3 in a row",
+  dEg:  "4 in a row wins — but 3 in a row is forbidden",
+  dDg:  "Gomoku where dice decide which piece you can place",
+  dHx:  "Connect your two opposite edges to win",
+  dHi:  "Surround the opponent’s Queen Bee with insect tiles",
+  dQu:  "Fill any row, column, or 2\xD72 area with all 4 shapes",
+  dTo:  "Rotate tiles and push to align O·N·E in a row",
+  dOn:  "Move your Master with technique cards to defeat the foe",
+  dQr:  "Race across — place walls to block your opponent",
+  dNn:  "Stack on pieces and reach the opponent’s starting row",
+  dOs:  "Push pieces off the board — knock out 2 to win"
+};
+
+function t(key) { return lang === "ja" ? (TJA[key] || key) : (TEN[key] || key); }
+
+function toggleLang() {
+  lang = lang === "ja" ? "en" : "ja";
+  applyLang();
+}
+
+function applyLang() {
+  var flag = lang === "ja" ? "\uD83C\uDDEF\uD83C\uDDF5" : "\uD83C\uDDFA\uD83C\uDDF8";
+  document.getElementById("lang-btn").textContent = flag;
+  document.documentElement.lang = lang;
+
+  var ids  = ["hero-catch","hero-sub","chip-free","chip-dl","cat-a","cat-b","cat-c",
+              "n-dg",
+              "d-c4","d-vi","d-eg","d-dg","d-hx",
+              "d-hi","d-qu","d-to",
+              "d-on","d-qr","d-nn","d-os"];
+  var keys = ["catch","sub","chipFree","chipDl","catA","catB","catC",
+              "nDg",
+              "dC4","dVi","dEg","dDg","dHx",
+              "dHi","dQu","dTo",
+              "dOn","dQr","dNn","dOs"];
+  for (var i = 0; i < ids.length; i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.textContent = t(keys[i]);
+  }
+}
+</script>
+
+</body>
+</html>

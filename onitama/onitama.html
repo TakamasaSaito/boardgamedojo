@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>尊 - Onitama</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+:root {
+  --bg:        #07070a;
+  --bg2:       #0e0e14;
+  --bg3:       #141420;
+  --surface:   #181824;
+  --border:    #252535;
+  --border2:   #32324a;
+  --red:       #c0392b;
+  --red2:      #e74c3c;
+  --red-dim:   rgba(192,57,43,0.15);
+  --blue:      #1a6fa8;
+  --blue2:     #2980b9;
+  --blue-dim:  rgba(26,111,168,0.15);
+  --gold:      #c9a84c;
+  --gold-dim:  rgba(201,168,76,0.12);
+  --text:      #d4cfc8;
+  --text2:     #7a7570;
+  --text3:     #3d3a38;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== SCREENS ===== */
+.screen { display: none; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
+.screen.active { display: flex; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ===== TITLE SCREEN ===== */
+#titleScreen {
+  justify-content: center;
+  gap: 28px;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(192,57,43,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.05) 0%, transparent 50%),
+    var(--bg);
+}
+.title-logo { text-align: center; }
+.title-kanji {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 96px;
+  font-weight: 800;
+  color: var(--red);
+  line-height: 1;
+  text-shadow:
+    0 0 60px rgba(192,57,43,0.6),
+    0 0 120px rgba(192,57,43,0.2),
+    2px 4px 0px rgba(0,0,0,0.8);
+  letter-spacing: -4px;
+}
+.title-roman {
+  font-size: 11px;
+  letter-spacing: 10px;
+  color: var(--text2);
+  margin-top: 6px;
+  font-weight: 300;
+}
+.title-line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 8px auto;
+}
+.section-label {
+  font-size: 9px;
+  letter-spacing: 5px;
+  color: var(--text3);
+  text-align: center;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.btn-group { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  min-height: 48px;
+  padding: 10px 24px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text2);
+  border-radius: 2px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  letter-spacing: 1px;
+}
+.btn:active { transform: scale(0.96); }
+.btn.selected {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-dim);
+  box-shadow: 0 0 12px rgba(201,168,76,0.15);
+}
+.btn-primary {
+  min-height: 54px;
+  width: 100%;
+  max-width: 280px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 4px;
+  transition: all 0.2s;
+  font-family: 'Shippori Mincho', serif;
+  box-shadow: 0 4px 20px rgba(192,57,43,0.4);
+}
+.btn-primary:active { transform: scale(0.97); background: #a93226; }
+.btn-secondary {
+  min-height: 44px;
+  width: 100%;
+  max-width: 280px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+.btn-secondary:active { color: var(--text); border-color: var(--border2); }
+
+/* ===== RULES SCREEN ===== */
+#rulesScreen {
+  justify-content: flex-start;
+  gap: 18px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.rules-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.rules-back {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text2);
+  font-size: 18px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.rules-back:active { border-color: var(--gold); color: var(--gold); }
+.rules-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-family: 'Shippori Mincho', serif;
+  color: var(--text);
+}
+.rules-section { width: 100%; }
+.rules-section h3 {
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--red);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(192,57,43,0.25);
+  font-weight: 700;
+}
+.rules-section p, .rules-section li {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text2);
+}
+.rules-section ul { padding-left: 16px; }
+.rules-section li { margin-bottom: 2px; }
+.rules-highlight {
+  background: rgba(192,57,43,0.07);
+  border-left: 2px solid var(--red);
+  padding: 10px 12px;
+  border-radius: 0 2px 2px 0;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.rules-mini-board {
+  display: grid;
+  grid-template-columns: repeat(5, 34px);
+  gap: 2px;
+  margin: 8px 0;
+}
+.rules-cell {
+  width: 34px;
+  height: 34px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-family: 'Shippori Mincho', serif;
+}
+.rules-cell.p1m { background: rgba(192,57,43,0.3); color: var(--red2); font-weight: 900; }
+.rules-cell.p1s { background: rgba(192,57,43,0.12); color: #c0392b; }
+.rules-cell.p2m { background: rgba(26,111,168,0.3); color: var(--blue2); font-weight: 900; }
+.rules-cell.p2s { background: rgba(26,111,168,0.12); color: var(--blue); }
+.rules-cell.temple { border-color: var(--red); border-width: 2px; }
+.rules-cell.temple2 { border-color: var(--blue2); border-width: 2px; }
+
+/* ===== GAME SCREEN ===== */
+#gameScreen {
+  padding: 6px 6px 0 6px;
+  gap: 4px;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100dvh;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+.game-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+  flex-shrink: 0;
+}
+.game-title {
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--text3);
+  font-family: 'Shippori Mincho', serif;
+  font-weight: 700;
+}
+.btn-icon {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text3);
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.btn-icon:active { border-color: var(--gold); color: var(--gold); }
+
+/* Player info */
+.player-info {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  min-height: 34px;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.player-info.active-p1 {
+  border-color: rgba(192,57,43,0.6);
+  background: rgba(192,57,43,0.06);
+  box-shadow: 0 0 16px rgba(192,57,43,0.08);
+}
+.player-info.active-p2 {
+  border-color: rgba(26,111,168,0.6);
+  background: rgba(26,111,168,0.06);
+  box-shadow: 0 0 16px rgba(26,111,168,0.08);
+}
+.player-name { font-size: 11px; font-weight: 700; letter-spacing: 2px; font-family: 'Shippori Mincho', serif; }
+.player-name.p1 { color: var(--red); }
+.player-name.p2 { color: var(--blue2); }
+.turn-indicator {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--text3);
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 1px;
+}
+.turn-indicator.active { color: var(--gold); border-color: var(--gold); }
+.pieces-count { font-size: 10px; color: var(--text3); letter-spacing: 1px; }
+
+/* Hand cards */
+.hand-area {
+  width: 100%;
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+  justify-content: center;
+}
+.card {
+  width: calc(50% - 3px);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  overflow: hidden;
+}
+.card.p2-card { transform: rotate(180deg); }
+.card.selectable { border-color: var(--border2); }
+.card.selectable:active { transform: scale(0.97); }
+.card.p2-card.selectable:active { transform: rotate(180deg) scale(0.97); }
+.card.selected-card {
+  border-color: var(--red);
+  background: var(--red-dim);
+  box-shadow: 0 0 14px rgba(192,57,43,0.25), inset 0 0 8px rgba(192,57,43,0.05);
+}
+.card.p2-card.selected-card {
+  border-color: var(--blue2);
+  background: var(--blue-dim);
+  box-shadow: 0 0 14px rgba(26,111,168,0.25);
+}
+.card.disabled { opacity: 0.25; cursor: default; }
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.card-name {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--text2);
+  text-align: center;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 10px);
+  grid-template-rows: repeat(5, 10px);
+  gap: 2px;
+  flex-shrink: 0;
+}
+.card-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+  background: var(--bg3);
+}
+.card-cell.center { background: #444455; }
+.card-cell.move-p1 { background: var(--red); box-shadow: 0 0 3px rgba(192,57,43,0.5); }
+.card-cell.move-p2 { background: var(--blue2); box-shadow: 0 0 3px rgba(41,128,185,0.5); }
+.card-color-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.card-color-dot.red { background: var(--red); }
+.card-color-dot.blue { background: var(--blue2); }
+
+/* Center card */
+.center-card-area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.center-card-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: var(--text3);
+  writing-mode: vertical-rl;
+  min-width: 14px;
+  font-family: 'Shippori Mincho', serif;
+}
+.center-card {
+  background: var(--bg2);
+  border: 1px solid var(--gold-dim);
+  border-radius: 3px;
+  padding: 4px 10px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+}
+.center-card-name {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  white-space: nowrap;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 300;
+}
+
+/* Board */
+.board-wrapper {
+  width: 100%;
+  flex: 0 0 auto;
+  position: relative;
+}
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+  background: #050508;
+  padding: 4px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+}
+.cell {
+  background: #0d0d18;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.12s;
+  position: relative;
+  border: 1px solid #1c1c2c;
+}
+.cell.temple-p1 { }
+.cell.temple-p2 { }
+.temple-label {
+  position: absolute;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'Shippori Mincho', serif;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  line-height: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.temple-label.p1 { color: rgba(192,57,43,0.55); }
+.temple-label.p2 { color: rgba(41,128,185,0.55); }
+.temple-label.hidden { display: none; }
+.cell.highlight {
+  background: rgba(201,168,76,0.12) !important;
+  border-color: rgba(201,168,76,0.5) !important;
+}
+.cell.selected-cell {
+  background: rgba(192,57,43,0.18) !important;
+  border-color: var(--red) !important;
+}
+.piece {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(10px, 3vw, 15px);
+  font-weight: 700;
+  font-family: 'Shippori Mincho', serif;
+  position: relative;
+  z-index: 1;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.piece.p1 {
+  background: radial-gradient(circle at 35% 35%, #e55, var(--red));
+  color: #fff;
+  border-color: rgba(255,100,80,0.6);
+  box-shadow: 0 2px 8px rgba(192,57,43,0.5);
+}
+.piece.p2 {
+  background: radial-gradient(circle at 35% 35%, #5af, var(--blue));
+  color: #fff;
+  border-color: rgba(80,160,255,0.5);
+  box-shadow: 0 2px 8px rgba(26,111,168,0.5);
+}
+.piece.master {
+  border-width: 2px;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 10px rgba(201,168,76,0.4), 0 2px 8px rgba(0,0,0,0.5);
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 10px rgba(201,168,76,0.4); }
+  50% { box-shadow: 0 0 18px rgba(201,168,76,0.7); }
+}
+
+/* Status bar */
+.status-bar {
+  width: 100%;
+  min-height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text3);
+  padding: 2px 4px;
+  flex-shrink: 0;
+  font-weight: 300;
+}
+.status-bar.action { color: var(--text2); }
+.status-bar.warning { color: var(--gold); }
+
+/* Pass button */
+.btn-pass {
+  min-height: 40px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 2px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 2px;
+  display: none;
+  flex-shrink: 0;
+  width: 100%;
+}
+.btn-pass.visible { display: block; }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 36px 24px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+.modal-icon { font-size: 44px; margin-bottom: 16px; }
+.modal-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+  font-family: 'Shippori Mincho', serif;
+}
+.modal-title.p1 { color: var(--red); }
+.modal-title.p2 { color: var(--blue2); }
+.modal-desc { font-size: 12px; color: var(--text2); margin-bottom: 24px; line-height: 1.7; letter-spacing: 1px; }
+.modal-btns { display: flex; flex-direction: column; gap: 8px; }
+
+/* ===== SPLASH SCREEN ===== */
+#splashScreen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+#splashScreen.fade-out {
+  animation: splashFade 0.6s ease forwards;
+}
+@keyframes splashFade {
+  to { opacity: 0; pointer-events: none; }
+}
+.splash-kanji {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 120px;
+  font-weight: 800;
+  color: var(--red);
+  line-height: 1;
+  animation: splashIn 0.8s ease forwards;
+  opacity: 0;
+  text-shadow: 0 0 80px rgba(192,57,43,0.7), 0 0 160px rgba(192,57,43,0.3);
+}
+@keyframes splashIn {
+  0%   { opacity: 0; transform: scale(0.85); }
+  60%  { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.splash-line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation: lineExpand 0.6s 0.5s ease forwards;
+}
+@keyframes lineExpand {
+  to { width: 80px; }
+}
+.splash-roman {
+  font-size: 11px;
+  letter-spacing: 10px;
+  color: var(--text2);
+  font-weight: 300;
+  opacity: 0;
+  animation: splashText 0.5s 0.7s ease forwards;
+}
+@keyframes splashText {
+  to { opacity: 1; }
+}
+
+/* ===== HOWTO SCREEN ===== */
+#howtoScreen {
+  justify-content: flex-start;
+  gap: 0;
+  padding: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+.howto-slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.howto-slide {
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 28px;
+  gap: 20px;
+  text-align: center;
+}
+.howto-icon {
+  font-size: 56px;
+  line-height: 1;
+}
+.howto-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: 2px;
+}
+.howto-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.9;
+  max-width: 300px;
+}
+.howto-accent { color: var(--red); font-weight: 700; }
+.howto-accent-gold { color: var(--gold); font-weight: 700; }
+.howto-dots {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.howto-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border2);
+  transition: all 0.2s;
+}
+.howto-dot.active {
+  background: var(--gold);
+  width: 18px;
+  border-radius: 3px;
+}
+.howto-nav {
+  position: absolute;
+  bottom: 20px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+.howto-btn-skip {
+  background: transparent;
+  border: none;
+  color: var(--text3);
+  font-size: 12px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 44px;
+  padding: 0 8px;
+}
+.howto-btn-next {
+  background: var(--red);
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  font-family: 'Shippori Mincho', serif;
+  font-weight: 700;
+  min-height: 44px;
+  padding: 0 24px;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px rgba(192,57,43,0.35);
+  transition: all 0.2s;
+}
+.howto-btn-next:active { transform: scale(0.97); }
+.howto-mini-board {
+  display: grid;
+  grid-template-columns: repeat(5, 36px);
+  grid-template-rows: repeat(5, 36px);
+  gap: 3px;
+}
+.howto-cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+.howto-cell.p1 { background: rgba(192,57,43,0.2); color: var(--red); border-color: rgba(192,57,43,0.4); }
+.howto-cell.p2 { background: rgba(26,111,168,0.2); color: var(--blue2); border-color: rgba(26,111,168,0.4); }
+.howto-cell.temple { border-color: var(--gold); border-width: 2px; }
+.howto-card-demo {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.howto-card-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 12px);
+  grid-template-rows: repeat(5, 12px);
+  gap: 2px;
+}
+.howto-card-cell { width:12px; height:12px; border-radius:2px; background: var(--bg3); }
+.howto-card-cell.c { background: #555; }
+.howto-card-cell.m { background: var(--red); box-shadow: 0 0 4px rgba(192,57,43,0.5); }
+
+</style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div id="splashScreen">
+  <div class="splash-kanji">尊</div>
+  <div class="splash-line"></div>
+  <div class="splash-roman">O N I T A M A</div>
+</div>
+
+<!-- HOWTO SCREEN -->
+<div id="howtoScreen" class="screen">
+  <div class="howto-slides" id="howtoSlides">
+
+    <!-- Slide 1: 概要 -->
+    <div class="howto-slide">
+      <div class="howto-icon">⚔️</div>
+      <div class="howto-title">Onitamaとは</div>
+      <div class="howto-desc">
+        2人用の抽象戦略ゲーム。<br>
+        <span class="howto-accent">移動カード</span>を使って駒を動かし、<br>
+        相手の<span class="howto-accent">師（Master）</span>を倒すか、<br>
+        相手の<span class="howto-accent-gold">寺院マス</span>に自分の師を<br>送り込めば勝利。
+      </div>
+    </div>
+
+    <!-- Slide 2: 盤面 -->
+    <div class="howto-slide">
+      <div class="howto-title">盤面と駒</div>
+      <div class="howto-mini-board" id="howtoBoardDemo"></div>
+      <div class="howto-desc">
+        5×5の盤面。<br>
+        <span class="howto-accent">赤（下側）</span>と<span style="color:var(--blue2);font-weight:700;">青（上側）</span>が対戦。<br>
+        各プレイヤーは<span class="howto-accent">師×1・徒×4</span>。<br>
+        <span class="howto-accent-gold">金枠のマス</span>が寺院。
+      </div>
+    </div>
+
+    <!-- Slide 3: カード -->
+    <div class="howto-slide">
+      <div class="howto-icon">🃏</div>
+      <div class="howto-title">移動カード</div>
+      <div class="howto-card-demo">
+        <div class="howto-card-grid" id="howtoCardDemo"></div>
+        <div style="text-align:left;">
+          <div style="font-size:13px;color:var(--text);font-weight:700;margin-bottom:4px;">Tiger</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.7;">灰マス＝自駒の位置<br>赤マス＝移動できる場所</div>
+        </div>
+      </div>
+      <div class="howto-desc">
+        5枚のカードをランダムに選択。<br>
+        各自2枚・中央に1枚。<br>
+        <span class="howto-accent-gold">中央カードの色</span>のプレイヤーが先攻。
+      </div>
+    </div>
+
+    <!-- Slide 4: ターン -->
+    <div class="howto-slide">
+      <div class="howto-icon">🔄</div>
+      <div class="howto-title">ターンの流れ</div>
+      <div class="howto-desc" style="text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 20px;">
+        <div style="margin-bottom:10px;"><span class="howto-accent-gold">①</span> 手札からカードを1枚選ぶ</div>
+        <div style="margin-bottom:10px;"><span class="howto-accent-gold">②</span> そのカードで駒を1つ動かす</div>
+        <div style="margin-bottom:10px;"><span class="howto-accent-gold">③</span> 使ったカードを中央カードと交換</div>
+        <div><span class="howto-accent-gold">④</span> 相手のターンへ</div>
+      </div>
+      <div class="howto-desc" style="font-size:12px;">
+        ※両手札とも合法手がない場合のみ<br><span class="howto-accent">パス</span>が可能
+      </div>
+    </div>
+
+    <!-- Slide 5: 勝利条件 -->
+    <div class="howto-slide">
+      <div class="howto-title">勝利条件</div>
+      <div style="display:flex;flex-direction:column;gap:16px;width:100%;">
+        <div style="background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.3);border-radius:4px;padding:16px;text-align:left;">
+          <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">🪨 石の道</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7;">相手の<span class="howto-accent">師（Master）</span>を取る</div>
+        </div>
+        <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:16px;text-align:left;">
+          <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;">🌊 流れの道</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.7;">自分の<span class="howto-accent">師</span>を<br>相手の<span class="howto-accent-gold">寺院マス</span>に移動させる</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);letter-spacing:1px;">準備ができたら対局を始めよう</div>
+    </div>
+
+  </div>
+
+  <!-- Dots -->
+  <div class="howto-dots" id="howtoDots"></div>
+
+  <!-- Nav -->
+  <div class="howto-nav">
+    <button class="howto-btn-skip" onclick="finishHowto()">スキップ</button>
+    <button class="howto-btn-next" id="howtoNextBtn" onclick="howtoNext()">つぎへ →</button>
+  </div>
+</div>
+
+<!-- TITLE SCREEN -->
+<div id="titleScreen" class="screen">
+  <div class="title-logo">
+    <div class="title-kanji">尊</div>
+    <div class="title-line"></div>
+    <div class="title-roman">O N I T A M A</div>
+  </div>
+
+  <div style="width:100%;max-width:320px;">
+    <div class="section-label">MODE</div>
+    <div class="btn-group">
+      <button class="btn selected" id="modeCPU" onclick="selectMode('cpu')">CPU対戦</button>
+      <button class="btn" id="mode2P" onclick="selectMode('2p')">2人対戦</button>
+    </div>
+  </div>
+
+  <div id="difficultyArea" style="width:100%;max-width:320px;">
+    <div class="section-label">DIFFICULTY</div>
+    <div class="btn-group">
+      <button class="btn" id="diffEasy" onclick="selectDiff('easy')">易</button>
+      <button class="btn selected" id="diffNormal" onclick="selectDiff('normal')">普</button>
+      <button class="btn" id="diffHard" onclick="selectDiff('hard')">難</button>
+    </div>
+  </div>
+
+  <button class="btn-primary" onclick="startGame()">対局開始</button>
+  <div style="display:flex;gap:8px;width:100%;max-width:280px;">
+    <button class="btn-secondary" style="flex:1;" onclick="showRules()">ルール</button>
+    <button class="btn-secondary" style="flex:1;" onclick="showCards()">カード一覧</button>
+  </div>
+</div>
+
+<!-- RULES SCREEN -->
+<div id="rulesScreen" class="screen">
+  <div class="rules-header">
+    <button class="rules-back" onclick="showTitle()">←</button>
+    <div class="rules-title">ゲームルール</div>
+  </div>
+
+  <div class="rules-section">
+    <h3>概要</h3>
+    <p>Onitamaは2人用の抽象戦略ゲームです。移動カードを駆使して相手のMaster（師）を倒すか、自分のMasterを相手の寺院マスに送り込めば勝利です。</p>
+  </div>
+
+  <div class="rules-section">
+    <h3>盤面・初期配置</h3>
+    <p style="margin-bottom:8px;">5×5の盤面。各プレイヤーはMaster（師）×1とStudent（徒）×4を持ちます。</p>
+    <div class="rules-mini-board">
+      <div class="rules-cell p2s">徒</div>
+      <div class="rules-cell p2s">徒</div>
+      <div class="rules-cell temple2 p2m">師</div>
+      <div class="rules-cell p2s">徒</div>
+      <div class="rules-cell p2s">徒</div>
+      <div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div>
+      <div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div>
+      <div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div><div class="rules-cell"></div>
+      <div class="rules-cell p1s">徒</div>
+      <div class="rules-cell p1s">徒</div>
+      <div class="rules-cell temple p1m">師</div>
+      <div class="rules-cell p1s">徒</div>
+      <div class="rules-cell p1s">徒</div>
+    </div>
+    <p style="margin-top:6px;font-size:12px;color:#555;">赤＝P1（下側）、青＝P2（上側）。枠付き中央マスが寺院。</p>
+  </div>
+
+  <div class="rules-section">
+    <h3>カードと先攻</h3>
+    <p>16枚のカードからランダムで5枚を選択。P1・P2に2枚ずつ配り、残り1枚を中央に置きます。</p>
+    <div class="rules-highlight" style="margin-top:8px;">
+      中央カードの色（赤・青）と同じ色のプレイヤーが先攻となります。
+    </div>
+  </div>
+
+  <div class="rules-section">
+    <h3>ターンの流れ</h3>
+    <ul>
+      <li>手札2枚から<strong>カードを1枚選ぶ</strong></li>
+      <li>そのカードが示す移動先に<strong>駒を1つ動かす</strong></li>
+      <li>使ったカードを中央カードと<strong>交換する</strong></li>
+      <li>相手ターンへ（交換されたカードは相手の次の手番後に相手の手札になる）</li>
+    </ul>
+  </div>
+
+  <div class="rules-section">
+    <h3>移動の注意点</h3>
+    <ul>
+      <li>自分の駒がいるマスには移動できない</li>
+      <li>相手の駒がいるマスに移動すると<strong>その駒を取れる</strong></li>
+      <li>盤外への移動は無効</li>
+      <li>P2（上側・青）は、カードの移動方向が<strong>180度反転</strong>して適用される</li>
+    </ul>
+  </div>
+
+  <div class="rules-section">
+    <h3>パスルール</h3>
+    <div class="rules-highlight">
+      手札の2枚どちらを使っても合法手が一切ない場合のみ、パスができます。パス時は好きな1枚を選んで中央カードと交換します。
+    </div>
+  </div>
+
+  <div class="rules-section">
+    <h3>勝利条件</h3>
+    <ul>
+      <li>🪨 <strong>石の道：</strong>相手のMaster（師）を取る</li>
+      <li>🌊 <strong>流れの道：</strong>自分のMasterを相手の寺院マスに移動させる</li>
+    </ul>
+  </div>
+
+  <button class="btn-primary" onclick="showTitle()" style="margin-top:8px;">タイトルに戻る</button>
+</div>
+
+
+<!-- CARDS SCREEN -->
+<div id="cardsScreen" class="screen">
+  <div class="rules-header">
+    <button class="rules-back" onclick="showTitle()">←</button>
+    <div class="rules-title">カード一覧</div>
+  </div>
+  <p style="font-size:12px;color:#555;text-align:center;margin-bottom:4px;">全16種。左列=赤先攻カード、右列=青先攻カード。灰=自駒位置、色マス=移動先。</p>
+  <div id="cardListGrid" style="width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;overflow-y:auto;padding-bottom:12px;"></div>
+  <button class="btn-primary" onclick="showTitle()" style="margin-top:8px;flex-shrink:0;">タイトルに戻る</button>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen" class="screen">
+  <!-- Header -->
+  <div class="game-header">
+    <div class="game-title">尊 ONITAMA</div>
+    <button class="btn-icon" onclick="confirmReset()">⟳</button>
+  </div>
+
+  <!-- P2 info -->
+  <div class="player-info" id="p2Info">
+    <div class="player-name p2" id="p2Name">青 / P2</div>
+    <div class="turn-indicator" id="p2Turn">待機中</div>
+    <div class="pieces-count" id="p2Pieces"></div>
+  </div>
+
+  <!-- P2 hand -->
+  <div class="hand-area" id="p2Hand"></div>
+
+  <!-- Center card -->
+  <div class="center-card-area">
+    <div class="center-card-label">中央</div>
+    <div class="center-card" id="centerCardDisplay"></div>
+  </div>
+
+  <!-- Board -->
+  <div class="board-wrapper">
+    <div class="board" id="board"></div>
+  </div>
+
+  <!-- Status -->
+  <div class="status-bar" id="statusBar">カードを選んでください</div>
+  <button class="btn-pass" id="passBtn" onclick="doPass()">パスする（合法手なし）</button>
+
+  <!-- P1 hand -->
+  <div class="hand-area" id="p1Hand"></div>
+
+  <!-- P1 info -->
+  <div class="player-info" id="p1Info">
+    <div class="player-name p1" id="p1Name">赤 / P1</div>
+    <div class="turn-indicator" id="p1Turn">待機中</div>
+    <div class="pieces-count" id="p1Pieces"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-icon" id="modalIcon"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <div class="modal-btns" id="modalBtns"></div>
+  </div>
+</div>
+
+<script>
+// ===== CARD DATA =====
+var ALL_CARDS = [
+  { name: "Tiger",    moves: [[0,-2],[0,1]],                    color: "blue" },
+  { name: "Dragon",   moves: [[-2,-1],[2,-1],[-1,1],[1,1]],     color: "red"  },
+  { name: "Frog",     moves: [[-2,0],[-1,-1],[1,1]],            color: "red"  },
+  { name: "Rabbit",   moves: [[1,-1],[2,0],[-1,1]],             color: "blue" },
+  { name: "Crab",     moves: [[0,-1],[-2,0],[2,0]],             color: "blue" },
+  { name: "Elephant", moves: [[1,0],[-1,0],[1,-1],[-1,-1]],     color: "red"  },
+  { name: "Goose",    moves: [[-1,0],[-1,-1],[1,0],[1,1]],      color: "blue" },
+  { name: "Rooster",  moves: [[1,0],[1,-1],[-1,0],[-1,1]],      color: "red"  },
+  { name: "Monkey",   moves: [[-1,-1],[1,-1],[-1,1],[1,1]],     color: "blue" },
+  { name: "Mantis",   moves: [[-1,-1],[1,-1],[0,1]],            color: "red"  },
+  { name: "Horse",    moves: [[0,-1],[0,1],[-1,0]],             color: "red"  },
+  { name: "Ox",       moves: [[0,-1],[0,1],[1,0]],              color: "blue" },
+  { name: "Crane",    moves: [[0,-1],[-1,1],[1,1]],             color: "blue" },
+  { name: "Boar",     moves: [[0,-1],[-1,0],[1,0]],             color: "red"  },
+  { name: "Eel",      moves: [[-1,-1],[1,0],[-1,1]],            color: "blue" },
+  { name: "Cobra",    moves: [[1,-1],[-1,0],[1,1]],             color: "red"  }
+];
+
+// ===== GAME STATE =====
+var gameMode = "cpu";
+var difficulty = "normal";
+var currentPlayer = 1; // 1 or 2
+var board = []; // 5x5, each cell: null or {player:1|2, type:'master'|'student'}
+var p1Cards = [];
+var p2Cards = [];
+var centerCard = null;
+var selectedCard = null;
+var selectedCell = null;
+var validMoves = [];
+var gameOver = false;
+var cpuThinking = false;
+
+// Audio
+var audioCtx = null;
+function getAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return audioCtx;
+}
+function playSound(type) {
+  var ctx = getAudio();
+  if (!ctx) return;
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  if (type === "select") {
+    osc.frequency.setValueAtTime(440, ctx.currentTime);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+    osc.start(); osc.stop(ctx.currentTime + 0.1);
+  } else if (type === "move") {
+    osc.frequency.setValueAtTime(330, ctx.currentTime);
+    osc.frequency.setValueAtTime(550, ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+    osc.start(); osc.stop(ctx.currentTime + 0.15);
+  } else if (type === "capture") {
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(200, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+    osc.start(); osc.stop(ctx.currentTime + 0.2);
+  } else if (type === "win") {
+    var freqs = [523, 659, 784, 1047];
+    for (var i = 0; i < freqs.length; i++) {
+      (function(f, t) {
+        var o2 = ctx.createOscillator();
+        var g2 = ctx.createGain();
+        o2.connect(g2); g2.connect(ctx.destination);
+        o2.frequency.setValueAtTime(f, ctx.currentTime + t);
+        g2.gain.setValueAtTime(0.1, ctx.currentTime + t);
+        g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.3);
+        o2.start(ctx.currentTime + t);
+        o2.stop(ctx.currentTime + t + 0.3);
+      })(freqs[i], i * 0.12);
+    }
+  }
+}
+
+// ===== SPLASH & HOWTO =====
+var howtoPage = 0;
+var howtoTotal = 5;
+
+function initSplash() {
+  var splash = document.getElementById("splashScreen");
+  // Check if first visit
+  var seen = false;
+  try { seen = localStorage.getItem("onitama_seen") === "1"; } catch(e) {}
+
+  // Build howto board demo
+  buildHowtoBoardDemo();
+  buildHowtoCardDemo();
+  buildHowtoDots();
+
+  setTimeout(function() {
+    splash.classList.add("fade-out");
+    setTimeout(function() {
+      splash.style.display = "none";
+      if (!seen) {
+        showScreen("howtoScreen");
+      } else {
+        showScreen("titleScreen");
+      }
+    }, 600);
+  }, 1800);
+}
+
+function buildHowtoBoardDemo() {
+  var el = document.getElementById("howtoBoardDemo");
+  if (!el) return;
+  el.innerHTML = "";
+  // row 0: p2
+  var row0 = ["p2","p2","p2 temple","p2","p2"];
+  // rows 1-3: empty
+  // row 4: p1
+  var row4 = ["p1","p1","p1 temple","p1","p1"];
+  var labels0 = ["徒","徒","師","徒","徒"];
+  var labels4 = ["徒","徒","師","徒","徒"];
+  for (var r = 0; r < 5; r++) {
+    for (var c = 0; c < 5; c++) {
+      var cell = document.createElement("div");
+      cell.className = "howto-cell";
+      if (r === 0) {
+        cell.className = "howto-cell " + row0[c];
+        cell.textContent = labels0[c];
+      } else if (r === 4) {
+        cell.className = "howto-cell " + row4[c];
+        cell.textContent = labels4[c];
+      }
+      el.appendChild(cell);
+    }
+  }
+}
+
+function buildHowtoCardDemo() {
+  var el = document.getElementById("howtoCardDemo");
+  if (!el) return;
+  el.innerHTML = "";
+  // Tiger: moves [0,-2],[0,1] — center at (2,2)
+  var tigerMoves = [[2,0],[2,3]]; // [row,col] of moves in 5x5 grid (dy=-2->row0, dy=1->row3)
+  // Actually: dx=0,dy=-2 => col=2,row=0; dx=0,dy=1 => col=2,row=3
+  for (var row = 0; row < 5; row++) {
+    for (var col = 0; col < 5; col++) {
+      var cell = document.createElement("div");
+      cell.className = "howto-card-cell";
+      if (row === 2 && col === 2) cell.classList.add("c");
+      else if ((row === 0 && col === 2) || (row === 3 && col === 2)) cell.classList.add("m");
+      el.appendChild(cell);
+    }
+  }
+}
+
+function buildHowtoDots() {
+  var el = document.getElementById("howtoDots");
+  if (!el) return;
+  el.innerHTML = "";
+  for (var i = 0; i < howtoTotal; i++) {
+    var dot = document.createElement("div");
+    dot.className = "howto-dot" + (i === 0 ? " active" : "");
+    el.appendChild(dot);
+  }
+}
+
+function updateHowtoDots() {
+  var dots = document.querySelectorAll(".howto-dot");
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].className = "howto-dot" + (i === howtoPage ? " active" : "");
+  }
+}
+
+function howtoNext() {
+  if (howtoPage < howtoTotal - 1) {
+    howtoPage++;
+    var slides = document.getElementById("howtoSlides");
+    slides.style.transform = "translateX(-" + (howtoPage * 100) + "%)";
+    updateHowtoDots();
+    var btn = document.getElementById("howtoNextBtn");
+    if (howtoPage === howtoTotal - 1) {
+      btn.textContent = "はじめる";
+    } else {
+      btn.textContent = "つぎへ →";
+    }
+  } else {
+    finishHowto();
+  }
+}
+
+function finishHowto() {
+  try { localStorage.setItem("onitama_seen", "1"); } catch(e) {}
+  howtoPage = 0;
+  var slides = document.getElementById("howtoSlides");
+  if (slides) slides.style.transform = "translateX(0)";
+  var btn = document.getElementById("howtoNextBtn");
+  if (btn) btn.textContent = "つぎへ →";
+  buildHowtoDots();
+  showScreen("titleScreen");
+}
+
+// ===== SCREEN NAVIGATION =====
+function showScreen(id) {
+  var screens = document.querySelectorAll(".screen");
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove("active");
+  }
+  document.getElementById(id).classList.add("active");
+}
+function showTitle() { showScreen("titleScreen"); }
+function showRules() { showScreen("rulesScreen"); }
+function showCards() {
+  renderCardList();
+  showScreen("cardsScreen");
+}
+
+function renderCardList() {
+  var el = document.getElementById("cardListGrid");
+  el.innerHTML = "";
+  // Sort: red cards first (left column), blue cards second (right column)
+  var redCards = [];
+  var blueCards = [];
+  for (var i = 0; i < ALL_CARDS.length; i++) {
+    if (ALL_CARDS[i].color === "red") redCards.push(ALL_CARDS[i]);
+    else blueCards.push(ALL_CARDS[i]);
+  }
+  // Interleave: red left, blue right per row
+  var maxLen = Math.max(redCards.length, blueCards.length);
+  var sorted = [];
+  for (var i = 0; i < maxLen; i++) {
+    if (i < redCards.length) sorted.push(redCards[i]);
+    else sorted.push(null);
+    if (i < blueCards.length) sorted.push(blueCards[i]);
+    else sorted.push(null);
+  }
+  for (var i = 0; i < sorted.length; i++) {
+    var card = sorted[i];
+    if (!card) { var empty = document.createElement("div"); el.appendChild(empty); continue; }
+    var wrap = document.createElement("div");
+    wrap.style.cssText = "background:#12121a;border:1px solid #252530;border-radius:8px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;";
+
+    // Name
+    var nameEl = document.createElement("div");
+    nameEl.style.cssText = "font-size:13px;font-weight:700;color:#ccc;letter-spacing:1px;";
+    nameEl.textContent = card.name;
+    wrap.appendChild(nameEl);
+
+    // Grid 5x5 (bigger: 14px cells)
+    var grid = document.createElement("div");
+    grid.style.cssText = "display:grid;grid-template-columns:repeat(5,14px);grid-template-rows:repeat(5,14px);gap:2px;";
+    for (var row = 0; row < 5; row++) {
+      for (var col = 0; col < 5; col++) {
+        var cell = document.createElement("div");
+        var dx = col - 2;
+        var dy = row - 2;
+        var bg = "#1a1a24";
+        if (dx === 0 && dy === 0) {
+          bg = "#555";
+        } else {
+          for (var m = 0; m < card.moves.length; m++) {
+            if (card.moves[m][0] === dx && card.moves[m][1] === dy) {
+              bg = card.color === "red" ? "#c8392b" : "#2980b9";
+            }
+          }
+        }
+        cell.style.cssText = "width:14px;height:14px;border-radius:2px;background:" + bg + ";";
+        grid.appendChild(cell);
+      }
+    }
+    wrap.appendChild(grid);
+
+    // Color label
+    var dotRow = document.createElement("div");
+    dotRow.style.cssText = "display:flex;align-items:center;gap:5px;";
+    var dot = document.createElement("div");
+    dot.style.cssText = "width:7px;height:7px;border-radius:50%;background:" + (card.color === "red" ? "#c8392b" : "#2980b9") + ";";
+    var dotLabel = document.createElement("span");
+    dotLabel.style.cssText = "font-size:10px;color:#555;";
+    dotLabel.textContent = card.color === "red" ? "赤先攻" : "青先攻";
+    dotRow.appendChild(dot);
+    dotRow.appendChild(dotLabel);
+    wrap.appendChild(dotRow);
+
+    el.appendChild(wrap);
+  }
+}
+
+function selectMode(m) {
+  gameMode = m;
+  document.getElementById("modeCPU").classList.toggle("selected", m === "cpu");
+  document.getElementById("mode2P").classList.toggle("selected", m === "2p");
+  document.getElementById("difficultyArea").style.display = m === "cpu" ? "block" : "none";
+}
+function selectDiff(d) {
+  difficulty = d;
+  document.getElementById("diffEasy").classList.toggle("selected", d === "easy");
+  document.getElementById("diffNormal").classList.toggle("selected", d === "normal");
+  document.getElementById("diffHard").classList.toggle("selected", d === "hard");
+}
+
+// ===== INIT =====
+function startGame() {
+  gameOver = false;
+  cpuThinking = false;
+  selectedCard = null;
+  selectedCell = null;
+  validMoves = [];
+
+  // Init board
+  board = [];
+  for (var r = 0; r < 5; r++) {
+    board.push([null, null, null, null, null]);
+  }
+  // P2 top row
+  board[0][0] = { player: 2, type: "student" };
+  board[0][1] = { player: 2, type: "student" };
+  board[0][2] = { player: 2, type: "master" };
+  board[0][3] = { player: 2, type: "student" };
+  board[0][4] = { player: 2, type: "student" };
+  // P1 bottom row
+  board[4][0] = { player: 1, type: "student" };
+  board[4][1] = { player: 1, type: "student" };
+  board[4][2] = { player: 1, type: "master" };
+  board[4][3] = { player: 1, type: "student" };
+  board[4][4] = { player: 1, type: "student" };
+
+  // Deal cards
+  var deck = ALL_CARDS.slice();
+  shuffle(deck);
+  p1Cards = [deck[0], deck[1]];
+  p2Cards = [deck[2], deck[3]];
+  centerCard = deck[4];
+
+  // Determine first player from center card color
+  currentPlayer = (centerCard.color === "red") ? 1 : 2;
+
+  showScreen("gameScreen");
+
+  // Update player names
+  document.getElementById("p1Name").textContent = gameMode === "cpu" ? "赤 / あなた" : "赤 / P1";
+  document.getElementById("p2Name").textContent = gameMode === "cpu" ? "青 / CPU" : "青 / P2";
+
+  renderAll();
+  setTimeout(fixBoardSize, 50);
+
+  if (currentPlayer === 2 && gameMode === "cpu") {
+    setTimeout(doCpuTurn, 600);
+  }
+}
+
+function shuffle(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+  }
+}
+
+// ===== RENDER =====
+function renderAll() {
+  renderBoard();
+  renderHands();
+  renderCenterCard();
+  renderPlayerInfo();
+  renderStatus();
+  renderPassBtn();
+}
+
+function renderBoard() {
+  var boardEl = document.getElementById("board");
+  boardEl.innerHTML = "";
+  for (var r = 0; r < 5; r++) {
+    for (var c = 0; c < 5; c++) {
+      var cell = document.createElement("div");
+      cell.className = "cell";
+      // Temple marks
+      if (r === 4 && c === 2) {
+        cell.classList.add("temple-p1");
+        cell.style.cssText = "border: 3px solid rgba(200,57,43,1.0) !important; box-shadow: inset 0 0 8px rgba(200,57,43,0.3);";
+      }
+      if (r === 0 && c === 2) {
+        cell.classList.add("temple-p2");
+        cell.style.cssText = "border: 3px solid rgba(41,128,185,1.0) !important; box-shadow: inset 0 0 8px rgba(41,128,185,0.3);";
+      }
+      // Highlights
+      if (isValidMove(r, c)) cell.classList.add("highlight");
+      if (selectedCell && selectedCell[0] === r && selectedCell[1] === c) cell.classList.add("selected-cell");
+      // Temple label (hidden when piece present)
+      var isTemple = (r === 4 && c === 2) || (r === 0 && c === 2);
+      var piece = board[r][c];
+      if (isTemple) {
+        var templeLabel = document.createElement("div");
+        templeLabel.className = (r === 0) ? "temple-label p2" : "temple-label p1";
+        templeLabel.textContent = "寺";
+        templeLabel.style.opacity = piece ? "0" : "1";
+        cell.appendChild(templeLabel);
+      }
+      // Piece
+      if (piece) {
+        var pieceEl = document.createElement("div");
+        pieceEl.className = "piece p" + piece.player;
+        if (piece.type === "master") pieceEl.classList.add("master");
+        pieceEl.textContent = piece.type === "master" ? "師" : "徒";
+        cell.appendChild(pieceEl);
+      }
+      (function(row, col) {
+        cell.onclick = function() { onCellClick(row, col); };
+      })(r, c);
+      boardEl.appendChild(cell);
+    }
+  }
+}
+
+function isValidMove(r, c) {
+  for (var i = 0; i < validMoves.length; i++) {
+    if (validMoves[i][0] === r && validMoves[i][1] === c) return true;
+  }
+  return false;
+}
+
+function renderHands() {
+  renderHandFor("p1Hand", p1Cards, 1);
+  renderHandFor("p2Hand", p2Cards, 2);
+}
+
+function renderHandFor(elId, cards, player) {
+  var el = document.getElementById(elId);
+  el.innerHTML = "";
+  for (var i = 0; i < cards.length; i++) {
+    (function(card, idx) {
+      var cardEl = document.createElement("div");
+      cardEl.className = "card";
+      if (player === 2) cardEl.classList.add("p2-card");
+
+      var isCurrentPlayer = currentPlayer === player;
+      var isSelected = selectedCard && selectedCard.name === card.name;
+      var canInteract = isCurrentPlayer && !gameOver && !cpuThinking;
+      if (gameMode === "cpu" && player === 2) canInteract = false;
+
+      if (isSelected) cardEl.classList.add("selected-card");
+      if (canInteract) cardEl.classList.add("selectable");
+      if (!canInteract && !isSelected) cardEl.classList.add("disabled");
+
+      // Left: card grid
+      cardEl.appendChild(buildCardGrid(card, player));
+
+      // Right: name + dot
+      var meta = document.createElement("div");
+      meta.className = "card-meta";
+      var nameEl = document.createElement("div");
+      nameEl.className = "card-name";
+      nameEl.textContent = card.name;
+      var dot = document.createElement("div");
+      dot.className = "card-color-dot " + card.color;
+      meta.appendChild(nameEl);
+      meta.appendChild(dot);
+      cardEl.appendChild(meta);
+
+      if (canInteract) {
+        cardEl.onclick = function() { onCardClick(card, player); };
+      }
+      el.appendChild(cardEl);
+    })(cards[i], i);
+  }
+}
+
+function buildCardGrid(card, player) {
+  var grid = document.createElement("div");
+  grid.className = "card-grid";
+  for (var row = 0; row < 5; row++) {
+    for (var col = 0; col < 5; col++) {
+      var cell = document.createElement("div");
+      cell.className = "card-cell";
+      var dx = col - 2;
+      var dy = row - 2;
+      if (dx === 0 && dy === 0) {
+        cell.classList.add("center");
+      } else {
+        // Check if this cell is a move
+        for (var m = 0; m < card.moves.length; m++) {
+          var mv = card.moves[m];
+          var mdx = mv[0], mdy = mv[1];
+          // For display: P2 card is rotated 180, so show from P2 perspective
+          // But since we rotate the whole card div, show P1 perspective
+          if (mdx === dx && mdy === dy) {
+            cell.classList.add("move-p" + player);
+          }
+        }
+      }
+      grid.appendChild(cell);
+    }
+  }
+  return grid;
+}
+
+function renderCenterCard() {
+  var el = document.getElementById("centerCardDisplay");
+  el.innerHTML = "";
+  if (!centerCard) return;
+  el.appendChild(buildCardGrid(centerCard, 1));
+  var nameEl = document.createElement("div");
+  nameEl.className = "center-card-name";
+  nameEl.textContent = centerCard.name;
+  el.appendChild(nameEl);
+  var dot = document.createElement("div");
+  dot.className = "card-color-dot " + centerCard.color;
+  el.appendChild(dot);
+}
+
+function renderPlayerInfo() {
+  var p1Active = currentPlayer === 1;
+  var p2Active = currentPlayer === 2;
+  document.getElementById("p1Info").className = "player-info" + (p1Active ? " active-p1" : "");
+  document.getElementById("p2Info").className = "player-info" + (p2Active ? " active-p2" : "");
+  document.getElementById("p1Turn").textContent = p1Active ? "手番" : "待機中";
+  document.getElementById("p1Turn").className = "turn-indicator" + (p1Active ? " active" : "");
+  document.getElementById("p2Turn").textContent = p2Active ? "手番" : "待機中";
+  document.getElementById("p2Turn").className = "turn-indicator" + (p2Active ? " active" : "");
+
+  var p1count = countPieces(1);
+  var p2count = countPieces(2);
+  document.getElementById("p1Pieces").textContent = "師" + p1count.master + " 徒" + p1count.students;
+  document.getElementById("p2Pieces").textContent = "師" + p2count.master + " 徒" + p2count.students;
+}
+
+function countPieces(player) {
+  var master = 0, students = 0;
+  for (var r = 0; r < 5; r++) {
+    for (var c = 0; c < 5; c++) {
+      if (board[r][c] && board[r][c].player === player) {
+        if (board[r][c].type === "master") master++;
+        else students++;
+      }
+    }
+  }
+  return { master: master, students: students };
+}
+
+function renderStatus() {
+  var el = document.getElementById("statusBar");
+  if (gameOver) { el.textContent = ""; el.className = "status-bar"; return; }
+  if (cpuThinking) { el.textContent = "CPU思考中..."; el.className = "status-bar warning"; return; }
+  if (!selectedCard) {
+    el.textContent = "カードを選んでください";
+    el.className = "status-bar action";
+  } else if (!selectedCell) {
+    el.textContent = selectedCard.name + " を選択中。駒を選んでください";
+    el.className = "status-bar action";
+  } else {
+    el.textContent = "移動先を選んでください";
+    el.className = "status-bar action";
+  }
+}
+
+function renderPassBtn() {
+  var btn = document.getElementById("passBtn");
+  if (gameOver || cpuThinking) { btn.className = "btn-pass"; return; }
+  // Show pass button only if both cards have no legal moves
+  var canPass = currentPlayer === (gameMode === "cpu" ? 1 : currentPlayer);
+  if (gameMode === "cpu" && currentPlayer === 2) { btn.className = "btn-pass"; return; }
+  if (canPass && hasNoLegalMoves(currentPlayer)) {
+    btn.className = "btn-pass visible";
+  } else {
+    btn.className = "btn-pass";
+  }
+}
+
+// ===== GAME LOGIC =====
+function getMoves(card, fromRow, fromCol, player) {
+  var result = [];
+  var flip = player === 2 ? -1 : 1;
+  for (var i = 0; i < card.moves.length; i++) {
+    var dx = card.moves[i][0] * flip;
+    var dy = card.moves[i][1] * flip;
+    var nr = fromRow + dy;
+    var nc = fromCol + dx;
+    if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
+      var target = board[nr][nc];
+      if (!target || target.player !== player) {
+        result.push([nr, nc]);
+      }
+    }
+  }
+  return result;
+}
+
+function hasNoLegalMoves(player) {
+  var cards = player === 1 ? p1Cards : p2Cards;
+  for (var ci = 0; ci < cards.length; ci++) {
+    for (var r = 0; r < 5; r++) {
+      for (var c = 0; c < 5; c++) {
+        if (board[r][c] && board[r][c].player === player) {
+          var moves = getMoves(cards[ci], r, c, player);
+          if (moves.length > 0) return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
+function onCardClick(card, player) {
+  if (gameOver || cpuThinking) return;
+  if (currentPlayer !== player) return;
+  playSound("select");
+  selectedCard = card;
+  selectedCell = null;
+  validMoves = [];
+  renderAll();
+}
+
+function onCellClick(r, c) {
+  if (gameOver || cpuThinking) return;
+  if (gameMode === "cpu" && currentPlayer === 2) return;
+
+  var piece = board[r][c];
+
+  // If a valid move destination is clicked
+  if (isValidMove(r, c)) {
+    executeMove(selectedCell[0], selectedCell[1], r, c, selectedCard);
+    return;
+  }
+
+  // If clicking own piece
+  if (piece && piece.player === currentPlayer) {
+    if (!selectedCard) return;
+    var moves = getMoves(selectedCard, r, c, currentPlayer);
+    if (moves.length === 0) {
+      selectedCell = null;
+      validMoves = [];
+    } else {
+      playSound("select");
+      selectedCell = [r, c];
+      validMoves = moves;
+    }
+    renderAll();
+    return;
+  }
+
+  // Deselect
+  selectedCell = null;
+  validMoves = [];
+  renderAll();
+}
+
+function executeMove(fromR, fromC, toR, toC, card) {
+  var captured = board[toR][toC];
+  var moving = board[fromR][fromC];
+  board[toR][toC] = moving;
+  board[fromR][fromC] = null;
+
+  var isCapture = captured !== null;
+  if (isCapture) {
+    playSound("capture");
+  } else {
+    playSound("move");
+  }
+
+  // Swap card with center
+  swapCard(card);
+
+  // Reset selection
+  selectedCard = null;
+  selectedCell = null;
+  validMoves = [];
+
+  // Check win
+  if (checkWin(currentPlayer, toR, toC, captured)) return;
+
+  // Switch player
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  renderAll();
+
+  if (currentPlayer === 2 && gameMode === "cpu") {
+    cpuThinking = true;
+    renderStatus();
+    var delay = difficulty === "hard" ? 900 : 500;
+    setTimeout(doCpuTurn, delay);
+  }
+}
+
+function swapCard(card) {
+  var swap = centerCard;
+  centerCard = card;
+  if (currentPlayer === 1) {
+    for (var i = 0; i < p1Cards.length; i++) {
+      if (p1Cards[i].name === card.name) { p1Cards[i] = swap; break; }
+    }
+  } else {
+    for (var i = 0; i < p2Cards.length; i++) {
+      if (p2Cards[i].name === card.name) { p2Cards[i] = swap; break; }
+    }
+  }
+}
+
+function checkWin(player, toR, toC, captured) {
+  // Way of Stone: captured enemy master
+  if (captured && captured.type === "master") {
+    endGame(player, "stone");
+    return true;
+  }
+  // Way of Stream: own master reached enemy temple
+  var moving = board[toR][toC];
+  if (moving && moving.type === "master") {
+    if (player === 1 && toR === 0 && toC === 2) { endGame(1, "stream"); return true; }
+    if (player === 2 && toR === 4 && toC === 2) { endGame(2, "stream"); return true; }
+  }
+  return false;
+}
+
+function endGame(winner, method) {
+  gameOver = true;
+  playSound("win");
+  renderAll();
+  var isP1 = winner === 1;
+  var winnerName = isP1 ? (gameMode === "cpu" ? "あなた" : "P1（赤）") : (gameMode === "cpu" ? "CPU" : "P2（青）");
+  var methodText = method === "stone" ? "\uD83E\uDEA8 石の道（Master捕獲）" : "\uD83C\uDF0A 流れの道（寺院到達）";
+  showModal(
+    isP1 ? "\uD83D\uDD34" : "\uD83D\uDD35",
+    winnerName + " の勝利",
+    "p" + winner,
+    methodText + " による勝利",
+    [
+      { text: "もう一度", action: "startGame()" },
+      { text: "タイトルへ", action: "showTitleFromModal()" }
+    ]
+  );
+}
+
+function doPass() {
+  if (gameOver || !hasNoLegalMoves(currentPlayer)) return;
+  // Player must choose a card to exchange; auto-select first card
+  var cards = currentPlayer === 1 ? p1Cards : p2Cards;
+  var cardToPass = selectedCard || cards[0];
+  swapCard(cardToPass);
+  selectedCard = null;
+  selectedCell = null;
+  validMoves = [];
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  renderAll();
+  if (currentPlayer === 2 && gameMode === "cpu") {
+    cpuThinking = true;
+    renderStatus();
+    setTimeout(doCpuTurn, 500);
+  }
+}
+
+function confirmReset() {
+  showModal("⟳", "対局をリセット", null, "現在の対局を終了してタイトルに戻りますか？", [
+    { text: "リセット", action: "showTitleFromModal()" },
+    { text: "続ける", action: "closeModal()" }
+  ]);
+}
+
+function showTitleFromModal() {
+  closeModal();
+  showTitle();
+}
+
+// ===== CPU AI =====
+function doCpuTurn() {
+  if (gameOver) return;
+  cpuThinking = false;
+
+  var move = null;
+  if (difficulty === "easy") {
+    move = cpuRandom(2);
+  } else if (difficulty === "normal") {
+    move = cpuGreedy(2);
+  } else {
+    move = cpuMinimax(2, 3);
+  }
+
+  if (!move) {
+    // Pass
+    var cardToPass = p2Cards[0];
+    swapCard(cardToPass);
+    currentPlayer = 1;
+    renderAll();
+    return;
+  }
+
+  selectedCard = null;
+  selectedCell = null;
+  validMoves = [];
+  executeMove(move.fromR, move.fromC, move.toR, move.toC, move.card);
+}
+
+function getAllMoves(player, boardState, p1c, p2c) {
+  var cards = player === 1 ? p1c : p2c;
+  var moves = [];
+  for (var ci = 0; ci < cards.length; ci++) {
+    for (var r = 0; r < 5; r++) {
+      for (var c = 0; c < 5; c++) {
+        if (boardState[r][c] && boardState[r][c].player === player) {
+          var flip = player === 2 ? -1 : 1;
+          for (var mi = 0; mi < cards[ci].moves.length; mi++) {
+            var dx = cards[ci].moves[mi][0] * flip;
+            var dy = cards[ci].moves[mi][1] * flip;
+            var nr = r + dy;
+            var nc = c + dx;
+            if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
+              var target = boardState[nr][nc];
+              if (!target || target.player !== player) {
+                moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, card: cards[ci] });
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return moves;
+}
+
+function cpuRandom(player) {
+  var moves = getAllMoves(player, board, p1Cards, p2Cards);
+  if (moves.length === 0) return null;
+  return moves[Math.floor(Math.random() * moves.length)];
+}
+
+function cpuGreedy(player) {
+  var moves = getAllMoves(player, board, p1Cards, p2Cards);
+  if (moves.length === 0) return null;
+  var enemy = player === 1 ? 2 : 1;
+  // Prioritize win moves
+  for (var i = 0; i < moves.length; i++) {
+    var m = moves[i];
+    var target = board[m.toR][m.toC];
+    if (target && target.type === "master") return m;
+    // Stream win
+    var piece = board[m.fromR][m.fromC];
+    if (piece && piece.type === "master") {
+      if (player === 2 && m.toR === 4 && m.toC === 2) return m;
+      if (player === 1 && m.toR === 0 && m.toC === 2) return m;
+    }
+  }
+  return moves[Math.floor(Math.random() * moves.length)];
+}
+
+function cpuMinimax(player, depth) {
+  var moves = getAllMoves(player, board, p1Cards, p2Cards);
+  if (moves.length === 0) return null;
+  var bestMove = null;
+  var bestScore = -Infinity;
+  for (var i = 0; i < moves.length; i++) {
+    var m = moves[i];
+    var state = applyMove(board, p1Cards, p2Cards, centerCard, m, player);
+    var score = minimax(state.board, state.p1Cards, state.p2Cards, state.center, depth - 1, false, -Infinity, Infinity);
+    if (score > bestScore) { bestScore = score; bestMove = m; }
+  }
+  return bestMove;
+}
+
+function minimax(brd, p1c, p2c, center, depth, isMax, alpha, beta) {
+  var score = evaluate(brd);
+  if (Math.abs(score) > 9000 || depth === 0) return score;
+  var player = isMax ? 2 : 1;
+  var moves = getAllMoves(player, brd, p1c, p2c);
+  if (moves.length === 0) return score;
+  if (isMax) {
+    var best = -Infinity;
+    for (var i = 0; i < moves.length; i++) {
+      var state = applyMove(brd, p1c, p2c, center, moves[i], player);
+      var v = minimax(state.board, state.p1Cards, state.p2Cards, state.center, depth - 1, false, alpha, beta);
+      best = Math.max(best, v);
+      alpha = Math.max(alpha, best);
+      if (beta <= alpha) break;
+    }
+    return best;
+  } else {
+    var best = Infinity;
+    for (var i = 0; i < moves.length; i++) {
+      var state = applyMove(brd, p1c, p2c, center, moves[i], player);
+      var v = minimax(state.board, state.p1Cards, state.p2Cards, state.center, depth - 1, true, alpha, beta);
+      best = Math.min(best, v);
+      beta = Math.min(beta, best);
+      if (beta <= alpha) break;
+    }
+    return best;
+  }
+}
+
+function applyMove(brd, p1c, p2c, center, move, player) {
+  // Deep copy board
+  var nb = [];
+  for (var r = 0; r < 5; r++) {
+    nb.push([]);
+    for (var c = 0; c < 5; c++) {
+      nb[r].push(brd[r][c] ? { player: brd[r][c].player, type: brd[r][c].type } : null);
+    }
+  }
+  nb[move.toR][move.toC] = nb[move.fromR][move.fromC];
+  nb[move.fromR][move.fromC] = null;
+  // Swap cards
+  var np1 = p1c.slice();
+  var np2 = p2c.slice();
+  var ncenter = center;
+  if (player === 1) {
+    for (var i = 0; i < np1.length; i++) {
+      if (np1[i].name === move.card.name) { np1[i] = ncenter; ncenter = move.card; break; }
+    }
+  } else {
+    for (var i = 0; i < np2.length; i++) {
+      if (np2[i].name === move.card.name) { np2[i] = ncenter; ncenter = move.card; break; }
+    }
+  }
+  return { board: nb, p1Cards: np1, p2Cards: np2, center: ncenter };
+}
+
+function evaluate(brd) {
+  // Check terminal
+  var p1master = false, p2master = false;
+  for (var r = 0; r < 5; r++) {
+    for (var c = 0; c < 5; c++) {
+      if (brd[r][c]) {
+        if (brd[r][c].player === 1 && brd[r][c].type === "master") p1master = true;
+        if (brd[r][c].player === 2 && brd[r][c].type === "master") p2master = true;
+      }
+    }
+  }
+  if (!p1master) return 10000; // CPU wins
+  if (!p2master) return -10000; // CPU loses
+  // Check stream win
+  if (brd[4][2] && brd[4][2].player === 2 && brd[4][2].type === "master") return 10000;
+  if (brd[0][2] && brd[0][2].player === 1 && brd[0][2].type === "master") return -10000;
+  // Material
+  var score = 0;
+  for (var r = 0; r < 5; r++) {
+    for (var c = 0; c < 5; c++) {
+      if (brd[r][c]) {
+        var val = brd[r][c].type === "master" ? 10 : 1;
+        if (brd[r][c].player === 2) score += val;
+        else score -= val;
+      }
+    }
+  }
+  return score;
+}
+
+// ===== MODAL =====
+function showModal(icon, title, titleClass, desc, btns) {
+  document.getElementById("modalIcon").textContent = icon;
+  var titleEl = document.getElementById("modalTitle");
+  titleEl.textContent = title;
+  titleEl.className = "modal-title" + (titleClass ? " " + titleClass : "");
+  document.getElementById("modalDesc").textContent = desc;
+  var btnsEl = document.getElementById("modalBtns");
+  btnsEl.innerHTML = "";
+  for (var i = 0; i < btns.length; i++) {
+    var b = document.createElement("button");
+    b.className = i === 0 ? "btn-primary" : "btn-secondary";
+    b.textContent = btns[i].text;
+    b.setAttribute("onclick", btns[i].action);
+    btnsEl.appendChild(b);
+  }
+  document.getElementById("modal").classList.add("active");
+}
+function closeModal() {
+  document.getElementById("modal").classList.remove("active");
+}
+
+// Init
+selectMode("cpu");
+selectDiff("normal");
+initSplash();
+
+function fixBoardSize() {
+  var gameScreen = document.getElementById("gameScreen");
+  var boardWrapper = document.querySelector(".board-wrapper");
+  if (!boardWrapper || !gameScreen) return;
+  // Get all siblings heights except board
+  var total = gameScreen.clientHeight;
+  var siblings = gameScreen.children;
+  var otherH = 0;
+  for (var i = 0; i < siblings.length; i++) {
+    if (!siblings[i].classList.contains("board-wrapper")) {
+      otherH += siblings[i].offsetHeight + 4; // 4 = gap
+    }
+  }
+  var size = Math.min(total - otherH - 8, gameScreen.clientWidth - 12);
+  if (size > 0) {
+    boardWrapper.style.width = size + "px";
+    boardWrapper.style.height = size + "px";
+  }
+}
+
+window.addEventListener("resize", fixBoardSize);
+</script>
+</body>
+</html>
