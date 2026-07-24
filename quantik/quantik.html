@@ -398,7 +398,7 @@ a#logo { text-decoration: none; color: #00bcd4; }
 <div id="splash" class="screen active">
   <h1>QUANTIK</h1>
   <p id="splash-sub">抽象戦略ボードゲーム</p>
-  <button id="splash-btn" onclick="showHome()">はじめる</button>
+  <button id="splash-btn" onclick="handleSplashBtn()">はじめる</button>
 </div>
 
 <!-- HOME -->
@@ -659,6 +659,17 @@ function showModeSelect() {
 function openHowto() {
   prevScreen = currentScreen;
   showScreen("howto");
+}
+
+function handleSplashBtn() {
+  var seen = false;
+  try { seen = localStorage.getItem("quantik_seen") === "1"; } catch(e) {}
+  if (!seen) {
+    try { localStorage.setItem("quantik_seen", "1"); } catch(e) {}
+    openHowto();
+  } else {
+    showHome();
+  }
 }
 
 function closeHowto() {

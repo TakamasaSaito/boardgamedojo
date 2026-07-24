@@ -596,7 +596,16 @@ function playSound(type) {
 }
 
 showScreen("splash");
-setTimeout(function(){showScreen("home");},2000);
+setTimeout(function(){
+  var seen = false;
+  try { seen = localStorage.getItem("theone_seen") === "1"; } catch(e) {}
+  if (!seen) {
+    try { localStorage.setItem("theone_seen", "1"); } catch(e) {}
+    openHowto("home");
+  } else {
+    showScreen("home");
+  }
+},2000);
 </script>
 </body>
 </html>

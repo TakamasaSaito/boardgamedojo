@@ -947,7 +947,17 @@ function playSound(type) {
 // Init
 // =====================
 renderHowto();
-setTimeout(function() { showScreen('home-screen'); }, 2200);
+setTimeout(function() {
+  var seen = false;
+  try { seen = localStorage.getItem("hex_seen") === "1"; } catch(e) {}
+  if (!seen) {
+    try { localStorage.setItem("hex_seen", "1"); } catch(e) {}
+    prevScreen = 'home-screen';
+    showScreen('howto-screen');
+  } else {
+    showScreen('home-screen');
+  }
+}, 2200);
 </script>
 </body>
 </html>
