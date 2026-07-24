@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-プロジェクト管理方針を導入（GitHub Issues・STATUS.md）。EGGの配色統一・言語切替追加に着手中。
+EGG の配色統一・ヘッダー新設・言語切替追加が完了。次は Onitama に着手。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -12,9 +12,9 @@
 - [x] 全ゲーム: iOS Safari 禁止パターン解消（バッククォート・async/await 等）
 - [x] 全ゲーム: JS 内絵文字エスケープ（\uXXXX 形式）
 - [x] 全ゲーム: Web Audio API サウンド追加
+- [x] EGG: 配色統一・ヘッダー新設・言語切替追加（2026-07-24, fixes #1）
 
 ## 残タスク（GitHub Issues）
-- [ ] EGG: 配色統一・言語切替追加・ヘッダー新設 → [#1](https://github.com/TakamasaSaito/boardgamedojo/issues/1)
 - [ ] Onitama: 配色統一・言語切替追加 → [#2](https://github.com/TakamasaSaito/boardgamedojo/issues/2)
 - [ ] VIDRO: 配色統一・言語切替追加 → [#3](https://github.com/TakamasaSaito/boardgamedojo/issues/3)
 - [ ] サイコロ五目並べ: 配色統一・言語切替追加 → [#4](https://github.com/TakamasaSaito/boardgamedojo/issues/4)
@@ -24,4 +24,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-EGG: 配色統一・言語切替追加・ヘッダー新設（[#1](https://github.com/TakamasaSaito/boardgamedojo/issues/1)）
+Onitama: 配色統一・言語切替追加（[#2](https://github.com/TakamasaSaito/boardgamedojo/issues/2)）
