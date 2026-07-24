@@ -72,11 +72,16 @@ a.hdr-logo { text-decoration: none; color: var(--accent); }
 /* SCREENS */
 .screen {
   position: fixed; inset: 0;
-  display: flex; flex-direction: column;
+  display: none; flex-direction: column;
   align-items: center; justify-content: center;
-  z-index: 10; transition: opacity 0.4s;
+  z-index: 10;
 }
-.screen.hidden { opacity: 0; pointer-events: none; }
+.screen.active { display: flex; }
+#howto {
+  justify-content: flex-start;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 60px 20px 48px;
+}
 
 /* SPLASH */
 #splash { background: var(--bg); cursor: pointer; }
@@ -325,41 +330,6 @@ svg {
 }
 .win-btn:active { opacity: 0.7; }
 
-/* HELP MODAL */
-#help-overlay {
-  position: fixed; inset: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.7);
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.4s;
-}
-#help-overlay.show { opacity: 1; pointer-events: all; }
-.help-modal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px 20px 20px;
-  max-width: 320px; width: 90%;
-  max-height: 80vh; overflow-y: auto;
-  transform: scale(0.85);
-  transition: transform 0.35s;
-}
-#help-overlay.show .help-modal { transform: scale(1); }
-.help-title {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 1.2em; letter-spacing: 0.2em;
-  color: var(--accent);
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 8px; margin-bottom: 16px;
-}
-.help-close {
-  display: block; width: 100%; margin-top: 16px;
-  background: transparent; border: 1px solid var(--border);
-  border-radius: var(--radius); color: var(--text);
-  font-family: "Noto Sans JP", sans-serif;
-  font-size: 0.8em; padding: 10px; cursor: pointer;
-}
-
 /* パーティクルキャンバス */
 #particle-canvas {
   position: fixed; inset: 0;
@@ -376,7 +346,7 @@ svg {
   <a class="hdr-logo" href="../index.html">EGG</a>
   <div class="hdr-right">
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
-    <button class="hdr-btn" onclick="showHelp()">❓</button>
+    <button class="hdr-btn" onclick="openHowto()">❓</button>
   </div>
 </div>
 
@@ -396,37 +366,15 @@ svg {
   </div>
 </div>
 
-<!-- HELP MODAL -->
-<div id="help-overlay">
-  <div class="help-modal">
-    <div class="help-title" id="help-title">RULE</div>
-    <div class="rule-list">
-      <div class="rule-item">
-        <div class="rule-icon win">4</div>
-        <div class="rule-text"><strong id="h-rule1-head"></strong><br><span id="h-rule1-body"></span></div>
-      </div>
-      <div class="rule-item">
-        <div class="rule-icon ban">3</div>
-        <div class="rule-text"><span class="ban-word" id="h-rule2-head"></span><br><span id="h-rule2-body"></span></div>
-      </div>
-      <div class="rule-item">
-        <div class="rule-icon alt">交</div>
-        <div class="rule-text"><strong id="h-rule3-head"></strong><br><span id="h-rule3-body"></span></div>
-      </div>
-    </div>
-    <button class="help-close" id="help-close-btn" onclick="closeHelp()">閉じる</button>
-  </div>
-</div>
-
 <!-- SPLASH -->
-<div id="splash" class="screen" onclick="showHome()">
+<div id="splash" class="screen active" onclick="handleSplash()">
   <div class="splash-logo">EGG</div>
   <div class="splash-sub">Strategy Board Game</div>
   <div class="splash-tap" id="splash-tap">タップしてスタート</div>
 </div>
 
-<!-- HOME -->
-<div id="home" class="screen hidden">
+<!-- HOWTO -->
+<div id="howto" class="screen">
   <div class="home-inner">
     <div>
       <div class="home-logo">EGG</div>
@@ -473,6 +421,21 @@ svg {
       </div>
     </div>
 
+    <button class="mode-btn" onclick="closeHowto()" style="border-color:var(--accent);color:var(--accent);">
+      <span id="howto-btn">はじめる</span>
+      <span class="mode-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="screen">
+  <div class="home-inner">
+    <div>
+      <div class="home-logo">EGG</div>
+      <div class="home-logo-sub">Strategy Board Game</div>
+    </div>
+
     <!-- AI難易度 -->
     <div style="width:100%;">
       <div class="diff-label" id="diff-label">AI 難易度</div>
@@ -497,7 +460,7 @@ svg {
 </div>
 
 <!-- GAME -->
-<div id="game" class="screen hidden">
+<div id="game" class="screen">
   <div class="game-inner">
     <div class="game-header">
       <span class="game-diff-badge badge-easy" id="diffBadge" style="display:none;"></span>
@@ -584,8 +547,7 @@ var T = {
     win_ai:      "AI の勝利！",
     win_home:    "HOME",
     win_replay:  "REPLAY",
-    help_title:  "ルール",
-    help_close:  "閉じる"
+    howto_btn:   "はじめる"
   },
   en: {
     splash_tap:  "TAP TO START",
@@ -619,8 +581,7 @@ var T = {
     win_ai:      "AI Wins!",
     win_home:    "HOME",
     win_replay:  "REPLAY",
-    help_title:  "RULE",
-    help_close:  "Close"
+    howto_btn:   "Let's Play"
   }
 };
 
@@ -667,26 +628,45 @@ function applyLang() {
   el = document.getElementById("back-btn");      if (el) { el.textContent = t.back_btn; }
   el = document.getElementById("win-home-btn");  if (el) { el.textContent = t.win_home; }
   el = document.getElementById("win-replay-btn");if (el) { el.textContent = t.win_replay; }
-  el = document.getElementById("help-title");    if (el) { el.textContent = t.help_title; }
-  el = document.getElementById("h-rule1-head");  if (el) { el.textContent = t.rule1_head; }
-  el = document.getElementById("h-rule1-body");  if (el) { el.textContent = t.rule1_body; }
-  el = document.getElementById("h-rule2-head");  if (el) { el.textContent = t.rule2_head; }
-  el = document.getElementById("h-rule2-body");  if (el) { el.textContent = t.rule2_body; }
-  el = document.getElementById("h-rule3-head");  if (el) { el.textContent = t.rule3_head; }
-  el = document.getElementById("h-rule3-body");  if (el) { el.textContent = t.rule3_body; }
-  el = document.getElementById("help-close-btn");if (el) { el.textContent = t.help_close; }
+  el = document.getElementById("howto-btn");     if (el) { el.textContent = t.howto_btn; }
 
   updateDiffBadge();
   if (!gameOver) { updateStatus(); }
 }
 
-/* ---- ヘルプ ---- */
-function showHelp() {
-  document.getElementById("help-overlay").className = "show";
+/* ---- 画面管理 ---- */
+var currentScreen = "splash";
+var prevScreen = "home";
+
+function showScreen(id) {
+  var screens = ["splash", "howto", "home", "game"];
+  for (var i = 0; i < screens.length; i++) {
+    document.getElementById(screens[i]).classList.remove("active");
+  }
+  document.getElementById(id).classList.add("active");
+  currentScreen = id;
 }
 
-function closeHelp() {
-  document.getElementById("help-overlay").className = "";
+function openHowto(from) {
+  prevScreen = (from !== undefined) ? from : currentScreen;
+  showScreen("howto");
+  document.getElementById("app-header").classList.remove("hidden");
+}
+
+function closeHowto() {
+  showScreen(prevScreen);
+}
+
+function handleSplash() {
+  var seen = false;
+  try { seen = localStorage.getItem("egg_seen") === "1"; } catch(e) {}
+  if (!seen) {
+    try { localStorage.setItem("egg_seen", "1"); } catch(e) {}
+    openHowto("home");
+  } else {
+    showScreen("home");
+    document.getElementById("app-header").classList.remove("hidden");
+  }
 }
 
 /* ---- 難易度選択 ---- */
@@ -701,10 +681,8 @@ function setDiff(d) {
 /* ---- 画面遷移 ---- */
 function showHome() {
   closeWinModal();
-  document.getElementById("splash").className = "screen hidden";
-  document.getElementById("home").className   = "screen";
-  document.getElementById("game").className   = "screen hidden";
-  document.getElementById("app-header").className = "";
+  showScreen("home");
+  document.getElementById("app-header").classList.remove("hidden");
 }
 
 function startGame2p() {
@@ -718,9 +696,8 @@ function startGameAI() {
 }
 
 function openGame() {
-  document.getElementById("home").className = "screen hidden";
-  document.getElementById("game").className = "screen";
-  document.getElementById("app-header").className = "";
+  showScreen("game");
+  document.getElementById("app-header").classList.remove("hidden");
   updateDiffBadge();
   resetGame();
 }
