@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-全12ゲームのヘッダーロゴをポータル（../index.html）へのリンクに変更完了。次は画面フロー統一（#10）。
+起動フロー統一（#10）完了。the ONE / Hex / Quantik は初回のみhowto表示に対応、Hiveは固定ヘッダー新設済み。Group E（EGG/VIDRO/Connect Four/Quoridor）は別Issue（#12〜#15）で管理。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -17,12 +17,16 @@
 - [x] VIDRO: 配色統一・ヘッダー新設・言語切替追加（2026-07-24, fixes #3）
 - [x] サイコロ五目並べ: 配色統一・ヘッダー新設・言語切替追加（2026-07-24, fixes #4）
 - [x] Ostle: 配色統一・ヘッダー新設・言語切替追加・画面フロー修正・サウンド追加（2026-07-24, fixes #5）
+- [x] 全ゲーム: ヘッダーロゴをポータルへのリンクに変更（2026-07-24, fixes #9）
+- [x] the ONE / Hex / Quantik / Hive: 起動フロー統一（初回のみhowto・Hive固定ヘッダー）（2026-07-24, fixes #10）
 
 ## 残タスク（GitHub Issues）
 
 ### 優先度：高
-- [x] 全ゲーム: ヘッダーロゴをポータルへのリンクに変更（2026-07-24, fixes #9）
-- [ ] 全ゲーム: 起動フローをスプラッシュ→遊び方→タイトル→ゲームに統一 → [#10](https://github.com/TakamasaSaito/boardgamedojo/issues/10)
+- [ ] EGG: howto画面追加・.screen.active パターン統一 → [#12](https://github.com/TakamasaSaito/boardgamedojo/issues/12)
+- [ ] VIDRO: howto画面追加・.screen.active パターン統一 → [#13](https://github.com/TakamasaSaito/boardgamedojo/issues/13)
+- [ ] Connect Four: タイトル・howto画面新設・.screen.active 統一 → [#14](https://github.com/TakamasaSaito/boardgamedojo/issues/14)
+- [ ] Quoridor: タイトル・howto画面新設・.screen.active 統一 → [#15](https://github.com/TakamasaSaito/boardgamedojo/issues/15)
 - [ ] 全ゲーム+ポータル: PC画面での表示最適化 → [#11](https://github.com/TakamasaSaito/boardgamedojo/issues/11)
 
 ### その他
@@ -31,4 +35,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-全ゲーム: 起動フローをスプラッシュ→遊び方→タイトル→ゲームに統一（[#10](https://github.com/TakamasaSaito/boardgamedojo/issues/10)）
+Group E（EGG / VIDRO / Connect Four / Quoridor）の起動フロー統一（[#12](https://github.com/TakamasaSaito/boardgamedojo/issues/12)〜[#15](https://github.com/TakamasaSaito/boardgamedojo/issues/15)）
