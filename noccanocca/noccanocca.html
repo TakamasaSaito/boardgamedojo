@@ -306,6 +306,16 @@ a.logo-btn { text-decoration: none; color: var(--accent); }
 @media (min-width: 769px) {
   #boardWrap, #board { max-width: 520px; }
 }
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: #00bcd4; white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: #e0e0e0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hdr-right, .header-right { flex-shrink: 0; }
+.bc-full { display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } }
 </style>
 </head>
 <body>
@@ -395,7 +405,7 @@ a.logo-btn { text-decoration: none; color: var(--accent); }
   <!-- ===== HOME ===== -->
   <div id="homeScreen" class="screen">
     <div class="header">
-      <a class="logo-btn" href="../index.html">NOCCA</a>
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
       <div class="header-right">
         <button class="icon-btn" id="langBtn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
         <button class="icon-btn" onclick="openHow('homeScreen')">?</button>
@@ -411,7 +421,7 @@ a.logo-btn { text-decoration: none; color: var(--accent); }
   <!-- ===== MODE ===== -->
   <div id="modeScreen" class="screen">
     <div class="header">
-      <a class="logo-btn" href="../index.html">NOCCA</a>
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
       <div class="header-right">
         <button class="icon-btn" id="langBtn2" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
         <button class="icon-btn" onclick="openHow('modeScreen')">?</button>
@@ -428,7 +438,7 @@ a.logo-btn { text-decoration: none; color: var(--accent); }
   <!-- ===== DIFFICULTY ===== -->
   <div id="diffScreen" class="screen">
     <div class="header">
-      <a class="logo-btn" href="../index.html">NOCCA</a>
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
       <div class="header-right">
         <button class="icon-btn" id="langBtn3" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
         <button class="icon-btn" onclick="openHow('diffScreen')">?</button>
@@ -455,7 +465,7 @@ a.logo-btn { text-decoration: none; color: var(--accent); }
   <!-- ===== GAME ===== -->
   <div id="gameScreen" class="screen">
     <div class="header">
-      <a class="logo-btn" href="../index.html">NOCCA</a>
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
       <div class="header-right">
         <button class="icon-btn" id="langBtn4" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
         <button class="icon-btn" onclick="openHow('gameScreen')">?</button>
@@ -474,7 +484,7 @@ a.logo-btn { text-decoration: none; color: var(--accent); }
   <!-- ===== HOW TO ===== -->
   <div id="howScreen" class="screen">
     <div class="header">
-      <a class="logo-btn" href="../index.html">NOCCA</a>
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
       <div class="header-right">
         <button class="icon-btn" id="langBtn5" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
       </div>

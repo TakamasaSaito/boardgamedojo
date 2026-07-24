@@ -70,6 +70,16 @@ a.logo-btn { text-decoration: none; display: inline-flex; align-items: center; }
   .screen { max-width: 520px; }
   #board-wrap { transform: scale(1.5); transform-origin: top center; margin-bottom: 156px; }
 }
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: #00bcd4; white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: #e0e0e0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hdr-right, .header-right { flex-shrink: 0; }
+.bc-full { display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } }
 </style>
 </head>
 <body>
@@ -81,7 +91,7 @@ a.logo-btn { text-decoration: none; display: inline-flex; align-items: center; }
 
 <div id="screen-home" class="screen hidden">
   <div class="app-header">
-    <a class="logo-btn" href="../index.html"><span class="logo-text">the ONE</span></a>
+    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">the ONE</span></nav>
     <div class="header-right">
       <button class="icon-btn" id="lang-btn" onclick="toggleLang()">&#127471;&#127477;</button>
       <button class="icon-btn" onclick="openHowto('home')">?</button>
@@ -104,7 +114,7 @@ a.logo-btn { text-decoration: none; display: inline-flex; align-items: center; }
 
 <div id="screen-game" class="screen hidden">
   <div class="app-header">
-    <a class="logo-btn" href="../index.html"><span class="logo-text">the ONE</span></a>
+    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">the ONE</span></nav>
     <div class="header-right">
       <button class="icon-btn" id="lang-btn-g" onclick="toggleLang()">&#127471;&#127477;</button>
       <button class="icon-btn" onclick="openHowto('game')">?</button>
@@ -139,7 +149,7 @@ a.logo-btn { text-decoration: none; display: inline-flex; align-items: center; }
 
 <div id="screen-howto" class="screen hidden">
   <div class="app-header">
-    <a class="logo-btn" href="../index.html"><span class="logo-text">the ONE</span></a>
+    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">the ONE</span></nav>
     <div class="header-right">
       <button class="icon-btn" id="lang-btn-h" onclick="toggleLang()">&#127471;&#127477;</button>
     </div>

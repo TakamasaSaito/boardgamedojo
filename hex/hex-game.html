@@ -155,6 +155,16 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 .modal-info-text { font-size: 12px; color: var(--muted); line-height: 1.7; }
 
 @keyframes winPulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: #00bcd4; white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: #e0e0e0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hdr-right, .header-right { flex-shrink: 0; }
+.bc-full { display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } }
 </style>
 </head>
 <body>
@@ -169,7 +179,7 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 <!-- HOME -->
 <div id="home-screen" class="screen">
   <div class="header">
-    <a class="header-logo" href="../index.html">HEX</a>
+    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
     <div class="header-right">
       <button class="icon-btn" id="lb0" onclick="toggleLang()">🇯🇵</button>
       <button class="icon-btn" onclick="openHowto()">？</button>
@@ -188,7 +198,7 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 <!-- DIFFICULTY -->
 <div id="mode-screen" class="screen">
   <div class="header">
-    <a class="header-logo" href="../index.html">HEX</a>
+    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
     <div class="header-right">
       <button class="icon-btn" id="lb1" onclick="toggleLang()">🇯🇵</button>
       <button class="icon-btn" onclick="openHowto()">？</button>
@@ -220,7 +230,7 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 <!-- GAME -->
 <div id="game-screen" class="screen">
   <div class="header">
-    <a class="header-logo" href="../index.html">HEX</a>
+    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
     <div class="header-right">
       <button class="icon-btn" id="lb2" onclick="toggleLang()">🇯🇵</button>
       <button class="icon-btn" onclick="openHowto()">？</button>
@@ -253,7 +263,7 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 <!-- RESULT -->
 <div id="result-screen" class="screen">
   <div class="header">
-    <a class="header-logo" href="../index.html">HEX</a>
+    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
     <div class="header-right">
       <button class="icon-btn" id="lb3" onclick="toggleLang()">🇯🇵</button>
     </div>
@@ -272,7 +282,7 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 <!-- HOW-TO -->
 <div id="howto-screen" class="screen">
   <div class="header">
-    <a class="header-logo" href="../index.html">HEX</a>
+    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
     <div class="header-right">
       <button class="icon-btn" id="lb4" onclick="toggleLang()">🇯🇵</button>
       <button class="btn btn-ghost btn-sm" id="btn-close-howto" onclick="closeHowto()">閉じる</button>

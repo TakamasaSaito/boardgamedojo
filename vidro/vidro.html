@@ -145,13 +145,23 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
   #game-container { max-width: 680px; }
   #board-wrapper { max-width: 520px; }
 }
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: #00bcd4; white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: #e0e0e0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hdr-right, .header-right { flex-shrink: 0; }
+.bc-full { display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } }
 </style>
 </head>
 <body>
 
 <!-- APP HEADER -->
 <div id="app-header" class="hidden">
-  <a class="hdr-logo" href="../index.html">VID<span>R</span>O</a>
+  <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">VIDRO</span></nav>
   <div class="hdr-right">
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
     <button class="hdr-btn" onclick="showHelp()">❓</button>
