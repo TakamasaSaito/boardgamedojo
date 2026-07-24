@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-Group E のうち EGG (#12)・VIDRO (#13)・Connect Four (#14) の起動フロー統一完了。残りは Quoridor (#15)。
+全12ゲーム+ポータルのPC表示最適化完了（#11）。@media(min-width:769px)でmax-width拡大・中央表示。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -23,11 +23,9 @@ Group E のうち EGG (#12)・VIDRO (#13)・Connect Four (#14) の起動フロ�
 - [x] VIDRO: vidro_seen localStorage・#start-screen.active 統一（2026-07-24, fixes #13）
 - [x] Connect Four: タイトル・howto画面新設・.screen.active 統一・localStorage（2026-07-24, fixes #14）
 - [x] Quoridor: タイトル・howto画面新設・.screen.active 統一・localStorage（2026-07-24, fixes #15）
+- [x] 全ゲーム+ポータル: PC表示最適化・@media(min-width:769px)でmax-width拡大（2026-07-24, fixes #11）
 
 ## 残タスク（GitHub Issues）
-
-### 優先度：高
-- [ ] 全ゲーム+ポータル: PC画面での表示最適化 → [#11](https://github.com/TakamasaSaito/boardgamedojo/issues/11)
 
 ### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
@@ -35,4 +33,4 @@ Group E のうち EGG (#12)・VIDRO (#13)・Connect Four (#14) の起動フロ�
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-全ゲーム+ポータルのPC表示最適化（[#11](https://github.com/TakamasaSaito/boardgamedojo/issues/11)）
+Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
