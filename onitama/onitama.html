@@ -59,6 +59,7 @@ body {
   cursor: pointer; letter-spacing: 2px;
   text-shadow: 0 0 20px rgba(192,57,43,0.5);
 }
+a.hdr-logo { text-decoration: none; color: var(--red); }
 .hdr-right { display: flex; align-items: center; gap: 8px; }
 .hdr-btn {
   min-width: 40px; min-height: 40px;
@@ -815,7 +816,7 @@ body {
 
 <!-- APP HEADER -->
 <div id="app-header" class="hidden">
-  <div class="hdr-logo" onclick="showTitle()">尊</div>
+  <a class="hdr-logo" href="../index.html">尊</a>
   <div class="hdr-right">
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
     <button class="hdr-btn" onclick="showHelp()">❓</button>

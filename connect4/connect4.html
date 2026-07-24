@@ -145,6 +145,7 @@ body {
   letter-spacing: 3px;
   text-transform: uppercase;
 }
+a.header-title { text-decoration: none; color: var(--accent); }
 
 .header-sub {
   font-size: 10px;
@@ -549,7 +550,7 @@ body {
 <div class="header">
   <button class="header-btn" id="lang-btn" onclick="toggleLang()">🇯🇵</button>
   <div class="header-center">
-    <div class="header-title">Connect Four</div>
+    <a class="header-title" href="../index.html">Connect Four</a>
     <div class="header-sub" id="header-sub">四目並べ</div>
   </div>
   <button class="header-btn" onclick="openHow()">❓</button>

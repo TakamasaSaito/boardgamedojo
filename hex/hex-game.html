@@ -38,6 +38,7 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
   color: var(--accent); letter-spacing: 3px; cursor: pointer;
   text-shadow: 0 0 12px rgba(0,188,212,0.5);
 }
+a.header-logo { text-decoration: none; color: var(--accent); }
 .header-right { display: flex; gap: 8px; align-items: center; }
 .icon-btn {
   width: 44px; height: 44px; border-radius: 50%;
@@ -168,7 +169,7 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 <!-- HOME -->
 <div id="home-screen" class="screen">
   <div class="header">
-    <div class="header-logo" onclick="goHome()">HEX</div>
+    <a class="header-logo" href="../index.html">HEX</a>
     <div class="header-right">
       <button class="icon-btn" id="lb0" onclick="toggleLang()">🇯🇵</button>
       <button class="icon-btn" onclick="openHowto()">？</button>
@@ -187,7 +188,7 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 <!-- DIFFICULTY -->
 <div id="mode-screen" class="screen">
   <div class="header">
-    <div class="header-logo" onclick="goHome()">HEX</div>
+    <a class="header-logo" href="../index.html">HEX</a>
     <div class="header-right">
       <button class="icon-btn" id="lb1" onclick="toggleLang()">🇯🇵</button>
       <button class="icon-btn" onclick="openHowto()">？</button>
@@ -219,7 +220,7 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 <!-- GAME -->
 <div id="game-screen" class="screen">
   <div class="header">
-    <div class="header-logo" onclick="goHome()">HEX</div>
+    <a class="header-logo" href="../index.html">HEX</a>
     <div class="header-right">
       <button class="icon-btn" id="lb2" onclick="toggleLang()">🇯🇵</button>
       <button class="icon-btn" onclick="openHowto()">？</button>
@@ -252,7 +253,7 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 <!-- RESULT -->
 <div id="result-screen" class="screen">
   <div class="header">
-    <div class="header-logo" onclick="goHome()">HEX</div>
+    <a class="header-logo" href="../index.html">HEX</a>
     <div class="header-right">
       <button class="icon-btn" id="lb3" onclick="toggleLang()">🇯🇵</button>
     </div>
@@ -271,7 +272,7 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 <!-- HOW-TO -->
 <div id="howto-screen" class="screen">
   <div class="header">
-    <div class="header-logo" onclick="goHome()">HEX</div>
+    <a class="header-logo" href="../index.html">HEX</a>
     <div class="header-right">
       <button class="icon-btn" id="lb4" onclick="toggleLang()">🇯🇵</button>
       <button class="btn btn-ghost btn-sm" id="btn-close-howto" onclick="closeHowto()">閉じる</button>

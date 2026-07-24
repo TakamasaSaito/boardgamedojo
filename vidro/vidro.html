@@ -105,6 +105,7 @@ body{background:#0f0f0f;min-height:100vh;display:flex;flex-direction:column;alig
 #app-header{position:fixed;top:0;left:0;right:0;height:48px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(15,15,15,0.95);border-bottom:1px solid rgba(0,188,212,0.2);}
 #app-header.hidden{display:none;}
 .hdr-logo{font-size:18px;font-weight:900;letter-spacing:4px;color:#e0e0e0;cursor:pointer;text-shadow:0 0 12px rgba(0,188,212,0.3);}
+a.hdr-logo{text-decoration:none;color:#e0e0e0;}
 .hdr-logo span{color:#f0d080;}
 .hdr-right{display:flex;align-items:center;gap:8px;}
 .hdr-btn{min-width:40px;min-height:40px;background:transparent;border:1px solid rgba(0,188,212,0.3);border-radius:12px;color:#888;font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
@@ -144,7 +145,7 @@ body{background:#0f0f0f;min-height:100vh;display:flex;flex-direction:column;alig
 
 <!-- APP HEADER -->
 <div id="app-header" class="hidden">
-  <div class="hdr-logo" onclick="goToStartFromHeader()">VID<span>R</span>O</div>
+  <a class="hdr-logo" href="../index.html">VID<span>R</span>O</a>
   <div class="hdr-right">
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
     <button class="hdr-btn" onclick="showHelp()">❓</button>

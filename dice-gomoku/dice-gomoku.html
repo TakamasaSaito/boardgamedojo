@@ -55,6 +55,7 @@ body {
   cursor: pointer;
   line-height: 1;
 }
+a.hdr-logo { text-decoration: none; color: var(--accent); }
 
 .hdr-right { display: flex; align-items: center; gap: 8px; }
 
@@ -487,7 +488,7 @@ canvas { display: block; cursor: pointer; }
 
 <!-- ===== HEADER ===== -->
 <div id="app-header" class="hidden">
-  <div class="hdr-logo" onclick="goTitle()">DICE GOMOKU</div>
+  <a class="hdr-logo" href="../index.html">DICE GOMOKU</a>
   <div class="hdr-right">
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
     <button class="hdr-btn" onclick="showHelp()">&#x2753;</button>

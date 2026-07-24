@@ -37,6 +37,7 @@ body {
   cursor: pointer;
   letter-spacing: 2px;
 }
+a#logo { text-decoration: none; color: #00bcd4; }
 #header-right {
   display: flex;
   gap: 8px;
@@ -386,7 +387,7 @@ body {
 
 <!-- HEADER -->
 <div id="header" style="display:none">
-  <div id="logo" onclick="goHome()">QUANTIK</div>
+  <a id="logo" href="../index.html">QUANTIK</a>
   <div id="header-right">
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇯🇵</button>
     <button class="hdr-btn" onclick="openHowto()">?</button>

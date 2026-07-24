@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-Ostleの配色統一・ヘッダー新設・言語切替追加・画面フロー修正・サウンド追加が完了。新規Issue 3件を追加起票。次はポータル導線（#9）。
+全12ゲームのヘッダーロゴをポータル（../index.html）へのリンクに変更完了。次は画面フロー統一（#10）。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -21,7 +21,7 @@ Ostleの配色統一・ヘッダー新設・言語切替追加・画面フロー
 ## 残タスク（GitHub Issues）
 
 ### 優先度：高
-- [ ] 全ゲーム: ヘッダーロゴをポータルへのリンクに変更 → [#9](https://github.com/TakamasaSaito/boardgamedojo/issues/9)
+- [x] 全ゲーム: ヘッダーロゴをポータルへのリンクに変更（2026-07-24, fixes #9）
 - [ ] 全ゲーム: 起動フローをスプラッシュ→遊び方→タイトル→ゲームに統一 → [#10](https://github.com/TakamasaSaito/boardgamedojo/issues/10)
 - [ ] 全ゲーム+ポータル: PC画面での表示最適化 → [#11](https://github.com/TakamasaSaito/boardgamedojo/issues/11)
 
@@ -31,4 +31,4 @@ Ostleの配色統一・ヘッダー新設・言語切替追加・画面フロー
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-全ゲーム: ヘッダーロゴをポータルへのリンクに変更（[#9](https://github.com/TakamasaSaito/boardgamedojo/issues/9)）
+全ゲーム: 起動フローをスプラッシュ→遊び方→タイトル→ゲームに統一（[#10](https://github.com/TakamasaSaito/boardgamedojo/issues/10)）
