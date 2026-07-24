@@ -1,0 +1,18 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#0f0f0f"/>
+  <!-- Grid lines: 3x3 at 1/4, 1/2, 3/4 -->
+  <g stroke="#00bcd4" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round">
+    <line x1="128" y1="128" x2="384" y2="128"/>
+    <line x1="128" y1="256" x2="384" y2="256"/>
+    <line x1="128" y1="384" x2="384" y2="384"/>
+    <line x1="128" y1="128" x2="128" y2="384"/>
+    <line x1="256" y1="128" x2="256" y2="384"/>
+    <line x1="384" y1="128" x2="384" y2="384"/>
+  </g>
+  <!-- Solid cyan pieces -->
+  <circle cx="128" cy="128" r="34" fill="#00bcd4"/>
+  <circle cx="256" cy="256" r="34" fill="#00bcd4"/>
+  <!-- Outline cyan pieces (opponent) -->
+  <circle cx="384" cy="128" r="34" fill="none" stroke="#00bcd4" stroke-width="7" stroke-opacity="0.55"/>
+  <circle cx="128" cy="384" r="34" fill="none" stroke="#00bcd4" stroke-width="7" stroke-opacity="0.55"/>
+</svg>

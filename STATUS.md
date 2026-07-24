@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-スマホ幅のパンくずを「← BoardGameDojo」表示に修正（案1: CSS変更のみ）。遷移先がポータルであることが明確になった（#22）。
+アプリアイコン（盤面グリッドデザイン）を作成。apple-touch-icon・icon-192/512・favicon.ico を生成し、manifest.json と全13ファイルの head に追加済み。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -32,6 +32,7 @@
 - [x] 全ゲーム: ゲーム内タイトルへ戻る導線のヘッダー集約（⌂ボタン）（2026-07-24, fixes #20）
 - [x] 全ゲーム+ポータル: Web Appスタンドアロン用メタタグ・manifest.json追加（2026-07-24, fixes #21）
 - [x] 全ゲーム: スマホ幅パンくずを「← BoardGameDojo」表示に修正・CSS変更のみ（2026-07-24, fixes #22）
+- [x] アプリアイコン作成・配置（盤面グリッドデザイン、apple-touch-icon/icon-192/icon-512/favicon.ico、manifest.json更新）（2026-07-24）
 
 ## 残タスク（GitHub Issues）
 
