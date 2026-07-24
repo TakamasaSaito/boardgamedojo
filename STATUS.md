@@ -22,11 +22,11 @@ Group E のうち EGG (#12)・VIDRO (#13)・Connect Four (#14) の起動フロ�
 - [x] EGG: howto画面追加・.screen.active パターン統一（2026-07-24, fixes #12）
 - [x] VIDRO: vidro_seen localStorage・#start-screen.active 統一（2026-07-24, fixes #13）
 - [x] Connect Four: タイトル・howto画面新設・.screen.active 統一・localStorage（2026-07-24, fixes #14）
+- [x] Quoridor: タイトル・howto画面新設・.screen.active 統一・localStorage（2026-07-24, fixes #15）
 
 ## 残タスク（GitHub Issues）
 
 ### 優先度：高
-- [ ] Quoridor: タイトル・howto画面新設・.screen.active 統一 → [#15](https://github.com/TakamasaSaito/boardgamedojo/issues/15)
 - [ ] 全ゲーム+ポータル: PC画面での表示最適化 → [#11](https://github.com/TakamasaSaito/boardgamedojo/issues/11)
 
 ### その他
@@ -35,4 +35,4 @@ Group E のうち EGG (#12)・VIDRO (#13)・Connect Four (#14) の起動フロ�
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-Quoridor の起動フロー統一（[#15](https://github.com/TakamasaSaito/boardgamedojo/issues/15)）
+全ゲーム+ポータルのPC表示最適化（[#11](https://github.com/TakamasaSaito/boardgamedojo/issues/11)）
