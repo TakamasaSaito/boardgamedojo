@@ -469,6 +469,7 @@ a.logo-btn { text-decoration: none; color: var(--accent); }
     <div class="header">
       <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
       <div class="header-right">
+        <button class="icon-btn" onclick="goToTitle()">&#8962;</button>
         <button class="icon-btn" id="langBtn4" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
         <button class="icon-btn" onclick="openHow('gameScreen')">?</button>
       </div>
@@ -478,7 +479,6 @@ a.logo-btn { text-decoration: none; color: var(--accent); }
       <div id="boardWrap"><div id="board"></div></div>
       <div id="gameControls">
         <button class="btn" onclick="resetGame()" id="btnReset">リセット</button>
-        <button class="btn ghost" onclick="goHome()" id="btnHome2">ホーム</button>
       </div>
     </div>
   </div>
@@ -623,7 +623,7 @@ function t(key) {
 function applyLang() {
   var ids = ['splashSub','homeSub','btnStart','modeTitle','btn1P','btn2P','btnBack1','btnBack2',
     'diffTitle','diffE','diffEdesc','diffN','diffNdesc','diffH','diffHdesc',
-    'btnReset','btnHome2','btnCloseHow','btnAgain','btnModalHome',
+    'btnReset','btnCloseHow','btnAgain','btnModalHome',
     'howT1','howR1','howT2','howR2','howR3','howT3','howR4','howR5','howR6','howT4','howR7'];
   for (var i = 0; i < ids.length; i++) {
     var el = document.getElementById(ids[i]);
@@ -660,6 +660,7 @@ function goHome() {
   closeModal();
   showScreen('homeScreen');
 }
+function goToTitle() { goHome(); }
 
 function openHow(from) {
   prevScreen = from;

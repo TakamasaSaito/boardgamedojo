@@ -360,6 +360,7 @@ svg {
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">EGG</span></nav>
   <div class="hdr-right">
+    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
     <button class="hdr-btn" onclick="openHowto()">❓</button>
   </div>
@@ -479,7 +480,6 @@ svg {
   <div class="game-inner">
     <div class="game-header">
       <span class="game-diff-badge badge-easy" id="diffBadge" style="display:none;"></span>
-      <button class="back-btn" id="back-btn" onclick="showHome()">← ホーム</button>
     </div>
 
     <div id="modebar">
@@ -640,7 +640,6 @@ function applyLang() {
     if (el) { el.textContent = t[DIFF_KEYS[i]]; }
   }
 
-  el = document.getElementById("back-btn");      if (el) { el.textContent = t.back_btn; }
   el = document.getElementById("win-home-btn");  if (el) { el.textContent = t.win_home; }
   el = document.getElementById("win-replay-btn");if (el) { el.textContent = t.win_replay; }
   el = document.getElementById("howto-btn");     if (el) { el.textContent = t.howto_btn; }
@@ -660,7 +659,9 @@ function showScreen(id) {
   }
   document.getElementById(id).classList.add("active");
   currentScreen = id;
+  document.getElementById('btn-home').style.display = (id === 'game') ? '' : 'none';
 }
+function goToTitle() { showHome(); }
 
 function openHowto(from) {
   prevScreen = (from !== undefined) ? from : currentScreen;

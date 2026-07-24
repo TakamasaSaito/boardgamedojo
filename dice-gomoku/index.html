@@ -504,6 +504,7 @@ canvas { display: block; cursor: pointer; }
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">&#x30B5;&#x30A4;&#x30B3;&#x30ED;&#x4E94;&#x76EE;</span></nav>
   <div class="hdr-right">
+    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
     <button class="hdr-btn" onclick="showHelp()">&#x2753;</button>
   </div>
@@ -602,7 +603,6 @@ canvas { display: block; cursor: pointer; }
 
   <div class="footer-btns">
     <button id="btn-reset" onclick="confirmReset()">&#12522;&#12475;&#12483;&#12488;</button>
-    <button id="btn-title-back" onclick="goTitle()">&#12479;&#12452;&#12488;&#12523;</button>
   </div>
 </div>
 
@@ -728,7 +728,6 @@ function applyLang() {
   el = document.getElementById("win-cond1");      if (el) el.textContent = t.win_cond1;
   el = document.getElementById("win-cond2");      if (el) el.textContent = t.win_cond2;
   el = document.getElementById("btn-reset");      if (el) el.textContent = t.btn_reset;
-  el = document.getElementById("btn-title-back"); if (el) el.textContent = t.btn_title;
 
   var gs = document.getElementById('gameScreen');
   if (gs && gs.classList.contains('active') && !gameOver) {
@@ -747,7 +746,9 @@ function showScreen(id) {
     screens[i].classList.remove('active');
   }
   document.getElementById(id).classList.add('active');
+  document.getElementById('btn-home').style.display = (id === 'gameScreen') ? '' : 'none';
 }
+function goToTitle() { goTitle(); }
 
 function showHelp() {
   var active = document.querySelector('.screen.active');

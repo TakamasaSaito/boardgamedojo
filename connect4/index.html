@@ -505,6 +505,7 @@ body {
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">Connect Four</span></nav>
   <div class="hdr-right">
+    <button class="hdr-icon-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-icon-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
     <button class="hdr-icon-btn" onclick="openHowto()">&#x2753;</button>
   </div>
@@ -724,7 +725,9 @@ function showScreen(id) {
   }
   document.getElementById(id).classList.add('active');
   currentScreen = id;
+  document.getElementById('btn-home').style.display = (id === 'game') ? '' : 'none';
 }
+function goToTitle() { goToMenu(); }
 
 function openHowto(from) {
   prevScreen = (from !== undefined) ? from : currentScreen;

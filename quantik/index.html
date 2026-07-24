@@ -404,6 +404,7 @@ a#logo { text-decoration: none; color: #00bcd4; }
 <div id="header" style="display:none">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">QUANTIK</span></nav>
   <div id="header-right">
+    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇯🇵</button>
     <button class="hdr-btn" onclick="openHowto()">?</button>
   </div>
@@ -648,7 +649,9 @@ function showScreen(id) {
   currentScreen = id;
   var showHeader = (id !== "splash");
   document.getElementById("header").style.display = showHeader ? "flex" : "none";
+  document.getElementById("btn-home").style.display = (id === "game") ? "" : "none";
 }
+function goToTitle() { goHome(); }
 
 function showHome() {
   showScreen("home");

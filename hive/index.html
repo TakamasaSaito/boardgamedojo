@@ -111,6 +111,7 @@ a.app-logo { text-decoration:none;font-size:16px;font-weight:700;color:#00bcd4;l
 <div id="app-header">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HIVE</span></nav>
   <div class="hdr-right">
+    <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="icon-btn" id="hdr-lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
     <button class="icon-btn" onclick="showHelp()">&#x2753;</button>
   </div>
@@ -309,7 +310,9 @@ function setPvpExp(v) {
 function showPvpDiff() {
   document.getElementById("mode-screen").classList.remove("active");
   document.getElementById("pvp-diff-screen").classList.add("active");
+  document.getElementById("btn-home").style.display = "none";
 }
+function goToTitle() { showIntro(); }
 var howtoFrom = 0; // 0=menu, 1=game
 
 // Language toggle
@@ -1103,6 +1106,7 @@ function startGame(mode, diff, expansion) {
   if (pvpd) { pvpd.classList.remove("active"); }
   document.getElementById("result-screen").style.display = "none";
   document.getElementById("game-ui").style.display = "flex";
+  document.getElementById("btn-home").style.display = "";
 
   dox = 0; doy = 0;
   setTimeout(function() { resizeCanvas(); updateUI(); }, 50);
@@ -1181,6 +1185,7 @@ function showIntro() {
   if (pvpd) { pvpd.classList.remove("active"); }
   document.getElementById("game-ui").style.display = "none";
   document.getElementById("result-screen").style.display = "none";
+  document.getElementById("btn-home").style.display = "none";
 }
 
 function showMode() {
@@ -1191,11 +1196,13 @@ function showMode() {
   if (pvpd) { pvpd.classList.remove("active"); }
   document.getElementById("game-ui").style.display = "none";
   document.getElementById("result-screen").style.display = "none";
+  document.getElementById("btn-home").style.display = "none";
 }
 function showDiff() {
   document.getElementById("mode-screen").classList.remove("active");
   document.getElementById("diff-screen").classList.add("active");
   setExp(0);
+  document.getElementById("btn-home").style.display = "none";
 }
 
 function showPieceInfo(type) {

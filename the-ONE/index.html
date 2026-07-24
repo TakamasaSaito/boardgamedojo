@@ -119,6 +119,7 @@ a.logo-btn { text-decoration: none; display: inline-flex; align-items: center; }
   <div class="app-header">
     <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">the ONE</span></nav>
     <div class="header-right">
+      <button class="icon-btn" onclick="goToTitle()">&#8962;</button>
       <button class="icon-btn" id="lang-btn-g" onclick="toggleLang()">&#127471;&#127477;</button>
       <button class="icon-btn" onclick="openHowto('game')">?</button>
     </div>
@@ -307,6 +308,7 @@ function goHome() {
   document.getElementById("difficulty-area").style.display = "none";
   showScreen("home");
 }
+function goToTitle() { goHome(); }
 
 var gameMode = 1;
 var aiDifficulty = "easy";

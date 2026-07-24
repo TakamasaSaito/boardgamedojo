@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-全13ファイルのタイトルタグを「ゲーム名 | BoardGameDojo」形式に統一（#19）。
+全12ゲームのヘッダーに ⌂ ボタンを追加。ゲーム画面でのみ表示、タップでタイトルへ戻る。冗長な戻るボタン5件（dice-gomoku/EGG/Hex/NOCCA/Ostle）を削除（#20）。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -29,12 +29,11 @@
 - [x] 全ゲーム: URLを /フォルダ名/ 形式に簡潔化・リダイレクト削除（2026-07-24）
 - [x] Onitama: スプラッシュ遷移不具合修正・countPieces nullガード（2026-07-24, fixes #18）
 - [x] 全ゲーム+ポータル: タイトルタグを「ゲーム名 | BoardGameDojo」形式に統一（2026-07-24, fixes #19）
+- [x] 全ゲーム: ゲーム内タイトルへ戻る導線のヘッダー集約（⌂ボタン）（2026-07-24, fixes #20）
 
 ## 残タスク（GitHub Issues）
 
 ### 優先度：高
-- [ ] 全ゲーム: タイトルタグの統一（`ゲーム名 | BoardGameDojo`）→ [#19](https://github.com/TakamasaSaito/boardgamedojo/issues/19)
-- [ ] 全ゲーム: ゲーム内タイトルへ戻る導線のヘッダー集約（⌂ボタン）→ [#20](https://github.com/TakamasaSaito/boardgamedojo/issues/20)
 
 ### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
@@ -42,4 +41,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-ゲーム内タイトルへ戻る導線のヘッダー集約（⌂ボタン）→ [#20](https://github.com/TakamasaSaito/boardgamedojo/issues/20)
+Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)

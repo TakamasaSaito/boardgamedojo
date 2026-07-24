@@ -163,6 +163,7 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">VIDRO</span></nav>
   <div class="hdr-right">
+    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
     <button class="hdr-btn" onclick="showHelp()">❓</button>
   </div>
@@ -553,10 +554,13 @@ function goToMenu(){
   gameContainer.classList.remove('active');startScreen.classList.add('active');
   document.getElementById('sc-red').textContent=scoreRed;
   document.getElementById('sc-yellow').textContent=scoreYellow;
+  document.getElementById('btn-home').style.display='none';
 }
+function goToTitle() { goToMenu(); }
 
 function startGame(){
   startScreen.classList.remove('active');gameContainer.classList.add('active');
+  document.getElementById('btn-home').style.display='';
   board=Array.from({length:GRID},function(){return Array(GRID).fill(null);});
   currentPlayer='red';mode='place';selectedCell=null;
   handRed=HAND_MAX;handYellow=HAND_MAX;

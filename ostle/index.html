@@ -400,6 +400,7 @@ a.hdr-logo { text-decoration: none; color: var(--accent); }
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">OSTLE</span></nav>
   <div class="hdr-right">
+    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
     <button class="hdr-btn" onclick="showHelp()">&#x2753;</button>
   </div>
@@ -444,7 +445,6 @@ a.hdr-logo { text-decoration: none; color: var(--accent); }
   <div class="game-footer">
     <button class="btn" id="btn-undo" onclick="undoMove()">&#24453;&#12387;&#305;&#305;</button>
     <button class="btn" id="btn-reset" onclick="resetGame()">&#26368;&#21021;&#304;&#12363;&#12425;</button>
-    <button class="btn" id="btn-menu" onclick="goTitle()">&#12513;&#12491;&#12517;&#12540;</button>
   </div>
 </div>
 
@@ -599,7 +599,6 @@ function applyLang() {
   el = document.getElementById("label-p2");        if (el) el.textContent = t.label_p2;
   el = document.getElementById("btn-undo");        if (el) el.textContent = t.btn_undo;
   el = document.getElementById("btn-reset");       if (el) el.textContent = t.btn_reset;
-  el = document.getElementById("btn-menu");        if (el) el.textContent = t.btn_menu;
   el = document.getElementById("help-title");      if (el) el.textContent = t.help_title;
   el = document.getElementById("help-goal-h");     if (el) el.textContent = t.help_goal_h;
   el = document.getElementById("help-goal");       if (el) el.textContent = t.help_goal;
@@ -626,7 +625,9 @@ function showScreen(id) {
     screens[i].classList.remove('active');
   }
   document.getElementById(id).classList.add('active');
+  document.getElementById('btn-home').style.display = (id === 'game') ? '' : 'none';
 }
+function goToTitle() { goTitle(); }
 
 function showHelp() {
   document.getElementById('help-modal').classList.add('active');

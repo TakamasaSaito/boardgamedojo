@@ -237,6 +237,7 @@ a.header-logo { text-decoration: none; color: var(--accent); }
   <div class="header">
     <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
     <div class="header-right">
+      <button class="icon-btn" onclick="goToTitle()">&#8962;</button>
       <button class="icon-btn" id="lb2" onclick="toggleLang()">🇯🇵</button>
       <button class="icon-btn" onclick="openHowto()">？</button>
     </div>
@@ -248,7 +249,6 @@ a.header-logo { text-decoration: none; color: var(--accent); }
         <span id="turn-info">--</span>
       </div>
       <div class="mode-badge" id="mode-badge"></div>
-      <button class="btn btn-ghost btn-sm" id="btn-home-game" onclick="goHome()">ホーム</button>
     </div>
     <div class="swap-bar" id="swap-bar">
       <div class="swap-bar-title" id="swap-bar-title">🔄 スワップのチャンス</div>
@@ -442,7 +442,6 @@ function applyLang() {
   document.getElementById('d-hard-d').textContent = tx('dHardD');
   document.getElementById('btn-start-ai').textContent = tx('btnStart');
   document.getElementById('btn-back').textContent = tx('btnBack');
-  document.getElementById('btn-home-game').textContent = tx('btnHome');
   document.getElementById('btn-again').textContent = tx('btnAgain');
   document.getElementById('btn-home-result').textContent = tx('btnHomeR');
   document.getElementById('btn-close-howto').textContent = tx('btnClose');
@@ -489,6 +488,7 @@ function showScreen(id) {
 }
 
 function goHome() { showScreen('home-screen'); }
+function goToTitle() { goHome(); }
 
 function openHowto() {
   var cur = document.querySelector('.screen.active');
