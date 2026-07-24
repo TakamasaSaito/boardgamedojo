@@ -7,55 +7,55 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;touch-action:manipulation;}
-body{background:#2c1a0e;background-image:radial-gradient(ellipse at 20% 20%,#3d2510 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,#1a0d05 0%,transparent 60%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Noto Sans JP',sans-serif;overflow:hidden;user-select:none;}
-body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(88deg,transparent,transparent 40px,rgba(255,200,100,0.03) 40px,rgba(255,200,100,0.03) 42px);pointer-events:none;}
-#start-screen{display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px;max-width:380px;width:100%;}
-#start-logo{font-size:clamp(40px,12vw,60px);font-weight:900;letter-spacing:6px;color:#fff;text-shadow:0 0 30px rgba(255,180,50,0.9),3px 3px 0 #8B4513;}
+body{background:#0f0f0f;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Noto Sans JP',sans-serif;overflow:hidden;user-select:none;}
+
+#start-screen{display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px;padding-top:64px;max-width:380px;width:100%;}
+#start-logo{font-size:clamp(40px,12vw,60px);font-weight:900;letter-spacing:6px;color:#e0e0e0;text-shadow:0 0 20px rgba(0,188,212,0.4);}
 #start-logo span{color:#f0d080;}
-#start-sub{font-size:12px;color:rgba(240,208,128,0.6);letter-spacing:3px;margin-top:-10px;}
-.score-board{display:flex;gap:16px;justify-content:center;align-items:center;background:rgba(0,0,0,0.4);border-radius:14px;padding:12px 24px;border:1px solid rgba(255,200,100,0.2);width:100%;}
+#start-sub{font-size:12px;color:#888;letter-spacing:3px;margin-top:-10px;}
+.score-board{display:flex;gap:16px;justify-content:center;align-items:center;background:rgba(26,26,26,0.9);border-radius:12px;padding:12px 24px;border:1px solid rgba(0,188,212,0.2);width:100%;}
 .score-side{display:flex;align-items:center;gap:8px;}
 .score-marble{width:24px;height:24px;border-radius:50%;}
 .score-marble.red{background:radial-gradient(circle at 35% 30%,#ff6b6b,#c0392b 50%,#7b241c);box-shadow:0 1px 6px rgba(192,57,43,0.5);}
 .score-marble.yellow{background:radial-gradient(circle at 35% 30%,#ffe066,#d4a017 50%,#8a6500);box-shadow:0 1px 6px rgba(212,160,23,0.5);}
-.score-num{font-size:28px;font-weight:900;color:#f0d080;min-width:32px;text-align:center;}
+.score-num{font-size:28px;font-weight:900;color:#e0e0e0;min-width:32px;text-align:center;}
 .score-sep{font-size:20px;color:rgba(255,255,255,0.25);}
 .start-section{width:100%;}
-.start-label{font-size:12px;color:rgba(240,208,128,0.7);margin-bottom:6px;font-weight:700;}
+.start-label{font-size:12px;color:#00bcd4;margin-bottom:6px;font-weight:700;letter-spacing:2px;}
 .start-options{display:flex;gap:8px;}
-.opt-btn{flex:1;padding:11px 6px;border:2px solid rgba(255,200,100,0.25);border-radius:12px;background:rgba(0,0,0,0.3);color:#aaa;font-size:13px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;text-align:center;}
-.opt-btn.selected{border-color:#d4a017;background:rgba(212,160,23,0.2);color:#f0d080;box-shadow:0 0 12px rgba(212,160,23,0.3);}
-#start-btn{width:100%;padding:16px;background:linear-gradient(135deg,#d4ac0d,#9a7d0a);border:none;border-radius:50px;color:#fff;font-size:18px;font-weight:900;font-family:'Noto Sans JP',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(212,172,13,0.5);transition:transform 0.15s;}
+.opt-btn{flex:1;padding:11px 6px;border:2px solid rgba(255,255,255,0.12);border-radius:12px;background:rgba(26,26,26,0.8);color:#888;font-size:13px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;text-align:center;}
+.opt-btn.selected{border-color:#00bcd4;background:rgba(0,188,212,0.12);color:#00bcd4;box-shadow:0 0 12px rgba(0,188,212,0.3);}
+#start-btn{width:100%;padding:16px;background:linear-gradient(135deg,#00bcd4,#0097a7);border:none;border-radius:50px;color:#fff;font-size:18px;font-weight:900;font-family:'Noto Sans JP',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(0,188,212,0.4);transition:transform 0.15s;}
 #start-btn:active{transform:scale(0.96);}
-#game-container{display:none;flex-direction:column;align-items:center;gap:8px;padding:12px;max-width:480px;width:100%;}
+#game-container{display:none;flex-direction:column;align-items:center;gap:8px;padding:12px;padding-top:60px;max-width:480px;width:100%;}
 #game-container.active{display:flex;}
-#game-logo{font-size:clamp(22px,6vw,30px);font-weight:900;letter-spacing:4px;color:#fff;text-shadow:0 0 20px rgba(255,180,50,0.8),2px 2px 0 #8B4513;}
+#game-logo{font-size:clamp(22px,6vw,30px);font-weight:900;letter-spacing:4px;color:#e0e0e0;text-shadow:0 0 16px rgba(0,188,212,0.4);}
 #game-logo span{color:#f0d080;}
-#turn-info{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.5);border:2px solid rgba(255,200,100,0.3);border-radius:20px;padding:7px 14px;width:100%;backdrop-filter:blur(4px);}
+#turn-info{display:flex;align-items:center;gap:8px;background:rgba(26,26,26,0.9);border:2px solid rgba(0,188,212,0.3);border-radius:20px;padding:7px 14px;width:100%;}
 #turn-marble{width:26px;height:26px;border-radius:50%;flex-shrink:0;transition:all 0.3s;}
 #turn-marble.red{background:radial-gradient(circle at 35% 30%,#ff6b6b,#c0392b 50%,#7b241c);box-shadow:inset -3px -3px 8px rgba(0,0,0,0.5),inset 2px 2px 6px rgba(255,150,150,0.4),0 2px 8px rgba(192,57,43,0.6);}
 #turn-marble.yellow{background:radial-gradient(circle at 35% 30%,#ffe066,#d4a017 50%,#8a6500);box-shadow:inset -3px -3px 8px rgba(0,0,0,0.5),inset 2px 2px 6px rgba(255,240,180,0.4),0 2px 8px rgba(212,160,23,0.6);}
-#turn-text{font-size:13px;font-weight:700;color:#f0d080;}
+#turn-text{font-size:13px;font-weight:700;color:#e0e0e0;}
 #timer-wrap{display:none;align-items:center;gap:5px;margin-left:4px;}
 #timer-bar-bg{width:50px;height:6px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;}
 #timer-bar{height:100%;border-radius:3px;background:#4caf50;transition:width 0.9s linear,background 0.5s;}
-#timer-num{font-size:12px;font-weight:700;color:#f0d080;min-width:20px;text-align:right;}
-#matte-btn{padding:5px 10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);border-radius:20px;color:#f0d080;font-size:11px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;white-space:nowrap;margin-left:auto;}
-#game-scores{display:flex;gap:10px;align-items:center;background:rgba(0,0,0,0.3);border-radius:12px;padding:5px 14px;border:1px solid rgba(255,200,100,0.15);}
+#timer-num{font-size:12px;font-weight:700;color:#e0e0e0;min-width:20px;text-align:right;}
+#matte-btn{padding:5px 10px;background:rgba(26,26,26,0.8);border:1px solid rgba(0,188,212,0.3);border-radius:20px;color:#00bcd4;font-size:11px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;white-space:nowrap;margin-left:auto;}
+#game-scores{display:flex;gap:10px;align-items:center;background:rgba(26,26,26,0.8);border-radius:12px;padding:5px 14px;border:1px solid rgba(0,188,212,0.15);}
 .gs{display:flex;align-items:center;gap:4px;}
 .gs-marble{width:12px;height:12px;border-radius:50%;}
 .gs-marble.red{background:radial-gradient(circle at 35% 30%,#ff6b6b,#c0392b 50%,#7b241c);}
 .gs-marble.yellow{background:radial-gradient(circle at 35% 30%,#ffe066,#d4a017 50%,#8a6500);}
-.gs-num{font-size:14px;font-weight:900;color:#f0d080;}
-.gs-sep{color:rgba(255,255,255,0.25);font-size:11px;}
-#mode-selector{display:flex;gap:8px;background:rgba(0,0,0,0.4);border-radius:12px;padding:4px;border:1px solid rgba(255,200,100,0.2);}
-.mode-btn{padding:7px 16px;border:none;border-radius:9px;font-size:13px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;color:#aaa;background:transparent;}
-.mode-btn.active{color:#fff;text-shadow:0 0 10px rgba(255,200,100,0.9);}
+.gs-num{font-size:14px;font-weight:900;color:#e0e0e0;}
+.gs-sep{color:#555;font-size:11px;}
+#mode-selector{display:flex;gap:8px;background:rgba(26,26,26,0.9);border-radius:12px;padding:4px;border:1px solid rgba(0,188,212,0.2);}
+.mode-btn{padding:7px 16px;border:none;border-radius:12px;font-size:13px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;color:#888;background:transparent;}
+.mode-btn.active{color:#fff;text-shadow:0 0 10px rgba(0,188,212,0.9);}
 .mode-btn.place.active{background:linear-gradient(135deg,#c0392b,#922b21);box-shadow:0 2px 12px rgba(192,57,43,0.6);}
-.mode-btn.flick.active{background:linear-gradient(135deg,#d4ac0d,#9a7d0a);box-shadow:0 2px 12px rgba(212,172,13,0.6);}
-#status-msg{font-size:12px;color:rgba(240,208,128,0.8);text-align:center;min-height:16px;}
+.mode-btn.flick.active{background:linear-gradient(135deg,#00bcd4,#0097a7);box-shadow:0 2px 12px rgba(0,188,212,0.6);}
+#status-msg{font-size:12px;color:#888;text-align:center;min-height:16px;}
 #board-wrapper{position:relative;width:100%;aspect-ratio:1;max-width:340px;}
-#board{width:100%;height:100%;background:#f0ede0;background-image:linear-gradient(135deg,#f5f2e5 25%,transparent 25%),linear-gradient(-135deg,#ebe8db 25%,transparent 25%),linear-gradient(45deg,#ebe8db 25%,transparent 25%),linear-gradient(-45deg,#f0ede0 25%,transparent 25%);background-size:20px 20px;border-radius:6px;border:6px solid #4a2c0a;box-shadow:0 0 0 2px #8B6914,0 8px 32px rgba(0,0,0,0.6),inset 0 2px 8px rgba(0,0,0,0.2);position:relative;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);overflow:hidden;}
+#board{width:100%;height:100%;background:#f0ede0;background-image:linear-gradient(135deg,#f5f2e5 25%,transparent 25%),linear-gradient(-135deg,#ebe8db 25%,transparent 25%),linear-gradient(45deg,#ebe8db 25%,transparent 25%),linear-gradient(-45deg,#f0ede0 25%,transparent 25%);background-size:20px 20px;border-radius:12px;border:6px solid #4a2c0a;box-shadow:0 0 0 2px #8B6914,0 8px 32px rgba(0,0,0,0.6),inset 0 2px 8px rgba(0,0,0,0.2);position:relative;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);overflow:hidden;}
 #board::before{content:'';position:absolute;inset:0;background-image:linear-gradient(to right,rgba(0,0,0,0.15) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,0.15) 1px,transparent 1px);background-size:20% 20%;pointer-events:none;z-index:1;}
 .cell{position:relative;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;}
 .cell::before,.cell::after{content:'';position:absolute;width:50%;height:1px;background:rgba(0,0,0,0.12);top:50%;left:50%;}
@@ -74,7 +74,7 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
 .marble.animating{transition:none;}
 #cpu-thinking{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.1);z-index:10;align-items:center;justify-content:center;}
 #cpu-thinking.show{display:flex;}
-#cpu-bubble{background:rgba(20,10,0,0.88);border:2px solid rgba(255,200,100,0.4);border-radius:16px;padding:10px 20px;color:#f0d080;font-size:14px;font-weight:700;animation:think-pulse 0.7s ease-in-out infinite alternate;}
+#cpu-bubble{background:rgba(15,15,15,0.95);border:2px solid rgba(0,188,212,0.4);border-radius:12px;padding:10px 20px;color:#00bcd4;font-size:14px;font-weight:700;animation:think-pulse 0.7s ease-in-out infinite alternate;}
 @keyframes think-pulse{from{opacity:0.6;}to{opacity:1;}}
 .flick-arrows{position:absolute;inset:0;pointer-events:none;z-index:4;display:none;}
 .flick-arrows.visible{display:block;}
@@ -85,8 +85,8 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
 .hand-marble{width:14px;height:14px;border-radius:50%;display:inline-block;}
 .hand-marble.red{background:radial-gradient(circle at 35% 30%,#ff6b6b,#c0392b 50%,#7b241c);}
 .hand-marble.yellow{background:radial-gradient(circle at 35% 30%,#ffe066,#d4a017 50%,#8a6500);}
-.hand-count-num{color:#f0d080;font-weight:700;font-size:13px;}
-#help{font-size:10px;color:rgba(240,208,128,0.4);text-align:center;line-height:1.6;}
+.hand-count-num{color:#e0e0e0;font-weight:700;font-size:13px;}
+#help{font-size:10px;color:#555;text-align:center;line-height:1.6;}
 #win-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:14px;backdrop-filter:blur(6px);}
 #win-overlay.show{display:flex;}
 #win-text{font-size:clamp(26px,8vw,46px);font-weight:900;color:#fff;text-align:center;text-shadow:0 0 30px currentColor;animation:win-pop 0.4s cubic-bezier(0.175,0.885,0.32,1.275);}
@@ -95,18 +95,26 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
 .win-btns{display:flex;gap:10px;margin-top:4px;}
 .win-btn{padding:13px 26px;border:none;border-radius:50px;color:#fff;font-size:15px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:transform 0.15s;}
 .win-btn:active{transform:scale(0.95);}
-#again-btn{background:linear-gradient(135deg,#d4ac0d,#9a7d0a);box-shadow:0 4px 20px rgba(212,172,13,0.5);}
+#again-btn{background:linear-gradient(135deg,#00bcd4,#0097a7);box-shadow:0 4px 20px rgba(0,188,212,0.4);}
 #menu-btn{background:rgba(255,255,255,0.13);border:1px solid rgba(255,255,255,0.3);}
 #game-header{display:flex;align-items:center;justify-content:space-between;width:100%;}
-#home-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,200,100,0.3);color:#f0d080;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
-#home-btn:active{background:rgba(255,200,100,0.25);}
+#home-btn{width:36px;height:36px;border-radius:50%;background:rgba(26,26,26,0.8);border:1px solid rgba(0,188,212,0.3);color:#e0e0e0;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+#home-btn:active{background:rgba(0,188,212,0.2);}
 
+/* APP HEADER */
+#app-header{position:fixed;top:0;left:0;right:0;height:48px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(15,15,15,0.95);border-bottom:1px solid rgba(0,188,212,0.2);}
+#app-header.hidden{display:none;}
+.hdr-logo{font-size:18px;font-weight:900;letter-spacing:4px;color:#e0e0e0;cursor:pointer;text-shadow:0 0 12px rgba(0,188,212,0.3);}
+.hdr-logo span{color:#f0d080;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.hdr-btn{min-width:40px;min-height:40px;background:transparent;border:1px solid rgba(0,188,212,0.3);border-radius:12px;color:#888;font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.hdr-btn:active{border-color:#00bcd4;color:#00bcd4;}
 /* SPLASH */
-#splash{position:fixed;inset:0;background:#2c1a0e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:500;transition:opacity 0.6s ease;}
+#splash{position:fixed;inset:0;background:#0f0f0f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:500;transition:opacity 0.6s ease;}
 #splash.hide{opacity:0;pointer-events:none;}
-#splash-logo{font-size:clamp(56px,18vw,88px);font-weight:900;letter-spacing:10px;color:#fff;text-shadow:0 0 40px rgba(255,180,50,1),4px 4px 0 #8B4513;opacity:0;animation:splash-in 0.8s 0.3s ease forwards;}
+#splash-logo{font-size:clamp(56px,18vw,88px);font-weight:900;letter-spacing:10px;color:#e0e0e0;text-shadow:0 0 40px rgba(0,188,212,0.6);opacity:0;animation:splash-in 0.8s 0.3s ease forwards;}
 #splash-logo span{color:#f0d080;}
-#splash-tagline{font-size:14px;letter-spacing:4px;color:rgba(240,208,128,0.7);opacity:0;animation:splash-in 0.8s 0.8s ease forwards;}
+#splash-tagline{font-size:14px;letter-spacing:4px;color:#888;opacity:0;animation:splash-in 0.8s 0.8s ease forwards;}
 #splash-marbles{display:flex;gap:16px;opacity:0;animation:splash-in 0.8s 1.1s ease forwards;}
 .sp-marble{width:28px;height:28px;border-radius:50%;animation:sp-bounce 1.2s ease-in-out infinite alternate;}
 .sp-marble.red{background:radial-gradient(circle at 35% 30%,#ff6b6b,#c0392b 50%,#7b241c);box-shadow:0 3px 12px rgba(192,57,43,0.6);animation-delay:0s;}
@@ -115,24 +123,33 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
 @keyframes sp-bounce{from{transform:translateY(0);}to{transform:translateY(-8px);}}
 
 /* HOW TO */
-#howto-screen{display:none;flex-direction:column;align-items:center;gap:20px;padding:28px 24px;max-width:380px;width:100%;overflow-y:auto;max-height:100vh;}
+#howto-screen{display:none;flex-direction:column;align-items:center;gap:20px;padding:28px 24px;padding-top:68px;max-width:380px;width:100%;overflow-y:auto;max-height:100vh;}
 #howto-screen.active{display:flex;}
-#howto-logo{font-size:clamp(28px,8vw,40px);font-weight:900;letter-spacing:5px;color:#fff;text-shadow:0 0 24px rgba(255,180,50,0.8),2px 2px 0 #8B4513;}
+#howto-logo{font-size:clamp(28px,8vw,40px);font-weight:900;letter-spacing:5px;color:#e0e0e0;text-shadow:0 0 20px rgba(0,188,212,0.4);}
 #howto-logo span{color:#f0d080;}
-#howto-title{font-size:13px;color:rgba(240,208,128,0.7);letter-spacing:2px;margin-top:-12px;}
+#howto-title{font-size:13px;color:#888;letter-spacing:2px;margin-top:-12px;}
 .howto-steps{display:flex;flex-direction:column;gap:14px;width:100%;}
-.howto-step{display:flex;gap:14px;align-items:flex-start;background:rgba(0,0,0,0.35);border:1px solid rgba(255,200,100,0.18);border-radius:16px;padding:14px 16px;}
-.step-num{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#d4ac0d,#9a7d0a);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(212,172,13,0.4);}
+.howto-step{display:flex;gap:14px;align-items:flex-start;background:rgba(26,26,26,0.9);border:1px solid rgba(0,188,212,0.18);border-radius:12px;padding:14px 16px;}
+.step-num{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#00bcd4,#0097a7);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,188,212,0.4);}
 .step-body{flex:1;}
-.step-title{font-size:14px;font-weight:900;color:#f0d080;margin-bottom:4px;}
+.step-title{font-size:14px;font-weight:900;color:#e0e0e0;margin-bottom:4px;}
 .step-desc{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.6;}
 .step-icon{font-size:22px;margin-right:4px;}
-#howto-next{width:100%;padding:15px;background:linear-gradient(135deg,#d4ac0d,#9a7d0a);border:none;border-radius:50px;color:#fff;font-size:17px;font-weight:900;font-family:'Noto Sans JP',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(212,172,13,0.5);transition:transform 0.15s;}
+#howto-next{width:100%;padding:15px;background:linear-gradient(135deg,#00bcd4,#0097a7);border:none;border-radius:50px;color:#fff;font-size:17px;font-weight:900;font-family:'Noto Sans JP',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(0,188,212,0.4);transition:transform 0.15s;}
 #howto-next:active{transform:scale(0.96);}
-#howto-skip{font-size:11px;color:rgba(240,208,128,0.45);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Noto Sans JP',sans-serif;}
+#howto-skip{font-size:11px;color:#555;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Noto Sans JP',sans-serif;}
 </style>
 </head>
 <body>
+
+<!-- APP HEADER -->
+<div id="app-header" class="hidden">
+  <div class="hdr-logo" onclick="goToStartFromHeader()">VID<span>R</span>O</div>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
+    <button class="hdr-btn" onclick="showHelp()">❓</button>
+  </div>
+</div>
 
 <!-- SPLASH -->
 <div id="splash">
@@ -151,23 +168,23 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
   <div class="howto-steps">
     <div class="howto-step">
       <div class="step-num">1</div>
-      <div class="step-body">
+      <div class="step-body" id="howto-step1">
         <div class="step-title"><span class="step-icon">🔴</span>コマを置こう</div>
-        <div class="step-desc">緑にハイライトされたマスをタップしてコマを置く。ただし<strong style="color:#f0d080">自分のコマの周り8マス</strong>には置けないので注意！</div>
+        <div class="step-desc">緑にハイライトされたマスをタップしてコマを置く。ただし<strong style="color:#00bcd4">自分のコマの周り8マス</strong>には置けないので注意！</div>
       </div>
     </div>
     <div class="howto-step">
       <div class="step-num">2</div>
-      <div class="step-body">
+      <div class="step-body" id="howto-step2">
         <div class="step-title"><span class="step-icon">👆</span>コマをはじこう</div>
-        <div class="step-desc">自分のコマをタップして選択し、矢印で方向を選ぶ。コマは<strong style="color:#f0d080">壁か他のコマ</strong>に当たるまで直進。相手コマに当たれば弾き飛ばせる！</div>
+        <div class="step-desc">自分のコマをタップして選択し、矢印で方向を選ぶ。コマは<strong style="color:#00bcd4">壁か他のコマ</strong>に当たるまで直進。相手コマに当たれば弾き飛ばせる！</div>
       </div>
     </div>
     <div class="howto-step">
       <div class="step-num">3</div>
-      <div class="step-body">
+      <div class="step-body" id="howto-step3">
         <div class="step-title"><span class="step-icon">🏆</span>3つ並べたら勝ち！</div>
-        <div class="step-desc">縦・横・斜めのどれかに<strong style="color:#f0d080">自分のコマを3つ</strong>並べた方が勝ち。毎ターン「置く」か「はじく」のどちらか1つを選んで戦略的に！</div>
+        <div class="step-desc">縦・横・斜めのどれかに<strong style="color:#00bcd4">自分のコマを3つ</strong>並べた方が勝ち。毎ターン「置く」か「はじく」のどちらか1つを選んで戦略的に！</div>
       </div>
     </div>
   </div>
@@ -183,22 +200,22 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
     <div class="score-side"><div class="score-num" id="sc-yellow">0</div><div class="score-marble yellow"></div></div>
   </div>
   <div class="start-section">
-    <div class="start-label">対戦モード</div>
+    <div class="start-label" id="mode-label-el">対戦モード</div>
     <div class="start-options">
       <button class="opt-btn selected" data-group="mode" data-val="2p">👥 2人対戦</button>
       <button class="opt-btn" data-group="mode" data-val="cpu">🤖 CPU対戦</button>
     </div>
   </div>
   <div class="start-section" id="cpu-level-section" style="display:none">
-    <div class="start-label">CPU強さ</div>
+    <div class="start-label" id="level-label-el">CPU強さ</div>
     <div class="start-options">
-      <button class="opt-btn selected" data-group="level" data-val="easy">😊 弱い</button>
-      <button class="opt-btn" data-group="level" data-val="normal">😐 普通</button>
-      <button class="opt-btn" data-group="level" data-val="hard">😈 強い</button>
+      <button class="opt-btn selected" data-group="level" data-val="easy">かんたん</button>
+      <button class="opt-btn" data-group="level" data-val="normal">ふつう</button>
+      <button class="opt-btn" data-group="level" data-val="hard">むずかしい</button>
     </div>
   </div>
   <div class="start-section">
-    <div class="start-label">手番タイマー</div>
+    <div class="start-label" id="timer-label-el">手番タイマー</div>
     <div class="start-options">
       <button class="opt-btn selected" data-group="timer" data-val="0">なし</button>
       <button class="opt-btn" data-group="timer" data-val="30">30秒</button>
@@ -209,11 +226,7 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
 </div>
 
 <div id="game-container">
-  <div id="game-header">
-    <button id="home-btn">🏠</button>
-    <div id="game-logo">VID<span>R</span>O</div>
-    <div style="width:36px"></div>
-  </div>
+
   <div id="turn-info">
     <div id="turn-marble" class="red"></div>
     <div id="turn-text">赤の番</div>
@@ -225,9 +238,9 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
   </div>
   <div id="game-scores">
     <div class="gs"><div class="gs-marble red"></div><div class="gs-num" id="gs-red">0</div></div>
-    <div class="gs-sep">勝 /</div>
+    <div class="gs-sep" id="gs-sep1">勝 /</div>
     <div class="gs"><div class="gs-marble yellow"></div><div class="gs-num" id="gs-yellow">0</div></div>
-    <div class="gs-sep">勝</div>
+    <div class="gs-sep" id="gs-sep2">勝</div>
   </div>
   <div id="mode-selector">
     <button class="mode-btn place active" id="btn-place">🔴 置く</button>
@@ -256,16 +269,177 @@ body::before{content:'';position:fixed;inset:0;background-image:repeating-linear
 </div>
 
 <script>
-const GRID=5,HAND_MAX=5,TIMER_WARN=10;
-let gameMode='2p',cpuLevel='easy',timerSec=0;
-let scoreRed=0,scoreYellow=0;
-let board,currentPlayer,mode,selectedCell,handRed,handYellow,gameOver,animating;
-let prevState=[],timerInterval=null,timerLeft=0;
+
+var lang='ja';
+var prevScreen='start';
+
+var T={
+  ja:{
+    splash_tagline:'3つ並べろ！',
+    howto_title:'— 遊び方 —',
+    howto_step1_title:'<span class="step-icon">\uD83D\uDD34</span>コマを置こう',
+    howto_step1_desc:'緑にハイライトされたマスをタップしてコマを置く。ただし<strong style="color:#00bcd4">自分のコマの周り8マス</strong>には置けないので注意！',
+    howto_step2_title:'<span class="step-icon">\uD83D\uDC46</span>コマをはじこう',
+    howto_step2_desc:'自分のコマをタップして選択し、矢印で方向を選ぶ。コマは<strong style="color:#00bcd4">壁か他のコマ</strong>に当たるまで直進。相手コマに当たれば弾き飛ばせる！',
+    howto_step3_title:'<span class="step-icon">\uD83C\uDFC6</span>3つ並べたら勝ち！',
+    howto_step3_desc:'縦・横・斜めのどれかに<strong style="color:#00bcd4">自分のコマを3つ</strong>並べた方が勝ち。毎ターン「置く」か「はじく」のどちらか1つを選んで戦略的に！',
+    howto_next_btn:'さあ、はじめよう！',
+    howto_skip_btn:'スキップ',
+    mode_label:'対戦モード',
+    mode_2p:'\uD83D\uDC65 2人対戦',
+    mode_cpu:'\uD83E\uDD16 CPU対戦',
+    level_label:'CPU強さ',
+    diff_easy:'かんたん',
+    diff_normal:'ふつう',
+    diff_hard:'むずかしい',
+    timer_label:'手番タイマー',
+    timer_none:'なし',
+    timer_30:'30秒',
+    timer_60:'60秒',
+    btn_start:'ゲーム開始！',
+    turn_red:'赤の番',
+    turn_yellow:'黄の番',
+    turn_cpu_suf:'（CPU）',
+    lbl_place:'置く',
+    lbl_flick:'はじく',
+    lbl_matte:'待って！',
+    gs_sep1:'勝 /',
+    gs_sep2:'勝',
+    status_cpu:'\uD83E\uDD16 CPUが考えています...',
+    status_no_hand:'手持ちがありません。「はじく」を使ってください',
+    status_place:'空きマスをタップしてコマを置こう',
+    status_flick_select:'自分のコマをタップして選択してください',
+    status_flick_dir:'矢印で方向を選択してください',
+    status_no_move:'その方向には動けません',
+    status_pass_time:'\u23F1 時間切れ！',
+    status_undo:'一手戻しました',
+    status_no_undo:'戻せる手がありません',
+    place_too_close:'自分のコマの周り8マスには置けません！',
+    win_red:'\uD83D\uDD34 赤の勝ち！',
+    win_yellow:'\uD83D\uDFE1 黄の勝ち！',
+    win_cpu:'\uD83D\uDCBB CPUの勝ち！',
+    win_3lined:'3つ並べました！',
+    btn_again:'もう一度',
+    btn_menu:'メニューへ',
+    help_text:'置く：自コマ周り8マス不可　はじく：自コマタップ→方向選択'
+  },
+  en:{
+    splash_tagline:'Line up 3!',
+    howto_title:'— How to Play —',
+    howto_step1_title:'<span class="step-icon">\uD83D\uDD34</span>Place a Piece',
+    howto_step1_desc:'Tap a <strong style="color:#00bcd4">green square</strong> to place your piece. You cannot place within 8 squares around your own pieces!',
+    howto_step2_title:'<span class="step-icon">\uD83D\uDC46</span>Flick a Piece',
+    howto_step2_desc:'Tap your piece to select it, then tap an arrow to flick it. It slides until it hits a <strong style="color:#00bcd4">wall or another piece</strong>. Hit an enemy to knock it flying!',
+    howto_step3_title:'<span class="step-icon">\uD83C\uDFC6</span>3 in a Row Wins!',
+    howto_step3_desc:'Line up <strong style="color:#00bcd4">3 of your pieces</strong> horizontally, vertically, or diagonally to win. Each turn choose Place or Flick — play strategically!',
+    howto_next_btn:"Let's Play!",
+    howto_skip_btn:'Skip',
+    mode_label:'MODE',
+    mode_2p:'\uD83D\uDC65 2 Player',
+    mode_cpu:'\uD83E\uDD16 vs CPU',
+    level_label:'CPU LEVEL',
+    diff_easy:'Easy',
+    diff_normal:'Normal',
+    diff_hard:'Hard',
+    timer_label:'TIMER',
+    timer_none:'Off',
+    timer_30:'30s',
+    timer_60:'60s',
+    btn_start:'START!',
+    turn_red:"Red's Turn",
+    turn_yellow:"Yellow's Turn",
+    turn_cpu_suf:' (CPU)',
+    lbl_place:'Place',
+    lbl_flick:'Flick',
+    lbl_matte:'Undo',
+    gs_sep1:'W /',
+    gs_sep2:'W',
+    status_cpu:'\uD83E\uDD16 CPU is thinking...',
+    status_no_hand:'No pieces left. Use Flick!',
+    status_place:'Tap a green square to place',
+    status_flick_select:'Tap your piece to select',
+    status_flick_dir:'Tap an arrow to flick',
+    status_no_move:'Cannot move that way',
+    status_pass_time:"\u23F1 Time's up!",
+    status_undo:'Move undone',
+    status_no_undo:'Nothing to undo',
+    place_too_close:'Cannot place within 8 squares of your piece!',
+    win_red:'\uD83D\uDD34 Red Wins!',
+    win_yellow:'\uD83D\uDFE1 Yellow Wins!',
+    win_cpu:'\uD83D\uDCBB CPU Wins!',
+    win_3lined:'3 in a row!',
+    btn_again:'Play Again',
+    btn_menu:'Menu',
+    help_text:'Place: not within 8 of own piece  Flick: tap piece then arrow'
+  }
+};
+
+function toggleLang(){
+  lang=lang==='ja'?'en':'ja';
+  var btn=document.getElementById('lang-btn');
+  btn.textContent=lang==='ja'?'\uD83C\uDDFA\uD83C\uDDF8':'\uD83C\uDDEF\uD83C\uDDF5';
+  applyLang();
+}
+
+function applyLang(){
+  var t=T[lang];
+  var el;
+  el=document.getElementById('splash-tagline');if(el)el.textContent=t.splash_tagline;
+  el=document.getElementById('howto-title');if(el)el.textContent=t.howto_title;
+  el=document.getElementById('howto-step1');if(el)el.innerHTML='<div class="step-title">'+t.howto_step1_title+'</div><div class="step-desc">'+t.howto_step1_desc+'</div>';
+  el=document.getElementById('howto-step2');if(el)el.innerHTML='<div class="step-title">'+t.howto_step2_title+'</div><div class="step-desc">'+t.howto_step2_desc+'</div>';
+  el=document.getElementById('howto-step3');if(el)el.innerHTML='<div class="step-title">'+t.howto_step3_title+'</div><div class="step-desc">'+t.howto_step3_desc+'</div>';
+  el=document.getElementById('howto-next');if(el)el.textContent=t.howto_next_btn;
+  el=document.getElementById('howto-skip');if(el)el.textContent=t.howto_skip_btn;
+  el=document.getElementById('mode-label-el');if(el)el.textContent=t.mode_label;
+  document.querySelectorAll('.opt-btn[data-val="2p"]').forEach(function(b){b.textContent=t.mode_2p;});
+  document.querySelectorAll('.opt-btn[data-val="cpu"]').forEach(function(b){b.textContent=t.mode_cpu;});
+  el=document.getElementById('level-label-el');if(el)el.textContent=t.level_label;
+  document.querySelectorAll('.opt-btn[data-val="easy"]').forEach(function(b){b.textContent=t.diff_easy;});
+  document.querySelectorAll('.opt-btn[data-val="normal"]').forEach(function(b){b.textContent=t.diff_normal;});
+  document.querySelectorAll('.opt-btn[data-val="hard"]').forEach(function(b){b.textContent=t.diff_hard;});
+  el=document.getElementById('timer-label-el');if(el)el.textContent=t.timer_label;
+  document.querySelectorAll('.opt-btn[data-val="0"]').forEach(function(b){b.textContent=t.timer_none;});
+  document.querySelectorAll('.opt-btn[data-val="30"]').forEach(function(b){b.textContent=t.timer_30;});
+  document.querySelectorAll('.opt-btn[data-val="60"]').forEach(function(b){b.textContent=t.timer_60;});
+  el=document.getElementById('start-btn');if(el)el.textContent=t.btn_start;
+  el=document.getElementById('matte-btn');if(el)el.textContent=t.lbl_matte;
+  el=document.getElementById('gs-sep1');if(el)el.textContent=t.gs_sep1;
+  el=document.getElementById('gs-sep2');if(el)el.textContent=t.gs_sep2;
+  el=document.getElementById('btn-flick');if(el)el.textContent=t.lbl_flick;
+  el=document.getElementById('again-btn');if(el)el.textContent=t.btn_again;
+  el=document.getElementById('menu-btn');if(el)el.textContent=t.btn_menu;
+  el=document.getElementById('help');if(el)el.textContent=t.help_text;
+  el=document.getElementById('cpu-bubble');if(el)el.textContent=t.status_cpu;
+  if(typeof currentPlayer!=='undefined')updateTurnUI();
+  if(typeof mode!=='undefined'&&typeof gameOver!=='undefined'&&!gameOver)updateStatus();
+}
+
+function showHelp(){
+  prevScreen=gameContainer.classList.contains('active')?'game':'start';
+  gameContainer.classList.remove('active');
+  startScreen.style.display='none';
+  howtoEl.classList.add('active');
+}
+
+function goToStartFromHeader(){
+  if(gameContainer.classList.contains('active')){
+    goToMenu();
+  } else if(howtoEl.classList.contains('active')){
+    finishHowto();
+  }
+}
+
+var GRID=5,HAND_MAX=5,TIMER_WARN=10;
+var gameMode='2p',cpuLevel='easy',timerSec=0;
+var scoreRed=0,scoreYellow=0;
+var board,currentPlayer,mode,selectedCell,handRed,handYellow,gameOver,animating;
+var prevState=[],timerInterval=null,timerLeft=0;
 
 // Audio
-let audioCtx=null;
+var audioCtx=null;
 function getAC(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
-function tone(f,t,d,v){v=v||0.28;try{const c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+d);o.start();o.stop(c.currentTime+d);}catch(e){}}
+function tone(f,t,d,v){v=v||0.28;try{var c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+d);o.start();o.stop(c.currentTime+d);}catch(e){}}
 function sfxPlace(){tone(440,'sine',0.12,0.22);}
 function sfxFlick(){tone(300,'triangle',0.15,0.28);setTimeout(function(){tone(520,'sine',0.1,0.18);},110);}
 function sfxHit(){tone(180,'sawtooth',0.18,0.38);}
@@ -273,10 +447,10 @@ function sfxWin(){[523,659,784,1047].forEach(function(f,i){setTimeout(function()
 function sfxTimeout(){tone(200,'sawtooth',0.4,0.5);}
 function sfxUndo(){tone(360,'sine',0.15,0.18);}
 
-const startScreen=document.getElementById('start-screen');
-const gameContainer=document.getElementById('game-container');
-const splashEl=document.getElementById('splash');
-const howtoEl=document.getElementById('howto-screen');
+var startScreen=document.getElementById('start-screen');
+var gameContainer=document.getElementById('game-container');
+var splashEl=document.getElementById('splash');
+var howtoEl=document.getElementById('howto-screen');
 
 // Splash → Howto → Start
 function showHowto(){
@@ -284,6 +458,8 @@ function showHowto(){
   setTimeout(function(){
     splashEl.style.display='none';
     howtoEl.classList.add('active');
+    document.getElementById('app-header').classList.remove('hidden');
+    prevScreen='start';
   },650);
 }
 
@@ -299,33 +475,37 @@ setTimeout(function(){
   if(!splashDone){splashDone=true;showHowto();}
 },2400);
 
-document.getElementById('howto-next').addEventListener('click',showStartScreen);
-document.getElementById('howto-skip').addEventListener('click',showStartScreen);
-function showStartScreen(){
+document.getElementById('howto-next').addEventListener('click',finishHowto);
+document.getElementById('howto-skip').addEventListener('click',finishHowto);
+function finishHowto(){
   howtoEl.classList.remove('active');
-  startScreen.style.display='flex';
+  if(prevScreen==='game'){
+    gameContainer.classList.add('active');
+  } else {
+    startScreen.style.display='flex';
+  }
 }
-const boardEl=document.getElementById('board');
-const flickArrowsEl=document.getElementById('flick-arrows');
-const turnMarbleEl=document.getElementById('turn-marble');
-const turnTextEl=document.getElementById('turn-text');
-const statusEl=document.getElementById('status-msg');
-const redCountEl=document.getElementById('red-count');
-const yellowCountEl=document.getElementById('yellow-count');
-const winOverlay=document.getElementById('win-overlay');
-const winTextEl=document.getElementById('win-text');
-const winSubEl=document.getElementById('win-sub');
-const btnPlace=document.getElementById('btn-place');
-const btnFlick=document.getElementById('btn-flick');
-const timerWrap=document.getElementById('timer-wrap');
-const timerBar=document.getElementById('timer-bar');
-const timerNumEl=document.getElementById('timer-num');
-const cpuThinking=document.getElementById('cpu-thinking');
-const gsRed=document.getElementById('gs-red');
-const gsYellow=document.getElementById('gs-yellow');
-let cells=[];
+var boardEl=document.getElementById('board');
+var flickArrowsEl=document.getElementById('flick-arrows');
+var turnMarbleEl=document.getElementById('turn-marble');
+var turnTextEl=document.getElementById('turn-text');
+var statusEl=document.getElementById('status-msg');
+var redCountEl=document.getElementById('red-count');
+var yellowCountEl=document.getElementById('yellow-count');
+var winOverlay=document.getElementById('win-overlay');
+var winTextEl=document.getElementById('win-text');
+var winSubEl=document.getElementById('win-sub');
+var btnPlace=document.getElementById('btn-place');
+var btnFlick=document.getElementById('btn-flick');
+var timerWrap=document.getElementById('timer-wrap');
+var timerBar=document.getElementById('timer-bar');
+var timerNumEl=document.getElementById('timer-num');
+var cpuThinking=document.getElementById('cpu-thinking');
+var gsRed=document.getElementById('gs-red');
+var gsYellow=document.getElementById('gs-yellow');
+var cells=[];
 
-const DIRS=[{dr:-1,dc:0,label:'⬆️'},{dr:1,dc:0,label:'⬇️'},{dr:0,dc:-1,label:'⬅️'},{dr:0,dc:1,label:'➡️'},{dr:-1,dc:-1,label:'↖️'},{dr:-1,dc:1,label:'↗️'},{dr:1,dc:-1,label:'↙️'},{dr:1,dc:1,label:'↘️'}];
+var DIRS=[{dr:-1,dc:0,label:'\u2B06\uFE0F'},{dr:1,dc:0,label:'\u2B07\uFE0F'},{dr:0,dc:-1,label:'\u2B05\uFE0F'},{dr:0,dc:1,label:'\u27A1\uFE0F'},{dr:-1,dc:-1,label:'\u2196\uFE0F'},{dr:-1,dc:1,label:'\u2197\uFE0F'},{dr:1,dc:-1,label:'\u2199\uFE0F'},{dr:1,dc:1,label:'\u2198\uFE0F'}];
 
 document.querySelectorAll('.opt-btn').forEach(function(btn){
   btn.addEventListener('click',function(){
@@ -340,7 +520,6 @@ document.querySelectorAll('.opt-btn').forEach(function(btn){
 document.getElementById('start-btn').addEventListener('click',startGame);
 document.getElementById('again-btn').addEventListener('click',function(){winOverlay.classList.remove('show');startGame();});
 document.getElementById('menu-btn').addEventListener('click',goToMenu);
-document.getElementById('home-btn').addEventListener('click',goToMenu);
 document.getElementById('matte-btn').addEventListener('click',doUndo);
 btnPlace.addEventListener('click',function(){setMode('place');});
 btnFlick.addEventListener('click',function(){setMode('flick');});
@@ -378,7 +557,7 @@ function updateTimerUI(){
   timerBar.style.width=(timerLeft/timerSec*100)+'%';
   timerBar.style.background=timerLeft<=TIMER_WARN?'#e74c3c':'#4caf50';
 }
-function autoPassTurn(){statusEl.textContent='⏱ 時間切れ！';setTimeout(function(){nextTurn();},800);}
+function autoPassTurn(){statusEl.textContent=T[lang].status_pass_time;setTimeout(function(){nextTurn();},800);}
 
 function initBoard(){
   boardEl.innerHTML='';flickArrowsEl.innerHTML='';flickArrowsEl.classList.remove('visible');cells=[];
@@ -397,17 +576,18 @@ function setMode(m){
   document.querySelectorAll('.cell.valid-target').forEach(function(el){el.classList.remove('valid-target');});
   btnPlace.classList.toggle('active',m==='place');
   btnFlick.classList.toggle('active',m==='flick');
-  btnPlace.textContent=(currentPlayer==='red'?'🔴':'🟡')+' 置く';
+  btnPlace.textContent=(currentPlayer==='red'?'\uD83D\uDD34':'\uD83D\uDFE1')+' '+T[lang].lbl_place;
   renderBoard();
   updateStatus();
 }
 function updateStatus(){
-  if(gameMode==='cpu'&&currentPlayer==='yellow'){statusEl.textContent='🤖 CPUが考えています...';return;}
+  var t=T[lang];
+  if(gameMode==='cpu'&&currentPlayer==='yellow'){statusEl.textContent=t.status_cpu;return;}
   if(mode==='place'){
     var h=currentPlayer==='red'?handRed:handYellow;
-    statusEl.textContent=h<=0?'手持ちがありません。「はじく」を使ってください':'空きマスをタップしてコマを置こう';
+    statusEl.textContent=h<=0?t.status_no_hand:t.status_place;
   }else{
-    statusEl.textContent=selectedCell?'矢印で方向を選択してください':'自分のコマをタップして選択してください';
+    statusEl.textContent=selectedCell?t.status_flick_dir:t.status_flick_select;
   }
 }
 
@@ -429,9 +609,9 @@ function onCellClick(r,c){
 
 function tryPlace(r,c){
   var h=currentPlayer==='red'?handRed:handYellow;
-  if(h<=0){statusEl.textContent='手持ちがありません！';return;}
+  if(h<=0){statusEl.textContent=T[lang].status_no_hand;return;}
   if(board[r][c]!==null)return;
-  if(isTooClose(r,c)){statusEl.textContent='自分のコマの周り8マスには置けません！';return;}
+  if(isTooClose(r,c)){statusEl.textContent=T[lang].place_too_close;return;}
   saveState();sfxPlace();
   board[r][c]=currentPlayer;
   if(currentPlayer==='red')handRed--;else handYellow--;
@@ -484,7 +664,7 @@ function flickCalc(r,c,dr,dc,b){
 function doFlick(r,c,dr,dc){
   if(animating)return;
   var calc=flickCalc(r,c,dr,dc,null);
-  if(calc.selfR===r&&calc.selfC===c&&!calc.hitEnemy){statusEl.textContent='その方向には動けません';return;}
+  if(calc.selfR===r&&calc.selfC===c&&!calc.hitEnemy){statusEl.textContent=T[lang].status_no_move;return;}
   saveState();animating=true;hideFlickArrows();
   var color=board[r][c];
   if(!calc.hitEnemy){
@@ -514,7 +694,7 @@ function animateMarble(sr,sc,er,ec,color,done){
   fm.style.cssText='position:absolute;left:'+sx+'px;top:'+sy+'px;width:'+(sR.width*0.78)+'px;height:'+(sR.height*0.78)+'px;z-index:20;transition:left '+dur+'ms ease-out,top '+dur+'ms ease-out;pointer-events:none;';
   renderBoardExcept(sr,sc,er,ec);boardEl.appendChild(fm);
   requestAnimationFrame(function(){requestAnimationFrame(function(){fm.style.left=ex+'px';fm.style.top=ey+'px';});});
-  setTimeout(function(){fm.remove();done();},dur+30);
+  setTimeout(function(){fm.parentNode.removeChild(fm);done();},dur+30);
 }
 function renderBoardExcept(hR,hC,hR2,hC2){
   for(var r=0;r<GRID;r++)for(var c=0;c<GRID;c++){
@@ -551,10 +731,11 @@ function updateHandCount(){redCountEl.textContent='×'+handRed;yellowCountEl.tex
 
 function updateTurnUI(){
   var isRed=currentPlayer==='red';
+  var t=T[lang];
   turnMarbleEl.className=isRed?'red':'yellow';
-  var suf=gameMode==='cpu'&&!isRed?' (CPU)':'';
-  turnTextEl.textContent=(isRed?'赤':'黄')+'の番'+suf;
-  btnPlace.textContent=(isRed?'🔴':'🟡')+' 置く';
+  var suf=(gameMode==='cpu'&&!isRed)?t.turn_cpu_suf:'';
+  turnTextEl.textContent=(isRed?t.turn_red:t.turn_yellow)+suf;
+  btnPlace.textContent=(isRed?'\uD83D\uDD34':'\uD83D\uDFE1')+' '+t.lbl_place;
 }
 function nextTurn(){
   currentPlayer=currentPlayer==='red'?'yellow':'red';
@@ -568,7 +749,7 @@ function nextTurn(){
 
 function saveState(){prevState.push({board:board.map(function(r){return r.slice();}),currentPlayer:currentPlayer,mode:mode,handRed:handRed,handYellow:handYellow});}
 function doUndo(){
-  if(prevState.length===0){statusEl.textContent='戻せる手がありません';return;}
+  if(prevState.length===0){statusEl.textContent=T[lang].status_no_undo;return;}
   try{
     sfxUndo();stopTimer();
     var s=prevState.pop();
@@ -576,7 +757,7 @@ function doUndo(){
     mode='place';selectedCell=null;animating=false;gameOver=false;
     hideFlickArrows();renderBoard();updateHandCount();updateTurnUI();
     btnPlace.classList.add('active');btnFlick.classList.remove('active');
-    statusEl.textContent='一手戻しました';
+    statusEl.textContent=T[lang].status_undo;
     if(timerSec>0)startTimer();
   }catch(e){console.error(e);}
 }
@@ -612,9 +793,10 @@ function showWin(winner){
   if(winner==='red')scoreRed++;else scoreYellow++;
   gsRed.textContent=scoreRed;gsYellow.textContent=scoreYellow;
   var isRed=winner==='red';
-  winTextEl.textContent=isRed?'🔴 赤の勝ち！':'🟡 黄の勝ち！';
+  var wt=T[lang];
+  winTextEl.textContent=isRed?wt.win_red:wt.win_yellow;
   winTextEl.style.color=isRed?'#ff6b6b':'#ffe066';
-  winSubEl.textContent=gameMode==='cpu'&&!isRed?'💻 CPUの勝ち！':'3つ並べました！';
+  winSubEl.textContent=(gameMode==='cpu'&&!isRed)?wt.win_cpu:wt.win_3lined;
   winOverlay.classList.add('show');
 }
 
@@ -705,6 +887,7 @@ function applyCpuMove(move){
     doFlick(move.r,move.c,move.dr,move.dc);
   }
 }
+applyLang();
 </script>
 </body>
 </html>
