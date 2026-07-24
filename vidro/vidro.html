@@ -9,7 +9,8 @@
 *{margin:0;padding:0;box-sizing:border-box;touch-action:manipulation;}
 body{background:#0f0f0f;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Noto Sans JP',sans-serif;overflow:hidden;user-select:none;}
 
-#start-screen{display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px;padding-top:64px;max-width:380px;width:100%;}
+#start-screen{display:none;flex-direction:column;align-items:center;gap:16px;padding:24px;padding-top:64px;max-width:380px;width:100%;}
+#start-screen.active{display:flex;}
 #start-logo{font-size:clamp(40px,12vw,60px);font-weight:900;letter-spacing:6px;color:#e0e0e0;text-shadow:0 0 20px rgba(0,188,212,0.4);}
 #start-logo span{color:#f0d080;}
 #start-sub{font-size:12px;color:#888;letter-spacing:3px;margin-top:-10px;}
@@ -192,7 +193,7 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
   <button id="howto-next">さあ、はじめよう！</button>
   <button id="howto-skip">スキップ</button>
 </div>
-<div id="start-screen" style="display:none">
+<div id="start-screen">
   <div id="start-logo">VID<span>R</span>O</div>
   <div id="start-sub">3つ並べろ！</div>
   <div class="score-board">
@@ -419,7 +420,7 @@ function applyLang(){
 function showHelp(){
   prevScreen=gameContainer.classList.contains('active')?'game':'start';
   gameContainer.classList.remove('active');
-  startScreen.style.display='none';
+  startScreen.classList.remove('active');
   howtoEl.classList.add('active');
 }
 
@@ -453,14 +454,21 @@ var gameContainer=document.getElementById('game-container');
 var splashEl=document.getElementById('splash');
 var howtoEl=document.getElementById('howto-screen');
 
-// Splash → Howto → Start
+// Splash → Howto or Start
 function showHowto(){
   splashEl.classList.add('hide');
   setTimeout(function(){
     splashEl.style.display='none';
-    howtoEl.classList.add('active');
     document.getElementById('app-header').classList.remove('hidden');
-    prevScreen='start';
+    var seen=false;
+    try{seen=localStorage.getItem('vidro_seen')==='1';}catch(e){}
+    if(!seen){
+      try{localStorage.setItem('vidro_seen','1');}catch(e){}
+      howtoEl.classList.add('active');
+      prevScreen='start';
+    }else{
+      startScreen.classList.add('active');
+    }
   },650);
 }
 
@@ -483,7 +491,7 @@ function finishHowto(){
   if(prevScreen==='game'){
     gameContainer.classList.add('active');
   } else {
-    startScreen.style.display='flex';
+    startScreen.classList.add('active');
   }
 }
 var boardEl=document.getElementById('board');
@@ -527,13 +535,13 @@ btnFlick.addEventListener('click',function(){setMode('flick');});
 
 function goToMenu(){
   winOverlay.classList.remove('show');stopTimer();
-  gameContainer.classList.remove('active');startScreen.style.display='flex';
+  gameContainer.classList.remove('active');startScreen.classList.add('active');
   document.getElementById('sc-red').textContent=scoreRed;
   document.getElementById('sc-yellow').textContent=scoreYellow;
 }
 
 function startGame(){
-  startScreen.style.display='none';gameContainer.classList.add('active');
+  startScreen.classList.remove('active');gameContainer.classList.add('active');
   board=Array.from({length:GRID},function(){return Array(GRID).fill(null);});
   currentPlayer='red';mode='place';selectedCell=null;
   handRed=HAND_MAX;handYellow=HAND_MAX;
