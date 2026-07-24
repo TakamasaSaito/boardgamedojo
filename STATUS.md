@@ -27,10 +27,14 @@
 
 ## 残タスク（GitHub Issues）
 
+### 優先度：高
+- [ ] 全ゲーム: ヘッダーをパンくず形式に改善（← BoardGameDojo | GAME NAME）→ [#16](https://github.com/TakamasaSaito/boardgamedojo/issues/16)
+- [ ] 全ゲーム: 盤面以外の画面のPC表示最適化 → [#17](https://github.com/TakamasaSaito/boardgamedojo/issues/17)
+
 ### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
 - [ ] プライバシーポリシーページ作成 → [#7](https://github.com/TakamasaSaito/boardgamedojo/issues/7)
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
+全ゲーム: ヘッダーをパンくず形式に改善 → [#16](https://github.com/TakamasaSaito/boardgamedojo/issues/16)
