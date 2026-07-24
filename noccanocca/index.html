@@ -2,12 +2,1176 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=./noccanocca.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>NOCCA x NOCCA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans:wght@400;700&family=Orbitron:wght@700;900&display=swap">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f0f0f;
+  --surface: #1a1a1a;
+  --surface2: #242424;
+  --accent: #00bcd4;
+  --accent2: #0097a7;
+  --text: #e0e0e0;
+  --text-dim: #888;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+
+body {
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#app { max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; }
+
+/* ===== SCREENS ===== */
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ===== HEADER ===== */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  position: sticky; top: 0; z-index: 50;
+}
+.logo-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px; font-weight: 900;
+  color: var(--accent);
+  background: none; border: none; cursor: pointer;
+  letter-spacing: 1px;
+  padding: 6px 0;
+}
+a.logo-btn { text-decoration: none; color: var(--accent); }
+.header-right { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  background: var(--surface2); border: none; border-radius: 8px;
+  color: var(--text); font-size: 18px; cursor: pointer;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow);
+}
+.icon-btn:active { opacity: 0.7; }
+
+/* ===== SPLASH ===== */
+#splashScreen {
+  background: var(--bg);
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 24px;
+  cursor: pointer; user-select: none;
+}
+.splash-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 32px; font-weight: 900;
+  color: var(--accent); letter-spacing: 3px;
+  text-align: center; line-height: 1.3;
+  text-shadow: 0 0 30px rgba(0,188,212,0.5);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+.splash-sub { font-size: 14px; color: var(--text-dim); letter-spacing: 2px; }
+.splash-tap {
+  font-size: 12px; color: var(--text-dim);
+  margin-top: 16px; animation: blink 1.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:0.3} 50%{opacity:0.9} }
+.splash-pieces { display: flex; gap: 8px; margin: 8px 0; }
+.splash-piece {
+  width: 28px; height: 28px; border-radius: 50%;
+  animation: bounce 1.2s ease-in-out infinite alternate;
+}
+.splash-piece:nth-child(odd) { background: #e0e0e0; animation-delay: 0s; }
+.splash-piece:nth-child(even) { background: #222; border: 2px solid #aaa; animation-delay: 0.3s; }
+.splash-piece:nth-child(3) { animation-delay: 0.6s; }
+.splash-piece:nth-child(4) { animation-delay: 0.9s; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+@keyframes glow { from { text-shadow: 0 0 20px rgba(0,188,212,0.3); } to { text-shadow: 0 0 40px rgba(0,188,212,0.8); } }
+
+/* ===== ONBOARDING ===== */
+#onboardScreen { background: var(--bg); flex-direction: column; }
+.onboard-body {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px 24px 0;
+}
+.onboard-step {
+  display: none; flex-direction: column;
+  align-items: center; text-align: center; gap: 16px; width: 100%;
+}
+.onboard-step.active { display: flex; }
+.onboard-icon { font-size: 56px; line-height: 1; }
+.onboard-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: 1px;
+}
+.onboard-desc { font-size: 13px; color: var(--text-dim); line-height: 1.9; max-width: 300px; }
+.onboard-visual { display: flex; gap: 5px; align-items: center; margin: 4px 0; }
+.ob-cell {
+  width: 42px; height: 42px; border-radius: 8px;
+  background: #2a2a2a; border: 1px solid #333;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.ob-piece {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; font-family: 'Orbitron', sans-serif;
+  position: absolute; box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.ob-piece.white { background: #e8e8e8; color: #111; }
+.ob-piece.black { background: #1a1a1a; color: #e0e0e0; border: 2px solid #555; }
+.ob-arrow { font-size: 20px; color: var(--accent); }
+.ob-cell.goal { border-color: rgba(0,188,212,0.5); background: rgba(0,188,212,0.08); }
+.ob-cell.goal-w { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
+.onboard-dots {
+  display: flex; gap: 8px; justify-content: center; padding: 20px 0 8px;
+}
+.onboard-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #333; transition: background 0.2s;
+}
+.onboard-dot.active { background: var(--accent); }
+.onboard-footer { padding: 8px 24px 28px; width: 100%; display: flex; flex-direction: column; gap: 8px; }
+
+/* ===== HOME ===== */
+#homeScreen { background: var(--bg); }
+.home-body {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px 20px; gap: 16px;
+}
+.home-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 26px; font-weight: 900;
+  color: var(--accent); letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(0,188,212,0.4);
+  margin-bottom: 8px;
+}
+.home-sub { font-size: 13px; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 16px; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: block; width: 100%; padding: 15px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 16px; font-weight: 700;
+  background: var(--surface2); color: var(--text);
+  border: 1px solid #333; border-radius: var(--radius);
+  cursor: pointer; box-shadow: var(--shadow);
+  transition: background 0.15s, transform 0.1s;
+}
+.btn:active { background: #2a2a2a; transform: scale(0.98); }
+.btn.primary {
+  background: var(--accent); color: #000;
+  border-color: var(--accent);
+  font-size: 17px;
+}
+.btn.primary:active { background: var(--accent2); }
+.btn.ghost {
+  background: transparent; border-color: #444; color: var(--text-dim);
+}
+
+/* ===== MODE / DIFF ===== */
+#modeScreen, #diffScreen { background: var(--bg); }
+.screen-body {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 24px 20px; gap: 12px;
+}
+.screen-title {
+  font-size: 18px; font-weight: 700;
+  color: var(--accent); margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.diff-card {
+  background: var(--surface); border-radius: var(--radius);
+  border: 1px solid #2a2a2a;
+  padding: 16px 18px;
+  cursor: pointer; box-shadow: var(--shadow);
+  transition: border-color 0.15s, transform 0.1s;
+  text-align: left;
+}
+.diff-card:active { transform: scale(0.98); border-color: var(--accent); }
+.diff-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.diff-desc { font-size: 12px; color: var(--text-dim); }
+
+/* ===== GAME ===== */
+#gameScreen { background: var(--bg); }
+.game-body { flex: 1; display: flex; flex-direction: column; padding: 10px 12px; gap: 10px; }
+
+#status {
+  text-align: center; padding: 10px;
+  background: var(--surface); border-radius: var(--radius);
+  font-size: 14px; font-weight: 700;
+  box-shadow: var(--shadow);
+  border-left: 3px solid var(--accent);
+}
+.turn-white { border-left-color: #e0e0e0 !important; }
+.turn-black { border-left-color: #00bcd4 !important; }
+
+#boardWrap {
+  display: flex; justify-content: center;
+  background: var(--surface); border-radius: var(--radius);
+  padding: 10px; box-shadow: var(--shadow);
+}
+#board {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px;
+  width: 100%; max-width: 340px;
+}
+
+.cell {
+  aspect-ratio: 1;
+  background: #2a2a2a;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  min-height: 44px;
+  border: 1px solid #333;
+  transition: background 0.1s;
+}
+.cell.selected {
+  outline: 2px solid #ffd600;
+  background: rgba(255,214,0,0.1);
+}
+.cell.movable {
+  outline: 2px solid var(--accent);
+  background: rgba(0,188,212,0.12);
+}
+.cell.goal-top {
+  background: rgba(0,188,212,0.08);
+  border-color: rgba(0,188,212,0.3);
+}
+.cell.goal-bottom {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.pieces-wrap {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.piece {
+  width: 62%; aspect-ratio: 1; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 11px;
+  position: absolute;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  font-family: 'Orbitron', sans-serif;
+}
+.piece.white { background: #e8e8e8; color: #111; }
+.piece.black { background: #1a1a1a; color: #e0e0e0; border: 2px solid #555; }
+
+#gameControls { display: flex; gap: 8px; }
+#gameControls .btn { font-size: 14px; padding: 11px; }
+
+/* ===== HOW-TO ===== */
+#howScreen { background: var(--bg); }
+.how-body { flex: 1; padding: 20px 16px; overflow-y: auto; }
+.how-section { margin-bottom: 24px; }
+.how-title { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 10px; border-bottom: 1px solid #2a2a2a; padding-bottom: 6px; }
+.how-text { font-size: 13px; color: var(--text-dim); line-height: 1.8; }
+.how-rule {
+  background: var(--surface); border-radius: 10px; padding: 12px 14px;
+  margin-bottom: 8px; font-size: 13px; line-height: 1.7;
+  border-left: 3px solid var(--accent);
+}
+
+/* ===== MODAL ===== */
+#modal {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8); z-index: 200;
+  align-items: center; justify-content: center;
+}
+#modal.open { display: flex; }
+#modalBox {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 32px 24px; text-align: center;
+  max-width: 300px; width: 88%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+  border: 1px solid #2a2a2a;
+  animation: popIn 0.25s ease-out;
+}
+@keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+#modalIcon { font-size: 48px; margin-bottom: 12px; }
+#modalTitle { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: var(--accent); }
+#modalBox .btn { margin: 8px 0; }
+@media (min-width: 769px) {
+  #boardWrap, #board { max-width: 520px; }
+  #app { max-width: 680px; }
+  #homeScreen, #modeScreen, #diffScreen { justify-content: center; }
+}
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: #00bcd4; white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: #e0e0e0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hdr-right, .header-right { flex-shrink: 0; }
+.bc-full { display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } }
+</style>
 </head>
 <body>
+<div id="app">
+
+  <!-- ===== SPLASH ===== -->
+  <div id="splashScreen" class="screen active" onclick="splashTap()">
+    <div class="splash-logo">NOCCA<br>x NOCCA</div>
+    <div class="splash-pieces">
+      <div class="splash-piece"></div>
+      <div class="splash-piece"></div>
+      <div class="splash-piece"></div>
+      <div class="splash-piece"></div>
+    </div>
+    <div class="splash-sub" id="splashSub">ノッカノッカ</div>
+    <div class="splash-tap" id="splashTap">タップして始める</div>
+  </div>
+
+  <!-- ===== ONBOARDING ===== -->
+  <div id="onboardScreen" class="screen">
+    <div class="onboard-body">
+
+      <!-- Step 1: 目的 -->
+      <div class="onboard-step active" id="ob0">
+        <div class="onboard-icon">&#x1F3C6;</div>
+        <div class="onboard-title" id="obT0">ゲームの目的</div>
+        <div class="onboard-visual">
+          <div class="ob-cell goal">
+            <div class="ob-piece white" style="transform:translate(0,0)">W</div>
+          </div>
+          <div class="ob-arrow">&#x2190;</div>
+          <div class="ob-cell"><div class="ob-piece white">W</div></div>
+          <div style="font-size:11px;color:var(--text-dim)">vs</div>
+          <div class="ob-cell"><div class="ob-piece black">B</div></div>
+          <div class="ob-arrow">&#x2192;</div>
+          <div class="ob-cell goal-w">
+            <div class="ob-piece black" style="transform:translate(0,0)">B</div>
+          </div>
+        </div>
+        <div class="onboard-desc" id="obD0">自分のコマを1つでも相手の初期配置列に到達させると勝利。または相手のコマ5つ全てに乗って動けなくしても勝利です。</div>
+      </div>
+
+      <!-- Step 2: 移動 -->
+      <div class="onboard-step" id="ob1">
+        <div class="onboard-icon">&#x1F9ED;</div>
+        <div class="onboard-title" id="obT1">コマの動き</div>
+        <div class="onboard-visual" style="flex-wrap:wrap;gap:3px;max-width:160px;justify-content:center">
+          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+          <div class="ob-cell"><div class="ob-piece white">W</div></div>
+          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+        </div>
+        <div class="onboard-desc" id="obD1">コマは上下左右・斜めの8方向に1マスだけ移動できます。スタックの一番上のコマだけが動かせます。</div>
+      </div>
+
+      <!-- Step 3: スタック -->
+      <div class="onboard-step" id="ob2">
+        <div class="onboard-icon">&#x1F4E6;</div>
+        <div class="onboard-title" id="obT2">スタック（乗っかる）</div>
+        <div class="onboard-visual">
+          <div class="ob-cell">
+            <div class="ob-piece black" style="transform:translate(-4px,4px);z-index:0;opacity:0.6">B</div>
+            <div class="ob-piece white" style="transform:translate(0,0);z-index:1">W</div>
+          </div>
+          <div style="font-size:12px;color:var(--text-dim);text-align:center;line-height:1.5">&#x2190; 上のWだけ<br>動ける</div>
+        </div>
+        <div class="onboard-desc" id="obD2">移動先にコマがあると上に乗れます（最大3段）。乗られたコマは動けません。自分のコマにも乗れます。4段目は不可。</div>
+      </div>
+
+      <div class="onboard-dots">
+        <div class="onboard-dot active" id="dot0"></div>
+        <div class="onboard-dot" id="dot1"></div>
+        <div class="onboard-dot" id="dot2"></div>
+      </div>
+    </div>
+    <div class="onboard-footer">
+      <button class="btn primary" id="obNextBtn" onclick="obNext()">次へ</button>
+      <button class="btn ghost" onclick="showScreen('homeScreen')" id="obSkipBtn">スキップ</button>
+    </div>
+  </div>
+
+  <!-- ===== HOME ===== -->
+  <div id="homeScreen" class="screen">
+    <div class="header">
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
+      <div class="header-right">
+        <button class="icon-btn" id="langBtn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
+        <button class="icon-btn" onclick="openHow('homeScreen')">?</button>
+      </div>
+    </div>
+    <div class="home-body">
+      <div class="home-title">NOCCA<br>x NOCCA</div>
+      <div class="home-sub" id="homeSub">ノッカノッカ</div>
+      <button class="btn primary" onclick="showScreen('modeScreen')" id="btnStart">ゲームを始める</button>
+    </div>
+  </div>
+
+  <!-- ===== MODE ===== -->
+  <div id="modeScreen" class="screen">
+    <div class="header">
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
+      <div class="header-right">
+        <button class="icon-btn" id="langBtn2" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
+        <button class="icon-btn" onclick="openHow('modeScreen')">?</button>
+      </div>
+    </div>
+    <div class="screen-body">
+      <div class="screen-title" id="modeTitle">モード選択</div>
+      <button class="btn primary" onclick="selectMode(1)" id="btn1P">1人プレイ（AI対戦）</button>
+      <button class="btn" onclick="selectMode(2)" id="btn2P">2人プレイ</button>
+      <button class="btn ghost" onclick="showScreen('homeScreen')" id="btnBack1">戻る</button>
+    </div>
+  </div>
+
+  <!-- ===== DIFFICULTY ===== -->
+  <div id="diffScreen" class="screen">
+    <div class="header">
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
+      <div class="header-right">
+        <button class="icon-btn" id="langBtn3" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
+        <button class="icon-btn" onclick="openHow('diffScreen')">?</button>
+      </div>
+    </div>
+    <div class="screen-body">
+      <div class="screen-title" id="diffTitle">AI難易度</div>
+      <div class="diff-card" onclick="startGame(1)">
+        <div class="diff-name" id="diffE">&#x1F7E2; かんたん</div>
+        <div class="diff-desc" id="diffEdesc">ランダムに動きます。初めての方に。</div>
+      </div>
+      <div class="diff-card" onclick="startGame(2)">
+        <div class="diff-name" id="diffN">&#x1F7E1; ふつう</div>
+        <div class="diff-desc" id="diffNdesc">2手先を読みます。慣れてきたら。</div>
+      </div>
+      <div class="diff-card" onclick="startGame(3)">
+        <div class="diff-name" id="diffH">&#x1F534; むずかしい</div>
+        <div class="diff-desc" id="diffHdesc">3手先を読みます。歯応えあり。</div>
+      </div>
+      <button class="btn ghost" onclick="showScreen('modeScreen')" id="btnBack2">戻る</button>
+    </div>
+  </div>
+
+  <!-- ===== GAME ===== -->
+  <div id="gameScreen" class="screen">
+    <div class="header">
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
+      <div class="header-right">
+        <button class="icon-btn" id="langBtn4" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
+        <button class="icon-btn" onclick="openHow('gameScreen')">?</button>
+      </div>
+    </div>
+    <div class="game-body">
+      <div id="status">---</div>
+      <div id="boardWrap"><div id="board"></div></div>
+      <div id="gameControls">
+        <button class="btn" onclick="resetGame()" id="btnReset">リセット</button>
+        <button class="btn ghost" onclick="goHome()" id="btnHome2">ホーム</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HOW TO ===== -->
+  <div id="howScreen" class="screen">
+    <div class="header">
+      <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">NOCCA&times;NOCCA</span></nav>
+      <div class="header-right">
+        <button class="icon-btn" id="langBtn5" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
+      </div>
+    </div>
+    <div class="how-body">
+      <div class="how-section">
+        <div class="how-title" id="howT1">ゲームの目的</div>
+        <div class="how-rule" id="howR1">自分のコマを1つでも相手の陣地（初期配置列）に到達させると勝利です。または、相手のコマ5つ全てに乗って動けなくしても勝利です。</div>
+      </div>
+      <div class="how-section">
+        <div class="how-title" id="howT2">コマの動き</div>
+        <div class="how-rule" id="howR2">コマは上下左右・斜めの8方向に1マスだけ移動できます。</div>
+        <div class="how-rule" id="howR3">動かせるのは、スタックの一番上のコマだけです。</div>
+      </div>
+      <div class="how-section">
+        <div class="how-title" id="howT3">スタック（重ねる）</div>
+        <div class="how-rule" id="howR4">コマのある場所に移動すると、上に乗ることができます（最大3段）。</div>
+        <div class="how-rule" id="howR5">乗られたコマは動けなくなります。自分のコマにも乗れます。</div>
+        <div class="how-rule" id="howR6">4段目には乗れません。</div>
+      </div>
+      <div class="how-section">
+        <div class="how-title" id="howT4">ボード</div>
+        <div class="how-rule" id="howR7">5×6マス。白は下の列スタート、黒は上の列スタートです。</div>
+      </div>
+    </div>
+    <div style="padding: 0 16px 20px;">
+      <button class="btn" onclick="closeHow()" id="btnCloseHow">閉じる</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- RESULT MODAL -->
+<div id="modal">
+  <div id="modalBox">
+    <div id="modalIcon">&#x1F3C6;</div>
+    <div id="modalTitle">---</div>
+    <button class="btn primary" onclick="resetGame()" id="btnAgain">もう一度</button>
+    <button class="btn ghost" onclick="goHome()" id="btnModalHome">ホーム</button>
+  </div>
+</div>
+
 <script>
-window.location.replace('./noccanocca.html');
+// ========== LANG ==========
+var lang = 'ja';
+
+var T = {
+  ja: {
+    splashSub: '\u30ce\u30c3\u30ab\u30ce\u30c3\u30ab',
+    homeSub: '\u30ce\u30c3\u30ab\u30ce\u30c3\u30ab',
+    btnStart: '\u30b2\u30fc\u30e0\u3092\u59cb\u3081\u308b',
+    modeTitle: '\u30e2\u30fc\u30c9\u9078\u629e',
+    btn1P: '1\u4eba\u30d7\u30ec\u30a4\uff08AI\u5bfe\u6226\uff09',
+    btn2P: '2\u4eba\u30d7\u30ec\u30a4',
+    btnBack1: '\u623b\u308b',
+    btnBack2: '\u623b\u308b',
+    diffTitle: 'AI\u96e3\u6613\u5ea6',
+    diffE: '\u{1F7E2} \u304b\u3093\u305f\u3093',
+    diffEdesc: '\u30e9\u30f3\u30c0\u30e0\u306b\u52d5\u304d\u307e\u3059\u3002\u521d\u3081\u3066\u306e\u65b9\u306b\u3002',
+    diffN: '\u{1F7E1} \u3075\u3064\u3046',
+    diffNdesc: '2\u624b\u5148\u3092\u8aad\u307f\u307e\u3059\u3002\u6163\u308c\u3066\u304d\u305f\u3089\u3002',
+    diffH: '\u{1F534} \u3080\u305a\u304b\u3057\u3044',
+    diffHdesc: '3\u624b\u5148\u3092\u8aad\u307f\u307e\u3059\u3002\u6b6f\u5fdc\u3048\u3042\u308a\u3002',
+    btnReset: '\u30ea\u30bb\u30c3\u30c8',
+    btnHome2: '\u30db\u30fc\u30e0',
+    btnCloseHow: '\u9589\u3058\u308b',
+    btnAgain: '\u3082\u3046\u4e00\u5ea6',
+    btnModalHome: '\u30db\u30fc\u30e0',
+    howT1: '\u30b2\u30fc\u30e0\u306e\u76ee\u7684',
+    howR1: '\u81ea\u5206\u306e\u30b3\u30de\u30921\u3064\u3067\u3082\u76f8\u624b\u306e\u9663\u5730\uff08\u521d\u671f\u914d\u7f6e\u5217\uff09\u306b\u5230\u9054\u3055\u305b\u308b\u3068\u52dd\u5229\u3067\u3059\u3002\u307e\u305f\u306f\u3001\u76f8\u624b\u306e\u30b3\u30de5\u3064\u5168\u3066\u306b\u4e57\u3063\u3066\u52d5\u3051\u306a\u304f\u3057\u3066\u3082\u52dd\u5229\u3067\u3059\u3002',
+    howT2: '\u30b3\u30de\u306e\u52d5\u304d',
+    howR2: '\u30b3\u30de\u306f\u4e0a\u4e0b\u5de6\u53f3\u30fb\u659c\u3081\u306e8\u65b9\u5411\u306b1\u30de\u30b9\u3060\u3051\u79fb\u52d5\u3067\u304d\u307e\u3059\u3002',
+    howR3: '\u52d5\u304b\u305b\u308b\u306e\u306f\u3001\u30b9\u30bf\u30c3\u30af\u306e\u4e00\u756a\u4e0a\u306e\u30b3\u30de\u3060\u3051\u3067\u3059\u3002',
+    howT3: '\u30b9\u30bf\u30c3\u30af\uff08\u91cd\u306d\u308b\uff09',
+    howR4: '\u30b3\u30de\u306e\u3042\u308b\u5834\u6240\u306b\u79fb\u52d5\u3059\u308b\u3068\u3001\u4e0a\u306b\u4e57\u308b\u3053\u3068\u304c\u3067\u304d\u307e\u3059\uff08\u6700\u59273\u6bb5\uff09\u3002',
+    howR5: '\u4e57\u3089\u308c\u305f\u30b3\u30de\u306f\u52d5\u3051\u306a\u304f\u306a\u308a\u307e\u3059\u3002\u81ea\u5206\u306e\u30b3\u30de\u306b\u3082\u4e57\u308c\u307e\u3059\u3002',
+    howR6: '4\u6bb5\u76ee\u306b\u306f\u4e57\u308c\u307e\u305b\u3093\u3002',
+    howT4: '\u30dc\u30fc\u30c9',
+    howR7: '5\u00d76\u30de\u30b9\u3002\u767d\u306f\u4e0b\u306e\u5217\u30b9\u30bf\u30fc\u30c8\u3001\u9ed2\u306f\u4e0a\u306e\u5217\u30b9\u30bf\u30fc\u30c8\u3067\u3059\u3002',
+    turnWhite: '\u767d (W) \u306e\u30bf\u30fc\u30f3',
+    turnBlack: '\u9ed2 (B) \u306e\u30bf\u30fc\u30f3',
+    turnAI: 'AI \u306e\u30bf\u30fc\u30f3\u2026',
+    winYou: '\u3042\u306a\u305f\u306e\u52dd\u3061\uff01',
+    winAI: 'AI\u306e\u52dd\u3061\uff01',
+    winWhite: '\u767d\u306e\u52dd\u3061\uff01',
+    winBlack: '\u9ed2\u306e\u52dd\u3061\uff01'
+  },
+  en: {
+    splashSub: 'Stack & Advance',
+    homeSub: 'Abstract Strategy Game',
+    btnStart: 'Start Game',
+    modeTitle: 'Select Mode',
+    btn1P: '1 Player (vs AI)',
+    btn2P: '2 Players',
+    btnBack1: 'Back',
+    btnBack2: 'Back',
+    diffTitle: 'AI Difficulty',
+    diffE: '\u{1F7E2} Easy',
+    diffEdesc: 'Moves randomly. Good for beginners.',
+    diffN: '\u{1F7E1} Normal',
+    diffNdesc: 'Looks 2 moves ahead.',
+    diffH: '\u{1F534} Hard',
+    diffHdesc: 'Looks 3 moves ahead. A real challenge.',
+    btnReset: 'Reset',
+    btnHome2: 'Home',
+    btnCloseHow: 'Close',
+    btnAgain: 'Play Again',
+    btnModalHome: 'Home',
+    howT1: 'Objective',
+    howR1: 'Move one of your pieces into the opponent\'s starting row to win. Or immobilize all 5 of their pieces by stacking on them.',
+    howT2: 'Movement',
+    howR2: 'Pieces move 1 step in any of 8 directions (including diagonals).',
+    howR3: 'Only the top piece of a stack can move.',
+    howT3: 'Stacking',
+    howR4: 'Moving onto a cell with pieces stacks on top (max 3 high).',
+    howR5: 'Stacked pieces cannot move. You can stack on your own pieces too.',
+    howR6: 'You cannot create a 4th layer.',
+    howT4: 'Board',
+    howR7: '5x6 grid. White starts at the bottom row, Black at the top.',
+    turnWhite: 'White (W) Turn',
+    turnBlack: 'Black (B) Turn',
+    turnAI: 'AI thinking...',
+    winYou: 'You Win!',
+    winAI: 'AI Wins!',
+    winWhite: 'White Wins!',
+    winBlack: 'Black Wins!'
+  }
+};
+
+function t(key) {
+  return T[lang][key] || '';
+}
+
+function applyLang() {
+  var ids = ['splashSub','homeSub','btnStart','modeTitle','btn1P','btn2P','btnBack1','btnBack2',
+    'diffTitle','diffE','diffEdesc','diffN','diffNdesc','diffH','diffHdesc',
+    'btnReset','btnHome2','btnCloseHow','btnAgain','btnModalHome',
+    'howT1','howR1','howT2','howR2','howR3','howT3','howR4','howR5','howR6','howT4','howR7'];
+  for (var i = 0; i < ids.length; i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.textContent = t(ids[i]);
+  }
+  // lang button
+  var flag = lang === 'ja' ? '\u{1F1FA}\u{1F1F8}' : '\u{1F1EF}\u{1F1F5}';
+  var btns = ['langBtn','langBtn2','langBtn3','langBtn4','langBtn5'];
+  for (var i = 0; i < btns.length; i++) {
+    var el = document.getElementById(btns[i]);
+    if (el) el.textContent = flag;
+  }
+  updateStatus();
+}
+
+function toggleLang() {
+  lang = lang === 'ja' ? 'en' : 'ja';
+  applyLang();
+  updateObLang();
+}
+
+// ========== SCREENS ==========
+var prevScreen = 'homeScreen';
+
+function showScreen(id) {
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+  }
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() {
+  closeModal();
+  showScreen('homeScreen');
+}
+
+function openHow(from) {
+  prevScreen = from;
+  showScreen('howScreen');
+}
+
+function closeHow() {
+  if (prevScreen === 'splashScreen') {
+    showScreen('homeScreen');
+  } else {
+    showScreen(prevScreen);
+  }
+}
+
+// ========== GAME STATE ==========
+var ROWS = 6;
+var COLS = 5;
+var MAX_STACK = 3;
+var WHITE = 'white';
+var BLACK = 'black';
+
+var board = [];
+var currentPlayer = WHITE;
+var gameMode = 1;
+var aiDifficulty = 1;
+var selectedCell = null;
+var movableCells = [];
+var gameOver = false;
+
+function selectMode(m) {
+  gameMode = m;
+  if (m === 1) {
+    showScreen('diffScreen');
+  } else {
+    startGame(0);
+  }
+}
+
+function startGame(diff) {
+  aiDifficulty = diff;
+  gameOver = false;
+  selectedCell = null;
+  movableCells = [];
+  currentPlayer = WHITE;
+  initBoard();
+  showScreen('gameScreen');
+  renderBoard();
+  updateStatus();
+}
+
+function resetGame() {
+  closeModal();
+  startGame(aiDifficulty);
+}
+
+function initBoard() {
+  board = [];
+  for (var r = 0; r < ROWS; r++) {
+    board[r] = [];
+    for (var c = 0; c < COLS; c++) {
+      board[r][c] = [];
+    }
+  }
+  for (var c = 0; c < COLS; c++) {
+    board[0][c] = [WHITE];
+    board[ROWS-1][c] = [BLACK];
+  }
+}
+
+// ========== RENDER ==========
+function renderBoard() {
+  var boardEl = document.getElementById('board');
+  boardEl.innerHTML = '';
+
+  for (var r = ROWS - 1; r >= 0; r--) {
+    for (var c = 0; c < COLS; c++) {
+      var cell = document.createElement('div');
+      cell.className = 'cell';
+
+      if (r === ROWS - 1) cell.classList.add('goal-top');
+      if (r === 0) cell.classList.add('goal-bottom');
+
+      if (selectedCell && selectedCell.row === r && selectedCell.col === c) {
+        cell.classList.add('selected');
+      }
+
+      var isMovable = false;
+      for (var m = 0; m < movableCells.length; m++) {
+        if (movableCells[m].row === r && movableCells[m].col === c) {
+          isMovable = true; break;
+        }
+      }
+      if (isMovable) cell.classList.add('movable');
+
+      var stack = board[r][c];
+      if (stack.length > 0) {
+        var wrap = document.createElement('div');
+        wrap.className = 'pieces-wrap';
+        var n = stack.length;
+        for (var si = 0; si < n; si++) {
+          var owner = stack[si];
+          var piece = document.createElement('div');
+          piece.className = 'piece ' + owner;
+          piece.textContent = owner === WHITE ? 'W' : 'B';
+          var layerFromTop = n - 1 - si;
+          var ox = layerFromTop * (-5);
+          var oy = layerFromTop * 6;
+          piece.style.transform = 'translate(' + ox + 'px,' + oy + 'px)';
+          piece.style.zIndex = si;
+          if (si < n - 1) piece.style.opacity = '0.6';
+          wrap.appendChild(piece);
+        }
+        cell.appendChild(wrap);
+      }
+
+      (function(row, col) {
+        cell.onclick = function() { onCellClick(row, col); };
+      })(r, c);
+
+      boardEl.appendChild(cell);
+    }
+  }
+}
+
+// ========== STATUS ==========
+function updateStatus() {
+  var el = document.getElementById('status');
+  if (!el || gameOver) return;
+  if (gameMode === 1 && currentPlayer === BLACK) {
+    el.textContent = t('turnAI');
+    el.className = 'turn-black';
+  } else if (currentPlayer === WHITE) {
+    el.textContent = t('turnWhite');
+    el.className = 'turn-white';
+  } else {
+    el.textContent = t('turnBlack');
+    el.className = 'turn-black';
+  }
+}
+
+// ========== CLICK ==========
+function onCellClick(row, col) {
+  if (gameOver) return;
+  if (gameMode === 1 && currentPlayer === BLACK) return;
+
+  var stack = board[row][col];
+
+  if (selectedCell) {
+    var isMov = false;
+    for (var m = 0; m < movableCells.length; m++) {
+      if (movableCells[m].row === row && movableCells[m].col === col) {
+        isMov = true; break;
+      }
+    }
+    if (isMov) {
+      var fromRow = selectedCell.row;
+      var fromCol = selectedCell.col;
+      selectedCell = null;
+      movableCells = [];
+      executeMove(fromRow, fromCol, row, col);
+      return;
+    }
+  }
+
+  if (stack.length > 0 && stack[stack.length - 1] === currentPlayer) {
+    selectedCell = {row: row, col: col};
+    movableCells = getMovableCells(row, col);
+    renderBoard();
+    return;
+  }
+
+  selectedCell = null;
+  movableCells = [];
+  renderBoard();
+}
+
+// ========== MOVEMENT ==========
+function getMovableCells(row, col) {
+  var dirs = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+  var result = [];
+  for (var d = 0; d < dirs.length; d++) {
+    var nr = row + dirs[d][0];
+    var nc = col + dirs[d][1];
+    if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+    if (board[nr][nc].length < MAX_STACK) {
+      result.push({row: nr, col: nc});
+    }
+  }
+  return result;
+}
+
+function executeMove(fromRow, fromCol, toRow, toCol) {
+  var piece = board[fromRow][fromCol].pop();
+  board[toRow][toCol].push(piece);
+  playSound('move');
+
+  var winner = checkWin();
+  if (winner) {
+    gameOver = true;
+    renderBoard();
+    playSound('win');
+    showResult(winner);
+    return;
+  }
+
+  currentPlayer = currentPlayer === WHITE ? BLACK : WHITE;
+  renderBoard();
+  updateStatus();
+
+  if (gameMode === 1 && currentPlayer === BLACK && !gameOver) {
+    setTimeout(doAIMove, 480);
+  }
+}
+
+// ========== WIN CHECK ==========
+function checkWin() {
+  for (var c = 0; c < COLS; c++) {
+    var s = board[ROWS-1][c];
+    if (s.length > 0 && s[s.length-1] === WHITE) return WHITE;
+  }
+  for (var c = 0; c < COLS; c++) {
+    var s = board[0][c];
+    if (s.length > 0 && s[s.length-1] === BLACK) return BLACK;
+  }
+  if (allBuried(WHITE)) return BLACK;
+  if (allBuried(BLACK)) return WHITE;
+  return null;
+}
+
+function allBuried(player) {
+  for (var r = 0; r < ROWS; r++) {
+    for (var c = 0; c < COLS; c++) {
+      var s = board[r][c];
+      if (s.length > 0 && s[s.length-1] === player) return false;
+    }
+  }
+  return true;
+}
+
+// ========== RESULT ==========
+function showResult(winner) {
+  var icon = document.getElementById('modalIcon');
+  var title = document.getElementById('modalTitle');
+  var isPlayerWin = (gameMode === 1 && winner === WHITE) || (gameMode === 2 && winner === WHITE);
+  icon.textContent = winner === WHITE ? '\u{1F3C6}' : (gameMode === 1 ? '\u{1F916}' : '\u{1F3C6}');
+  if (gameMode === 1) {
+    title.textContent = winner === WHITE ? t('winYou') : t('winAI');
+  } else {
+    title.textContent = winner === WHITE ? t('winWhite') : t('winBlack');
+  }
+  document.getElementById('btnAgain').textContent = t('btnAgain');
+  document.getElementById('btnModalHome').textContent = t('btnModalHome');
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+// ========== AI ==========
+function getAllMovesForBoard(b, player) {
+  var dirs = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+  var moves = [];
+  for (var r = 0; r < ROWS; r++) {
+    for (var c = 0; c < COLS; c++) {
+      var s = b[r][c];
+      if (s.length > 0 && s[s.length-1] === player) {
+        for (var d = 0; d < dirs.length; d++) {
+          var nr = r + dirs[d][0];
+          var nc = c + dirs[d][1];
+          if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+          if (b[nr][nc].length < MAX_STACK) {
+            moves.push({fr: r, fc: c, tr: nr, tc: nc});
+          }
+        }
+      }
+    }
+  }
+  return moves;
+}
+
+function applyMoveBoard(b, move) {
+  var nb = [];
+  for (var r = 0; r < ROWS; r++) {
+    nb[r] = [];
+    for (var c = 0; c < COLS; c++) {
+      nb[r][c] = b[r][c].slice();
+    }
+  }
+  var piece = nb[move.fr][move.fc].pop();
+  nb[move.tr][move.tc].push(piece);
+  return nb;
+}
+
+function checkWinBoard(b) {
+  for (var c = 0; c < COLS; c++) {
+    var s = b[ROWS-1][c];
+    if (s.length > 0 && s[s.length-1] === WHITE) return WHITE;
+  }
+  for (var c = 0; c < COLS; c++) {
+    var s = b[0][c];
+    if (s.length > 0 && s[s.length-1] === BLACK) return BLACK;
+  }
+  var wTop = false, bTop = false;
+  for (var r = 0; r < ROWS; r++) {
+    for (var c = 0; c < COLS; c++) {
+      var s = b[r][c];
+      if (s.length > 0) {
+        if (s[s.length-1] === WHITE) wTop = true;
+        if (s[s.length-1] === BLACK) bTop = true;
+      }
+    }
+  }
+  if (!wTop) return BLACK;
+  if (!bTop) return WHITE;
+  return null;
+}
+
+function evalBoard(b) {
+  var score = 0;
+  for (var r = 0; r < ROWS; r++) {
+    for (var c = 0; c < COLS; c++) {
+      var s = b[r][c];
+      if (s.length === 0) continue;
+      var top = s[s.length-1];
+      if (top === BLACK) {
+        score += (ROWS - 1 - r) * 2;
+        for (var i = 0; i < s.length - 1; i++) {
+          if (s[i] === WHITE) score += 3;
+        }
+      } else {
+        score -= r * 2;
+        for (var i = 0; i < s.length - 1; i++) {
+          if (s[i] === BLACK) score -= 3;
+        }
+      }
+    }
+  }
+  return score;
+}
+
+function minimax(b, depth, isMax, alpha, beta) {
+  var winner = checkWinBoard(b);
+  if (winner === BLACK) return 10000;
+  if (winner === WHITE) return -10000;
+  if (depth === 0) return evalBoard(b);
+
+  var player = isMax ? BLACK : WHITE;
+  var moves = getAllMovesForBoard(b, player);
+  if (moves.length === 0) return isMax ? -10000 : 10000;
+
+  if (isMax) {
+    var best = -99999;
+    for (var i = 0; i < moves.length; i++) {
+      var nb = applyMoveBoard(b, moves[i]);
+      var val = minimax(nb, depth - 1, false, alpha, beta);
+      if (val > best) best = val;
+      if (val > alpha) alpha = val;
+      if (beta <= alpha) break;
+    }
+    return best;
+  } else {
+    var best2 = 99999;
+    for (var i = 0; i < moves.length; i++) {
+      var nb2 = applyMoveBoard(b, moves[i]);
+      var val2 = minimax(nb2, depth - 1, true, alpha, beta);
+      if (val2 < best2) best2 = val2;
+      if (val2 < beta) beta = val2;
+      if (beta <= alpha) break;
+    }
+    return best2;
+  }
+}
+
+function doAIMove() {
+  if (gameOver) return;
+  var moves = getAllMovesForBoard(board, BLACK);
+  if (moves.length === 0) return;
+
+  var bestMove = null;
+  if (aiDifficulty === 1) {
+    bestMove = moves[Math.floor(Math.random() * moves.length)];
+  } else {
+    var depth = aiDifficulty === 2 ? 2 : 3;
+    var bestVal = -99999;
+    for (var i = 0; i < moves.length; i++) {
+      var nb = applyMoveBoard(board, moves[i]);
+      var val = minimax(nb, depth - 1, false, -99999, 99999);
+      if (val > bestVal) {
+        bestVal = val;
+        bestMove = moves[i];
+      }
+    }
+  }
+
+  if (bestMove) {
+    executeMove(bestMove.fr, bestMove.fc, bestMove.tr, bestMove.tc);
+  }
+}
+
+// ========== SOUND ==========
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return audioCtx;
+}
+
+function playSound(type) {
+  var ctx = getAudioCtx();
+  if (!ctx) return;
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  if (type === 'move') {
+    osc.frequency.setValueAtTime(440, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.12);
+  } else if (type === 'win') {
+    osc.frequency.setValueAtTime(523, ctx.currentTime);
+    osc.frequency.setValueAtTime(659, ctx.currentTime + 0.12);
+    osc.frequency.setValueAtTime(784, ctx.currentTime + 0.24);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.5);
+  }
+}
+
+// ========== ONBOARDING ==========
+var obStep = 0;
+var obMax = 3;
+
+var obTexts = {
+  ja: {
+    titles: ['\u30b2\u30fc\u30e0\u306e\u76ee\u7684', '\u30b3\u30de\u306e\u52d5\u304d', '\u30b9\u30bf\u30c3\u30af\uff08\u4e57\u3063\u304b\u308b\uff09'],
+    descs: [
+      '\u81ea\u5206\u306e\u30b3\u30de\u30921\u3064\u3067\u3082\u76f8\u624b\u306e\u521d\u671f\u914d\u7f6e\u5217\u306b\u5230\u9054\u3055\u305b\u308b\u3068\u52dd\u5229\u3002\u307e\u305f\u306f\u76f8\u624b\u306e\u30b3\u30de5\u3064\u5168\u3066\u306b\u4e57\u3063\u3066\u52d5\u3051\u306a\u304f\u3057\u3066\u3082\u52dd\u5229\u3067\u3059\u3002',
+      '\u30b3\u30de\u306f\u4e0a\u4e0b\u5de6\u53f3\u30fb\u659c\u3081\u306e8\u65b9\u5411\u306b1\u30de\u30b9\u3060\u3051\u79fb\u52d5\u3067\u304d\u307e\u3059\u3002\u30b9\u30bf\u30c3\u30af\u306e\u4e00\u756a\u4e0a\u306e\u30b3\u30de\u3060\u3051\u304c\u52d5\u304b\u305b\u307e\u3059\u3002',
+      '\u79fb\u52d5\u5148\u306b\u30b3\u30de\u304c\u3042\u308b\u3068\u4e0a\u306b\u4e57\u308c\u307e\u3059\uff08\u6700\u59273\u6bb5\uff09\u3002\u4e57\u3089\u308c\u305f\u30b3\u30de\u306f\u52d5\u3051\u307e\u305b\u3093\u3002\u81ea\u5206\u306e\u30b3\u30de\u306b\u3082\u4e57\u308c\u307e\u3059\u3002\uff14\u6bb5\u76ee\u306f\u4e0d\u53ef\u3002'
+    ],
+    next: '\u6b21\u3078',
+    start: '\u30b2\u30fc\u30e0\u3092\u59cb\u3081\u308b',
+    skip: '\u30b9\u30ad\u30c3\u30d7'
+  },
+  en: {
+    titles: ['Objective', 'Movement', 'Stacking'],
+    descs: [
+      'Move one of your pieces into the opponent\'s starting row to win. Or immobilize all 5 of their pieces by stacking on them.',
+      'Pieces move 1 step in any of 8 directions. Only the top piece of a stack can move.',
+      'Moving onto a cell with pieces stacks on top (max 3 high). Stacked pieces can\'t move. You can stack on your own pieces too. 4th layer is not allowed.'
+    ],
+    next: 'Next',
+    start: 'Start Game',
+    skip: 'Skip'
+  }
+};
+
+function obNext() {
+  obStep++;
+  if (obStep >= obMax) {
+    showScreen('homeScreen');
+    obStep = 0;
+    return;
+  }
+  for (var i = 0; i < obMax; i++) {
+    var s = document.getElementById('ob' + i);
+    var d = document.getElementById('dot' + i);
+    if (s) s.className = 'onboard-step' + (i === obStep ? ' active' : '');
+    if (d) d.className = 'onboard-dot' + (i === obStep ? ' active' : '');
+  }
+  updateObLang();
+}
+
+function updateObLang() {
+  var texts = obTexts[lang];
+  for (var i = 0; i < obMax; i++) {
+    var t2 = document.getElementById('obT' + i);
+    var d = document.getElementById('obD' + i);
+    if (t2) t2.textContent = texts.titles[i];
+    if (d) d.textContent = texts.descs[i];
+  }
+  var nextBtn = document.getElementById('obNextBtn');
+  var skipBtn = document.getElementById('obSkipBtn');
+  if (nextBtn) nextBtn.textContent = obStep === obMax - 1 ? texts.start : texts.next;
+  if (skipBtn) skipBtn.textContent = texts.skip;
+  var tapEl = document.getElementById('splashTap');
+  if (tapEl) tapEl.textContent = lang === 'ja' ? '\u30bf\u30c3\u30d7\u3057\u3066\u59cb\u3081\u308b' : 'Tap to start';
+}
+
+function splashTap() {
+  obStep = 0;
+  var steps = document.querySelectorAll('.onboard-step');
+  for (var i = 0; i < steps.length; i++) {
+    steps[i].className = 'onboard-step' + (i === 0 ? ' active' : '');
+  }
+  for (var i = 0; i < obMax; i++) {
+    var d = document.getElementById('dot' + i);
+    if (d) d.className = 'onboard-dot' + (i === 0 ? ' active' : '');
+  }
+  updateObLang();
+  showScreen('onboardScreen');
+}
+
+// ========== BOOT ==========
+applyLang();
+updateObLang();
 </script>
 </body>
 </html>
