@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-起動フロー統一（#10）完了。the ONE / Hex / Quantik は初回のみhowto表示に対応、Hiveは固定ヘッダー新設済み。Group E（EGG/VIDRO/Connect Four/Quoridor）は別Issue（#12〜#15）で管理。
+Group E のうち EGG (#12)・VIDRO (#13)・Connect Four (#14) の起動フロー統一完了。残りは Quoridor (#15)。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -19,13 +19,13 @@
 - [x] Ostle: 配色統一・ヘッダー新設・言語切替追加・画面フロー修正・サウンド追加（2026-07-24, fixes #5）
 - [x] 全ゲーム: ヘッダーロゴをポータルへのリンクに変更（2026-07-24, fixes #9）
 - [x] the ONE / Hex / Quantik / Hive: 起動フロー統一（初回のみhowto・Hive固定ヘッダー）（2026-07-24, fixes #10）
+- [x] EGG: howto画面追加・.screen.active パターン統一（2026-07-24, fixes #12）
+- [x] VIDRO: vidro_seen localStorage・#start-screen.active 統一（2026-07-24, fixes #13）
+- [x] Connect Four: タイトル・howto画面新設・.screen.active 統一・localStorage（2026-07-24, fixes #14）
 
 ## 残タスク（GitHub Issues）
 
 ### 優先度：高
-- [ ] EGG: howto画面追加・.screen.active パターン統一 → [#12](https://github.com/TakamasaSaito/boardgamedojo/issues/12)
-- [ ] VIDRO: howto画面追加・.screen.active パターン統一 → [#13](https://github.com/TakamasaSaito/boardgamedojo/issues/13)
-- [ ] Connect Four: タイトル・howto画面新設・.screen.active 統一 → [#14](https://github.com/TakamasaSaito/boardgamedojo/issues/14)
 - [ ] Quoridor: タイトル・howto画面新設・.screen.active 統一 → [#15](https://github.com/TakamasaSaito/boardgamedojo/issues/15)
 - [ ] 全ゲーム+ポータル: PC画面での表示最適化 → [#11](https://github.com/TakamasaSaito/boardgamedojo/issues/11)
 
@@ -35,4 +35,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-Group E（EGG / VIDRO / Connect Four / Quoridor）の起動フロー統一（[#12](https://github.com/TakamasaSaito/boardgamedojo/issues/12)〜[#15](https://github.com/TakamasaSaito/boardgamedojo/issues/15)）
+Quoridor の起動フロー統一（[#15](https://github.com/TakamasaSaito/boardgamedojo/issues/15)）

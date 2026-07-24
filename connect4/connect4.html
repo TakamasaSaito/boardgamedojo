@@ -13,8 +13,6 @@
   --surface:  #1a1a1a;
   --surface2: #222222;
   --accent:   #00bcd4;
-  --accent2:  #0097a7;
-  --accent3:  rgba(0,188,212,0.15);
   --text:     #e0e0e0;
   --text-dim: #888888;
   --p1:       #ef5350;
@@ -30,34 +28,80 @@
 body {
   font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
   background-color: var(--bg);
-  background-image:
-    radial-gradient(ellipse at 20% 0%, rgba(0,188,212,0.07) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 100%, rgba(0,150,180,0.05) 0%, transparent 55%);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px 16px 36px;
   color: var(--text);
 }
 
-/* ========== スプラッシュ ========== */
-#splash {
-  position: fixed;
-  inset: 0;
+/* APP HEADER */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(15,15,15,0.97);
+  border-bottom: 1px solid rgba(0,188,212,0.15);
+}
+#app-header.hidden { display: none; }
+.app-logo {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 15px; font-weight: 900;
+  color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none;
+}
+.hdr-right { display: flex; gap: 8px; align-items: center; }
+.hdr-icon-btn {
+  min-width: 40px; min-height: 40px;
+  background: transparent;
+  border: 1px solid rgba(0,188,212,0.25);
+  border-radius: var(--radius);
+  color: var(--text); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+}
+.hdr-icon-btn:active { border-color: var(--accent); color: var(--accent); }
+
+/* SCREENS */
+.screen {
+  position: fixed; inset: 0;
+  display: none; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
   background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  gap: 18px;
-  animation: splashFadeOut 0.5s ease 2.6s forwards;
+  z-index: 10;
+  padding: 60px 16px 36px;
+}
+.screen.active { display: flex; }
+#splash { justify-content: center; padding: 0; gap: 18px; z-index: 999; cursor: pointer; }
+
+.scr-inner {
+  width: 100%; max-width: 380px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.scr-logo {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 24px; font-weight: 900;
+  color: var(--accent); letter-spacing: 3px; text-transform: uppercase; text-align: center;
+}
+.scr-sub { font-size: 12px; color: var(--text-dim); letter-spacing: 3px; margin-top: -10px; }
+.scr-start-btn {
+  width: 100%; height: 52px;
+  border: 1px solid rgba(0,188,212,0.4); border-radius: var(--radius);
+  background: transparent; color: var(--accent);
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 1px;
+}
+.scr-start-btn.primary {
+  background: var(--accent); color: #000; border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0,188,212,0.35);
+}
+.scr-start-btn:active { opacity: 0.8; }
+#game {
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(0,188,212,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(0,150,180,0.05) 0%, transparent 55%);
 }
 
-@keyframes splashFadeOut {
-  to { opacity: 0; pointer-events: none; }
-}
+/* ========== スプラッシュ ========== */
 
 .splash-icon {
   font-size: 64px;
@@ -124,62 +168,12 @@ body {
   50%      { opacity: 0.9; }
 }
 
-/* ========== ヘッダー ========== */
-.header {
-  width: 100%;
-  max-width: 380px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-  padding: 0 2px;
-}
-
-.header-center { text-align: center; flex: 1; }
-
-.header-title {
-  font-family: 'Noto Sans', sans-serif;
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--accent);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-a.header-title { text-decoration: none; color: var(--accent); }
-
-.header-sub {
-  font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  margin-top: 1px;
-}
-
-.header-btn {
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(0,188,212,0.25);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s, border-color 0.15s;
-  flex-shrink: 0;
-}
-
-.header-btn:active { background: var(--surface2); }
-
 /* ========== セットアップ ========== */
 #setup-area {
   width: 100%;
-  max-width: 380px;
   background: var(--surface);
   border-radius: var(--radius);
   padding: 12px 14px;
-  margin-bottom: 12px;
   box-shadow: 0 4px 16px var(--shadow), 0 0 0 1px rgba(0,188,212,0.1);
 }
 
@@ -406,8 +400,16 @@ a.header-title { text-decoration: none; color: var(--accent); }
   margin-bottom: 24px;
 }
 
+.win-btns { display: flex; gap: 8px; }
+.win-btn-sub {
+  flex: 0 0 auto; height: 50px; padding: 0 18px;
+  border: 1px solid rgba(0,188,212,0.3); border-radius: var(--radius);
+  background: transparent; color: var(--text-dim);
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.win-btn-sub:active { background: var(--surface); }
 #win-ok-btn {
-  width: 100%;
+  flex: 1;
   height: 50px;
   border: none;
   border-radius: var(--radius);
@@ -421,49 +423,13 @@ a.header-title { text-decoration: none; color: var(--accent); }
   box-shadow: 0 4px 16px rgba(0,188,212,0.4);
 }
 
-/* ========== 使い方モーダル ========== */
-#how-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: 200;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-#how-overlay.show { display: flex; }
-
-#how-box {
-  background: var(--surface);
-  border-radius: 20px;
-  padding: 28px 24px;
-  width: 100%;
-  max-width: 340px;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow:
-    0 24px 64px rgba(0,0,0,0.7),
-    0 0 0 1px rgba(0,188,212,0.2);
-  animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
-}
-
-.how-title {
-  font-family: 'Noto Sans', sans-serif;
-  font-size: 17px;
-  font-weight: 900;
-  color: var(--accent);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 18px;
-  text-align: center;
-}
-
+/* ========== howto ========== */
 .how-section {
-  margin-bottom: 16px;
+  width: 100%;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  box-shadow: 0 0 0 1px rgba(0,188,212,0.1);
 }
 
 .how-section-title {
@@ -499,21 +465,6 @@ a.header-title { text-decoration: none; color: var(--accent); }
   line-height: 1.6;
 }
 
-#how-close-btn {
-  width: 100%;
-  height: 48px;
-  border: none;
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: #000;
-  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 8px;
-  box-shadow: 0 4px 16px rgba(0,188,212,0.35);
-}
-
 /* ========== 紙吹雪 ========== */
 .confetti {
   position: fixed;
@@ -535,80 +486,38 @@ a.header-title { text-decoration: none; color: var(--accent); }
 </head>
 <body>
 
-<!-- ========== スプラッシュ ========== -->
-<div id="splash" onclick="closeSplash()">
-  <div class="splash-icon">🔵</div>
+<!-- APP HEADER -->
+<div id="app-header" class="hidden">
+  <a class="app-logo" href="../index.html">Connect Four</a>
+  <div class="hdr-right">
+    <button class="hdr-icon-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
+    <button class="hdr-icon-btn" onclick="openHowto()">&#x2753;</button>
+  </div>
+</div>
+
+<!-- SPLASH -->
+<div id="splash" class="screen active" onclick="handleSplash()">
+  <div class="splash-icon">&#x1F535;</div>
   <div class="splash-title">Connect Four</div>
   <div class="splash-sub">四目並べ</div>
-  <div class="splash-bar-wrap">
-    <div class="splash-bar"></div>
-  </div>
-  <div class="splash-tap" id="splash-tap-ja">タップでスキップ</div>
+  <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+  <div class="splash-tap" id="splash-tap">タップでスキップ</div>
 </div>
 
-<!-- ========== ヘッダー ========== -->
-<div class="header">
-  <button class="header-btn" id="lang-btn" onclick="toggleLang()">🇯🇵</button>
-  <div class="header-center">
-    <a class="header-title" href="../index.html">Connect Four</a>
-    <div class="header-sub" id="header-sub">四目並べ</div>
-  </div>
-  <button class="header-btn" onclick="openHow()">❓</button>
-</div>
-
-<!-- ========== セットアップ ========== -->
-<div id="setup-area">
-  <div class="setup-label" id="lbl-mode">対戦モード</div>
-  <div class="setup-row">
-    <button class="toggle-btn active" id="btn-cpu" onclick="setMode('cpu')" id="btn-cpu">CPU対戦</button>
-    <button class="toggle-btn" id="btn-2p" onclick="setMode('2p')">2人対戦</button>
-  </div>
-  <div id="difficulty-row" class="setup-row">
-    <button class="toggle-btn active" id="btn-easy" onclick="setDiff('easy')">かんたん</button>
-    <button class="toggle-btn" id="btn-normal" onclick="setDiff('normal')">ふつう</button>
-    <button class="toggle-btn" id="btn-hard" onclick="setDiff('hard')">むずかしい</button>
-  </div>
-</div>
-
-<!-- ========== ステータス ========== -->
-<div id="status-bar">
-  <span id="status-text">🔴 あなたの番</span>
-</div>
-
-<!-- ========== ボード ========== -->
-<div id="board-wrap">
-  <div id="board"></div>
-</div>
-
-<button id="reset-btn" onclick="resetGame()">🔄 リセット</button>
-
-<!-- ========== 勝利オーバーレイ ========== -->
-<div id="win-overlay">
-  <div id="win-box">
-    <div id="win-emoji">🎉</div>
-    <div id="win-msg">プレイヤー1の勝ち！</div>
-    <div id="win-sub">おめでとうございます</div>
-    <button id="win-ok-btn" onclick="closeWin()">もう一度あそぶ</button>
-  </div>
-</div>
-
-<!-- ========== 使い方モーダル ========== -->
-<div id="how-overlay" onclick="closeHow()">
-  <div id="how-box" onclick="stopProp(event)">
-    <div class="how-title" id="how-title">HOW TO PLAY</div>
-
-    <div class="how-section" id="how-section-basic">
+<!-- HOWTO -->
+<div id="howto" class="screen">
+  <div class="scr-inner">
+    <div class="scr-logo">Connect Four</div>
+    <div class="how-section">
       <div class="how-section-title" id="how-s1">ゲームの目的</div>
       <div class="how-item"><div class="how-dot"></div><p id="how-p1">自分のコマを縦・横・斜めに4つ並べた方が勝ち！</p></div>
       <div class="how-item"><div class="how-dot"></div><p id="how-p2">先に4つ揃えた方が勝利です。</p></div>
     </div>
-
     <div class="how-section">
       <div class="how-section-title" id="how-s2">操作方法</div>
       <div class="how-item"><div class="how-dot"></div><p id="how-p3">盤面の列をタップしてコマを落とします。</p></div>
       <div class="how-item"><div class="how-dot"></div><p id="how-p4">コマは重力で一番下の空きマスに落ちます。</p></div>
     </div>
-
     <div class="how-section">
       <div class="how-section-title" id="how-s3">モード・難易度</div>
       <div class="how-item"><div class="how-dot"></div><p id="how-p5">CPU対戦：AIと1人で対戦します。難易度3段階。</p></div>
@@ -617,8 +526,52 @@ a.header-title { text-decoration: none; color: var(--accent); }
       <div class="how-item"><div class="how-dot"></div><p id="how-p8">ふつう：勝ち手と防御を考えます。</p></div>
       <div class="how-item"><div class="how-dot"></div><p id="how-p9">むずかしい：先読みAI。手強いです！</p></div>
     </div>
+    <button class="scr-start-btn" id="howto-next-btn" onclick="closeHowto()">はじめる</button>
+  </div>
+</div>
 
-    <button id="how-close-btn" onclick="closeHow()">とじる</button>
+<!-- TITLE -->
+<div id="title" class="screen">
+  <div class="scr-inner">
+    <div class="scr-logo">Connect Four</div>
+    <div class="scr-sub" id="title-sub">四目並べ</div>
+    <div id="setup-area">
+      <div class="setup-label" id="lbl-mode">対戦モード</div>
+      <div class="setup-row">
+        <button class="toggle-btn active" id="btn-cpu" onclick="setMode('cpu')">CPU対戦</button>
+        <button class="toggle-btn" id="btn-2p" onclick="setMode('2p')">2人対戦</button>
+      </div>
+      <div id="difficulty-row" class="setup-row">
+        <button class="toggle-btn active" id="btn-easy" onclick="setDiff('easy')">かんたん</button>
+        <button class="toggle-btn" id="btn-normal" onclick="setDiff('normal')">ふつう</button>
+        <button class="toggle-btn" id="btn-hard" onclick="setDiff('hard')">むずかしい</button>
+      </div>
+    </div>
+    <button class="scr-start-btn primary" id="start-game-btn" onclick="startGame()">ゲーム開始</button>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="game" class="screen">
+  <div id="status-bar">
+    <span id="status-text">&#x1F534; あなたの番</span>
+  </div>
+  <div id="board-wrap">
+    <div id="board"></div>
+  </div>
+  <button id="reset-btn" onclick="resetGame()">&#x1F504; リセット</button>
+</div>
+
+<!-- WIN OVERLAY -->
+<div id="win-overlay">
+  <div id="win-box">
+    <div id="win-emoji">&#x1F389;</div>
+    <div id="win-msg">プレイヤー1の勝ち！</div>
+    <div id="win-sub">おめでとうございます</div>
+    <div class="win-btns">
+      <button class="win-btn-sub" id="win-menu-btn" onclick="goToMenu()">メニュー</button>
+      <button id="win-ok-btn" onclick="closeWin()">もう一度あそぶ</button>
+    </div>
   </div>
 </div>
 
@@ -628,7 +581,7 @@ var currentLang = 'ja';
 
 var TEXTS = {
   ja: {
-    headerSub:    '四目並べ',
+    titleSub:     '四目並べ',
     lblMode:      '対戦モード',
     btnCpu:       'CPU対戦',
     btn2p:        '2人対戦',
@@ -649,7 +602,9 @@ var TEXTS = {
     winSubCpu:    'もう一度挑戦しよう',
     winSubDraw:   'またあそびましょう',
     winOkBtn:     'もう一度あそぶ',
-    howTitle:     'HOW TO PLAY',
+    startBtn:     'ゲーム開始',
+    howtoNext:    'はじめる',
+    winMenu:      'メニュー',
     howS1:        'ゲームの目的',
     howP1:        '自分のコマを縦・横・斜めに4つ並べた方が勝ち！',
     howP2:        '先に4つ揃えた方が勝利です。',
@@ -662,12 +617,11 @@ var TEXTS = {
     howP7:        'かんたん：ランダムに近い動き。初心者向け。',
     howP8:        'ふつう：勝ち手と防御を考えます。',
     howP9:        'むずかしい：先読みAI。手強いです！',
-    howClose:     'とじる',
     splashTap:    'タップでスキップ',
     langBtn:      '\uD83C\uDDEF\uD83C\uDDF5'
   },
   en: {
-    headerSub:    'Four in a Row',
+    titleSub:     'Four in a Row',
     lblMode:      'Game Mode',
     btnCpu:       'vs CPU',
     btn2p:        '2 Players',
@@ -688,7 +642,9 @@ var TEXTS = {
     winSubCpu:    'Try again!',
     winSubDraw:   'Play again?',
     winOkBtn:     'Play Again',
-    howTitle:     'HOW TO PLAY',
+    startBtn:     'Start',
+    howtoNext:    "Let's Play",
+    winMenu:      'Menu',
     howS1:        'Objective',
     howP1:        'Be the first to connect 4 pieces in a row!',
     howP2:        'Pieces can be connected vertically, horizontally, or diagonally.',
@@ -701,7 +657,6 @@ var TEXTS = {
     howP7:        'Easy: Near-random moves. Great for beginners.',
     howP8:        'Normal: Considers winning moves and blocks.',
     howP9:        'Hard: Look-ahead AI. Good luck!',
-    howClose:     'Close',
     splashTap:    'Tap to skip',
     langBtn:      '\uD83C\uDDFA\uD83C\uDDF8'
   }
@@ -709,31 +664,32 @@ var TEXTS = {
 
 function applyLang() {
   var t = TEXTS[currentLang];
-  document.getElementById('header-sub').textContent    = t.headerSub;
-  document.getElementById('lbl-mode').textContent      = t.lblMode;
-  document.getElementById('btn-cpu').textContent       = t.btnCpu;
-  document.getElementById('btn-2p').textContent        = t.btn2p;
-  document.getElementById('btn-easy').textContent      = t.btnEasy;
-  document.getElementById('btn-normal').textContent    = t.btnNormal;
-  document.getElementById('btn-hard').textContent      = t.btnHard;
-  document.getElementById('reset-btn').textContent     = t.resetBtn;
-  document.getElementById('win-ok-btn').textContent    = t.winOkBtn;
-  document.getElementById('how-title').textContent     = t.howTitle;
-  document.getElementById('how-s1').textContent        = t.howS1;
-  document.getElementById('how-p1').textContent        = t.howP1;
-  document.getElementById('how-p2').textContent        = t.howP2;
-  document.getElementById('how-s2').textContent        = t.howS2;
-  document.getElementById('how-p3').textContent        = t.howP3;
-  document.getElementById('how-p4').textContent        = t.howP4;
-  document.getElementById('how-s3').textContent        = t.howS3;
-  document.getElementById('how-p5').textContent        = t.howP5;
-  document.getElementById('how-p6').textContent        = t.howP6;
-  document.getElementById('how-p7').textContent        = t.howP7;
-  document.getElementById('how-p8').textContent        = t.howP8;
-  document.getElementById('how-p9').textContent        = t.howP9;
-  document.getElementById('how-close-btn').textContent = t.howClose;
-  document.getElementById('lang-btn').textContent      = t.langBtn;
-  document.getElementById('splash-tap-ja').textContent = t.splashTap;
+  document.getElementById('title-sub').textContent      = t.titleSub;
+  document.getElementById('lbl-mode').textContent       = t.lblMode;
+  document.getElementById('btn-cpu').textContent        = t.btnCpu;
+  document.getElementById('btn-2p').textContent         = t.btn2p;
+  document.getElementById('btn-easy').textContent       = t.btnEasy;
+  document.getElementById('btn-normal').textContent     = t.btnNormal;
+  document.getElementById('btn-hard').textContent       = t.btnHard;
+  document.getElementById('reset-btn').textContent      = t.resetBtn;
+  document.getElementById('start-game-btn').textContent = t.startBtn;
+  document.getElementById('howto-next-btn').textContent = t.howtoNext;
+  document.getElementById('win-menu-btn').textContent   = t.winMenu;
+  document.getElementById('win-ok-btn').textContent     = t.winOkBtn;
+  document.getElementById('how-s1').textContent         = t.howS1;
+  document.getElementById('how-p1').textContent         = t.howP1;
+  document.getElementById('how-p2').textContent         = t.howP2;
+  document.getElementById('how-s2').textContent         = t.howS2;
+  document.getElementById('how-p3').textContent         = t.howP3;
+  document.getElementById('how-p4').textContent         = t.howP4;
+  document.getElementById('how-s3').textContent         = t.howS3;
+  document.getElementById('how-p5').textContent         = t.howP5;
+  document.getElementById('how-p6').textContent         = t.howP6;
+  document.getElementById('how-p7').textContent         = t.howP7;
+  document.getElementById('how-p8').textContent         = t.howP8;
+  document.getElementById('how-p9').textContent         = t.howP9;
+  document.getElementById('lang-btn').textContent       = t.langBtn;
+  document.getElementById('splash-tap').textContent     = t.splashTap;
   updateStatus();
 }
 
@@ -742,35 +698,53 @@ function toggleLang() {
   applyLang();
 }
 
-/* ===================== スプラッシュ ===================== */
-function closeSplash() {
-  var el = document.getElementById('splash');
-  el.style.transition = 'opacity 0.3s ease';
-  el.style.opacity = '0';
-  el.style.pointerEvents = 'none';
-}
+/* ===================== 画面管理 ===================== */
+var currentScreen = 'splash';
+var prevScreen = 'title';
 
-setTimeout(function() {
-  var el = document.getElementById('splash');
-  if (el) {
-    el.style.transition = 'opacity 0.4s ease';
-    el.style.opacity = '0';
-    el.style.pointerEvents = 'none';
+function showScreen(id) {
+  var screens = ['splash', 'howto', 'title', 'game'];
+  for (var i = 0; i < screens.length; i++) {
+    document.getElementById(screens[i]).classList.remove('active');
   }
-}, 3000);
-
-/* ===================== 使い方モーダル ===================== */
-function openHow() {
-  document.getElementById('how-overlay').className = 'show';
+  document.getElementById(id).classList.add('active');
+  currentScreen = id;
 }
 
-function closeHow() {
-  document.getElementById('how-overlay').className = '';
+function openHowto(from) {
+  prevScreen = (from !== undefined) ? from : currentScreen;
+  showScreen('howto');
+  document.getElementById('app-header').classList.remove('hidden');
 }
 
-function stopProp(e) {
-  e.stopPropagation();
+function closeHowto() {
+  showScreen(prevScreen || 'title');
 }
+
+function handleSplash() {
+  if (currentScreen !== 'splash') { return; }
+  var seen = false;
+  try { seen = localStorage.getItem('connect4_seen') === '1'; } catch(e) {}
+  if (!seen) {
+    try { localStorage.setItem('connect4_seen', '1'); } catch(e) {}
+    openHowto('title');
+  } else {
+    showScreen('title');
+  }
+  document.getElementById('app-header').classList.remove('hidden');
+}
+
+function startGame() {
+  showScreen('game');
+  resetGame();
+}
+
+function goToMenu() {
+  document.getElementById('win-overlay').className = '';
+  showScreen('title');
+}
+
+setTimeout(function() { if (currentScreen === 'splash') { handleSplash(); } }, 2600);
 
 /* ===================== ゲームロジック ===================== */
 var ROWS = 6;
@@ -829,7 +803,6 @@ function setMode(m) {
   document.getElementById('btn-cpu').className = 'toggle-btn' + (m === 'cpu' ? ' active' : '');
   document.getElementById('btn-2p').className  = 'toggle-btn' + (m === '2p'  ? ' active' : '');
   document.getElementById('difficulty-row').style.display = m === 'cpu' ? 'flex' : 'none';
-  resetGame();
 }
 
 function setDiff(d) {
@@ -837,7 +810,6 @@ function setDiff(d) {
   document.getElementById('btn-easy').className   = 'toggle-btn' + (d === 'easy'   ? ' active' : '');
   document.getElementById('btn-normal').className = 'toggle-btn' + (d === 'normal' ? ' active' : '');
   document.getElementById('btn-hard').className   = 'toggle-btn' + (d === 'hard'   ? ' active' : '');
-  resetGame();
 }
 
 function updateStatus() {
@@ -1212,7 +1184,6 @@ function playSound(type) {
 }
 
 /* ===================== 起動 ===================== */
-resetGame();
 applyLang();
 </script>
 </body>
