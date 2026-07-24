@@ -1892,7 +1892,7 @@ function countPieces(player) {
   var master = 0, students = 0;
   for (var r = 0; r < 5; r++) {
     for (var c = 0; c < 5; c++) {
-      if (board[r][c] && board[r][c].player === player) {
+      if (board[r] && board[r][c] && board[r][c].player === player) {
         if (board[r][c].type === "master") master++;
         else students++;
       }
@@ -1955,7 +1955,7 @@ function hasNoLegalMoves(player) {
   for (var ci = 0; ci < cards.length; ci++) {
     for (var r = 0; r < 5; r++) {
       for (var c = 0; c < 5; c++) {
-        if (board[r][c] && board[r][c].player === player) {
+        if (board[r] && board[r][c] && board[r][c].player === player) {
           var moves = getMoves(cards[ci], r, c, player);
           if (moves.length > 0) return false;
         }
