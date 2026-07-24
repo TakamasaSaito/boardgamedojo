@@ -4,23 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Ostle</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'GA_MEASUREMENT_ID');
+</script>
 <style>
 :root {
-  --bg: #0a0a0f;
-  --surface: #12121a;
-  --surface2: #1a1a26;
-  --border: #2a2a40;
-  --accent: #4a9eff;
-  --accent2: #7b5fff;
-  --p1: #e8e8f0;
-  --p2: #5a5a7a;
-  --p2-border: #8080aa;
-  --text: #c8c8e0;
-  --text-dim: #5a5a7a;
-  --hole-bg: #060608;
-  --hole-border: #2a2a50;
-  --danger: #ff4444;
+  --bg:       #0f0f0f;
+  --surface:  #1a1a1a;
+  --surface2: #222222;
+  --border:   #2a2a2a;
+  --accent:   #00bcd4;
+  --p1:       #e8e8f0;
+  --p2-border:#8080aa;
+  --text:     #e0e0e0;
+  --text-dim: #888888;
+  --hole-bg:  #0a0a0a;
+  --danger:   #ff4444;
+  --radius:   12px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -33,71 +38,120 @@ body {
   overflow: hidden;
 }
 
-/* ── SCREENS ── */
-.screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+/* ===== HEADER ===== */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(15,15,15,0.95);
+  border-bottom: 1px solid var(--border);
+}
+#app-header.hidden { display: none; }
+
+.hdr-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.hdr-right { display: flex; align-items: center; gap: 8px; }
+
+.hdr-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+  padding: 0 10px;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 36px;
+  display: flex; align-items: center; justify-content: center;
+}
+.hdr-btn:active { border-color: var(--accent); color: var(--accent); }
+
+/* ===== SCREENS ===== */
+.screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
 .screen.active { display: flex; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ── SPLASH ── */
-#splash {
-  background: var(--bg);
-  background-image: radial-gradient(ellipse at 50% 40%, rgba(74,158,255,0.08) 0%, transparent 70%);
-}
+/* ===== SPLASH ===== */
+#splash { background: var(--bg); }
 #splash .logo {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 64px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 56px;
   font-weight: 700;
-  letter-spacing: 16px;
-  color: #fff;
-  text-shadow: 0 0 40px rgba(74,158,255,0.4), 0 0 80px rgba(74,158,255,0.15);
+  letter-spacing: 12px;
+  color: var(--accent);
+  text-shadow: 0 0 40px rgba(0,188,212,0.4), 0 0 80px rgba(0,188,212,0.15);
   animation: pulseGlow 2s ease infinite;
 }
 @keyframes pulseGlow {
-  0%, 100% { text-shadow: 0 0 40px rgba(74,158,255,0.4), 0 0 80px rgba(74,158,255,0.15); }
-  50% { text-shadow: 0 0 60px rgba(74,158,255,0.7), 0 0 100px rgba(74,158,255,0.3); }
+  0%, 100% { text-shadow: 0 0 40px rgba(0,188,212,0.4), 0 0 80px rgba(0,188,212,0.15); }
+  50%       { text-shadow: 0 0 60px rgba(0,188,212,0.7), 0 0 100px rgba(0,188,212,0.3); }
 }
 #splash .tagline {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 6px;
   color: var(--text-dim);
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
-/* ── TITLE ── */
-#title {
-  background: var(--bg);
-  background-image: radial-gradient(ellipse at 50% 30%, rgba(123,95,255,0.07) 0%, transparent 60%);
-}
+/* ===== TITLE ===== */
+#title { padding-top: 72px; }
 #title .logo {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 52px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 44px;
   font-weight: 700;
-  letter-spacing: 12px;
-  color: #fff;
-  margin-bottom: 8px;
+  letter-spacing: 10px;
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(0,188,212,0.3);
+  margin-bottom: 6px;
 }
 #title .subtitle {
   font-size: 11px;
   letter-spacing: 4px;
   color: var(--text-dim);
-  margin-bottom: 52px;
+  margin-bottom: 48px;
 }
 
-/* ── BUTTONS ── */
+/* ===== DIFFICULTY ===== */
+#difficulty { padding-top: 72px; }
+
+.screen-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  letter-spacing: 6px;
+  color: var(--text-dim);
+  margin-bottom: 36px;
+  text-transform: uppercase;
+}
+
+/* ===== BUTTONS ===== */
 .btn {
   display: block;
   width: 240px;
   padding: 15px 20px;
   margin: 10px auto;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 3px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   cursor: pointer;
   text-align: center;
   min-height: 52px;
@@ -117,45 +171,11 @@ body {
 .btn:active { background: var(--surface2); color: #fff; }
 .btn:active::before { transform: scaleY(1); }
 
-.btn-primary {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.btn-primary:active { background: rgba(74,158,255,0.1); }
+.btn-primary { border-color: var(--accent); color: var(--accent); }
+.btn-primary:active { background: rgba(0,188,212,0.1); }
 
-/* ── RULES SCREEN ── */
-#rules { overflow-y: auto; justify-content: flex-start; padding-top: 48px; }
-#rules .screen-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 13px;
-  letter-spacing: 6px;
-  color: var(--text-dim);
-  margin-bottom: 28px;
-}
-.rule-section { width: 100%; max-width: 360px; margin-bottom: 20px; }
-.rule-section h3 {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--accent);
-  letter-spacing: 3px;
-  margin-bottom: 6px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--border);
-}
-.rule-section p { font-size: 14px; line-height: 1.8; color: var(--text); }
-
-/* ── DIFFICULTY ── */
-#difficulty .screen-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 13px;
-  letter-spacing: 6px;
-  color: var(--text-dim);
-  margin-bottom: 40px;
-}
-
-/* ── GAME SCREEN ── */
-#game { justify-content: flex-start; padding-top: 20px; }
+/* ===== GAME SCREEN ===== */
+#game { justify-content: flex-start; padding-top: 68px; }
 
 .game-header {
   width: 100%;
@@ -163,36 +183,40 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   padding: 12px 16px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius);
 }
 .status-box { text-align: center; min-width: 70px; }
 .status-box .label {
-  font-family: 'Rajdhani', sans-serif;
   font-size: 10px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: var(--text-dim);
   display: block;
   margin-bottom: 2px;
 }
-.removed-val { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; line-height: 1; }
+.removed-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
 .p1-color { color: var(--p1); }
 .p2-color { color: var(--p2-border); }
 
 .turn-indicator {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 12px;
-  letter-spacing: 2px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
   color: var(--text-dim);
   text-align: center;
 }
 .turn-indicator.active-p1 { color: var(--p1); }
 .turn-indicator.active-p2 { color: var(--p2-border); }
 
-/* ── BOARD ── */
+/* ===== BOARD ===== */
 #board {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -203,14 +227,14 @@ body {
   padding: 8px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
 }
 
 .cell {
   aspect-ratio: 1;
   background: var(--surface2);
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -218,237 +242,388 @@ body {
   position: relative;
   transition: border-color 0.15s, background 0.15s;
 }
-
 .cell.center-hole {
   background: var(--hole-bg);
-  border: 1px solid var(--hole-border);
-  box-shadow: inset 0 0 12px rgba(74,158,255,0.08);
+  border: 1px solid #2a2a50;
+  box-shadow: inset 0 0 12px rgba(0,188,212,0.08);
 }
-
 .cell.selected {
   border-color: var(--accent);
-  background: rgba(74,158,255,0.08);
+  background: rgba(0,188,212,0.08);
   box-shadow: 0 0 0 1px var(--accent);
 }
-
 .cell.movable {
-  border-color: rgba(74,158,255,0.5);
-  background: rgba(74,158,255,0.06);
+  border-color: rgba(0,188,212,0.5);
+  background: rgba(0,188,212,0.06);
 }
 .cell.movable.empty-cell::after {
   content: '';
-  width: 30%;
-  height: 30%;
+  width: 30%; height: 30%;
   border-radius: 50%;
-  background: rgba(74,158,255,0.45);
+  background: rgba(0,188,212,0.45);
   pointer-events: none;
 }
 
-/* ── PIECES ── */
+/* ===== PIECES ===== */
 .piece {
-  width: 74%;
-  height: 74%;
+  width: 74%; height: 74%;
   border-radius: 50%;
   pointer-events: none;
   transition: transform 0.15s;
 }
-
 .piece.p1 {
   background: linear-gradient(145deg, #ffffff, #c0c0d8);
   box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.8);
 }
-
 .piece.p2 {
   background: linear-gradient(145deg, #6a6a90, #3a3a55);
   box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 2px rgba(150,150,200,0.3);
   border: 1px solid var(--p2-border);
 }
-
 .hole-marker {
-  width: 52%;
-  height: 52%;
+  width: 52%; height: 52%;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(74,158,255,0.15), var(--hole-bg));
-  border: 1px solid var(--hole-border);
-  box-shadow: 0 0 8px rgba(74,158,255,0.15), inset 0 0 6px rgba(0,0,0,0.8);
+  background: radial-gradient(circle at 35% 35%, rgba(0,188,212,0.15), var(--hole-bg));
+  border: 1px solid #2a2a50;
+  box-shadow: 0 0 8px rgba(0,188,212,0.15), inset 0 0 6px rgba(0,0,0,0.8);
   pointer-events: none;
 }
 
-/* ── ANIMATIONS ── */
-@keyframes pieceMove {
-  0% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-@keyframes pieceRemove {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.5; }
-  100% { transform: scale(0); opacity: 0; }
-}
+/* ===== ANIMATIONS ===== */
+@keyframes pieceMove   { 0% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@keyframes pieceRemove { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.5; } 100% { transform: scale(0); opacity: 0; } }
 .piece.animating { animation: pieceMove 0.2s ease-out; }
-.piece.removing { animation: pieceRemove 0.3s ease-out forwards; }
+.piece.removing  { animation: pieceRemove 0.3s ease-out forwards; }
 
-/* ── FOOTER ── */
-.game-footer { width: 100%; max-width: 360px; display: flex; gap: 6px; margin-top: 12px; }
-.game-footer .btn { flex: 1; font-size: 12px; padding: 12px 2px; min-height: 48px; margin: 0; width: auto; letter-spacing: 1px; }
+/* ===== GAME FOOTER ===== */
+.game-footer {
+  width: 100%; max-width: 360px;
+  display: flex; gap: 6px;
+  margin-top: 12px;
+}
+.game-footer .btn {
+  flex: 1; font-size: 12px; padding: 10px 2px;
+  min-height: 44px; margin: 0; width: auto; letter-spacing: 0.5px;
+}
 
-/* ── MODAL ── */
+/* ===== MODAL ===== */
 .modal-overlay {
   display: none;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.88);
+  background: rgba(0,0,0,0.85);
   z-index: 100;
   align-items: center;
   justify-content: center;
   padding: 20px;
   backdrop-filter: blur(4px);
+  overflow-y: auto;
 }
 .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
 
 .modal-box {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 28px 24px;
-  width: 100%;
-  max-width: 340px;
+  width: 100%; max-width: 340px;
   max-height: 80vh;
   overflow-y: auto;
 }
 .modal-box h2 {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 22px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   margin-bottom: 20px;
   text-align: center;
-  color: #fff;
+  color: var(--accent);
 }
-.modal-box p { font-size: 14px; color: var(--text); line-height: 1.8; margin-bottom: 12px; }
-.modal-box p strong { color: var(--accent); font-weight: 500; }
-.modal-box .btn { margin-top: 10px; }
+.modal-rule-section { margin-bottom: 16px; }
+.modal-rule-section h3 {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-rule-section p { font-size: 13px; line-height: 1.8; color: var(--text-dim); }
+.modal-box .btn { margin-top: 12px; }
 
-/* ── FORBIDDEN NOTICE ── */
+/* ===== WIN MODAL ===== */
+#win-modal .modal-box { text-align: center; }
+#win-text { color: var(--accent); font-size: 22px; }
+#win-desc { font-size: 14px; color: var(--text-dim); margin-top: 8px; }
+
+/* ===== FORBIDDEN NOTICE ===== */
 #forbidden-notice {
   display: none;
   position: fixed;
-  top: 24px;
+  top: 64px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(180,30,30,0.95);
-  border: 1px solid #ff4444;
+  border: 1px solid var(--danger);
   color: #fff;
   padding: 10px 20px;
-  border-radius: 4px;
-  font-family: 'Rajdhani', sans-serif;
+  border-radius: 8px;
   font-size: 13px;
-  letter-spacing: 2px;
+  font-weight: 700;
   z-index: 200;
   white-space: nowrap;
   animation: slideDown 0.2s ease;
 }
-@keyframes slideDown { from { opacity: 0; top: 12px; } to { opacity: 1; top: 24px; } }
-
-/* ── WIN MODAL ── */
-#win-modal .modal-box { text-align: center; }
-#win-text { color: var(--accent); }
+@keyframes slideDown { from { opacity: 0; top: 52px; } to { opacity: 1; top: 64px; } }
 </style>
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
+<div id="app-header" class="hidden">
+  <div class="hdr-logo" onclick="goTitle()">OSTLE</div>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
+    <button class="hdr-btn" onclick="showHelp()">&#x2753;</button>
+  </div>
+</div>
+
+<!-- ===== SPLASH ===== -->
 <div id="splash" class="screen active">
   <div class="logo">OSTLE</div>
   <div class="tagline">PUSH &middot; FALL &middot; WIN</div>
 </div>
 
-
-
-<div id="rules" class="screen">
-  <div class="screen-title">RULES</div>
-  <div class="rule-section">
-    <h3>目的</h3>
-    <p>相手の駒を2個除去したら勝ち。</p>
-  </div>
-  <div class="rule-section">
-    <h3>手番でできること</h3>
-    <p>自分の駒か、穴コマを上下左右に1マス動かす。</p>
-  </div>
-  <div class="rule-section">
-    <h3>押し出し</h3>
-    <p>駒の進行方向に別の駒がある場合、連続して押し出せる。盤外に押し出された駒は除去される。</p>
-  </div>
-  <div class="rule-section">
-    <h3>穴コマ</h3>
-    <p>両プレイヤーが動かせる共有コマ。空きマスにしか動けず、他の駒を押せない。駒が穴の上に押し込まれると除去される。</p>
-  </div>
-  <div class="rule-section">
-    <h3>注意</h3>
-    <p>自分の駒も除去される場合がある。同じ盤面が3回繰り返されると、その手は禁止される。</p>
-  </div>
-  <button class="btn btn-primary" onclick="showScreen('mode')">次へ</button>
-  <div style="height:24px"></div>
+<!-- ===== TITLE ===== -->
+<div id="title" class="screen">
+  <div class="logo">OSTLE</div>
+  <div class="subtitle" id="title-sub">PUSH &middot; FALL &middot; WIN</div>
+  <button class="btn btn-primary" id="btn-vs-cpu" onclick="startModeCpu()">CPU&#23550;&#25112;</button>
+  <button class="btn" id="btn-2p" onclick="startMode2p()">2&#20154;&#23550;&#25112;</button>
 </div>
 
-<div id="mode" class="screen">
-  <div class="screen-title">MODE</div>
-  <button class="btn btn-primary" onclick="startModeCpu()">vs CPU</button>
-  <button class="btn" onclick="startMode2p()">2人対戦</button>
-</div>
-
+<!-- ===== DIFFICULTY ===== -->
 <div id="difficulty" class="screen">
-  <div class="screen-title">DIFFICULTY</div>
-  <button class="btn" onclick="startGameEasy()">EASY</button>
-  <button class="btn btn-primary" onclick="startGameNormal()">NORMAL</button>
-  <button class="btn" onclick="startGameHard()">HARD</button>
+  <div class="screen-title" id="diff-screen-title">&#38627;&#26131;&#24230;&#36984;&#25246;</div>
+  <button class="btn" id="btn-easy" onclick="startGameEasy()">&#12363;&#12435;&#305;&#305;&#12383;&#12435;</button>
+  <button class="btn btn-primary" id="btn-normal" onclick="startGameNormal()">&#12405;&#12388;&#12358;</button>
+  <button class="btn" id="btn-hard" onclick="startGameHard()">&#12080;&#305;&#12378;&#304;&#12375;&#12356;</button>
 </div>
 
+<!-- ===== GAME ===== -->
 <div id="game" class="screen">
   <div class="game-header">
     <div class="status-box">
-      <div class="label">P1 取られた</div>
+      <span class="label" id="label-p1">P1 &#21462;&#12425;&#12428;&#305;&#305;</span>
       <div class="removed-val p1-color" id="p1-removed">0</div>
     </div>
-    <div class="turn-indicator" id="turn-text">P1のターン</div>
+    <div class="turn-indicator" id="turn-text">P1&#12398;&#12479;&#12540;&#12531;</div>
     <div class="status-box">
-      <div class="label">P2 取られた</div>
+      <span class="label" id="label-p2">P2 &#21462;&#12425;&#12428;&#305;&#305;</span>
       <div class="removed-val p2-color" id="p2-removed">0</div>
     </div>
   </div>
   <div id="board"></div>
   <div class="game-footer">
-    <button class="btn" onclick="showRulesModal()">ルール</button>
-    <button class="btn" onclick="undoMove()">待った</button>
-    <button class="btn" onclick="resetGame()">最初から</button>
-    <button class="btn" onclick="goTitle()">メニュー</button>
+    <button class="btn" id="btn-undo" onclick="undoMove()">&#24453;&#12387;&#305;&#305;</button>
+    <button class="btn" id="btn-reset" onclick="resetGame()">&#26368;&#21021;&#304;&#12363;&#12425;</button>
+    <button class="btn" id="btn-menu" onclick="goTitle()">&#12513;&#12491;&#12517;&#12540;</button>
   </div>
 </div>
 
-<div class="modal-overlay" id="rules-modal">
+<!-- ===== HELP MODAL ===== -->
+<div class="modal-overlay" id="help-modal">
   <div class="modal-box">
-    <h2>ルール</h2>
-    <p><strong>目的:</strong> 相手の駒を2個除去したら勝ち。</p>
-    <p><strong>手番:</strong> 自分の駒か穴コマを上下左右に1マス動かす。</p>
-    <p><strong>押し出し:</strong> 進行方向の駒を連続して押せる。盤外に出た駒は除去。</p>
-    <p><strong>穴コマ:</strong> 両者が動かせる共有コマ。空きマスにしか動けず、駒を押せない。駒が穴の上に押し込まれると除去。</p>
-    <button class="btn" onclick="closeRulesModal()">閉じる</button>
+    <h2 id="help-title">&#12523;&#12540;&#12523;</h2>
+    <div class="modal-rule-section">
+      <h3 id="help-goal-h">&#30446;&#30340;</h3>
+      <p id="help-goal">&#30456;&#25163;&#12398;&#39340;&#12434;2&#20491;&#38500;&#21435;&#12375;&#305;&#12383;&#12425;&#21213;&#12385;&#12290;</p>
+    </div>
+    <div class="modal-rule-section">
+      <h3 id="help-move-h">&#25163;&#30058;&#12391;&#12391;&#304;&#12427;&#12371;&#12392;</h3>
+      <p id="help-move">&#33258;&#20998;&#12398;&#39340;&#304;&#12289;&#31348;&#12467;&#12510;&#12434;&#19978;&#19979;&#24038;&#21491;&#306B;1&#12510;&#12473;&#21205;&#304;&#12377;&#12290;</p>
+    </div>
+    <div class="modal-rule-section">
+      <h3 id="help-push-h">&#25276;&#12375;&#20986;&#12375;</h3>
+      <p id="help-push">&#39340;&#12398;&#36914;&#34892;&#26041;&#21521;&#306B;&#21029;&#12398;&#39340;&#304;&#12354;&#308B;&#22580;&#21512;&#12289;&#36899;&#32396;&#12375;&#12390;&#25276;&#12375;&#20986;&#305;&#12379;&#308B;&#12290;&#30436;&#22806;&#306B;&#25276;&#12375;&#20986;&#12373;&#308C;&#305;&#12383;&#39340;&#306F;&#38500;&#21435;&#12373;&#308C;&#308B;&#12290;</p>
+    </div>
+    <div class="modal-rule-section">
+      <h3 id="help-hole-h">&#31348;&#12467;&#12510;</h3>
+      <p id="help-hole">&#20001;&#12503;&#12524;&#12452;&#12516;&#12540;&#304;&#21205;&#304;&#12379;&#308B;&#20849;&#26377;&#12467;&#12510;&#12290;&#31354;&#12365;&#12510;&#12473;&#306B;&#12375;&#304;&#21205;&#12369;&#12378;&#12289;&#20182;&#12398;&#39340;&#12434;&#25276;&#305;&#12379;&#12394;&#12356;&#12290;&#39340;&#304;&#31348;&#306E;&#19978;&#306B;&#25276;&#12375;&#36796;&#12414;&#12428;&#308B;&#12392;&#38500;&#21435;&#12373;&#12428;&#308B;&#12290;</p>
+    </div>
+    <div class="modal-rule-section">
+      <h3 id="help-warn-h">&#27880;&#24847;</h3>
+      <p id="help-warn">&#33258;&#20998;&#12398;&#39340;&#12418;&#38500;&#21435;&#12373;&#308C;&#308B;&#22580;&#21512;&#304;&#12354;&#308B;&#12290;&#21516;&#12376;&#25163;&#304;3&#22238;&#32繰;&#12426;&#36820;&#12373;&#308C;&#308B;&#12392;&#31105;&#27490;&#12373;&#308C;&#308B;&#12290;</p>
+    </div>
+    <button class="btn" id="btn-help-close" onclick="closeHelp()">&#38281;&#12376;&#308B;</button>
   </div>
 </div>
 
-<div id="forbidden-notice" style="display:none;position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#882222;color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;z-index:200;text-align:center;white-space:nowrap;">
-  その手は禁止されています（千日手）
+<!-- ===== FORBIDDEN NOTICE ===== -->
+<div id="forbidden-notice">
+  <span id="forbidden-text">&#12381;&#12398;&#25163;&#306F;&#31105;&#27490;&#12373;&#12428;&#12390;&#12356;&#12414;&#12377;&#65288;&#21315;&#26085;&#25163;&#65289;</span>
 </div>
 
+<!-- ===== WIN MODAL ===== -->
 <div class="modal-overlay" id="win-modal">
   <div class="modal-box">
-    <h2 id="win-text">勝利！</h2>
+    <h2 id="win-text">&#21213;&#21033;&#65281;</h2>
     <p id="win-desc"></p>
-    <button class="btn" onclick="resetGame()">もう一度</button>
-    <button class="btn" onclick="goTitle()">タイトルへ</button>
+    <button class="btn btn-primary" id="btn-retry" onclick="resetGame()">&#12418;&#12358;&#19968;&#24230;</button>
+    <button class="btn" id="btn-win-title" onclick="goTitle()">&#12479;&#12452;&#12488;&#12523;&#12408;</button>
   </div>
 </div>
 
 <script>
+// ===== LANGUAGE =====
+var lang = "ja";
+
+var T = {
+  ja: {
+    title_sub:    "PUSH · FALL · WIN",
+    btn_vs_cpu:   "CPU対戦",
+    btn_2p:       "2人対戦",
+    diff_title:   "難易度選択",
+    diff_easy:    "かんたん",
+    diff_normal:  "ふつう",
+    diff_hard:    "むずかしい",
+    label_p1:     "P1 取られた",
+    label_p2:     "P2 取られた",
+    turn_p1:      "P1のターン",
+    turn_p2:      "P2のターン",
+    turn_cpu:     "CPUのターン...",
+    btn_undo:     "待った",
+    btn_reset:    "最初から",
+    btn_menu:     "メニュー",
+    help_title:   "ルール",
+    help_goal_h:  "目的",
+    help_goal:    "相手の駒を2個除去したら勝ち。",
+    help_move_h:  "手番でできること",
+    help_move:    "自分の駒か、穴コマを上下左右に1マス動かす。",
+    help_push_h:  "押し出し",
+    help_push:    "駒の進行方向に別の駒がある場合、連続して押し出せる。盤外に出た駒は除去される。",
+    help_hole_h:  "穴コマ",
+    help_hole:    "両プレイヤーが動かせる共有コマ。空きマスにしか動けず、他の駒を押せない。駒が穴の上に押し込まれると除去される。",
+    help_warn_h:  "注意",
+    help_warn:    "自分の駒も除去される場合がある。同じ手が3回繰り辺されると禁止される。",
+    help_close:   "閉じる",
+    cpu_wins:     "CPUの勝利！",
+    you_win:      "あなたの勝利！",
+    p1_wins:      "P1の勝利！",
+    p2_wins:      "P2の勝利！",
+    cpu_win_desc: "P1の駒を2個除去されました。",
+    you_win_desc: "CPUの駒を2個除去しました！",
+    p_win_desc:   "相手の駒を2個除去しました！",
+    btn_retry:    "もう一度",
+    btn_win_title:"タイトルへ",
+    forbidden:    "その手は禁止されています（千日手）"
+  },
+  en: {
+    title_sub:    "PUSH · FALL · WIN",
+    btn_vs_cpu:   "vs CPU",
+    btn_2p:       "2 Players",
+    diff_title:   "DIFFICULTY",
+    diff_easy:    "Easy",
+    diff_normal:  "Normal",
+    diff_hard:    "Hard",
+    label_p1:     "P1 Removed",
+    label_p2:     "P2 Removed",
+    turn_p1:      "P1's Turn",
+    turn_p2:      "P2's Turn",
+    turn_cpu:     "CPU Thinking...",
+    btn_undo:     "Undo",
+    btn_reset:    "Restart",
+    btn_menu:     "Menu",
+    help_title:   "RULES",
+    help_goal_h:  "GOAL",
+    help_goal:    "Remove 2 of your opponent's pieces to win.",
+    help_move_h:  "YOUR TURN",
+    help_move:    "Move one of your pieces or the hole piece one step up/down/left/right.",
+    help_push_h:  "PUSHING",
+    help_push:    "You can push a chain of pieces in your direction. Pieces pushed off the board are removed.",
+    help_hole_h:  "HOLE PIECE",
+    help_hole:    "A shared piece both players can move. Can only move to empty cells and cannot push pieces. A piece pushed onto the hole is removed.",
+    help_warn_h:  "NOTE",
+    help_warn:    "Your own pieces can also be removed. Repeating the same move 3 times forbids it.",
+    help_close:   "Close",
+    cpu_wins:     "CPU Wins!",
+    you_win:      "You Win!",
+    p1_wins:      "P1 Wins!",
+    p2_wins:      "P2 Wins!",
+    cpu_win_desc: "CPU removed 2 of your pieces.",
+    you_win_desc: "You removed 2 of CPU's pieces!",
+    p_win_desc:   "2 pieces removed — victory!",
+    btn_retry:    "Play Again",
+    btn_win_title:"Title",
+    forbidden:    "Forbidden move (repetition rule)"
+  }
+};
+
+function toggleLang() {
+  lang = (lang === "ja") ? "en" : "ja";
+  var btn = document.getElementById("lang-btn");
+  if (btn) btn.textContent = (lang === "ja") ? "\uD83C\uDDFA\uD83C\uDDF8" : "\uD83C\uDDEF\uD83C\uDDF5";
+  applyLang();
+}
+
+function applyLang() {
+  var t = T[lang];
+  var el;
+  document.documentElement.lang = lang;
+
+  el = document.getElementById("title-sub");       if (el) el.textContent = t.title_sub;
+  el = document.getElementById("btn-vs-cpu");      if (el) el.textContent = t.btn_vs_cpu;
+  el = document.getElementById("btn-2p");          if (el) el.textContent = t.btn_2p;
+  el = document.getElementById("diff-screen-title"); if (el) el.textContent = t.diff_title;
+  el = document.getElementById("btn-easy");        if (el) el.textContent = t.diff_easy;
+  el = document.getElementById("btn-normal");      if (el) el.textContent = t.diff_normal;
+  el = document.getElementById("btn-hard");        if (el) el.textContent = t.diff_hard;
+  el = document.getElementById("label-p1");        if (el) el.textContent = t.label_p1;
+  el = document.getElementById("label-p2");        if (el) el.textContent = t.label_p2;
+  el = document.getElementById("btn-undo");        if (el) el.textContent = t.btn_undo;
+  el = document.getElementById("btn-reset");       if (el) el.textContent = t.btn_reset;
+  el = document.getElementById("btn-menu");        if (el) el.textContent = t.btn_menu;
+  el = document.getElementById("help-title");      if (el) el.textContent = t.help_title;
+  el = document.getElementById("help-goal-h");     if (el) el.textContent = t.help_goal_h;
+  el = document.getElementById("help-goal");       if (el) el.textContent = t.help_goal;
+  el = document.getElementById("help-move-h");     if (el) el.textContent = t.help_move_h;
+  el = document.getElementById("help-move");       if (el) el.textContent = t.help_move;
+  el = document.getElementById("help-push-h");     if (el) el.textContent = t.help_push_h;
+  el = document.getElementById("help-push");       if (el) el.textContent = t.help_push;
+  el = document.getElementById("help-hole-h");     if (el) el.textContent = t.help_hole_h;
+  el = document.getElementById("help-hole");       if (el) el.textContent = t.help_hole;
+  el = document.getElementById("help-warn-h");     if (el) el.textContent = t.help_warn_h;
+  el = document.getElementById("help-warn");       if (el) el.textContent = t.help_warn;
+  el = document.getElementById("btn-help-close");  if (el) el.textContent = t.help_close;
+  el = document.getElementById("btn-retry");       if (el) el.textContent = t.btn_retry;
+  el = document.getElementById("btn-win-title");   if (el) el.textContent = t.btn_win_title;
+  el = document.getElementById("forbidden-text");  if (el) el.textContent = t.forbidden;
+
+  if (gameActive) updateUI();
+}
+
+// ===== SCREEN MANAGEMENT =====
+function showScreen(id) {
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+  }
+  document.getElementById(id).classList.add('active');
+}
+
+function showHelp() {
+  document.getElementById('help-modal').classList.add('active');
+}
+function closeHelp() {
+  document.getElementById('help-modal').classList.remove('active');
+}
+
+// ===== GAME CONSTANTS =====
 var EMPTY = 0, P1 = 1, P2 = 2, HOLE = 3, CENTER = 4;
+
+// ===== GAME STATE =====
 var board = [];
 var currentPlayer = 1;
 var p1Removed = 0, p2Removed = 0;
@@ -463,21 +638,18 @@ var repeatCount = {1: 0, 2: 0};
 var lastMoveKey = {1: '', 2: ''};
 var gameHistory = [];
 
-function showScreen(id) {
-  var screens = document.querySelectorAll('.screen');
-  for (var i = 0; i < screens.length; i++) {
-    screens[i].classList.remove('active');
-  }
-  document.getElementById(id).classList.add('active');
-}
-
+// ===== FLOW =====
 function startModeCpu() { gameMode = 'cpu'; showScreen('difficulty'); }
-function startMode2p() { gameMode = '2p'; startGame('normal'); }
-function showDifficultyOrGame() { showScreen('title'); }
-function startGameEasy() { startGame('easy'); }
+function startMode2p()  { gameMode = '2p'; startGame('normal'); }
+function startGameEasy()   { startGame('easy'); }
 function startGameNormal() { startGame('normal'); }
-function startGameHard() { startGame('hard'); }
-function goTitle() { closeWinModal(); showScreen('rules'); }
+function startGameHard()   { startGame('hard'); }
+
+function goTitle() {
+  closeWinModal();
+  gameActive = false;
+  showScreen('title');
+}
 
 function startGame(diff) {
   if (diff) difficulty = diff;
@@ -539,13 +711,13 @@ function renderBoard() {
       cell.className = cls;
 
       if (board[r][c] === P1) {
-        var p1 = document.createElement('div');
-        p1.className = 'piece p1';
-        cell.appendChild(p1);
+        var p1el = document.createElement('div');
+        p1el.className = 'piece p1';
+        cell.appendChild(p1el);
       } else if (board[r][c] === P2) {
-        var p2 = document.createElement('div');
-        p2.className = 'piece p2';
-        cell.appendChild(p2);
+        var p2el = document.createElement('div');
+        p2el.className = 'piece p2';
+        cell.appendChild(p2el);
       } else if (board[r][c] === HOLE) {
         var hp = document.createElement('div');
         hp.className = 'piece hole-piece';
@@ -566,10 +738,15 @@ function renderBoard() {
 }
 
 function updateUI() {
+  var t = T[lang];
   document.getElementById('p1-removed').textContent = p1Removed;
   document.getElementById('p2-removed').textContent = p2Removed;
-  var txt = currentPlayer === 1 ? 'P1のターン' : 'P2のターン';
-  if (gameMode === 'cpu' && currentPlayer === 2) txt = 'CPUのターン...';
+  var txt;
+  if (gameMode === 'cpu' && currentPlayer === 2) {
+    txt = t.turn_cpu;
+  } else {
+    txt = currentPlayer === 1 ? t.turn_p1 : t.turn_p2;
+  }
   var el = document.getElementById('turn-text');
   el.textContent = txt;
   el.className = 'turn-indicator';
@@ -635,9 +812,7 @@ function getValidMoves(r, c) {
     nc = c + dirs[d][1];
     if (nr < 0 || nr >= 5 || nc < 0 || nc >= 5) continue;
     if (isHolePiece) {
-      if (board[nr][nc] === EMPTY) {
-        moves.push([nr, nc]);
-      }
+      if (board[nr][nc] === EMPTY) moves.push([nr, nc]);
     } else {
       moves.push([nr, nc]);
     }
@@ -646,7 +821,6 @@ function getValidMoves(r, c) {
 }
 
 function executeMove(fromR, fromC, toR, toC) {
-  // スナップショットを保存
   var snap = {
     board: [],
     currentPlayer: currentPlayer,
@@ -657,7 +831,7 @@ function executeMove(fromR, fromC, toR, toC) {
     repeatCount: {1: repeatCount[1], 2: repeatCount[2]},
     lastMoveKey: {1: lastMoveKey[1], 2: lastMoveKey[2]}
   };
-  var si, sj;
+  var si;
   for (si = 0; si < 5; si++) snap.board.push(board[si].slice());
   for (si = 0; si < lastMoves.length; si++) snap.lastMoves.push(lastMoves[si].slice());
   gameHistory.push(snap);
@@ -668,47 +842,37 @@ function executeMove(fromR, fromC, toR, toC) {
   var i;
 
   if (movingPiece === CENTER) {
-    // 穴コマは空きマスにだけ移動（空きマスはEMPTY）
     board[toR][toC] = CENTER;
     board[fromR][fromC] = EMPTY;
   } else {
     var chain = [];
     var cr = toR, cc = toC;
-    // チェーン：移動先から連続する駒を収集（CENTERは穴なので止まる）
     while (cr >= 0 && cr < 5 && cc >= 0 && cc < 5 && board[cr][cc] !== EMPTY && board[cr][cc] !== CENTER) {
       chain.push([cr, cc, board[cr][cc]]);
-      cr += dr;
-      cc += dc;
+      cr += dr; cc += dc;
     }
 
     var endR = cr, endC = cc;
     var endVal = (cr >= 0 && cr < 5 && cc >= 0 && cc < 5) ? board[cr][cc] : -1;
 
     if (endVal === CENTER) {
-      // チェーンの最後の駒が穴に落ちる（チェーンが空＝移動駒自身が穴に落ちる）
       if (chain.length > 0) {
         var fallen = chain[chain.length - 1];
         if (fallen[2] === P1) p1Removed++;
         else if (fallen[2] === P2) p2Removed++;
-        // チェーンの残りをシフト
         for (i = chain.length - 2; i >= 0; i--) {
           board[chain[i][0] + dr][chain[i][1] + dc] = chain[i][2];
         }
-        // 移動駒をtoに置く
         board[toR][toC] = movingPiece;
         board[fromR][fromC] = EMPTY;
-        // CENTERは元の位置に残る
         board[endR][endC] = CENTER;
       } else {
-        // 移動駒が直接穴に落ちる
         if (movingPiece === P1) p1Removed++;
         else if (movingPiece === P2) p2Removed++;
         board[fromR][fromC] = EMPTY;
-        // CENTERは元の位置に残る
         board[endR][endC] = CENTER;
       }
     } else if (endVal === -1) {
-      // 盤外に押し出し：チェーンの最後の駒が除去（チェーンが空＝移動駒が盤外）
       if (chain.length > 0) {
         var fallen2 = chain[chain.length - 1];
         if (fallen2[2] === P1) p1Removed++;
@@ -719,13 +883,11 @@ function executeMove(fromR, fromC, toR, toC) {
         board[toR][toC] = movingPiece;
         board[fromR][fromC] = EMPTY;
       } else {
-        // 移動駒自身が盤外（空きマスの端への移動）
         if (movingPiece === P1) p1Removed++;
         else if (movingPiece === P2) p2Removed++;
         board[fromR][fromC] = EMPTY;
       }
     } else {
-      // 空きマスへの移動（チェーンをまとめてシフト）
       for (i = chain.length - 1; i >= 0; i--) {
         board[chain[i][0] + dr][chain[i][1] + dc] = chain[i][2];
       }
@@ -753,7 +915,6 @@ function executeMove(fromR, fromC, toR, toC) {
 function checkSennichite(fromR, fromC, toR, toC) {
   var mover = currentPlayer === 1 ? 2 : 1;
   var key = fromR + ',' + fromC + ',' + toR + ',' + toC;
-
   if (key === lastMoveKey[mover]) {
     repeatCount[mover] = repeatCount[mover] + 1;
     if (repeatCount[mover] >= 2) {
@@ -770,6 +931,8 @@ function checkSennichite(fromR, fromC, toR, toC) {
 function showForbiddenNotice() {
   var el = document.getElementById('forbidden-notice');
   if (!el) return;
+  var txt = document.getElementById('forbidden-text');
+  if (txt) txt.textContent = T[lang].forbidden;
   el.style.display = 'block';
   setTimeout(function() { el.style.display = 'none'; }, 2000);
 }
@@ -777,23 +940,16 @@ function showForbiddenNotice() {
 function isForbiddenMove(fromR, fromC, toR, toC) {
   var fm = forbiddenMoves[currentPlayer];
   if (!fm) return false;
-  return fm[0] === fromR && fm[1] === fromC &&
-         fm[2] === toR   && fm[3] === toC;
+  return fm[0] === fromR && fm[1] === fromC && fm[2] === toR && fm[3] === toC;
 }
 
 function undoMove() {
-  if (!gameActive && gameHistory.length === 0) return;
-  // CPUモードは2手分戻す（自分+CPU）、2人対戦は1手
+  if (gameHistory.length === 0) return;
   var steps = (gameMode === 'cpu') ? 2 : 1;
-  // 履歴が足りなければあるだけ戻す
   if (gameHistory.length < steps) steps = gameHistory.length;
   if (steps === 0) return;
-
   var snap;
-  var s;
-  for (s = 0; s < steps; s++) {
-    snap = gameHistory.pop();
-  }
+  for (var s = 0; s < steps; s++) snap = gameHistory.pop();
 
   board = snap.board;
   currentPlayer = snap.currentPlayer;
@@ -818,16 +974,15 @@ function checkWin() {
 
 function showWin(winner) {
   playSound('win');
+  var t = T[lang];
   var label, desc;
   if (gameMode === 'cpu' && winner === 2) {
-    label = 'CPUの勝利！';
-    desc = 'P1の駒を2個除去しました。';
+    label = t.cpu_wins; desc = t.cpu_win_desc;
   } else if (gameMode === 'cpu' && winner === 1) {
-    label = 'あなたの勝利！';
-    desc = 'CPUの駒を2個除去しました！';
+    label = t.you_win; desc = t.you_win_desc;
   } else {
-    label = 'P' + winner + 'の勝利！';
-    desc = '相手の駒を2個除去しました！';
+    label = winner === 1 ? t.p1_wins : t.p2_wins;
+    desc = t.p_win_desc;
   }
   document.getElementById('win-text').textContent = label;
   document.getElementById('win-desc').textContent = desc;
@@ -838,13 +993,7 @@ function closeWinModal() {
   document.getElementById('win-modal').classList.remove('active');
 }
 
-function showRulesModal() {
-  document.getElementById('rules-modal').classList.add('active');
-}
-function closeRulesModal() {
-  document.getElementById('rules-modal').classList.remove('active');
-}
-
+// ===== CPU AI =====
 function getAllMoves(player) {
   var moves = [];
   var r, c, vm, m;
@@ -852,9 +1001,7 @@ function getAllMoves(player) {
     for (c = 0; c < 5; c++) {
       if (board[r][c] === player || board[r][c] === CENTER) {
         vm = getValidMoves(r, c);
-        for (m = 0; m < vm.length; m++) {
-          moves.push([r, c, vm[m][0], vm[m][1]]);
-        }
+        for (m = 0; m < vm.length; m++) moves.push([r, c, vm[m][0], vm[m][1]]);
       }
     }
   }
@@ -989,14 +1136,16 @@ function doCpuMove() {
   if (bestMove) executeMove(bestMove[0], bestMove[1], bestMove[2], bestMove[3]);
 }
 
-// ========== SOUND ==========
+// ===== SOUND =====
 var audioCtx = null;
+
 function getAudioCtx() {
   if (!audioCtx) {
     try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
   }
   return audioCtx;
 }
+
 function playSound(type) {
   var ctx = getAudioCtx();
   if (!ctx) return;
@@ -1004,32 +1153,51 @@ function playSound(type) {
   var gain = ctx.createGain();
   osc.connect(gain);
   gain.connect(ctx.destination);
+
   if (type === 'select') {
-    osc.frequency.setValueAtTime(600, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.06);
-    gain.gain.setValueAtTime(0.08, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(500, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(720, ctx.currentTime + 0.07);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
     osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.06);
+    osc.stop(ctx.currentTime + 0.1);
   } else if (type === 'move') {
-    osc.frequency.setValueAtTime(330, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(400, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(260, ctx.currentTime + 0.18);
     gain.gain.setValueAtTime(0.18, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
     osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.15);
+    osc.stop(ctx.currentTime + 0.18);
   } else if (type === 'win') {
-    osc.frequency.setValueAtTime(523, ctx.currentTime);
-    osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
-    osc.frequency.setValueAtTime(784, ctx.currentTime + 0.30);
-    gain.gain.setValueAtTime(0.2, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55);
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.55);
+    var freqs = [523, 659, 784, 1047];
+    for (var i = 0; i < freqs.length; i++) {
+      (function(idx) {
+        var o2 = ctx.createOscillator();
+        var g2 = ctx.createGain();
+        o2.connect(g2);
+        g2.connect(ctx.destination);
+        o2.type = 'sine';
+        o2.frequency.setValueAtTime(freqs[idx], ctx.currentTime + idx * 0.13);
+        g2.gain.setValueAtTime(0.2, ctx.currentTime + idx * 0.13);
+        g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.13 + 0.25);
+        o2.start(ctx.currentTime + idx * 0.13);
+        o2.stop(ctx.currentTime + idx * 0.13 + 0.25);
+      })(i);
+    }
+    return;
   }
 }
 
-setTimeout(function() { showScreen('rules'); }, 1800);
+// ===== INIT =====
+window.addEventListener('load', function() {
+  applyLang();
+  setTimeout(function() {
+    showScreen('title');
+    document.getElementById('app-header').classList.remove('hidden');
+  }, 1800);
+});
 </script>
 </body>
 </html>
