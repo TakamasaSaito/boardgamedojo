@@ -7,16 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:      #0a0a0f;
-  --surface: #0d1620;
-  --border:  #1e3040;
-  --accent:  #00c8d4;
+  --bg:      #0f0f0f;
+  --surface: #1a1a1a;
+  --border:  #2a2a2a;
+  --accent:  #00bcd4;
   --p1:      #e8e8f0;
   --p2:      #f59e0b;
-  --text:    #8899aa;
-  --text-hi: #ccdde8;
+  --text:    #888888;
+  --text-hi: #e0e0e0;
   --danger:  #ff3a5c;
   --green:   #00ff88;
+  --radius:  12px;
 }
 * { box-sizing:border-box; margin:0; padding:0; }
 body {
@@ -31,11 +32,41 @@ body::before {
   content: "";
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(0,200,212,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,200,212,0.025) 1px, transparent 1px);
+    linear-gradient(rgba(0,188,212,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,188,212,0.025) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none; z-index: 0;
 }
+
+/* APP HEADER */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(15,15,15,0.95);
+  border-bottom: 1px solid var(--border);
+}
+#app-header.hidden { display: none; }
+.hdr-logo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5em; letter-spacing: 0.2em;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(0,188,212,0.4);
+  cursor: pointer; line-height: 1;
+}
+.hdr-right { display: flex; align-items: center; gap: 8px; }
+.hdr-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 0.82em;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.hdr-btn:active { border-color: var(--accent); color: var(--accent); }
 
 /* SCREENS */
 .screen {
@@ -52,13 +83,13 @@ body::before {
   font-family: "Bebas Neue", sans-serif;
   font-size: 6em; letter-spacing: 0.2em;
   color: var(--accent);
-  text-shadow: 0 0 40px rgba(0,200,212,0.6), 0 0 80px rgba(0,200,212,0.25);
+  text-shadow: 0 0 40px rgba(0,188,212,0.6), 0 0 80px rgba(0,188,212,0.25);
   line-height: 1;
   animation: logoPulse 2.5s ease-in-out infinite;
 }
 @keyframes logoPulse {
-  0%,100% { text-shadow: 0 0 40px rgba(0,200,212,0.6), 0 0 80px rgba(0,200,212,0.25); }
-  50%     { text-shadow: 0 0 60px rgba(0,200,212,0.9), 0 0 120px rgba(0,200,212,0.4); }
+  0%,100% { text-shadow: 0 0 40px rgba(0,188,212,0.6), 0 0 80px rgba(0,188,212,0.25); }
+  50%     { text-shadow: 0 0 60px rgba(0,188,212,0.9), 0 0 120px rgba(0,188,212,0.4); }
 }
 .splash-sub {
   font-size: 0.68em; letter-spacing: 0.4em;
@@ -78,7 +109,7 @@ body::before {
 #home {
   justify-content: flex-start;
   overflow-y: auto; -webkit-overflow-scrolling: touch;
-  padding: 32px 20px 48px;
+  padding: 60px 20px 48px;
 }
 .home-inner {
   width: 100%; max-width: 440px;
@@ -89,7 +120,7 @@ body::before {
   font-family: "Bebas Neue", sans-serif;
   font-size: 3em; letter-spacing: 0.2em;
   color: var(--accent);
-  text-shadow: 0 0 30px rgba(0,200,212,0.4);
+  text-shadow: 0 0 30px rgba(0,188,212,0.4);
   line-height: 1;
 }
 .home-logo-sub {
@@ -100,7 +131,7 @@ body::before {
 .card {
   width: 100%; background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px; padding: 16px 18px;
+  border-radius: var(--radius); padding: 16px 18px;
 }
 .card-title {
   font-family: "Bebas Neue", sans-serif;
@@ -112,11 +143,11 @@ body::before {
 .rule-list, .step-list { display: flex; flex-direction: column; gap: 10px; }
 .rule-item, .step-item { display: flex; align-items: flex-start; gap: 12px; }
 .rule-icon {
-  width: 28px; height: 28px; border-radius: 4px;
+  width: 28px; height: 28px; border-radius: 8px;
   flex-shrink: 0; display: flex; align-items: center; justify-content: center;
   font-size: 0.82em; font-weight: 500;
 }
-.rule-icon.win { background: rgba(0,200,212,0.12); color: var(--accent); border: 1px solid var(--accent); }
+.rule-icon.win { background: rgba(0,188,212,0.12); color: var(--accent); border: 1px solid var(--accent); }
 .rule-icon.ban { background: rgba(255,58,92,0.10); color: var(--danger); border: 1px solid var(--danger); }
 .rule-icon.alt { background: rgba(245,158,11,0.10); color: var(--p2);    border: 1px solid var(--p2); }
 .rule-text { font-size: 0.76em; color: var(--text-hi); line-height: 1.6; }
@@ -138,34 +169,32 @@ body::before {
   color: var(--text); text-transform: uppercase;
   margin-bottom: 2px;
 }
-.diff-bar {
-  width: 100%; display: flex; gap: 6px;
-}
+.diff-bar { width: 100%; display: flex; gap: 6px; }
 .diff-btn {
   flex: 1; background: transparent;
   border: 1px solid var(--border);
-  border-radius: 5px; color: var(--text);
+  border-radius: var(--radius); color: var(--text);
   font-family: "Noto Sans JP", sans-serif;
   font-size: 0.76em; letter-spacing: 0.06em;
   padding: 9px 4px; cursor: pointer;
   transition: all 0.2s;
 }
 .diff-btn.active-easy   { border-color: var(--green);  color: var(--green);  background: rgba(0,255,136,0.07); }
-.diff-btn.active-normal { border-color: var(--accent);  color: var(--accent); background: rgba(0,200,212,0.07); }
+.diff-btn.active-normal { border-color: var(--accent);  color: var(--accent); background: rgba(0,188,212,0.07); }
 .diff-btn.active-hard   { border-color: var(--danger);  color: var(--danger); background: rgba(255,58,92,0.07); }
 
 /* ゲーム開始ボタン */
 .mode-select { width: 100%; display: flex; flex-direction: column; gap: 8px; }
 .mode-btn {
   width: 100%; background: transparent;
-  border: 1px solid var(--border); border-radius: 6px;
+  border: 1px solid var(--border); border-radius: var(--radius);
   color: var(--text-hi); font-family: "Noto Sans JP", sans-serif;
   font-size: 0.83em; letter-spacing: 0.1em;
   padding: 14px 18px; cursor: pointer;
   display: flex; align-items: center; justify-content: space-between;
   transition: border-color 0.2s, background 0.2s;
 }
-.mode-btn:active { background: rgba(0,200,212,0.08); border-color: var(--accent); }
+.mode-btn:active { background: rgba(0,188,212,0.08); border-color: var(--accent); }
 .mode-arrow { color: var(--accent); font-size: 1.1em; }
 
 /* GAME */
@@ -176,7 +205,7 @@ body::before {
 .game-inner {
   position: relative; z-index: 1;
   width: 100%; max-width: 480px;
-  padding: 14px 16px 28px;
+  padding: 62px 16px 28px;
   display: flex; flex-direction: column;
   align-items: center; gap: 0;
 }
@@ -185,24 +214,16 @@ body::before {
   align-items: center; justify-content: space-between;
   margin-bottom: 10px;
 }
-.game-logo {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: 1.8em; letter-spacing: 0.15em;
-  color: var(--accent);
-  text-shadow: 0 0 20px rgba(0,200,212,0.35);
-  line-height: 1;
-}
 .game-diff-badge {
   font-size: 0.62em; letter-spacing: 0.12em;
-  padding: 2px 8px; border-radius: 3px;
-  margin-left: 8px;
+  padding: 2px 8px; border-radius: 6px;
 }
 .badge-easy   { border: 1px solid var(--green);  color: var(--green); }
 .badge-normal { border: 1px solid var(--accent); color: var(--accent); }
 .badge-hard   { border: 1px solid var(--danger); color: var(--danger); }
 .back-btn {
   background: transparent; border: 1px solid var(--border);
-  border-radius: 4px; color: var(--text);
+  border-radius: var(--radius); color: var(--text);
   font-family: "Noto Sans JP", sans-serif;
   font-size: 0.68em; letter-spacing: 0.1em;
   padding: 5px 12px; cursor: pointer;
@@ -210,7 +231,7 @@ body::before {
 #modebar {
   display: flex; gap: 0;
   border: 1px solid var(--border);
-  border-radius: 4px; overflow: hidden;
+  border-radius: var(--radius); overflow: hidden;
   margin-bottom: 10px;
 }
 #modebar button {
@@ -240,7 +261,7 @@ body::before {
 .dot.err { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
 svg {
   display: block; width: 100%;
-  filter: drop-shadow(0 4px 24px rgba(0,200,212,0.07));
+  filter: drop-shadow(0 4px 24px rgba(0,188,212,0.07));
 }
 #controls {
   display: grid; grid-template-columns: 1fr 1fr 1fr;
@@ -250,9 +271,9 @@ svg {
   background: transparent; border: 1px solid var(--border);
   color: var(--text); font-family: "Noto Sans JP", sans-serif;
   font-size: 0.68em; letter-spacing: 0.06em;
-  padding: 10px 4px; border-radius: 4px; cursor: pointer;
+  padding: 10px 4px; border-radius: var(--radius); cursor: pointer;
 }
-#controls button:active { background: rgba(0,200,212,0.06); }
+#controls button:active { background: rgba(0,188,212,0.06); }
 #btnHint { border-color: rgba(0,255,136,0.25); color: rgba(0,255,136,0.7); }
 #btnHint.on { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.05); }
 #btnUndo { border-color: rgba(68,136,204,0.3); color: rgba(100,160,220,0.8); }
@@ -270,34 +291,28 @@ svg {
 .win-modal {
   background: var(--surface);
   border: 1px solid var(--accent);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 36px 32px 28px;
   text-align: center;
-  box-shadow: 0 0 60px rgba(0,200,212,0.25), 0 0 120px rgba(0,200,212,0.1);
+  box-shadow: 0 0 60px rgba(0,188,212,0.25), 0 0 120px rgba(0,188,212,0.1);
   max-width: 300px; width: 88%;
   transform: scale(0.85);
   transition: transform 0.35s;
 }
 #win-overlay.show .win-modal { transform: scale(1); }
-.win-crown {
-  font-size: 2.8em; line-height: 1;
-  margin-bottom: 12px;
-}
+.win-crown { font-size: 2.8em; line-height: 1; margin-bottom: 12px; }
 .win-title {
   font-family: "Bebas Neue", sans-serif;
   font-size: 2em; letter-spacing: 0.15em;
   color: var(--accent);
-  text-shadow: 0 0 20px rgba(0,200,212,0.5);
+  text-shadow: 0 0 20px rgba(0,188,212,0.5);
   margin-bottom: 4px;
 }
-.win-sub {
-  font-size: 0.75em; color: var(--text);
-  letter-spacing: 0.1em; margin-bottom: 24px;
-}
+.win-sub { font-size: 0.75em; color: var(--text); letter-spacing: 0.1em; margin-bottom: 24px; }
 .win-btns { display: flex; gap: 10px; }
 .win-btn {
   flex: 1; padding: 12px 8px;
-  border-radius: 6px; border: 1px solid var(--border);
+  border-radius: var(--radius); border: 1px solid var(--border);
   background: transparent; color: var(--text-hi);
   font-family: "Noto Sans JP", sans-serif;
   font-size: 0.78em; letter-spacing: 0.1em;
@@ -305,9 +320,44 @@ svg {
 }
 .win-btn.primary {
   border-color: var(--accent); color: var(--accent);
-  background: rgba(0,200,212,0.08);
+  background: rgba(0,188,212,0.08);
 }
 .win-btn:active { opacity: 0.7; }
+
+/* HELP MODAL */
+#help-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.7);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s;
+}
+#help-overlay.show { opacity: 1; pointer-events: all; }
+.help-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px 20px;
+  max-width: 320px; width: 90%;
+  max-height: 80vh; overflow-y: auto;
+  transform: scale(0.85);
+  transition: transform 0.35s;
+}
+#help-overlay.show .help-modal { transform: scale(1); }
+.help-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.2em; letter-spacing: 0.2em;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px; margin-bottom: 16px;
+}
+.help-close {
+  display: block; width: 100%; margin-top: 16px;
+  background: transparent; border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 0.8em; padding: 10px; cursor: pointer;
+}
 
 /* パーティクルキャンバス */
 #particle-canvas {
@@ -320,6 +370,15 @@ svg {
 </head>
 <body>
 
+<!-- APP HEADER -->
+<div id="app-header" class="hidden">
+  <div class="hdr-logo" onclick="showHome()">EGG</div>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
+    <button class="hdr-btn" onclick="showHelp()">❓</button>
+  </div>
+</div>
+
 <!-- PARTICLE CANVAS -->
 <canvas id="particle-canvas"></canvas>
 
@@ -328,11 +387,33 @@ svg {
   <div class="win-modal">
     <div class="win-crown" id="win-crown">👑</div>
     <div class="win-title" id="win-title">VICTORY</div>
-    <div class="win-sub" id="win-sub">Player 1 の勝利</div>
+    <div class="win-sub" id="win-sub"></div>
     <div class="win-btns">
-      <button class="win-btn" onclick="winToHome()">HOME</button>
-      <button class="win-btn primary" onclick="winReplay()">REPLAY</button>
+      <button class="win-btn" id="win-home-btn" onclick="winToHome()">HOME</button>
+      <button class="win-btn primary" id="win-replay-btn" onclick="winReplay()">REPLAY</button>
     </div>
+  </div>
+</div>
+
+<!-- HELP MODAL -->
+<div id="help-overlay">
+  <div class="help-modal">
+    <div class="help-title" id="help-title">RULE</div>
+    <div class="rule-list">
+      <div class="rule-item">
+        <div class="rule-icon win">4</div>
+        <div class="rule-text"><strong id="h-rule1-head"></strong><br><span id="h-rule1-body"></span></div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon ban">3</div>
+        <div class="rule-text"><span class="ban-word" id="h-rule2-head"></span><br><span id="h-rule2-body"></span></div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon alt">交</div>
+        <div class="rule-text"><strong id="h-rule3-head"></strong><br><span id="h-rule3-body"></span></div>
+      </div>
+    </div>
+    <button class="help-close" id="help-close-btn" onclick="closeHelp()">閉じる</button>
   </div>
 </div>
 
@@ -340,7 +421,7 @@ svg {
 <div id="splash" class="screen" onclick="showHome()">
   <div class="splash-logo">EGG</div>
   <div class="splash-sub">Strategy Board Game</div>
-  <div class="splash-tap">TAP TO START</div>
+  <div class="splash-tap" id="splash-tap">タップしてスタート</div>
 </div>
 
 <!-- HOME -->
@@ -352,62 +433,62 @@ svg {
     </div>
 
     <div class="card">
-      <div class="card-title">RULE</div>
+      <div class="card-title" id="rule-title">ルール</div>
       <div class="rule-list">
         <div class="rule-item">
           <div class="rule-icon win">4</div>
-          <div class="rule-text"><strong>4つ並べたら勝ち</strong><br>一直線に自分の石を4つ並べると勝利。</div>
+          <div class="rule-text"><strong id="rule1-head"></strong><br><span id="rule1-body"></span></div>
         </div>
         <div class="rule-item">
           <div class="rule-icon ban">3</div>
-          <div class="rule-text"><span class="ban-word">3つ並びは禁手</span><br>一直線に3つ並ぶ場所には置けない。</div>
+          <div class="rule-text"><span class="ban-word" id="rule2-head"></span><br><span id="rule2-body"></span></div>
         </div>
         <div class="rule-item">
           <div class="rule-icon alt">交</div>
-          <div class="rule-text"><strong>交互に配置</strong><br>2人が順番に1マスずつ石を置く。</div>
+          <div class="rule-text"><strong id="rule3-head"></strong><br><span id="rule3-body"></span></div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">HOW TO PLAY</div>
+      <div class="card-title" id="howto-title">遊び方</div>
       <div class="step-list">
         <div class="step-item">
           <div class="step-num">1</div>
-          <div class="step-text"><strong>モードを選ぶ</strong> — 2人対戦 or AI対戦。</div>
+          <div class="step-text"><strong id="step1-head"></strong> — <span id="step1-body"></span></div>
         </div>
         <div class="step-item">
           <div class="step-num">2</div>
-          <div class="step-text"><strong>マスをタップ</strong> — 置きたい六角形をタップ。</div>
+          <div class="step-text"><strong id="step2-head"></strong> — <span id="step2-body"></span></div>
         </div>
         <div class="step-item">
           <div class="step-num">3</div>
-          <div class="step-text"><strong>HINT</strong> — 置ける場所をグリーンでハイライト。</div>
+          <div class="step-text"><strong>HINT</strong> — <span id="step3-body"></span></div>
         </div>
         <div class="step-item">
           <div class="step-num">4</div>
-          <div class="step-text"><strong>UNDO</strong> — 直前の手を取り消す（AI戦は2手戻る）。</div>
+          <div class="step-text"><strong>UNDO</strong> — <span id="step4-body"></span></div>
         </div>
       </div>
     </div>
 
     <!-- AI難易度 -->
     <div style="width:100%;">
-      <div class="diff-label">AI DIFFICULTY</div>
+      <div class="diff-label" id="diff-label">AI 難易度</div>
       <div class="diff-bar">
-        <button class="diff-btn active-easy" id="dEasy"   onclick="setDiff(0)">EASY</button>
-        <button class="diff-btn"             id="dNormal" onclick="setDiff(1)">NORMAL</button>
-        <button class="diff-btn"             id="dHard"   onclick="setDiff(2)">HARD</button>
+        <button class="diff-btn active-easy" id="dEasy"   onclick="setDiff(0)">かんたん</button>
+        <button class="diff-btn"             id="dNormal" onclick="setDiff(1)">ふつう</button>
+        <button class="diff-btn"             id="dHard"   onclick="setDiff(2)">むずかしい</button>
       </div>
     </div>
 
     <div class="mode-select">
       <button class="mode-btn" onclick="startGame2p()">
-        <span>2P BATTLE — 2人で対戦</span>
+        <span id="mode-2p-label">2P BATTLE — 2人で対戦</span>
         <span class="mode-arrow">→</span>
       </button>
       <button class="mode-btn" onclick="startGameAI()">
-        <span>VS AI — AIと対戦</span>
+        <span id="mode-ai-label">VS AI — AIと対戦</span>
         <span class="mode-arrow">→</span>
       </button>
     </div>
@@ -418,11 +499,8 @@ svg {
 <div id="game" class="screen hidden">
   <div class="game-inner">
     <div class="game-header">
-      <div style="display:flex;align-items:baseline;gap:6px;">
-        <div class="game-logo">EGG</div>
-        <span class="game-diff-badge badge-easy" id="diffBadge" style="display:none;"></span>
-      </div>
-      <button class="back-btn" onclick="showHome()">← HOME</button>
+      <span class="game-diff-badge badge-easy" id="diffBadge" style="display:none;"></span>
+      <button class="back-btn" id="back-btn" onclick="showHome()">← ホーム</button>
     </div>
 
     <div id="modebar">
@@ -464,11 +542,151 @@ var currentPlayer = 1;
 var gameOver = false;
 var moveHistory = [];
 var showHint = false;
-var aiDifficulty = 0; // 0=easy 1=normal 2=hard
+var aiDifficulty = 0;
+var lang = "ja";
 
-var DIFF_NAMES = ["EASY", "NORMAL", "HARD"];
 var DIFF_CLASSES = ["active-easy", "active-normal", "active-hard"];
-var DIFF_BADGE = ["badge-easy", "badge-normal", "badge-hard"];
+var DIFF_BADGE   = ["badge-easy",  "badge-normal",  "badge-hard"];
+var DIFF_KEYS    = ["diff_easy",   "diff_normal",   "diff_hard"];
+
+/* ---- 翻訳テーブル ---- */
+var T = {
+  ja: {
+    splash_tap:  "タップしてスタート",
+    rule_title:  "ルール",
+    rule1_head:  "4つ並べたら勝ち",
+    rule1_body:  "一直線に自分の石を4つ並べると勝利。",
+    rule2_head:  "3つ並びは禁手",
+    rule2_body:  "一直線に3つ並ぶ場所には置けない。",
+    rule3_head:  "交互に配置",
+    rule3_body:  "2人が順番に1マスずつ石を置く。",
+    howto_title: "遊び方",
+    step1_head:  "モードを選ぶ",
+    step1_body:  "2人対戦 or AI対戦。",
+    step2_head:  "マスをタップ",
+    step2_body:  "置きたい六角形をタップ。",
+    step3_body:  "置ける場所をグリーンでハイライト。",
+    step4_body:  "直前の手を取り消す（AI戦は2手戻る）。",
+    diff_label:  "AI 難易度",
+    diff_easy:   "かんたん",
+    diff_normal: "ふつう",
+    diff_hard:   "むずかしい",
+    mode_2p:     "2P BATTLE — 2人で対戦",
+    mode_ai:     "VS AI — AIと対戦",
+    back_btn:    "← ホーム",
+    status_p1:   "Player 1 の番",
+    status_p2:   "Player 2 の番",
+    status_ai:   "AI の番",
+    status_ban:  "禁手 — 3つ並びになる",
+    win_p1:      "Player 1 の勝利！",
+    win_p2:      "Player 2 の勝利！",
+    win_ai:      "AI の勝利！",
+    win_home:    "HOME",
+    win_replay:  "REPLAY",
+    help_title:  "ルール",
+    help_close:  "閉じる"
+  },
+  en: {
+    splash_tap:  "TAP TO START",
+    rule_title:  "RULE",
+    rule1_head:  "Connect 4 to Win",
+    rule1_body:  "Line up 4 of your stones in a row to win.",
+    rule2_head:  "3 in a Row is Forbidden",
+    rule2_body:  "Cannot place where 3 stones would align.",
+    rule3_head:  "Take Turns",
+    rule3_body:  "Players alternate placing one stone per turn.",
+    howto_title: "HOW TO PLAY",
+    step1_head:  "Choose a mode",
+    step1_body:  "2-player or vs AI.",
+    step2_head:  "Tap a cell",
+    step2_body:  "Tap the hexagon to place your stone.",
+    step3_body:  "Highlights valid cells in green.",
+    step4_body:  "Undo the last move (2 steps back in AI mode).",
+    diff_label:  "AI DIFFICULTY",
+    diff_easy:   "Easy",
+    diff_normal: "Normal",
+    diff_hard:   "Hard",
+    mode_2p:     "2P BATTLE — 2 Players",
+    mode_ai:     "VS AI — vs Computer",
+    back_btn:    "← HOME",
+    status_p1:   "Player 1's Turn",
+    status_p2:   "Player 2's Turn",
+    status_ai:   "AI's Turn",
+    status_ban:  "Forbidden — would create 3 in a row",
+    win_p1:      "Player 1 Wins!",
+    win_p2:      "Player 2 Wins!",
+    win_ai:      "AI Wins!",
+    win_home:    "HOME",
+    win_replay:  "REPLAY",
+    help_title:  "RULE",
+    help_close:  "Close"
+  }
+};
+
+/* ---- 言語切替 ---- */
+function toggleLang() {
+  lang = (lang === "ja") ? "en" : "ja";
+  var btn = document.getElementById("lang-btn");
+  if (btn) {
+    btn.textContent = (lang === "ja") ? "\uD83C\uDDFA\uD83C\uDDF8" : "\uD83C\uDDEF\uD83C\uDDF5";
+  }
+  applyLang();
+}
+
+function applyLang() {
+  var t = T[lang];
+  var el;
+  document.documentElement.lang = lang;
+
+  el = document.getElementById("splash-tap");    if (el) { el.textContent = t.splash_tap; }
+  el = document.getElementById("rule-title");    if (el) { el.textContent = t.rule_title; }
+  el = document.getElementById("rule1-head");    if (el) { el.textContent = t.rule1_head; }
+  el = document.getElementById("rule1-body");    if (el) { el.textContent = t.rule1_body; }
+  el = document.getElementById("rule2-head");    if (el) { el.textContent = t.rule2_head; }
+  el = document.getElementById("rule2-body");    if (el) { el.textContent = t.rule2_body; }
+  el = document.getElementById("rule3-head");    if (el) { el.textContent = t.rule3_head; }
+  el = document.getElementById("rule3-body");    if (el) { el.textContent = t.rule3_body; }
+  el = document.getElementById("howto-title");   if (el) { el.textContent = t.howto_title; }
+  el = document.getElementById("step1-head");    if (el) { el.textContent = t.step1_head; }
+  el = document.getElementById("step1-body");    if (el) { el.textContent = t.step1_body; }
+  el = document.getElementById("step2-head");    if (el) { el.textContent = t.step2_head; }
+  el = document.getElementById("step2-body");    if (el) { el.textContent = t.step2_body; }
+  el = document.getElementById("step3-body");    if (el) { el.textContent = t.step3_body; }
+  el = document.getElementById("step4-body");    if (el) { el.textContent = t.step4_body; }
+  el = document.getElementById("diff-label");    if (el) { el.textContent = t.diff_label; }
+  el = document.getElementById("mode-2p-label"); if (el) { el.textContent = t.mode_2p; }
+  el = document.getElementById("mode-ai-label"); if (el) { el.textContent = t.mode_ai; }
+
+  var diffIds = ["dEasy", "dNormal", "dHard"];
+  for (var i = 0; i < diffIds.length; i++) {
+    el = document.getElementById(diffIds[i]);
+    if (el) { el.textContent = t[DIFF_KEYS[i]]; }
+  }
+
+  el = document.getElementById("back-btn");      if (el) { el.textContent = t.back_btn; }
+  el = document.getElementById("win-home-btn");  if (el) { el.textContent = t.win_home; }
+  el = document.getElementById("win-replay-btn");if (el) { el.textContent = t.win_replay; }
+  el = document.getElementById("help-title");    if (el) { el.textContent = t.help_title; }
+  el = document.getElementById("h-rule1-head");  if (el) { el.textContent = t.rule1_head; }
+  el = document.getElementById("h-rule1-body");  if (el) { el.textContent = t.rule1_body; }
+  el = document.getElementById("h-rule2-head");  if (el) { el.textContent = t.rule2_head; }
+  el = document.getElementById("h-rule2-body");  if (el) { el.textContent = t.rule2_body; }
+  el = document.getElementById("h-rule3-head");  if (el) { el.textContent = t.rule3_head; }
+  el = document.getElementById("h-rule3-body");  if (el) { el.textContent = t.rule3_body; }
+  el = document.getElementById("help-close-btn");if (el) { el.textContent = t.help_close; }
+
+  updateDiffBadge();
+  if (!gameOver) { updateStatus(); }
+}
+
+/* ---- ヘルプ ---- */
+function showHelp() {
+  document.getElementById("help-overlay").className = "show";
+}
+
+function closeHelp() {
+  document.getElementById("help-overlay").className = "";
+}
 
 /* ---- 難易度選択 ---- */
 function setDiff(d) {
@@ -485,6 +703,7 @@ function showHome() {
   document.getElementById("splash").className = "screen hidden";
   document.getElementById("home").className   = "screen";
   document.getElementById("game").className   = "screen hidden";
+  document.getElementById("app-header").className = "";
 }
 
 function startGame2p() {
@@ -500,6 +719,7 @@ function startGameAI() {
 function openGame() {
   document.getElementById("home").className = "screen hidden";
   document.getElementById("game").className = "screen";
+  document.getElementById("app-header").className = "";
   updateDiffBadge();
   resetGame();
 }
@@ -509,7 +729,7 @@ function updateDiffBadge() {
   if (gameMode === MODE_AI) {
     badge.style.display = "inline";
     badge.className = "game-diff-badge " + DIFF_BADGE[aiDifficulty];
-    badge.textContent = DIFF_NAMES[aiDifficulty];
+    badge.textContent = T[lang][DIFF_KEYS[aiDifficulty]];
   } else {
     badge.style.display = "none";
   }
@@ -587,8 +807,8 @@ function renderBoard() {
   svg.innerHTML = "";
   var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
   circle.setAttribute("cx", String(CX)); circle.setAttribute("cy", String(CY));
-  circle.setAttribute("r", "152"); circle.setAttribute("fill", "#060b10");
-  circle.setAttribute("stroke", "#1a2e40"); circle.setAttribute("stroke-width", "1");
+  circle.setAttribute("r", "152"); circle.setAttribute("fill", "#0d0d0d");
+  circle.setAttribute("stroke", "#2a2a2a"); circle.setAttribute("stroke-width", "1");
   svg.appendChild(circle);
 
   var cells = getAllCells();
@@ -604,7 +824,7 @@ function renderBoard() {
 
     var bg = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
     bg.setAttribute("points", hexPoints(px.x, px.y, HEX_R - 0.5));
-    bg.setAttribute("fill", "#07111a"); bg.setAttribute("stroke", "#1e3040"); bg.setAttribute("stroke-width", "0.8");
+    bg.setAttribute("fill", "#111111"); bg.setAttribute("stroke", "#2a2a2a"); bg.setAttribute("stroke-width", "0.8");
     g.appendChild(bg);
 
     var poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
@@ -613,7 +833,7 @@ function renderBoard() {
     if (board[key] === 1)      { fc="#dde8f0"; st="#ffffff"; sw="0.8"; }
     else if (board[key] === 2) { fc="#f59e0b"; st="#fcd34d"; sw="0.8"; }
     else if (showHint && isValidMove(c.q, c.r, currentPlayer)) { fc="#091a0f"; st="#00ff88"; sw="1.2"; }
-    else                       { fc="#0b1822"; st="none";    sw="0"; }
+    else                       { fc="#141414"; st="none";    sw="0"; }
     poly.setAttribute("fill", fc); poly.setAttribute("stroke", st); poly.setAttribute("stroke-width", sw);
     poly.style.fill = fc;
     g.appendChild(poly);
@@ -655,7 +875,7 @@ function onCellClick(e) {
   var r = parseInt(g.getAttribute("data-r"), 10);
   if (board[q + "," + r]) { return; }
   if (!isValidMove(q, r, currentPlayer)) {
-    setStatus("err", "禁手 — 3つ並びになる");
+    setStatus("err", T[lang].status_ban);
     setTimeout(function() { updateStatus(); }, 1200);
     return;
   }
@@ -672,7 +892,7 @@ function placeStone(q, r, player) {
   moveHistory.push({ board: snapshot, player: player });
 
   board[q + "," + r] = player;
-  playSound('place');
+  playSound("place");
   renderBoard();
 
   var result = checkResult(q, r, player);
@@ -687,26 +907,24 @@ function placeStone(q, r, player) {
 }
 
 function updateStatus() {
-  if (currentPlayer === 1) { setStatus("p1", "Player 1 の番"); }
-  else if (gameMode === MODE_AI) { setStatus("p2", "AI の番"); }
-  else { setStatus("p2", "Player 2 の番"); }
+  if (currentPlayer === 1) { setStatus("p1", T[lang].status_p1); }
+  else if (gameMode === MODE_AI) { setStatus("p2", T[lang].status_ai); }
+  else { setStatus("p2", T[lang].status_p2); }
 }
 
 /* ---- 勝利演出 ---- */
 function triggerWin(player) {
-  playSound('win');
-  var winnerName;
-  if (player === 1) { winnerName = "Player 1"; }
-  else if (gameMode === MODE_AI) { winnerName = "AI"; }
-  else { winnerName = "Player 2"; }
+  playSound("win");
+  var winKey;
+  if (player === 1) { winKey = "win_p1"; }
+  else if (gameMode === MODE_AI) { winKey = "win_ai"; }
+  else { winKey = "win_p2"; }
 
-  // パーティクル開始
   startParticles(player);
 
-  // モーダル表示
   document.getElementById("win-crown").textContent = player === 1 ? "\uD83D\uDC51" : (gameMode === MODE_AI ? "\uD83E\uDD16" : "\uD83C\uDFC6");
   document.getElementById("win-title").textContent = "VICTORY";
-  document.getElementById("win-sub").textContent   = winnerName + " の勝利！";
+  document.getElementById("win-sub").textContent   = T[lang][winKey];
   document.getElementById("win-overlay").className = "show";
 }
 
@@ -824,7 +1042,6 @@ function doAiMove() {
   var chosen = null;
 
   if (aiDifficulty === 0) {
-    // EASY: ランダム（禁手回避のみ）
     var safe = [];
     for (var i = 0; i < empty.length; i++) {
       if (isValidMove(empty[i].q, empty[i].r, 2)) { safe.push(empty[i]); }
@@ -832,7 +1049,6 @@ function doAiMove() {
     chosen = safe.length > 0 ? safe[Math.floor(Math.random() * safe.length)] : empty[0];
 
   } else if (aiDifficulty === 1) {
-    // NORMAL: 勝ち手＋ブロック＋安全
     var winMove = null, blockMove = null, safeMove = null;
     for (var j = 0; j < empty.length; j++) {
       var c = empty[j]; var ck = c.q + "," + c.r;
@@ -845,21 +1061,17 @@ function doAiMove() {
     chosen = winMove || blockMove || safeMove || empty[Math.floor(Math.random() * empty.length)];
 
   } else {
-    // HARD: スコアリングで最善手を選ぶ
     var bestScore = -1;
     var winMove2 = null;
     for (var j = 0; j < empty.length; j++) {
       var c = empty[j]; var ck = c.q + "," + c.r;
-      // 自分の勝ち手
       board[ck] = 2; var r2 = checkResult(c.q, c.r, 2); delete board[ck];
       if (r2 === "win") { winMove2 = c; break; }
-      if (r2 === "lose") { continue; } // 禁手スキップ
-      // スコア計算：自分の攻撃+相手のブロック
+      if (r2 === "lose") { continue; }
       var atk = scoreMove(c.q, c.r, 2);
       board[ck] = 1; var r1 = checkResult(c.q, c.r, 1); delete board[ck];
       var blk = (r1 === "win") ? 200 : scoreMove(c.q, c.r, 1);
       var total = atk * 1.2 + blk;
-      // 中央寄り補正
       var dist = Math.max(Math.abs(c.q), Math.abs(c.r), Math.abs(c.q + c.r));
       total += (SIZE - dist) * 0.5;
       if (total > bestScore) { bestScore = total; chosen = c; }
@@ -896,11 +1108,11 @@ function resetGame() {
   moveHistory = []; showHint = false;
   var bh = document.getElementById("btnHint");
   if (bh) { bh.textContent = "HINT"; bh.className = ""; }
-  setStatus("p1", "Player 1 の番");
+  setStatus("p1", T[lang].status_p1);
   renderBoard();
 }
 
-// ========== SOUND ==========
+/* ---- サウンド ---- */
 var audioCtx = null;
 function getAudioCtx() {
   if (!audioCtx) {
@@ -910,19 +1122,19 @@ function getAudioCtx() {
 }
 function playSound(type) {
   var ctx = getAudioCtx();
-  if (!ctx) return;
+  if (!ctx) { return; }
   var osc = ctx.createOscillator();
   var gain = ctx.createGain();
   osc.connect(gain);
   gain.connect(ctx.destination);
-  if (type === 'place') {
+  if (type === "place") {
     osc.frequency.setValueAtTime(440, ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
     gain.gain.setValueAtTime(0.12, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + 0.1);
-  } else if (type === 'win') {
+  } else if (type === "win") {
     osc.frequency.setValueAtTime(523, ctx.currentTime);
     osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
     osc.frequency.setValueAtTime(784, ctx.currentTime + 0.30);
@@ -932,6 +1144,9 @@ function playSound(type) {
     osc.stop(ctx.currentTime + 0.55);
   }
 }
+
+/* ---- 初期化 ---- */
+applyLang();
 </script>
 </body>
 </html>
