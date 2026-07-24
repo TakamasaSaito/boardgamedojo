@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-Onitamaのスプラッシュ遷移不具合を修正（#18）。countPieces()のnullガード不足によるTypeErrorが原因だった。他11ゲームへの波及なし確認済み。
+全13ファイルのタイトルタグを「ゲーム名 | BoardGameDojo」形式に統一（#19）。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -28,6 +28,7 @@ Onitamaのスプラッシュ遷移不具合を修正（#18）。countPieces()の
 - [x] 全ゲーム: 盤面以外の画面のPC表示最適化（2026-07-24, fixes #17）
 - [x] 全ゲーム: URLを /フォルダ名/ 形式に簡潔化・リダイレクト削除（2026-07-24）
 - [x] Onitama: スプラッシュ遷移不具合修正・countPieces nullガード（2026-07-24, fixes #18）
+- [x] 全ゲーム+ポータル: タイトルタグを「ゲーム名 | BoardGameDojo」形式に統一（2026-07-24, fixes #19）
 
 ## 残タスク（GitHub Issues）
 
@@ -41,4 +42,4 @@ Onitamaのスプラッシュ遷移不具合を修正（#18）。countPieces()の
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-タイトルタグの統一（`ゲーム名 | BoardGameDojo`）→ [#19](https://github.com/TakamasaSaito/boardgamedojo/issues/19)
+ゲーム内タイトルへ戻る導線のヘッダー集約（⌂ボタン）→ [#20](https://github.com/TakamasaSaito/boardgamedojo/issues/20)
