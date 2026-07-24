@@ -34,6 +34,9 @@
 ## 残タスク（GitHub Issues）
 
 ### 優先度：高
+- [ ] 全ゲーム: Web Appモード維持（スタンドアロン用メタタグ追加）→ [#21](https://github.com/TakamasaSaito/boardgamedojo/issues/21)
+- [ ] 全ゲーム: スマホ幅パンくず表示を誤解のない表記に修正 → [#22](https://github.com/TakamasaSaito/boardgamedojo/issues/22)
+- [ ] 全ゲーム: スマホ幅でのボタンテキスト折り返し解消 → [#23](https://github.com/TakamasaSaito/boardgamedojo/issues/23)
 
 ### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
@@ -41,4 +44,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
+全ゲーム: Web Appモード維持（スタンドアロン用メタタグ追加）→ [#21](https://github.com/TakamasaSaito/boardgamedojo/issues/21)
