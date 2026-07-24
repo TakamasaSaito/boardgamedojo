@@ -1,6 +1,6 @@
 # STATUS.md — ボードゲームアプリ集
 
-最終更新: 2026-07-24
+最終更新: 2026-07-25
 
 ## 現状
 アプリアイコン（盤面グリッドデザイン）を作成。apple-touch-icon・icon-192/512・favicon.ico を生成し、manifest.json と全13ファイルの head に追加済み。
@@ -33,11 +33,9 @@
 - [x] 全ゲーム+ポータル: Web Appスタンドアロン用メタタグ・manifest.json追加（2026-07-24, fixes #21）
 - [x] 全ゲーム: スマホ幅パンくずを「← BoardGameDojo」表示に修正・CSS変更のみ（2026-07-24, fixes #22）
 - [x] アプリアイコン作成・配置（盤面グリッドデザイン、apple-touch-icon/icon-192/icon-512/favicon.ico、manifest.json更新）（2026-07-24）
+- [x] 全ゲーム: スマホ幅ボタンテキスト折り返し解消（Onitamaのみ修正: .btn-group .btn {flex:1}追加）（2026-07-25, fixes #23）
 
 ## 残タスク（GitHub Issues）
-
-### 優先度：高
-- [ ] 全ゲーム: スマホ幅でのボタンテキスト折り返し解消 → [#23](https://github.com/TakamasaSaito/boardgamedojo/issues/23)
 
 ### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
@@ -45,4 +43,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-全ゲーム: スマホ幅でのボタンテキスト折り返し解消 → [#23](https://github.com/TakamasaSaito/boardgamedojo/issues/23)
+Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
