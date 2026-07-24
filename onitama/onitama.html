@@ -8,12 +8,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;700&display=swap');
 
 :root {
-  --bg:        #07070a;
-  --bg2:       #0e0e14;
-  --bg3:       #141420;
-  --surface:   #181824;
-  --border:    #252535;
-  --border2:   #32324a;
+  --bg:        #0f0f0f;
+  --bg2:       #1a1a1a;
+  --bg3:       #222222;
+  --surface:   #222222;
+  --border:    #2a2a2a;
+  --border2:   #333333;
   --red:       #c0392b;
   --red2:      #e74c3c;
   --red-dim:   rgba(192,57,43,0.15);
@@ -22,9 +22,12 @@
   --blue-dim:  rgba(26,111,168,0.15);
   --gold:      #c9a84c;
   --gold-dim:  rgba(201,168,76,0.12);
-  --text:      #d4cfc8;
-  --text2:     #7a7570;
-  --text3:     #3d3a38;
+  --accent:    #00bcd4;
+  --accent-dim: rgba(0,188,212,0.12);
+  --text:      #e0e0e0;
+  --text2:     #888888;
+  --text3:     #555555;
+  --radius:    12px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,10 +45,36 @@ body {
 .screen.active { display: flex; animation: fadeIn 0.2s ease; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+/* ===== APP HEADER ===== */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; background: rgba(15,15,15,0.95);
+  border-bottom: 1px solid var(--border);
+}
+#app-header.hidden { display: none; }
+.hdr-logo {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 22px; font-weight: 800; color: var(--red);
+  cursor: pointer; letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(192,57,43,0.5);
+}
+.hdr-right { display: flex; align-items: center; gap: 8px; }
+.hdr-btn {
+  min-width: 40px; min-height: 40px;
+  background: transparent; border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text2);
+  font-size: 16px; cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.hdr-btn:active { border-color: var(--accent); color: var(--accent); }
+
 /* ===== TITLE SCREEN ===== */
 #titleScreen {
   justify-content: center;
   gap: 28px;
+  padding-top: 68px;
   background:
     radial-gradient(ellipse at 50% 20%, rgba(192,57,43,0.12) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.05) 0%, transparent 50%),
@@ -80,7 +109,7 @@ body {
 .section-label {
   font-size: 9px;
   letter-spacing: 5px;
-  color: var(--text3);
+  color: var(--accent);
   text-align: center;
   margin-bottom: 8px;
   font-weight: 700;
@@ -92,7 +121,7 @@ body {
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text2);
-  border-radius: 2px;
+  border-radius: var(--radius);
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s;
@@ -101,10 +130,10 @@ body {
 }
 .btn:active { transform: scale(0.96); }
 .btn.selected {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: var(--gold-dim);
-  box-shadow: 0 0 12px rgba(201,168,76,0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 12px rgba(0,188,212,0.15);
 }
 .btn-primary {
   min-height: 54px;
@@ -113,7 +142,7 @@ body {
   background: var(--red);
   color: #fff;
   border: none;
-  border-radius: 2px;
+  border-radius: var(--radius);
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -130,7 +159,7 @@ body {
   background: transparent;
   color: var(--text2);
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: var(--radius);
   font-size: 13px;
   cursor: pointer;
   font-family: inherit;
@@ -145,6 +174,7 @@ body {
   gap: 18px;
   max-width: 480px;
   margin: 0 auto;
+  padding-top: 68px;
 }
 .rules-header {
   width: 100%;
@@ -162,14 +192,14 @@ body {
   justify-content: center;
   background: transparent;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: var(--radius);
   color: var(--text2);
   font-size: 18px;
   cursor: pointer;
   font-family: inherit;
   transition: all 0.2s;
 }
-.rules-back:active { border-color: var(--gold); color: var(--gold); }
+.rules-back:active { border-color: var(--accent); color: var(--accent); }
 .rules-title {
   font-size: 16px;
   font-weight: 700;
@@ -181,10 +211,10 @@ body {
 .rules-section h3 {
   font-size: 9px;
   letter-spacing: 4px;
-  color: var(--red);
+  color: var(--accent);
   margin-bottom: 8px;
   padding-bottom: 4px;
-  border-bottom: 1px solid rgba(192,57,43,0.25);
+  border-bottom: 1px solid rgba(0,188,212,0.25);
   font-weight: 700;
 }
 .rules-section p, .rules-section li {
@@ -198,7 +228,7 @@ body {
   background: rgba(192,57,43,0.07);
   border-left: 2px solid var(--red);
   padding: 10px 12px;
-  border-radius: 0 2px 2px 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
   font-size: 13px;
   color: var(--text);
   line-height: 1.7;
@@ -214,7 +244,7 @@ body {
   height: 34px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -230,7 +260,7 @@ body {
 
 /* ===== GAME SCREEN ===== */
 #gameScreen {
-  padding: 6px 6px 0 6px;
+  padding: 54px 6px 0 6px;
   gap: 4px;
   max-width: 480px;
   margin: 0 auto;
@@ -262,14 +292,14 @@ body {
   justify-content: center;
   background: transparent;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: var(--radius);
   color: var(--text3);
   font-size: 16px;
   cursor: pointer;
   font-family: inherit;
   transition: all 0.2s;
 }
-.btn-icon:active { border-color: var(--gold); color: var(--gold); }
+.btn-icon:active { border-color: var(--accent); color: var(--accent); }
 
 /* Player info */
 .player-info {
@@ -278,7 +308,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 4px 10px;
-  border-radius: 2px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg2);
   min-height: 34px;
@@ -304,9 +334,9 @@ body {
   color: var(--text3);
   padding: 2px 6px;
   border: 1px solid var(--border);
-  border-radius: 1px;
+  border-radius: 6px;
 }
-.turn-indicator.active { color: var(--gold); border-color: var(--gold); }
+.turn-indicator.active { color: var(--accent); border-color: var(--accent); }
 .pieces-count { font-size: 10px; color: var(--text3); letter-spacing: 1px; }
 
 /* Hand cards */
@@ -321,7 +351,7 @@ body {
   width: calc(50% - 3px);
   background: var(--bg2);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: var(--radius);
   padding: 5px 8px;
   cursor: pointer;
   transition: all 0.2s;
@@ -400,7 +430,7 @@ body {
 .center-card {
   background: var(--bg2);
   border: 1px solid var(--gold-dim);
-  border-radius: 3px;
+  border-radius: var(--radius);
   padding: 4px 10px;
   flex: 1;
   display: flex;
@@ -432,13 +462,13 @@ body {
   height: 100%;
   background: #050508;
   padding: 4px;
-  border-radius: 3px;
+  border-radius: 8px;
   border: 1px solid var(--border);
   box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
 }
 .cell {
   background: #0d0d18;
-  border-radius: 2px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -526,16 +556,16 @@ body {
   font-weight: 300;
 }
 .status-bar.action { color: var(--text2); }
-.status-bar.warning { color: var(--gold); }
+.status-bar.warning { color: var(--accent); }
 
 /* Pass button */
 .btn-pass {
   min-height: 40px;
   padding: 8px 16px;
   background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  border-radius: 2px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: var(--radius);
   font-size: 11px;
   cursor: pointer;
   font-family: inherit;
@@ -562,7 +592,7 @@ body {
 .modal {
   background: var(--bg2);
   border: 1px solid var(--border2);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 36px 24px;
   max-width: 320px;
   width: 100%;
@@ -700,7 +730,7 @@ body {
   transition: all 0.2s;
 }
 .howto-dot.active {
-  background: var(--gold);
+  background: var(--accent);
   width: 18px;
   border-radius: 3px;
 }
@@ -735,7 +765,7 @@ body {
   font-weight: 700;
   min-height: 44px;
   padding: 0 24px;
-  border-radius: 2px;
+  border-radius: var(--radius);
   box-shadow: 0 4px 16px rgba(192,57,43,0.35);
   transition: all 0.2s;
 }
@@ -749,7 +779,7 @@ body {
 .howto-cell {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -763,7 +793,7 @@ body {
 .howto-card-demo {
   background: var(--bg2);
   border: 1px solid var(--border2);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 12px 16px;
   display: flex;
   align-items: center;
@@ -783,6 +813,15 @@ body {
 </head>
 <body>
 
+<!-- APP HEADER -->
+<div id="app-header" class="hidden">
+  <div class="hdr-logo" onclick="showTitle()">尊</div>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
+    <button class="hdr-btn" onclick="showHelp()">❓</button>
+  </div>
+</div>
+
 <!-- SPLASH SCREEN -->
 <div id="splashScreen">
   <div class="splash-kanji">尊</div>
@@ -797,8 +836,8 @@ body {
     <!-- Slide 1: 概要 -->
     <div class="howto-slide">
       <div class="howto-icon">⚔️</div>
-      <div class="howto-title">Onitamaとは</div>
-      <div class="howto-desc">
+      <div class="howto-title" id="ht1-title">Onitamaとは</div>
+      <div class="howto-desc" id="ht1-desc">
         2人用の抽象戦略ゲーム。<br>
         <span class="howto-accent">移動カード</span>を使って駒を動かし、<br>
         相手の<span class="howto-accent">師（Master）</span>を倒すか、<br>
@@ -808,9 +847,9 @@ body {
 
     <!-- Slide 2: 盤面 -->
     <div class="howto-slide">
-      <div class="howto-title">盤面と駒</div>
+      <div class="howto-title" id="ht2-title">盤面と駒</div>
       <div class="howto-mini-board" id="howtoBoardDemo"></div>
-      <div class="howto-desc">
+      <div class="howto-desc" id="ht2-desc">
         5×5の盤面。<br>
         <span class="howto-accent">赤（下側）</span>と<span style="color:var(--blue2);font-weight:700;">青（上側）</span>が対戦。<br>
         各プレイヤーは<span class="howto-accent">師×1・徒×4</span>。<br>
@@ -821,15 +860,15 @@ body {
     <!-- Slide 3: カード -->
     <div class="howto-slide">
       <div class="howto-icon">🃏</div>
-      <div class="howto-title">移動カード</div>
+      <div class="howto-title" id="ht3-title">移動カード</div>
       <div class="howto-card-demo">
         <div class="howto-card-grid" id="howtoCardDemo"></div>
         <div style="text-align:left;">
           <div style="font-size:13px;color:var(--text);font-weight:700;margin-bottom:4px;">Tiger</div>
-          <div style="font-size:11px;color:var(--text2);line-height:1.7;">灰マス＝自駒の位置<br>赤マス＝移動できる場所</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.7;" id="ht3-card-desc">灰マス＝自駒の位置<br>赤マス＝移動できる場所</div>
         </div>
       </div>
-      <div class="howto-desc">
+      <div class="howto-desc" id="ht3-desc">
         5枚のカードをランダムに選択。<br>
         各自2枚・中央に1枚。<br>
         <span class="howto-accent-gold">中央カードの色</span>のプレイヤーが先攻。
@@ -839,32 +878,32 @@ body {
     <!-- Slide 4: ターン -->
     <div class="howto-slide">
       <div class="howto-icon">🔄</div>
-      <div class="howto-title">ターンの流れ</div>
-      <div class="howto-desc" style="text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 20px;">
+      <div class="howto-title" id="ht4-title">ターンの流れ</div>
+      <div class="howto-desc" id="ht4-steps" style="text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 20px;">
         <div style="margin-bottom:10px;"><span class="howto-accent-gold">①</span> 手札からカードを1枚選ぶ</div>
         <div style="margin-bottom:10px;"><span class="howto-accent-gold">②</span> そのカードで駒を1つ動かす</div>
         <div style="margin-bottom:10px;"><span class="howto-accent-gold">③</span> 使ったカードを中央カードと交換</div>
         <div><span class="howto-accent-gold">④</span> 相手のターンへ</div>
       </div>
-      <div class="howto-desc" style="font-size:12px;">
+      <div class="howto-desc" id="ht4-note" style="font-size:12px;">
         ※両手札とも合法手がない場合のみ<br><span class="howto-accent">パス</span>が可能
       </div>
     </div>
 
     <!-- Slide 5: 勝利条件 -->
     <div class="howto-slide">
-      <div class="howto-title">勝利条件</div>
+      <div class="howto-title" id="ht5-title">勝利条件</div>
       <div style="display:flex;flex-direction:column;gap:16px;width:100%;">
-        <div style="background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.3);border-radius:4px;padding:16px;text-align:left;">
+        <div id="ht5-stone" style="background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.3);border-radius:4px;padding:16px;text-align:left;">
           <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">🪨 石の道</div>
           <div style="font-size:13px;color:var(--text2);line-height:1.7;">相手の<span class="howto-accent">師（Master）</span>を取る</div>
         </div>
-        <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:16px;text-align:left;">
+        <div id="ht5-stream" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:16px;text-align:left;">
           <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;">🌊 流れの道</div>
           <div style="font-size:13px;color:var(--text2);line-height:1.7;">自分の<span class="howto-accent">師</span>を<br>相手の<span class="howto-accent-gold">寺院マス</span>に移動させる</div>
         </div>
       </div>
-      <div style="font-size:12px;color:var(--text3);letter-spacing:1px;">準備ができたら対局を始めよう</div>
+      <div id="ht5-note" style="font-size:12px;color:var(--text3);letter-spacing:1px;">準備ができたら対局を始めよう</div>
     </div>
 
   </div>
@@ -874,7 +913,7 @@ body {
 
   <!-- Nav -->
   <div class="howto-nav">
-    <button class="howto-btn-skip" onclick="finishHowto()">スキップ</button>
+    <button class="howto-btn-skip" id="howtoSkipBtn" onclick="finishHowto()">スキップ</button>
     <button class="howto-btn-next" id="howtoNextBtn" onclick="howtoNext()">つぎへ →</button>
   </div>
 </div>
@@ -888,7 +927,7 @@ body {
   </div>
 
   <div style="width:100%;max-width:320px;">
-    <div class="section-label">MODE</div>
+    <div class="section-label" id="modeLabel">MODE</div>
     <div class="btn-group">
       <button class="btn selected" id="modeCPU" onclick="selectMode('cpu')">CPU対戦</button>
       <button class="btn" id="mode2P" onclick="selectMode('2p')">2人対戦</button>
@@ -896,36 +935,36 @@ body {
   </div>
 
   <div id="difficultyArea" style="width:100%;max-width:320px;">
-    <div class="section-label">DIFFICULTY</div>
+    <div class="section-label" id="diffLabel">DIFFICULTY</div>
     <div class="btn-group">
-      <button class="btn" id="diffEasy" onclick="selectDiff('easy')">易</button>
-      <button class="btn selected" id="diffNormal" onclick="selectDiff('normal')">普</button>
-      <button class="btn" id="diffHard" onclick="selectDiff('hard')">難</button>
+      <button class="btn" id="diffEasy" onclick="selectDiff('easy')">かんたん</button>
+      <button class="btn selected" id="diffNormal" onclick="selectDiff('normal')">ふつう</button>
+      <button class="btn" id="diffHard" onclick="selectDiff('hard')">むずかしい</button>
     </div>
   </div>
 
-  <button class="btn-primary" onclick="startGame()">対局開始</button>
+  <button class="btn-primary" id="startBtn" onclick="startGame()">対局開始</button>
   <div style="display:flex;gap:8px;width:100%;max-width:280px;">
-    <button class="btn-secondary" style="flex:1;" onclick="showRules()">ルール</button>
-    <button class="btn-secondary" style="flex:1;" onclick="showCards()">カード一覧</button>
+    <button class="btn-secondary" id="rulesBtn" style="flex:1;" onclick="showRules()">ルール</button>
+    <button class="btn-secondary" id="cardsBtn" style="flex:1;" onclick="showCards()">カード一覧</button>
   </div>
 </div>
 
 <!-- RULES SCREEN -->
 <div id="rulesScreen" class="screen">
   <div class="rules-header">
-    <button class="rules-back" onclick="showTitle()">←</button>
-    <div class="rules-title">ゲームルール</div>
+    <button class="rules-back" onclick="goBack()">←</button>
+    <div class="rules-title" id="rulesScreenTitle">ゲームルール</div>
   </div>
 
-  <div class="rules-section">
-    <h3>概要</h3>
-    <p>Onitamaは2人用の抽象戦略ゲームです。移動カードを駆使して相手のMaster（師）を倒すか、自分のMasterを相手の寺院マスに送り込めば勝利です。</p>
+  <div class="rules-section" id="rs-overview">
+    <h3 id="rs-h-overview">概要</h3>
+    <p id="rs-p-overview">Onitamaは2人用の抽象戦略ゲームです。移動カードを駆使して相手のMaster（師）を倒すか、自分のMasterを相手の寺院マスに送り込めば勝利です。</p>
   </div>
 
-  <div class="rules-section">
-    <h3>盤面・初期配置</h3>
-    <p style="margin-bottom:8px;">5×5の盤面。各プレイヤーはMaster（師）×1とStudent（徒）×4を持ちます。</p>
+  <div class="rules-section" id="rs-board">
+    <h3 id="rs-h-board">盤面・初期配置</h3>
+    <p id="rs-p-board" style="margin-bottom:8px;">5×5の盤面。各プレイヤーはMaster（師）×1とStudent（徒）×4を持ちます。</p>
     <div class="rules-mini-board">
       <div class="rules-cell p2s">徒</div>
       <div class="rules-cell p2s">徒</div>
@@ -941,20 +980,20 @@ body {
       <div class="rules-cell p1s">徒</div>
       <div class="rules-cell p1s">徒</div>
     </div>
-    <p style="margin-top:6px;font-size:12px;color:#555;">赤＝P1（下側）、青＝P2（上側）。枠付き中央マスが寺院。</p>
+    <p id="rs-p-board2" style="margin-top:6px;font-size:12px;color:#555;">赤＝P1（下側）、青＝P2（上側）。枠付き中央マスが寺院。</p>
   </div>
 
-  <div class="rules-section">
-    <h3>カードと先攻</h3>
-    <p>16枚のカードからランダムで5枚を選択。P1・P2に2枚ずつ配り、残り1枚を中央に置きます。</p>
-    <div class="rules-highlight" style="margin-top:8px;">
+  <div class="rules-section" id="rs-cards">
+    <h3 id="rs-h-cards">カードと先攻</h3>
+    <p id="rs-p-cards">16枚のカードからランダムで5枚を選択。P1・P2に2枚ずつ配り、残り1枚を中央に置きます。</p>
+    <div class="rules-highlight" id="rs-hl-cards" style="margin-top:8px;">
       中央カードの色（赤・青）と同じ色のプレイヤーが先攻となります。
     </div>
   </div>
 
-  <div class="rules-section">
-    <h3>ターンの流れ</h3>
-    <ul>
+  <div class="rules-section" id="rs-turn">
+    <h3 id="rs-h-turn">ターンの流れ</h3>
+    <ul id="rs-ul-turn">
       <li>手札2枚から<strong>カードを1枚選ぶ</strong></li>
       <li>そのカードが示す移動先に<strong>駒を1つ動かす</strong></li>
       <li>使ったカードを中央カードと<strong>交換する</strong></li>
@@ -962,9 +1001,9 @@ body {
     </ul>
   </div>
 
-  <div class="rules-section">
-    <h3>移動の注意点</h3>
-    <ul>
+  <div class="rules-section" id="rs-move">
+    <h3 id="rs-h-move">移動の注意点</h3>
+    <ul id="rs-ul-move">
       <li>自分の駒がいるマスには移動できない</li>
       <li>相手の駒がいるマスに移動すると<strong>その駒を取れる</strong></li>
       <li>盤外への移動は無効</li>
@@ -972,34 +1011,34 @@ body {
     </ul>
   </div>
 
-  <div class="rules-section">
-    <h3>パスルール</h3>
-    <div class="rules-highlight">
+  <div class="rules-section" id="rs-pass">
+    <h3 id="rs-h-pass">パスルール</h3>
+    <div class="rules-highlight" id="rs-hl-pass">
       手札の2枚どちらを使っても合法手が一切ない場合のみ、パスができます。パス時は好きな1枚を選んで中央カードと交換します。
     </div>
   </div>
 
-  <div class="rules-section">
-    <h3>勝利条件</h3>
-    <ul>
+  <div class="rules-section" id="rs-win">
+    <h3 id="rs-h-win">勝利条件</h3>
+    <ul id="rs-ul-win">
       <li>🪨 <strong>石の道：</strong>相手のMaster（師）を取る</li>
       <li>🌊 <strong>流れの道：</strong>自分のMasterを相手の寺院マスに移動させる</li>
     </ul>
   </div>
 
-  <button class="btn-primary" onclick="showTitle()" style="margin-top:8px;">タイトルに戻る</button>
+  <button class="btn-primary" id="rulesBackBtn" onclick="showTitle()" style="margin-top:8px;">タイトルに戻る</button>
 </div>
 
 
 <!-- CARDS SCREEN -->
-<div id="cardsScreen" class="screen">
+<div id="cardsScreen" class="screen" style="padding-top:68px;">
   <div class="rules-header">
     <button class="rules-back" onclick="showTitle()">←</button>
-    <div class="rules-title">カード一覧</div>
+    <div class="rules-title" id="cardsScreenTitle">カード一覧</div>
   </div>
-  <p style="font-size:12px;color:#555;text-align:center;margin-bottom:4px;">全16種。左列=赤先攻カード、右列=青先攻カード。灰=自駒位置、色マス=移動先。</p>
+  <p id="cardsScreenDesc" style="font-size:12px;color:#555;text-align:center;margin-bottom:4px;">全16種。左列=赤先攻カード、右列=青先攻カード。灰=自駒位置、色マス=移動先。</p>
   <div id="cardListGrid" style="width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;overflow-y:auto;padding-bottom:12px;"></div>
-  <button class="btn-primary" onclick="showTitle()" style="margin-top:8px;flex-shrink:0;">タイトルに戻る</button>
+  <button class="btn-primary" id="cardsBackBtn" onclick="showTitle()" style="margin-top:8px;flex-shrink:0;">タイトルに戻る</button>
 </div>
 
 <!-- GAME SCREEN -->
@@ -1022,7 +1061,7 @@ body {
 
   <!-- Center card -->
   <div class="center-card-area">
-    <div class="center-card-label">中央</div>
+    <div class="center-card-label" id="centerCardLabelEl">中央</div>
     <div class="center-card" id="centerCardDisplay"></div>
   </div>
 
@@ -1057,6 +1096,248 @@ body {
 </div>
 
 <script>
+// ===== LANGUAGE =====
+var lang = "ja";
+var T = {
+  ja: {
+    mode_label: "MODE",
+    mode_cpu: "CPU対戦",
+    mode_2p: "2人対戦",
+    diff_label: "DIFFICULTY",
+    diff_easy: "かんたん",
+    diff_normal: "ふつう",
+    diff_hard: "むずかしい",
+    btn_start: "対局開始",
+    btn_rules: "ルール",
+    btn_cards: "カード一覧",
+    howto_skip: "スキップ",
+    howto_next: "つぎへ →",
+    howto_start: "はじめる",
+    ht1_title: "Onitamaとは",
+    ht1_desc: "2人用の抽象戦略ゲーム。<br><span class=\"howto-accent\">移動カード</span>を使って駒を動かし、<br>相手の<span class=\"howto-accent\">師（Master）</span>を倒すか、<br>相手の<span class=\"howto-accent-gold\">寺院マス</span>に自分の師を<br>送り込めば勝利。",
+    ht2_title: "盤面と駒",
+    ht2_desc: "5×5の盤面。<br><span class=\"howto-accent\">赤（下側）</span>と<span style=\"color:var(--blue2);font-weight:700;\">青（上側）</span>が対戦。<br>各プレイヤーは<span class=\"howto-accent\">師×1・徒×4</span>。<br><span class=\"howto-accent-gold\">金枠のマス</span>が寺院。",
+    ht3_title: "移動カード",
+    ht3_card_desc: "灰マス＝自駒の位置<br>赤マス＝移動できる場所",
+    ht3_desc: "5枚のカードをランダムに選択。<br>各自2枚・中央に1枚。<br><span class=\"howto-accent-gold\">中央カードの色</span>のプレイヤーが先攻。",
+    ht4_title: "ターンの流れ",
+    ht4_steps: "<div style=\"margin-bottom:10px;\"><span class=\"howto-accent-gold\">①</span> 手札からカードを1枚選ぶ</div><div style=\"margin-bottom:10px;\"><span class=\"howto-accent-gold\">②</span> そのカードで駒を1つ動かす</div><div style=\"margin-bottom:10px;\"><span class=\"howto-accent-gold\">③</span> 使ったカードを中央カードと交換</div><div><span class=\"howto-accent-gold\">④</span> 相手のターンへ</div>",
+    ht4_note: "※両手札とも合法手がない場合のみ<br><span class=\"howto-accent\">パス</span>が可能",
+    ht5_title: "勝利条件",
+    ht5_stone: "<div style=\"font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;\">\uD83E\uDEA8 石の道</div><div style=\"font-size:13px;color:var(--text2);line-height:1.7;\">相手の<span class=\"howto-accent\">師（Master）</span>を取る</div>",
+    ht5_stream: "<div style=\"font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;\">\uD83C\uDF0A 流れの道</div><div style=\"font-size:13px;color:var(--text2);line-height:1.7;\">自分の<span class=\"howto-accent\">師</span>を<br>相手の<span class=\"howto-accent-gold\">寺院マス</span>に移動させる</div>",
+    ht5_note: "準備ができたら対局を始めよう",
+    rules_title: "ゲームルール",
+    rules_back_btn: "タイトルに戻る",
+    rs_h_overview: "概要",
+    rs_p_overview: "Onitamaは2人用の抽象戦略ゲームです。移動カードを駆使して相手のMaster（師）を倒すか、自分のMasterを相手の寺院マスに送り込めば勝利です。",
+    rs_h_board: "盤面・初期配置",
+    rs_p_board: "5×5の盤面。各プレイヤーはMaster（師）×1とStudent（徒）×4を持ちます。",
+    rs_p_board2: "赤＝P1（下側）、青＝P2（上側）。枠付き中央マスが寺院。",
+    rs_h_cards: "カードと先攻",
+    rs_p_cards: "16枚のカードからランダムで5枚を選択。P1レP2に2枚ずつ配り、残り1枚を中央に置きます。",
+    rs_hl_cards: "中央カードの色（赤・青）と同じ色のプレイヤーが先攻となります。",
+    rs_h_turn: "ターンの流れ",
+    rs_ul_turn: "<li>手札2枚から<strong>カードを1枚選ぶ</strong></li><li>そのカードが示す移動先に<strong>駒を1つ動かす</strong></li><li>使ったカードを中央カードと<strong>交換する</strong></li><li>相手ターンへ（交換されたカードは相手の次の手番後に相手の手札になる）</li>",
+    rs_h_move: "移動の注意点",
+    rs_ul_move: "<li>自分の駒がいるマスには移動できない</li><li>相手の駒がいるマスに移動すると<strong>その駒を取れる</strong></li><li>盤外への移動は無効</li><li>P2（上側・青）は、カードの移動方向が<strong>180度反転</strong>して適用される</li>",
+    rs_h_pass: "パスルール",
+    rs_hl_pass: "手札の2枚どちらを使っても合法手が一切ない場合のみ、パスができます。パス時は好きな1枚を選んで中央カードと交換します。",
+    rs_h_win: "勝利条件",
+    rs_ul_win: "<li>\uD83E\uDEA8 <strong>石の道：</strong>相手のMaster（師）を取る</li><li>\uD83C\uDF0A <strong>流れの道：</strong>自分のMasterを相手の寺院マスに移動させる</li>",
+    cards_title: "カード一覧",
+    cards_desc: "全16種。左列=赤先攻カード、右列=青先攻カード。灰=自駒位置、色マス=移動先。",
+    cards_back: "タイトルに戻る",
+    card_red_first: "赤先攻",
+    card_blue_first: "青先攻",
+    center_lbl: "中央",
+    lbl_turn: "手番",
+    lbl_wait: "待機中",
+    lbl_pass: "パスする（合法手なし）",
+    cpu_thinking: "CPU思考中...",
+    select_card: "カードを選んでください",
+    select_piece: "を選択中。駒を選んでください",
+    select_dest: "移動先を選んでください",
+    p1_cpu: "赤 / あなた",
+    p2_cpu: "青 / CPU",
+    p1_2p: "赤 / P1",
+    p2_2p: "青 / P2",
+    win_you: "あなた",
+    win_cpu: "CPU",
+    win_p1: "P1（赤）",
+    win_p2: "P2（青）",
+    win_suffix: " の勝利",
+    win_stone: "\uD83E\uDEA8 石の道（Master捕獲）",
+    win_stream: "\uD83C\uDF0A 流れの道（寺院到達）",
+    win_by: " による勝利",
+    modal_again: "もう一度",
+    modal_title_btn: "タイトルへ",
+    reset_title: "対局をリセット",
+    reset_desc: "現在の対局を終了してタイトルに戻りますか？",
+    reset_ok: "リセット",
+    reset_cancel: "続ける"
+  },
+  en: {
+    mode_label: "MODE",
+    mode_cpu: "vs CPU",
+    mode_2p: "2 Player",
+    diff_label: "DIFFICULTY",
+    diff_easy: "Easy",
+    diff_normal: "Normal",
+    diff_hard: "Hard",
+    btn_start: "START GAME",
+    btn_rules: "Rules",
+    btn_cards: "Card List",
+    howto_skip: "Skip",
+    howto_next: "Next →",
+    howto_start: "Play",
+    ht1_title: "What is Onitama?",
+    ht1_desc: "A 2-player abstract strategy game.<br>Use <span class=\"howto-accent\">movement cards</span> to move pieces,<br>capture the opponent's <span class=\"howto-accent\">Master</span>,<br>or move your Master to the<br><span class=\"howto-accent-gold\">opponent's temple</span> to win.",
+    ht2_title: "Board & Pieces",
+    ht2_desc: "5×5 board.<br><span class=\"howto-accent\">Red (bottom)</span> vs <span style=\"color:var(--blue2);font-weight:700;\">Blue (top)</span>.<br>Each player has <span class=\"howto-accent\">1 Master + 4 Students</span>.<br><span class=\"howto-accent-gold\">Gold-bordered squares</span> are temples.",
+    ht3_title: "Movement Cards",
+    ht3_card_desc: "Gray = your piece position<br>Red = squares you can move to",
+    ht3_desc: "5 cards chosen randomly.<br>2 each + 1 in the center.<br>The player matching the <span class=\"howto-accent-gold\">center card's color</span> goes first.",
+    ht4_title: "Turn Flow",
+    ht4_steps: "<div style=\"margin-bottom:10px;\"><span class=\"howto-accent-gold\">①</span> Choose 1 card from your hand</div><div style=\"margin-bottom:10px;\"><span class=\"howto-accent-gold\">②</span> Move 1 piece using that card</div><div style=\"margin-bottom:10px;\"><span class=\"howto-accent-gold\">③</span> Swap the used card with the center card</div><div><span class=\"howto-accent-gold\">④</span> Opponent's turn</div>",
+    ht4_note: "You may only <span class=\"howto-accent\">pass</span> if<br>neither card has any legal moves",
+    ht5_title: "Win Conditions",
+    ht5_stone: "<div style=\"font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;\">\uD83E\uDEA8 Way of the Stone</div><div style=\"font-size:13px;color:var(--text2);line-height:1.7;\">Capture the opponent's <span class=\"howto-accent\">Master</span></div>",
+    ht5_stream: "<div style=\"font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;\">\uD83C\uDF0A Way of the Stream</div><div style=\"font-size:13px;color:var(--text2);line-height:1.7;\">Move your <span class=\"howto-accent\">Master</span> to<br>the <span class=\"howto-accent-gold\">opponent's temple</span></div>",
+    ht5_note: "Ready to play? Let's begin!",
+    rules_title: "Game Rules",
+    rules_back_btn: "Back to Title",
+    rs_h_overview: "OVERVIEW",
+    rs_p_overview: "Onitama is a 2-player abstract strategy game. Use movement cards to capture the opponent's Master or move your own Master to the opponent's temple to win.",
+    rs_h_board: "BOARD & SETUP",
+    rs_p_board: "5×5 board. Each player has 1 Master and 4 Students.",
+    rs_p_board2: "Red = P1 (bottom), Blue = P2 (top). Bordered center squares are temples.",
+    rs_h_cards: "CARDS & FIRST MOVE",
+    rs_p_cards: "5 random cards from 16. Each player gets 2; 1 goes to the center.",
+    rs_hl_cards: "The player matching the center card's color (red or blue) goes first.",
+    rs_h_turn: "TURN FLOW",
+    rs_ul_turn: "<li>Choose <strong>1 card</strong> from your 2-card hand</li><li><strong>Move 1 piece</strong> to a square shown by that card</li><li><strong>Swap</strong> the used card with the center card</li><li>Opponent's turn (the swapped card becomes theirs later)</li>",
+    rs_h_move: "MOVEMENT NOTES",
+    rs_ul_move: "<li>Cannot move to a square occupied by your own piece</li><li>Moving to an opponent's square <strong>captures</strong> their piece</li><li>Moves off the board are invalid</li><li>P2 (blue, top) uses cards with directions <strong>rotated 180°</strong></li>",
+    rs_h_pass: "PASS RULE",
+    rs_hl_pass: "You may only pass if neither card in your hand has any legal move. When passing, choose any 1 card to swap with the center card.",
+    rs_h_win: "WIN CONDITIONS",
+    rs_ul_win: "<li>\uD83E\uDEA8 <strong>Way of the Stone:</strong> Capture the opponent's Master</li><li>\uD83C\uDF0A <strong>Way of the Stream:</strong> Move your Master to the opponent's temple square</li>",
+    cards_title: "Card List",
+    cards_desc: "All 16 cards. Left = Red first, Right = Blue first. Gray = your piece, Colored = move targets.",
+    cards_back: "Back to Title",
+    card_red_first: "Red first",
+    card_blue_first: "Blue first",
+    center_lbl: "Center",
+    lbl_turn: "Turn",
+    lbl_wait: "Waiting",
+    lbl_pass: "Pass (no legal moves)",
+    cpu_thinking: "CPU thinking...",
+    select_card: "Select a card",
+    select_piece: " selected. Choose a piece",
+    select_dest: "Choose a destination",
+    p1_cpu: "Red / You",
+    p2_cpu: "Blue / CPU",
+    p1_2p: "Red / P1",
+    p2_2p: "Blue / P2",
+    win_you: "You",
+    win_cpu: "CPU",
+    win_p1: "P1 (Red)",
+    win_p2: "P2 (Blue)",
+    win_suffix: " Wins!",
+    win_stone: "\uD83E\uDEA8 Way of the Stone (Master captured)",
+    win_stream: "\uD83C\uDF0A Way of the Stream (temple reached)",
+    win_by: " — ",
+    modal_again: "Play Again",
+    modal_title_btn: "Title",
+    reset_title: "Reset Game",
+    reset_desc: "End the current game and return to title?",
+    reset_ok: "Reset",
+    reset_cancel: "Continue"
+  }
+};
+
+function toggleLang() {
+  lang = lang === "ja" ? "en" : "ja";
+  var btn = document.getElementById("lang-btn");
+  btn.textContent = lang === "ja" ? "\uD83C\uDDFA\uD83C\uDDF8" : "\uD83C\uDDEF\uD83C\uDDF5";
+  applyLang();
+}
+
+function applyLang() {
+  var t = T[lang];
+  var el;
+  el = document.getElementById("modeLabel"); if (el) el.textContent = t.mode_label;
+  el = document.getElementById("modeCPU"); if (el) el.textContent = t.mode_cpu;
+  el = document.getElementById("mode2P"); if (el) el.textContent = t.mode_2p;
+  el = document.getElementById("diffLabel"); if (el) el.textContent = t.diff_label;
+  el = document.getElementById("diffEasy"); if (el) el.textContent = t.diff_easy;
+  el = document.getElementById("diffNormal"); if (el) el.textContent = t.diff_normal;
+  el = document.getElementById("diffHard"); if (el) el.textContent = t.diff_hard;
+  el = document.getElementById("startBtn"); if (el) el.textContent = t.btn_start;
+  el = document.getElementById("rulesBtn"); if (el) el.textContent = t.btn_rules;
+  el = document.getElementById("cardsBtn"); if (el) el.textContent = t.btn_cards;
+  el = document.getElementById("howtoSkipBtn"); if (el) el.textContent = t.howto_skip;
+  var nextBtn = document.getElementById("howtoNextBtn");
+  if (nextBtn) nextBtn.textContent = (howtoPage === howtoTotal - 1) ? t.howto_start : t.howto_next;
+  el = document.getElementById("ht1-title"); if (el) el.innerHTML = t.ht1_title;
+  el = document.getElementById("ht1-desc"); if (el) el.innerHTML = t.ht1_desc;
+  el = document.getElementById("ht2-title"); if (el) el.innerHTML = t.ht2_title;
+  el = document.getElementById("ht2-desc"); if (el) el.innerHTML = t.ht2_desc;
+  el = document.getElementById("ht3-title"); if (el) el.innerHTML = t.ht3_title;
+  el = document.getElementById("ht3-card-desc"); if (el) el.innerHTML = t.ht3_card_desc;
+  el = document.getElementById("ht3-desc"); if (el) el.innerHTML = t.ht3_desc;
+  el = document.getElementById("ht4-title"); if (el) el.innerHTML = t.ht4_title;
+  el = document.getElementById("ht4-steps"); if (el) el.innerHTML = t.ht4_steps;
+  el = document.getElementById("ht4-note"); if (el) el.innerHTML = t.ht4_note;
+  el = document.getElementById("ht5-title"); if (el) el.innerHTML = t.ht5_title;
+  el = document.getElementById("ht5-stone"); if (el) el.innerHTML = t.ht5_stone;
+  el = document.getElementById("ht5-stream"); if (el) el.innerHTML = t.ht5_stream;
+  el = document.getElementById("ht5-note"); if (el) el.innerHTML = t.ht5_note;
+  el = document.getElementById("rulesScreenTitle"); if (el) el.textContent = t.rules_title;
+  el = document.getElementById("rulesBackBtn"); if (el) el.textContent = t.rules_back_btn;
+  el = document.getElementById("rs-h-overview"); if (el) el.textContent = t.rs_h_overview;
+  el = document.getElementById("rs-p-overview"); if (el) el.textContent = t.rs_p_overview;
+  el = document.getElementById("rs-h-board"); if (el) el.textContent = t.rs_h_board;
+  el = document.getElementById("rs-p-board"); if (el) el.textContent = t.rs_p_board;
+  el = document.getElementById("rs-p-board2"); if (el) el.textContent = t.rs_p_board2;
+  el = document.getElementById("rs-h-cards"); if (el) el.textContent = t.rs_h_cards;
+  el = document.getElementById("rs-p-cards"); if (el) el.textContent = t.rs_p_cards;
+  el = document.getElementById("rs-hl-cards"); if (el) el.textContent = t.rs_hl_cards;
+  el = document.getElementById("rs-h-turn"); if (el) el.textContent = t.rs_h_turn;
+  el = document.getElementById("rs-ul-turn"); if (el) el.innerHTML = t.rs_ul_turn;
+  el = document.getElementById("rs-h-move"); if (el) el.textContent = t.rs_h_move;
+  el = document.getElementById("rs-ul-move"); if (el) el.innerHTML = t.rs_ul_move;
+  el = document.getElementById("rs-h-pass"); if (el) el.textContent = t.rs_h_pass;
+  el = document.getElementById("rs-hl-pass"); if (el) el.textContent = t.rs_hl_pass;
+  el = document.getElementById("rs-h-win"); if (el) el.textContent = t.rs_h_win;
+  el = document.getElementById("rs-ul-win"); if (el) el.innerHTML = t.rs_ul_win;
+  el = document.getElementById("cardsScreenTitle"); if (el) el.textContent = t.cards_title;
+  el = document.getElementById("cardsScreenDesc"); if (el) el.textContent = t.cards_desc;
+  el = document.getElementById("cardsBackBtn"); if (el) el.textContent = t.cards_back;
+  el = document.getElementById("centerCardLabelEl"); if (el) el.textContent = t.center_lbl;
+  el = document.getElementById("passBtn"); if (el) el.textContent = t.lbl_pass;
+  if (!gameOver) renderStatus();
+  if (typeof currentPlayer !== "undefined") renderPlayerInfo();
+}
+
+function showHelp() {
+  prevScreen = currentScreenId();
+  showScreen("rulesScreen");
+}
+
+function goBack() {
+  showScreen(prevScreen);
+}
+
+function currentScreenId() {
+  var screens = document.querySelectorAll(".screen");
+  for (var i = 0; i < screens.length; i++) {
+    if (screens[i].classList.contains("active")) return screens[i].id;
+  }
+  return "titleScreen";
+}
+
 // ===== CARD DATA =====
 var ALL_CARDS = [
   { name: "Tiger",    moves: [[0,-2],[0,1]],                    color: "blue" },
@@ -1078,6 +1359,7 @@ var ALL_CARDS = [
 ];
 
 // ===== GAME STATE =====
+var prevScreen = "titleScreen";
 var gameMode = "cpu";
 var difficulty = "normal";
 var currentPlayer = 1; // 1 or 2
@@ -1155,6 +1437,7 @@ function initSplash() {
   buildHowtoBoardDemo();
   buildHowtoCardDemo();
   buildHowtoDots();
+  applyLang();
 
   setTimeout(function() {
     splash.classList.add("fade-out");
@@ -1240,9 +1523,9 @@ function howtoNext() {
     updateHowtoDots();
     var btn = document.getElementById("howtoNextBtn");
     if (howtoPage === howtoTotal - 1) {
-      btn.textContent = "はじめる";
+      btn.textContent = T[lang].howto_start;
     } else {
-      btn.textContent = "つぎへ →";
+      btn.textContent = T[lang].howto_next;
     }
   } else {
     finishHowto();
@@ -1255,7 +1538,7 @@ function finishHowto() {
   var slides = document.getElementById("howtoSlides");
   if (slides) slides.style.transform = "translateX(0)";
   var btn = document.getElementById("howtoNextBtn");
-  if (btn) btn.textContent = "つぎへ →";
+  if (btn) btn.textContent = T[lang].howto_next;
   buildHowtoDots();
   showScreen("titleScreen");
 }
@@ -1267,9 +1550,15 @@ function showScreen(id) {
     screens[i].classList.remove("active");
   }
   document.getElementById(id).classList.add("active");
+  var hdr = document.getElementById("app-header");
+  if (id === "splashScreen" || id === "howtoScreen") {
+    hdr.classList.add("hidden");
+  } else {
+    hdr.classList.remove("hidden");
+  }
 }
 function showTitle() { showScreen("titleScreen"); }
-function showRules() { showScreen("rulesScreen"); }
+function showRules() { prevScreen = currentScreenId(); showScreen("rulesScreen"); }
 function showCards() {
   renderCardList();
   showScreen("cardsScreen");
@@ -1337,7 +1626,7 @@ function renderCardList() {
     dot.style.cssText = "width:7px;height:7px;border-radius:50%;background:" + (card.color === "red" ? "#c8392b" : "#2980b9") + ";";
     var dotLabel = document.createElement("span");
     dotLabel.style.cssText = "font-size:10px;color:#555;";
-    dotLabel.textContent = card.color === "red" ? "赤先攻" : "青先攻";
+    dotLabel.textContent = card.color === "red" ? T[lang].card_red_first : T[lang].card_blue_first;
     dotRow.appendChild(dot);
     dotRow.appendChild(dotLabel);
     wrap.appendChild(dotRow);
@@ -1398,8 +1687,9 @@ function startGame() {
   showScreen("gameScreen");
 
   // Update player names
-  document.getElementById("p1Name").textContent = gameMode === "cpu" ? "赤 / あなた" : "赤 / P1";
-  document.getElementById("p2Name").textContent = gameMode === "cpu" ? "青 / CPU" : "青 / P2";
+  var t = T[lang];
+  document.getElementById("p1Name").textContent = gameMode === "cpu" ? t.p1_cpu : t.p1_2p;
+  document.getElementById("p2Name").textContent = gameMode === "cpu" ? t.p2_cpu : t.p2_2p;
 
   renderAll();
   setTimeout(fixBoardSize, 50);
@@ -1568,13 +1858,14 @@ function renderCenterCard() {
 }
 
 function renderPlayerInfo() {
+  var t = T[lang];
   var p1Active = currentPlayer === 1;
   var p2Active = currentPlayer === 2;
   document.getElementById("p1Info").className = "player-info" + (p1Active ? " active-p1" : "");
   document.getElementById("p2Info").className = "player-info" + (p2Active ? " active-p2" : "");
-  document.getElementById("p1Turn").textContent = p1Active ? "手番" : "待機中";
+  document.getElementById("p1Turn").textContent = p1Active ? t.lbl_turn : t.lbl_wait;
   document.getElementById("p1Turn").className = "turn-indicator" + (p1Active ? " active" : "");
-  document.getElementById("p2Turn").textContent = p2Active ? "手番" : "待機中";
+  document.getElementById("p2Turn").textContent = p2Active ? t.lbl_turn : t.lbl_wait;
   document.getElementById("p2Turn").className = "turn-indicator" + (p2Active ? " active" : "");
 
   var p1count = countPieces(1);
@@ -1597,17 +1888,18 @@ function countPieces(player) {
 }
 
 function renderStatus() {
+  var t = T[lang];
   var el = document.getElementById("statusBar");
   if (gameOver) { el.textContent = ""; el.className = "status-bar"; return; }
-  if (cpuThinking) { el.textContent = "CPU思考中..."; el.className = "status-bar warning"; return; }
+  if (cpuThinking) { el.textContent = t.cpu_thinking; el.className = "status-bar warning"; return; }
   if (!selectedCard) {
-    el.textContent = "カードを選んでください";
+    el.textContent = t.select_card;
     el.className = "status-bar action";
   } else if (!selectedCell) {
-    el.textContent = selectedCard.name + " を選択中。駒を選んでください";
+    el.textContent = selectedCard.name + t.select_piece;
     el.className = "status-bar action";
   } else {
-    el.textContent = "移動先を選んでください";
+    el.textContent = t.select_dest;
     el.className = "status-bar action";
   }
 }
@@ -1773,16 +2065,17 @@ function endGame(winner, method) {
   playSound("win");
   renderAll();
   var isP1 = winner === 1;
-  var winnerName = isP1 ? (gameMode === "cpu" ? "あなた" : "P1（赤）") : (gameMode === "cpu" ? "CPU" : "P2（青）");
-  var methodText = method === "stone" ? "\uD83E\uDEA8 石の道（Master捕獲）" : "\uD83C\uDF0A 流れの道（寺院到達）";
+  var t = T[lang];
+  var winnerName = isP1 ? (gameMode === "cpu" ? t.win_you : t.win_p1) : (gameMode === "cpu" ? t.win_cpu : t.win_p2);
+  var methodText = method === "stone" ? t.win_stone : t.win_stream;
   showModal(
     isP1 ? "\uD83D\uDD34" : "\uD83D\uDD35",
-    winnerName + " の勝利",
+    winnerName + t.win_suffix,
     "p" + winner,
-    methodText + " による勝利",
+    methodText + t.win_by,
     [
-      { text: "もう一度", action: "startGame()" },
-      { text: "タイトルへ", action: "showTitleFromModal()" }
+      { text: t.modal_again, action: "startGame()" },
+      { text: t.modal_title_btn, action: "showTitleFromModal()" }
     ]
   );
 }
@@ -1806,9 +2099,10 @@ function doPass() {
 }
 
 function confirmReset() {
-  showModal("⟳", "対局をリセット", null, "現在の対局を終了してタイトルに戻りますか？", [
-    { text: "リセット", action: "showTitleFromModal()" },
-    { text: "続ける", action: "closeModal()" }
+  var t = T[lang];
+  showModal("\u27F3", t.reset_title, null, t.reset_desc, [
+    { text: t.reset_ok, action: "showTitleFromModal()" },
+    { text: t.reset_cancel, action: "closeModal()" }
   ]);
 }
 
