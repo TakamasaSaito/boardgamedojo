@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-全13ファイルにWeb App用メタタグ（apple-mobile-web-app-capable等）とmanifest.jsonを追加。ホーム画面追加アプリでのスタンドアロンモード維持に対応（#21）。
+スマホ幅のパンくずを「← BoardGameDojo」表示に修正（案1: CSS変更のみ）。遷移先がポータルであることが明確になった（#22）。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -31,11 +31,11 @@
 - [x] 全ゲーム+ポータル: タイトルタグを「ゲーム名 | BoardGameDojo」形式に統一（2026-07-24, fixes #19）
 - [x] 全ゲーム: ゲーム内タイトルへ戻る導線のヘッダー集約（⌂ボタン）（2026-07-24, fixes #20）
 - [x] 全ゲーム+ポータル: Web Appスタンドアロン用メタタグ・manifest.json追加（2026-07-24, fixes #21）
+- [x] 全ゲーム: スマホ幅パンくずを「← BoardGameDojo」表示に修正・CSS変更のみ（2026-07-24, fixes #22）
 
 ## 残タスク（GitHub Issues）
 
 ### 優先度：高
-- [ ] 全ゲーム: スマホ幅パンくず表示を誤解のない表記に修正 → [#22](https://github.com/TakamasaSaito/boardgamedojo/issues/22)
 - [ ] 全ゲーム: スマホ幅でのボタンテキスト折り返し解消 → [#23](https://github.com/TakamasaSaito/boardgamedojo/issues/23)
 
 ### その他
@@ -44,4 +44,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-全ゲーム: スマホ幅パンくず表示の修正 → [#22](https://github.com/TakamasaSaito/boardgamedojo/issues/22)
+全ゲーム: スマホ幅でのボタンテキスト折り返し解消 → [#23](https://github.com/TakamasaSaito/boardgamedojo/issues/23)
