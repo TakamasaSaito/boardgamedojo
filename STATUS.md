@@ -3,7 +3,7 @@
 最終更新: 2026-07-24
 
 ## 現状
-全12ゲームのヘッダーをパンくず形式（← BoardGameDojo | GAME NAME）に統一（#16）。スマホ幅では矢印+ゲーム名のみ表示。
+盤面以外の画面（タイトル・howto・メニュー画面）のPC最適化完了（#17）。全ゲームでPC幅時に垂直中央揃え＋ボタン幅拡大。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -25,11 +25,9 @@
 - [x] Quoridor: タイトル・howto画面新設・.screen.active 統一・localStorage（2026-07-24, fixes #15）
 - [x] 全ゲーム+ポータル: PC表示最適化・@media(min-width:769px)でmax-width拡大（2026-07-24, fixes #11）
 - [x] 全ゲーム: ヘッダーをパンくず形式に改善・スマホ/PC出し分け（2026-07-24, fixes #16）
+- [x] 全ゲーム: 盤面以外の画面のPC表示最適化（2026-07-24, fixes #17）
 
 ## 残タスク（GitHub Issues）
-
-### 優先度：高
-- [ ] 全ゲーム: 盤面以外の画面のPC表示最適化 → [#17](https://github.com/TakamasaSaito/boardgamedojo/issues/17)
 
 ### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
@@ -37,4 +35,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-全ゲーム: 盤面以外の画面のPC表示最適化 → [#17](https://github.com/TakamasaSaito/boardgamedojo/issues/17)
+Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
