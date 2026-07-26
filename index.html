@@ -280,9 +280,9 @@ footer {
 <section class="hero">
   <div class="hero-eyebrow">Browser Board Games</div>
   <div class="hero-catch" id="hero-catch">集まったら、すぐ一局。</div>
-  <div class="hero-sub" id="hero-sub">12種類の本格2人用ボードゲームを、ブラウザだけで。</div>
+  <div class="hero-sub" id="hero-sub">13種類の本格2人用ボードゲームを、ブラウザだけで。</div>
   <div class="hero-chips">
-    <span class="chip" id="chip-count">12 GAMES</span>
+    <span class="chip" id="chip-count">13 GAMES</span>
     <span class="chip" id="chip-free">無料</span>
     <span class="chip" id="chip-dl">ダウンロード不要</span>
   </div>
@@ -295,7 +295,7 @@ footer {
   <section class="cat-section">
     <div class="cat-header">
       <span class="cat-title" id="cat-a">ならべる・つなぐ</span>
-      <span class="cat-count">5</span>
+      <span class="cat-count">6</span>
     </div>
     <div class="card-grid">
 
@@ -327,6 +327,12 @@ footer {
         <span class="card-icon">💠</span>
         <div class="card-name">HEX</div>
         <div class="card-desc" id="d-hx">対向する2辺を石の連結で繋いだ方が勝ち</div>
+      </a>
+
+      <a class="game-card" href="connections/">
+        <span class="card-icon">&#128279;</span>
+        <div class="card-name">CONNECTIONS</div>
+        <div class="card-desc" id="d-cn">バーを置いて端から端をつなぐ。相手を囲んでも勝ち</div>
       </a>
 
     </div>
@@ -407,7 +413,7 @@ var lang = "ja";
 
 var TJA = {
   catch:    "集まったら、すぐ一局。",
-  sub:      "12種類の本格2人用ボードゲームを、ブラウザだけで。",
+  sub:      "13種類の本格2人用ボードゲームを、ブラウザだけで。",
   chipFree: "無料",
   chipDl:   "ダウンロード不要",
   catA:     "ならべる・つなぐ",
@@ -419,6 +425,7 @@ var TJA = {
   dEg:  "石を4つ並べたら勝ち。ただし3つ並びは禁手",
   dDg:  "サイコロで使えるコマが変わる五目並べ",
   dHx:  "対向する2辺を石の連結で繋いだ方が勝ち",
+  dCn:  "バーを置いて端から端をつなぐ。相手を囲んでも勝ち",
   dHi:  "昆虫タイルを並べて相手の女王蜂を囲む",
   dQu:  "縦・横・2\xD72エリアに4種類の形を揃えたら勝ち",
   dTo:  "タイルを回転させてO・N・Eを横一列に揃える",
@@ -430,7 +437,7 @@ var TJA = {
 
 var TEN = {
   catch:    "Play a quick game, right now.",
-  sub:      "12 two-player board games. No download needed.",
+  sub:      "13 two-player board games. No download needed.",
   chipFree: "Free",
   chipDl:   "No download",
   catA:     "Align & Connect",
@@ -442,6 +449,7 @@ var TEN = {
   dEg:  "4 in a row wins — but 3 in a row is forbidden",
   dDg:  "Gomoku where dice decide which piece you can place",
   dHx:  "Connect your two opposite edges to win",
+  dCn:  "Place bars to connect your edges — or encircle your opponent",
   dHi:  "Surround the opponent’s Queen Bee with insect tiles",
   dQu:  "Fill any row, column, or 2\xD72 area with all 4 shapes",
   dTo:  "Rotate tiles and push to align O·N·E in a row",
@@ -465,12 +473,12 @@ function applyLang() {
 
   var ids  = ["hero-catch","hero-sub","chip-free","chip-dl","cat-a","cat-b","cat-c",
               "n-dg",
-              "d-c4","d-vi","d-eg","d-dg","d-hx",
+              "d-c4","d-vi","d-eg","d-dg","d-hx","d-cn",
               "d-hi","d-qu","d-to",
               "d-on","d-qr","d-nn","d-os"];
   var keys = ["catch","sub","chipFree","chipDl","catA","catB","catC",
               "nDg",
-              "dC4","dVi","dEg","dDg","dHx",
+              "dC4","dVi","dEg","dDg","dHx","dCn",
               "dHi","dQu","dTo",
               "dOn","dQr","dNn","dOs"];
   for (var i = 0; i < ids.length; i++) {

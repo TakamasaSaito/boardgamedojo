@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f0f">
+<link rel="manifest" href="../manifest.json">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="icon" href="../favicon.ico">
+<title>CONNECTIONS | BoardGameDojo</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<!-- Google Analytics: GA_MEASUREMENT_ID を置換してコメントを外す
+<script src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date()); gtag('config', 'GA_MEASUREMENT_ID');
+</script>
+-->
+<style>
+:root {
+  --bg: #0f0f0f;
+  --bg2: #1a1a1a;
+  --surface: #222222;
+  --border: rgba(255,255,255,0.07);
+  --border2: #333333;
+  --accent: #00bcd4;
+  --accent-dim: rgba(0,188,212,0.12);
+  --text: #e0e0e0;
+  --text2: #888888;
+  --radius: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+button { font-family: inherit; cursor: pointer; }
+body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ===== APP HEADER ===== */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; background: rgba(15,15,15,0.95);
+  border-bottom: 1px solid var(--border);
+}
+.hdr-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.hdr-btn {
+  min-width: 40px; min-height: 40px;
+  background: transparent; border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text2);
+  font-size: 16px; cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center;
+}
+.hdr-btn:active { border-color: var(--accent); color: var(--accent); }
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: var(--accent); white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; display: none; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; display: none; }
+.bc-current { font-size: 14px; font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: none; }
+@media (min-width: 769px) { .bc-site { display: inline; } .bc-sep { display: inline; } .bc-current { display: inline; } }
+
+/* ===== SCREENS ===== */
+.screen { display: none; flex-direction: column; align-items: center; padding: 62px 12px 32px; max-width: 520px; margin: 0 auto; width: 100%; }
+.screen.active { display: flex; }
+
+/* ===== SETUP ===== */
+.game-title-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px; font-weight: 900; letter-spacing: 4px; margin: 6px 0 18px;
+  color: var(--accent); text-shadow: 0 0 20px rgba(0,188,212,0.4);
+}
+.panel { width: 100%; background: var(--bg2); border-radius: var(--radius); padding: 12px; margin-bottom: 12px; border: 1px solid var(--border); }
+.lbl { font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+.optrow { display: flex; gap: 8px; flex-wrap: wrap; }
+.optbtn { flex: 1; min-height: 44px; min-width: 76px; border: 1px solid var(--border2); border-radius: 10px; background: var(--surface); color: var(--text); font-size: 14px; }
+.optbtn.on { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); font-weight: bold; }
+.mainbtn { width: 100%; min-height: 50px; border: none; border-radius: var(--radius); background: var(--accent); color: #000; font-size: 17px; font-weight: bold; margin-top: 4px; }
+.mainbtn:active { opacity: 0.85; }
+.mainbtn:disabled { opacity: 0.35; }
+.subbtn { flex: 1; min-height: 44px; padding: 0 12px; border: 1px solid var(--border2); border-radius: 10px; background: var(--surface); color: var(--text2); font-size: 14px; }
+.subbtn:active { color: var(--text); }
+
+/* ===== GAME ===== */
+#hud { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+#turnBox { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: bold; min-height: 44px; }
+#turnDot { width: 14px; height: 14px; border-radius: 4px; display: inline-block; background: #e04040; flex-shrink: 0; }
+#barsBox { font-size: 13px; color: var(--text2); text-align: right; line-height: 1.5; }
+#goalNote { width: 100%; font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+#board { width: 100%; max-width: 480px; display: block; touch-action: manipulation; }
+#msg { width: 100%; min-height: 20px; font-size: 13px; color: #ffcf6e; margin: 6px 0 4px; text-align: center; }
+.ctrlrow { display: flex; gap: 10px; width: 100%; margin-top: 10px; }
+
+/* ===== MODAL ===== */
+#modalOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.65); display: none; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
+#modalOverlay.show { display: flex; }
+#modalBox { background: var(--bg2); border-radius: 14px; padding: 20px; width: 100%; max-width: 340px; text-align: center; border: 1px solid var(--border); }
+#mTitle { font-size: 19px; font-weight: bold; margin-bottom: 10px; }
+#mBody { font-size: 14px; color: var(--text2); margin-bottom: 16px; line-height: 1.6; }
+.mbtn { display: block; width: 100%; min-height: 46px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; margin-top: 8px; background: var(--surface); color: var(--text); }
+.mbtn.primary { background: var(--accent); color: #000; }
+
+/* ===== PC ===== */
+@media (min-width: 769px) {
+  .screen { max-width: 680px; }
+}
+</style>
+</head>
+<body>
+
+<!-- APP HEADER -->
+<div id="app-header">
+  <nav class="breadcrumb">
+    <a class="bc-home" href="../index.html">
+      <span class="bc-arrow">&larr;</span>
+      <span class="bc-site">BoardGameDojo</span>
+    </a>
+    <span class="bc-sep"> | </span>
+    <span class="bc-current">CONNECTIONS</span>
+  </nav>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="langBtn">&#127471;&#127477;</button>
+    <button class="hdr-btn" id="helpBtn">&#10067;</button>
+  </div>
+</div>
+
+<!-- SETUP SCREEN -->
+<div id="section-setup" class="screen active">
+  <div class="game-title-logo">CONNECTIONS</div>
+  <div class="panel">
+    <div class="lbl" id="modeLabel">対戦モード</div>
+    <div class="optrow" id="grpMode">
+      <button class="optbtn" data-v="pvp" id="btnPvp">2人対戦</button>
+      <button class="optbtn" data-v="cpu" id="btnCpu">CPU対戦</button>
+    </div>
+  </div>
+  <div class="panel" id="rowLevel">
+    <div class="lbl" id="cpuLabel">CPUの強さ</div>
+    <div class="optrow" id="grpLevel">
+      <button class="optbtn" data-v="1" id="btnEasy">かんたん</button>
+      <button class="optbtn" data-v="2" id="btnNormal">ふつう</button>
+      <button class="optbtn" data-v="3" id="btnHard">むずかしい</button>
+    </div>
+  </div>
+  <div class="panel" id="rowHuman">
+    <div class="lbl" id="colorLabel">あなたの色</div>
+    <div class="optrow" id="grpHuman">
+      <button class="optbtn" data-v="R" id="btnRedColor">赤(上下)</button>
+      <button class="optbtn" data-v="W" id="btnWhiteColor">白(左右)</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="lbl" id="firstLabel">先攻</div>
+    <div class="optrow" id="grpFirst">
+      <button class="optbtn" data-v="R" id="btnRedFirst">赤</button>
+      <button class="optbtn" data-v="W" id="btnWhiteFirst">白</button>
+    </div>
+  </div>
+  <button class="mainbtn" id="btnStart">ゲーム開始</button>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="section-game" class="screen">
+  <div id="hud">
+    <div id="turnBox"><span id="turnDot"></span><span id="turnText"></span></div>
+    <div id="barsBox"><span id="barsR"></span><br><span id="barsW"></span></div>
+  </div>
+  <div id="goalNote">赤: 上&#x21C4;下 / 白: 左&#x21C4;右 をつなぐと勝ち。相手の点や線を完全に囲んでも勝ち。</div>
+  <svg id="board" viewBox="-1.7 -1.7 13.4 13.4"></svg>
+  <div id="msg"></div>
+  <button class="mainbtn" id="btnConfirm" disabled>ここに置く</button>
+  <div class="ctrlrow">
+    <button class="subbtn" id="btnResign">投了</button>
+    <button class="subbtn" id="btnBack">設定に戻る</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay">
+  <div id="modalBox">
+    <div id="mTitle"></div>
+    <div id="mBody"></div>
+    <div id="mBtns"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+// ===================== 言語 =====================
+var lang = "ja";
+var TJA = {
+  modeLabel: "対戦モード",
+  cpuLabel: "CPUの強さ",
+  colorLabel: "あなたの色",
+  firstLabel: "先攻",
+  pvp: "2人対戦",
+  cpu: "CPU対戦",
+  easy: "かんたん",
+  normal: "ふつう",
+  hard: "むずかしい",
+  redColor: "赤(上下)",
+  whiteColor: "白(左右)",
+  redFirst: "赤",
+  whiteFirst: "白",
+  btnStart: "ゲーム開始",
+  btnConfirm: "ここに置く",
+  btnResign: "投了",
+  btnBack: "設定に戻る",
+  goalNote: "赤: 上⇄下 / 白: 左⇄右 をつなぐと勝ち。相手の点や線を完全に囲んでも勝ち。",
+  yourTurn: "あなたの番",
+  cpuTurn: "CPUの番",
+  turnOf: "の番",
+  thinking: "CPU思考中…",
+  wins: "の勝ち",
+  draw: "引き分け",
+  resign: "投了しますか？",
+  resignMsg: "の負けになります。",
+  resignYes: "投了する",
+  cancel: "キャンセル",
+  backConfirm: "設定に戻りますか？",
+  backMsg: "現在の対局は破棄されます。",
+  backYes: "戻る",
+  retryBtn: "もう一度",
+  settingsBtn: "設定に戻る",
+  passMsg: "は置ける場所がないためパスします",
+  barsLeft: " 残り ",
+  barsUnit: " 本",
+  reasonConnection: "端から端まで接続しました",
+  reasonEnclosure: "相手の点・線を囲みました",
+  reasonResignation: "相手が投了しました",
+  reasonDraw: "両者とも勝利条件を満たせませんでした",
+  helpTitle: "ルール",
+  helpBody: "赤と白が交互にバーを1本ずつ置く。赤は上下の端をつなぐと勝ち。白は左右の端をつなぐと勝ち。同じ交差点に赤と白のバーは同時に置けない。相手の点や線を閉ループで完全に囲んでも勝ち。",
+  closeBtn: "閉じる",
+  redName: "赤",
+  whiteName: "白"
+};
+var TEN = {
+  modeLabel: "Mode",
+  cpuLabel: "CPU Level",
+  colorLabel: "Your Color",
+  firstLabel: "First Move",
+  pvp: "2 Players",
+  cpu: "vs CPU",
+  easy: "Easy",
+  normal: "Normal",
+  hard: "Hard",
+  redColor: "Red (T⇄B)",
+  whiteColor: "White (L⇄R)",
+  redFirst: "Red",
+  whiteFirst: "White",
+  btnStart: "Start Game",
+  btnConfirm: "Place Here",
+  btnResign: "Resign",
+  btnBack: "Settings",
+  goalNote: "Red: connect Top⇄Bottom. White: connect Left⇄Right. Encircle opponent to win.",
+  yourTurn: "Your turn",
+  cpuTurn: "CPU's turn",
+  turnOf: "'s turn",
+  thinking: "CPU thinking…",
+  wins: " wins!",
+  draw: "Draw",
+  resign: "Resign?",
+  resignMsg: " will lose.",
+  resignYes: "Resign",
+  cancel: "Cancel",
+  backConfirm: "Back to settings?",
+  backMsg: "Current game will be discarded.",
+  backYes: "Back",
+  retryBtn: "Play Again",
+  settingsBtn: "Settings",
+  passMsg: " has no moves — pass",
+  barsLeft: ": ",
+  barsUnit: " bars",
+  reasonConnection: "Connected edge to edge",
+  reasonEnclosure: "Encircled opponent's pieces",
+  reasonResignation: "Opponent resigned",
+  reasonDraw: "No winning path for either player",
+  helpTitle: "Rules",
+  helpBody: "Players alternate placing one bar per turn. Red connects Top to Bottom, White connects Left to Right. Opposite-color bars cannot share the same crossing point. Encircling all opponent pieces with a closed loop also wins.",
+  closeBtn: "Close",
+  redName: "Red",
+  whiteName: "White"
+};
+
+function T(key){ return lang === "ja" ? (TJA[key] || key) : (TEN[key] || key); }
+function colorName(c){ return c === RED ? T("redName") : T("whiteName"); }
+
+function toggleLang(){
+  lang = lang === "ja" ? "en" : "ja";
+  applyLang();
+}
+
+function applyLang(){
+  var flag = lang === "ja" ? "\uD83C\uDDEF\uD83C\uDDF5" : "\uD83C\uDDFA\uD83C\uDDF8";
+  $("langBtn").textContent = flag;
+  document.documentElement.lang = lang;
+  $("modeLabel").textContent = T("modeLabel");
+  $("cpuLabel").textContent = T("cpuLabel");
+  $("colorLabel").textContent = T("colorLabel");
+  $("firstLabel").textContent = T("firstLabel");
+  $("btnPvp").textContent = T("pvp");
+  $("btnCpu").textContent = T("cpu");
+  $("btnEasy").textContent = T("easy");
+  $("btnNormal").textContent = T("normal");
+  $("btnHard").textContent = T("hard");
+  $("btnRedColor").textContent = T("redColor");
+  $("btnWhiteColor").textContent = T("whiteColor");
+  $("btnRedFirst").textContent = T("redFirst");
+  $("btnWhiteFirst").textContent = T("whiteFirst");
+  $("btnStart").textContent = T("btnStart");
+  $("btnConfirm").textContent = T("btnConfirm");
+  $("btnResign").textContent = T("btnResign");
+  $("btnBack").textContent = T("btnBack");
+  $("goalNote").textContent = T("goalNote");
+  if(G){ renderHud(); }
+}
+
+// ===================== ゲームロジック =====================
+var RED = "R", WHITE = "W";
+var INF = 9999;
+
+function opp(c){ return c === RED ? WHITE : RED; }
+
+// スタッドID
+// 赤: 5列(c:0-4) x 6行(r:0-5)  座標 (2c+1, 2r)  上下を接続
+// 白: 6列(c:0-5) x 5行(r:0-4)  座標 (2c, 2r+1)  左右を接続
+function rid(c, r){ return r * 5 + c; }
+function wid(c, r){ return r * 6 + c; }
+
+var RED_STUDS = [];
+var WHITE_STUDS = [];
+(function(){
+  var c, r;
+  for(r = 0; r < 6; r++){
+    for(c = 0; c < 5; c++){
+      RED_STUDS.push({ x: 2 * c + 1, y: 2 * r });
+    }
+  }
+  for(r = 0; r < 5; r++){
+    for(c = 0; c < 6; c++){
+      WHITE_STUDS.push({ x: 2 * c, y: 2 * r + 1 });
+    }
+  }
+})();
+
+// スロット(バーを置ける場所)の定義
+var slots = [];
+(function(){
+  var c, r, i, k;
+  // 赤 横バー(自陣ゴール行に沿う移動。y=0,10の端行のみ交差なし)
+  for(r = 0; r < 6; r++){
+    for(c = 0; c < 4; c++){
+      slots.push({ color: RED, a: rid(c, r), b: rid(c + 1, r),
+        x1: 2 * c + 1, y1: 2 * r, x2: 2 * c + 3, y2: 2 * r,
+        mx: 2 * c + 2, my: 2 * r, cross: -1 });
+    }
+  }
+  // 赤 縦バー(上下への前進。必ず白横バーと交差)
+  for(r = 0; r < 5; r++){
+    for(c = 0; c < 5; c++){
+      slots.push({ color: RED, a: rid(c, r), b: rid(c, r + 1),
+        x1: 2 * c + 1, y1: 2 * r, x2: 2 * c + 1, y2: 2 * r + 2,
+        mx: 2 * c + 1, my: 2 * r + 1, cross: -1 });
+    }
+  }
+  // 白 横バー(左右への前進。必ず赤縦バーと交差)
+  for(r = 0; r < 5; r++){
+    for(c = 0; c < 5; c++){
+      slots.push({ color: WHITE, a: wid(c, r), b: wid(c + 1, r),
+        x1: 2 * c, y1: 2 * r + 1, x2: 2 * c + 2, y2: 2 * r + 1,
+        mx: 2 * c + 1, my: 2 * r + 1, cross: -1 });
+    }
+  }
+  // 白 縦バー(x=0,10の端列のみ交差なし)
+  for(r = 0; r < 4; r++){
+    for(c = 0; c < 6; c++){
+      slots.push({ color: WHITE, a: wid(c, r), b: wid(c, r + 1),
+        x1: 2 * c, y1: 2 * r + 1, x2: 2 * c, y2: 2 * r + 3,
+        mx: 2 * c, my: 2 * r + 2, cross: -1 });
+    }
+  }
+  // 交差関係(同じ中点を共有する赤バーと白バーは同時に置けない)
+  var map = {};
+  for(i = 0; i < slots.length; i++){
+    k = slots[i].mx + "," + slots[i].my;
+    if(map[k] === undefined){
+      map[k] = i;
+    }else{
+      slots[i].cross = map[k];
+      slots[map[k]].cross = i;
+    }
+  }
+})();
+
+var settings = { mode: "pvp", level: 2, human: RED, first: RED };
+var G = null;
+
+function newGame(){
+  var placed = [], i;
+  for(i = 0; i < slots.length; i++){ placed.push(false); }
+  G = {
+    placed: placed,
+    barsLeft: {},
+    turn: settings.first,
+    over: false,
+    winner: null,
+    reason: null,
+    selected: -1,
+    lock: false,
+    lastPlaced: -1
+  };
+  G.barsLeft[RED] = 21;
+  G.barsLeft[WHITE] = 21;
+}
+
+function isLegal(i){
+  var s = slots[i];
+  if(G.placed[i]){ return false; }
+  if(s.cross >= 0 && G.placed[s.cross]){ return false; }
+  if(G.barsLeft[s.color] <= 0){ return false; }
+  return true;
+}
+
+function legalMoves(color){
+  var res = [], i;
+  for(i = 0; i < slots.length; i++){
+    if(slots[i].color === color && isLegal(i)){ res.push(i); }
+  }
+  return res;
+}
+
+// 指定色の配置済みバーによるスタッド隣接リスト(excludeSlotは除外)
+function studAdj(color, excludeSlot){
+  var adj = [], i, s;
+  for(i = 0; i < 30; i++){ adj.push([]); }
+  for(i = 0; i < slots.length; i++){
+    if(i === excludeSlot){ continue; }
+    s = slots[i];
+    if(s.color === color && G.placed[i]){
+      adj[s.a].push(s.b);
+      adj[s.b].push(s.a);
+    }
+  }
+  return adj;
+}
+
+// aとbが(exclを除いた)配置済みバーで接続されているか → 囲み(閉ループ)判定に使用
+function areConnectedExcl(color, a, b, excl){
+  var adj = studAdj(color, excl);
+  var seen = [], q = [a], i, v, nb, j;
+  for(i = 0; i < 30; i++){ seen.push(false); }
+  seen[a] = true;
+  while(q.length){
+    v = q.pop();
+    if(v === b){ return true; }
+    nb = adj[v];
+    for(j = 0; j < nb.length; j++){
+      if(!seen[nb[j]]){ seen[nb[j]] = true; q.push(nb[j]); }
+    }
+  }
+  return false;
+}
+
+// 端から端への接続勝利判定
+function checkConnection(color){
+  var adj = studAdj(color, -1);
+  var seen = [], q = [], i, v, nb, j;
+  for(i = 0; i < 30; i++){ seen.push(false); }
+  if(color === RED){
+    for(i = 0; i < 5; i++){ seen[rid(i, 0)] = true; q.push(rid(i, 0)); }
+  }else{
+    for(i = 0; i < 5; i++){ seen[wid(0, i)] = true; q.push(wid(0, i)); }
+  }
+  while(q.length){
+    v = q.pop();
+    if(color === RED){
+      if(v >= 25){ return true; }
+    }else{
+      if(v % 6 === 5){ return true; }
+    }
+    nb = adj[v];
+    for(j = 0; j < nb.length; j++){
+      if(!seen[nb[j]]){ seen[nb[j]] = true; q.push(nb[j]); }
+    }
+  }
+  return false;
+}
+
+// 配置直後の勝利判定(囲み優先 → 接続)
+function judgeAfterPlace(i){
+  var s = slots[i];
+  if(areConnectedExcl(s.color, s.a, s.b, i)){
+    return { winner: s.color, reason: "ENCLOSURE" };
+  }
+  if(checkConnection(s.color)){
+    return { winner: s.color, reason: "CONNECTION" };
+  }
+  return null;
+}
+
+function applyMove(i){ G.placed[i] = true; G.barsLeft[slots[i].color]--; }
+function revertMove(i){ G.placed[i] = false; G.barsLeft[slots[i].color]++; }
+
+// ===================== CPU =====================
+// 端から端までの最短「あと何本」距離(0-1BFS)
+function connDist(color){
+  var n = 32, SRC = 30, SNK = 31;
+  var adj = [], i, s, dist = [], dq = [], u, lst, j, e, nd;
+  for(i = 0; i < n; i++){ adj.push([]); }
+  function addEdge(a, b, w){
+    adj[a].push({ v: b, w: w });
+    adj[b].push({ v: a, w: w });
+  }
+  for(i = 0; i < slots.length; i++){
+    s = slots[i];
+    if(s.color !== color){ continue; }
+    if(G.placed[i]){
+      addEdge(s.a, s.b, 0);
+    }else if(isLegal(i)){
+      addEdge(s.a, s.b, 1);
+    }
+  }
+  if(color === RED){
+    for(i = 0; i < 5; i++){
+      addEdge(SRC, rid(i, 0), 0);
+      addEdge(SNK, rid(i, 5), 0);
+    }
+  }else{
+    for(i = 0; i < 5; i++){
+      addEdge(SRC, wid(0, i), 0);
+      addEdge(SNK, wid(5, i), 0);
+    }
+  }
+  for(i = 0; i < n; i++){ dist.push(INF); }
+  dist[SRC] = 0;
+  dq.push(SRC);
+  while(dq.length){
+    u = dq.shift();
+    lst = adj[u];
+    for(j = 0; j < lst.length; j++){
+      e = lst[j];
+      nd = dist[u] + e.w;
+      if(nd < dist[e.v]){
+        dist[e.v] = nd;
+        if(e.w === 0){ dq.unshift(e.v); } else { dq.push(e.v); }
+      }
+    }
+  }
+  return dist[SNK];
+}
+
+function cpuColor(){ return opp(settings.human); }
+
+function isWinningMove(i){
+  var w;
+  applyMove(i);
+  w = judgeAfterPlace(i);
+  revertMove(i);
+  return w !== null;
+}
+
+function evalNow(me){
+  var dm = connDist(me);
+  var doo = connDist(opp(me));
+  return (doo - dm) * 10 - dm;
+}
+
+function greedyScore(i, me){
+  var sc;
+  applyMove(i);
+  sc = evalNow(me);
+  revertMove(i);
+  return sc;
+}
+
+function cpuChoose(){
+  var me = cpuColor(), other = opp(me);
+  var moves = legalMoves(me), i, j, k;
+  if(!moves.length){ return -1; }
+  for(i = 0; i < moves.length; i++){
+    if(isWinningMove(moves[i])){ return moves[i]; }
+  }
+  if(settings.level === 1){
+    return moves[Math.floor(Math.random() * moves.length)];
+  }
+  var oppMoves = legalMoves(other), threats = [];
+  for(i = 0; i < oppMoves.length; i++){
+    if(isWinningMove(oppMoves[i])){ threats.push(oppMoves[i]); }
+  }
+  var cand = moves;
+  if(threats.length){
+    var blocks = [], cr;
+    for(i = 0; i < threats.length; i++){
+      cr = slots[threats[i]].cross;
+      if(cr >= 0 && slots[cr].color === me && isLegal(cr)){
+        if(blocks.indexOf(cr) < 0){ blocks.push(cr); }
+      }
+    }
+    if(blocks.length){ cand = blocks; }
+  }
+  var scored = [];
+  for(i = 0; i < cand.length; i++){
+    scored.push({ m: cand[i], s: greedyScore(cand[i], me) + Math.random() * 0.5 });
+  }
+  scored.sort(function(a, b){ return b.s - a.s; });
+  if(settings.level === 2){
+    return scored[0].m;
+  }
+  var K = 8, best = scored[0].m, bestVal = -1e9;
+  var top = scored.slice(0, Math.min(K, scored.length));
+  for(i = 0; i < top.length; i++){
+    var m = top[i].m, val;
+    applyMove(m);
+    var om = legalMoves(other);
+    var oppWin = false;
+    for(j = 0; j < om.length; j++){
+      if(isWinningMove(om[j])){ oppWin = true; break; }
+    }
+    if(oppWin){
+      val = -1e5 + top[i].s * 0.001;
+    }else if(om.length === 0){
+      val = evalNow(me);
+    }else{
+      var os = [];
+      for(j = 0; j < om.length; j++){
+        os.push({ m: om[j], s: greedyScore(om[j], other) });
+      }
+      os.sort(function(a, b){ return b.s - a.s; });
+      var lim = Math.min(K, os.length), worst = 1e9, myVal;
+      for(k = 0; k < lim; k++){
+        applyMove(os[k].m);
+        myVal = evalNow(me);
+        revertMove(os[k].m);
+        if(myVal < worst){ worst = myVal; }
+      }
+      val = worst;
+    }
+    revertMove(m);
+    if(val > bestVal){ bestVal = val; best = m; }
+  }
+  return best;
+}
+
+// ===================== サウンド =====================
+var audioCtx = null;
+function getAudioCtx(){
+  if(!audioCtx){
+    try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){}
+  }
+  return audioCtx;
+}
+function playSound(type){
+  var ctx = getAudioCtx();
+  if(!ctx){ return; }
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  if(type === "select"){
+    osc.frequency.setValueAtTime(660, ctx.currentTime);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.08);
+  }else if(type === "place"){
+    osc.frequency.setValueAtTime(440, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.12);
+  }else if(type === "win"){
+    osc.frequency.setValueAtTime(523, ctx.currentTime);
+    osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
+    osc.frequency.setValueAtTime(784, ctx.currentTime + 0.30);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.55);
+  }
+}
+
+// ===================== DOM =====================
+function $(id){ return document.getElementById(id); }
+
+var COL_RED = "#e04040";
+var COL_WHITE = "#efe6cf";
+var SVGNS = "http://www.w3.org/2000/svg";
+
+function mk(tag, attrs){
+  var e = document.createElementNS(SVGNS, tag), k;
+  for(k in attrs){
+    if(attrs.hasOwnProperty(k)){ e.setAttribute(k, attrs[k]); }
+  }
+  return e;
+}
+
+var gBase, gBars, gStuds, gTop;
+
+function buildBoardStatic(){
+  var svg = $("board"), i, p;
+  gBase = mk("g", {});
+  gBars = mk("g", {});
+  gStuds = mk("g", {});
+  gTop = mk("g", {});
+  svg.appendChild(gBase);
+  svg.appendChild(gBars);
+  svg.appendChild(gStuds);
+  svg.appendChild(gTop);
+  gBase.appendChild(mk("rect", { x: -1.7, y: -1.7, width: 13.4, height: 13.4, rx: 0.35, fill: "#1a1a1a" }));
+  gBase.appendChild(mk("rect", { x: -1.35, y: -1.35, width: 12.7, height: 12.7, rx: 0.25, fill: "#2a2a2a" }));
+  gBase.appendChild(mk("rect", { x: -0.6, y: -1.15, width: 11.2, height: 0.3, rx: 0.15, fill: COL_RED, opacity: 0.85 }));
+  gBase.appendChild(mk("rect", { x: -0.6, y: 10.85, width: 11.2, height: 0.3, rx: 0.15, fill: COL_RED, opacity: 0.85 }));
+  gBase.appendChild(mk("rect", { x: -1.15, y: -0.6, width: 0.3, height: 11.2, rx: 0.15, fill: COL_WHITE, opacity: 0.85 }));
+  gBase.appendChild(mk("rect", { x: 10.85, y: -0.6, width: 0.3, height: 11.2, rx: 0.15, fill: COL_WHITE, opacity: 0.85 }));
+  for(i = 0; i < RED_STUDS.length; i++){
+    p = RED_STUDS[i];
+    gStuds.appendChild(mk("rect", { x: p.x - 0.3, y: p.y - 0.3, width: 0.6, height: 0.6, rx: 0.1, fill: COL_RED }));
+  }
+  for(i = 0; i < WHITE_STUDS.length; i++){
+    p = WHITE_STUDS[i];
+    gStuds.appendChild(mk("rect", { x: p.x - 0.3, y: p.y - 0.3, width: 0.6, height: 0.6, rx: 0.1, fill: COL_WHITE }));
+  }
+}
+
+function clearGroup(g){
+  while(g.firstChild){ g.removeChild(g.firstChild); }
+}
+
+function inputAllowed(){
+  if(!G || G.over || G.lock){ return false; }
+  if(settings.mode === "cpu" && G.turn !== settings.human){ return false; }
+  return true;
+}
+
+function barColor(c){ return c === RED ? COL_RED : COL_WHITE; }
+
+function renderBoard(){
+  clearGroup(gBars);
+  clearGroup(gTop);
+  var i, s, col;
+  for(i = 0; i < slots.length; i++){
+    if(!G.placed[i]){ continue; }
+    s = slots[i];
+    if(i === G.lastPlaced){
+      gBars.appendChild(mk("line", { x1: s.x1, y1: s.y1, x2: s.x2, y2: s.y2,
+        stroke: "rgba(255,214,110,0.9)", "stroke-width": 0.6, "stroke-linecap": "round" }));
+    }
+    gBars.appendChild(mk("line", { x1: s.x1, y1: s.y1, x2: s.x2, y2: s.y2,
+      stroke: barColor(s.color), "stroke-width": 0.42, "stroke-linecap": "round" }));
+  }
+  if(!inputAllowed()){ return; }
+  var lm = legalMoves(G.turn), m;
+  col = barColor(G.turn);
+  for(i = 0; i < lm.length; i++){
+    s = slots[lm[i]];
+    gBars.appendChild(mk("line", { x1: s.x1, y1: s.y1, x2: s.x2, y2: s.y2,
+      stroke: col, "stroke-width": 0.14, "stroke-linecap": "round", opacity: 0.28 }));
+  }
+  if(G.selected >= 0){
+    s = slots[G.selected];
+    gTop.appendChild(mk("line", { x1: s.x1, y1: s.y1, x2: s.x2, y2: s.y2,
+      stroke: "rgba(255,214,110,0.95)", "stroke-width": 0.58, "stroke-linecap": "round" }));
+    gTop.appendChild(mk("line", { x1: s.x1, y1: s.y1, x2: s.x2, y2: s.y2,
+      stroke: barColor(s.color), "stroke-width": 0.42, "stroke-linecap": "round", opacity: 0.75 }));
+  }
+  for(i = 0; i < lm.length; i++){
+    m = lm[i];
+    s = slots[m];
+    var horizontal = (s.y1 === s.y2);
+    var tx, ty, tw, th;
+    if(horizontal){
+      tx = s.mx - 0.95; ty = s.my - 0.6; tw = 1.9; th = 1.2;
+    }else{
+      tx = s.mx - 0.6; ty = s.my - 0.95; tw = 1.2; th = 1.9;
+    }
+    var tgt = mk("rect", { x: tx, y: ty, width: tw, height: th, fill: "rgba(0,0,0,0.001)" });
+    (function(idx){
+      tgt.addEventListener("click", function(ev){
+        ev.preventDefault();
+        onSlotTap(idx);
+      });
+    })(m);
+    gTop.appendChild(tgt);
+  }
+}
+
+function onSlotTap(i){
+  if(!inputAllowed()){ return; }
+  if(slots[i].color !== G.turn || !isLegal(i)){ return; }
+  if(G.selected === i){ G.selected = -1; } else { G.selected = i; playSound("select"); }
+  renderAll();
+}
+
+function setMsg(t){ $("msg").textContent = t; }
+
+function renderHud(){
+  var t = G.turn;
+  $("turnDot").style.background = barColor(t);
+  var label;
+  if(G.over){
+    if(G.winner){
+      label = colorName(G.winner) + T("wins");
+      $("turnDot").style.background = barColor(G.winner);
+    }else{
+      label = T("draw");
+    }
+  }else if(settings.mode === "cpu"){
+    if(t === settings.human){
+      label = T("yourTurn") + "(" + colorName(t) + ")";
+    }else{
+      label = T("cpuTurn") + "(" + colorName(t) + ")";
+    }
+  }else{
+    label = colorName(t) + T("turnOf");
+  }
+  $("turnText").textContent = label;
+  $("barsR").textContent = colorName(RED) + T("barsLeft") + G.barsLeft[RED] + T("barsUnit");
+  $("barsW").textContent = colorName(WHITE) + T("barsLeft") + G.barsLeft[WHITE] + T("barsUnit");
+}
+
+function renderAll(){
+  renderHud();
+  renderBoard();
+  $("btnConfirm").disabled = !(inputAllowed() && G.selected >= 0);
+}
+
+// ===================== 進行 =====================
+function doPlace(i){
+  applyMove(i);
+  G.lastPlaced = i;
+  G.selected = -1;
+  var w = judgeAfterPlace(i);
+  if(w){
+    playSound("win");
+    endGame(w.winner, w.reason);
+    return;
+  }
+  playSound("place");
+  advanceTurn();
+}
+
+function advanceTurn(){
+  G.turn = opp(G.turn);
+  var lm = legalMoves(G.turn);
+  if(lm.length === 0){
+    var lo = legalMoves(opp(G.turn));
+    if(lo.length === 0){
+      endGame(null, "DRAW");
+      return;
+    }
+    setMsg(colorName(G.turn) + T("passMsg"));
+    G.turn = opp(G.turn);
+  }else{
+    setMsg("");
+  }
+  renderAll();
+  maybeCpu();
+}
+
+function maybeCpu(){
+  if(!G || G.over){ return; }
+  if(settings.mode !== "cpu"){ return; }
+  if(G.turn !== cpuColor()){ return; }
+  G.lock = true;
+  setMsg(T("thinking"));
+  renderAll();
+  setTimeout(function(){
+    var m = cpuChoose();
+    G.lock = false;
+    setMsg("");
+    if(m < 0){
+      advanceTurn();
+      return;
+    }
+    doPlace(m);
+  }, 500);
+}
+
+function reasonText(reason){
+  if(reason === "CONNECTION"){ return T("reasonConnection"); }
+  if(reason === "ENCLOSURE"){ return T("reasonEnclosure"); }
+  if(reason === "RESIGNATION"){ return T("reasonResignation"); }
+  if(reason === "DRAW"){ return T("reasonDraw"); }
+  return "";
+}
+
+function endGame(winner, reason){
+  G.over = true;
+  G.winner = winner;
+  G.reason = reason;
+  G.selected = -1;
+  G.lock = false;
+  renderAll();
+  var title = winner ? (colorName(winner) + T("wins")) : T("draw");
+  showModal(title, reasonText(reason), [
+    { label: T("retryBtn"), primary: true, fn: function(){ startGame(); } },
+    { label: T("settingsBtn"), primary: false, fn: function(){ toSetup(); } }
+  ]);
+}
+
+function startGame(){
+  newGame();
+  showSection("game");
+  setMsg("");
+  renderAll();
+  maybeCpu();
+}
+
+function toSetup(){
+  G = null;
+  showSection("setup");
+}
+
+// ===================== モーダル・画面切替 =====================
+function showModal(title, body, buttons){
+  $("mTitle").textContent = title;
+  $("mBody").textContent = body;
+  var bc = $("mBtns"), i;
+  while(bc.firstChild){ bc.removeChild(bc.firstChild); }
+  for(i = 0; i < buttons.length; i++){
+    (function(def){
+      var b = document.createElement("button");
+      b.className = def.primary ? "mbtn primary" : "mbtn";
+      b.textContent = def.label;
+      b.addEventListener("click", function(){
+        hideModal();
+        if(def.fn){ def.fn(); }
+      });
+      bc.appendChild(b);
+    })(buttons[i]);
+  }
+  $("modalOverlay").className = "show";
+}
+
+function hideModal(){
+  $("modalOverlay").className = "";
+}
+
+function showSection(name){
+  var ids = ["section-setup", "section-game"], i, el;
+  for(i = 0; i < ids.length; i++){
+    el = $(ids[i]);
+    if(ids[i] === "section-" + name){
+      el.className = "screen active";
+    }else{
+      el.className = "screen";
+    }
+  }
+}
+
+function showHelp(){
+  showModal(T("helpTitle"), T("helpBody"), [
+    { label: T("closeBtn"), primary: true, fn: null }
+  ]);
+}
+
+// ===================== 設定画面 =====================
+function bindOptGroup(groupId, key){
+  var g = $(groupId);
+  var btns = g.getElementsByTagName("button"), i;
+  for(i = 0; i < btns.length; i++){
+    (function(btn){
+      btn.addEventListener("click", function(){
+        var v = btn.getAttribute("data-v");
+        if(key === "level"){
+          settings.level = parseInt(v, 10);
+        }else{
+          settings[key] = v;
+        }
+        refreshSetup();
+      });
+    })(btns[i]);
+  }
+}
+
+function markGroup(groupId, value){
+  var g = $(groupId);
+  var btns = g.getElementsByTagName("button"), i;
+  for(i = 0; i < btns.length; i++){
+    if(btns[i].getAttribute("data-v") === String(value)){
+      btns[i].className = "optbtn on";
+    }else{
+      btns[i].className = "optbtn";
+    }
+  }
+}
+
+function refreshSetup(){
+  markGroup("grpMode", settings.mode);
+  markGroup("grpLevel", settings.level);
+  markGroup("grpHuman", settings.human);
+  markGroup("grpFirst", settings.first);
+  var showCpu = settings.mode === "cpu";
+  $("rowLevel").style.display = showCpu ? "block" : "none";
+  $("rowHuman").style.display = showCpu ? "block" : "none";
+}
+
+// ===================== 初期化 =====================
+function init(){
+  buildBoardStatic();
+  bindOptGroup("grpMode", "mode");
+  bindOptGroup("grpLevel", "level");
+  bindOptGroup("grpHuman", "human");
+  bindOptGroup("grpFirst", "first");
+  refreshSetup();
+  $("langBtn").addEventListener("click", toggleLang);
+  $("helpBtn").addEventListener("click", showHelp);
+  $("btnStart").addEventListener("click", function(){ startGame(); });
+  $("btnConfirm").addEventListener("click", function(){
+    if(inputAllowed() && G.selected >= 0){
+      doPlace(G.selected);
+    }
+  });
+  $("btnResign").addEventListener("click", function(){
+    if(!G || G.over){ return; }
+    var resigner;
+    if(settings.mode === "cpu"){
+      resigner = settings.human;
+    }else{
+      resigner = G.turn;
+    }
+    showModal(T("resign"), colorName(resigner) + T("resignMsg"), [
+      { label: T("resignYes"), primary: true, fn: function(){ endGame(opp(resigner), "RESIGNATION"); } },
+      { label: T("cancel"), primary: false, fn: null }
+    ]);
+  });
+  $("btnBack").addEventListener("click", function(){
+    if(!G || G.over){
+      toSetup();
+      return;
+    }
+    showModal(T("backConfirm"), T("backMsg"), [
+      { label: T("backYes"), primary: true, fn: function(){ toSetup(); } },
+      { label: T("cancel"), primary: false, fn: null }
+    ]);
+  });
+}
+
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", init);
+}else{
+  init();
+}
+
+})();
+</script>
+</body>
+</html>
