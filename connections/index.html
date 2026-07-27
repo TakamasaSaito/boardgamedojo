@@ -43,6 +43,7 @@ body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; background: var
   padding: 0 16px; background: rgba(15,15,15,0.95);
   border-bottom: 1px solid var(--border);
 }
+#app-header.hidden { display: none; }
 .hdr-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .hdr-btn {
   min-width: 40px; min-height: 40px;
@@ -105,12 +106,47 @@ body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; background: var
 @media (min-width: 769px) {
   .screen { max-width: 680px; }
 }
+
+/* ===== SPLASH ===== */
+#splash {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  max-width: none; padding: 0; margin: 0;
+  justify-content: center; gap: 18px;
+  background: var(--bg); z-index: 20; cursor: pointer;
+}
+.splash-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 40px; font-weight: 900; color: var(--accent);
+  letter-spacing: 6px; text-transform: uppercase; text-align: center;
+  text-shadow: 0 0 30px rgba(0,188,212,0.5);
+  animation: splashSlide 0.5s ease 0.4s both;
+}
+.splash-sub { font-size: 13px; color: var(--text2); letter-spacing: 3px; animation: splashSlide 0.5s ease 0.6s both; }
+.splash-bar-wrap { width: 160px; height: 3px; background: var(--surface); border-radius: 2px; overflow: hidden; animation: splashSlide 0.5s ease 0.8s both; }
+.splash-bar { height: 100%; background: var(--accent); border-radius: 2px; animation: splashBarGrow 2s ease 0.8s both; }
+.splash-tap { font-size: 11px; color: var(--text2); letter-spacing: 2px; animation: blinkFade 1.2s ease 1.5s infinite; }
+@keyframes splashSlide { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes splashBarGrow { from { width: 0%; } to { width: 100%; } }
+@keyframes blinkFade { 0%,100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+
+/* ===== HOWTO ===== */
+#howto {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  max-width: none; padding: 60px 16px 36px; margin: 0;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  background: var(--bg); z-index: 15;
+}
+.scr-inner { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; gap: 16px; margin: 0 auto; }
+.scr-title { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: var(--accent); letter-spacing: 3px; text-align: center; }
+.how-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 7px; }
+.how-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 5px; flex-shrink: 0; }
+.how-item p { font-size: 12px; color: var(--text); line-height: 1.6; }
 </style>
 </head>
 <body>
 
 <!-- APP HEADER -->
-<div id="app-header">
+<div id="app-header" class="hidden">
   <nav class="breadcrumb">
     <a class="bc-home" href="../index.html">
       <span class="bc-arrow">&larr;</span>
@@ -120,13 +156,48 @@ body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; background: var
     <span class="bc-current">CONNECTIONS</span>
   </nav>
   <div class="hdr-right">
+    <button class="hdr-btn" id="btn-home" style="display:none">&#8962;</button>
     <button class="hdr-btn" id="langBtn">&#127471;&#127477;</button>
     <button class="hdr-btn" id="helpBtn">&#10067;</button>
   </div>
 </div>
 
-<!-- SETUP SCREEN -->
-<div id="section-setup" class="screen active">
+<!-- SPLASH SCREEN -->
+<div id="splash" class="screen active">
+  <div class="splash-logo">CONNECTIONS</div>
+  <div class="splash-sub" id="splash-sub">CONNECTION GAME</div>
+  <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+  <div class="splash-tap" id="splash-tap">タップでスキップ</div>
+</div>
+
+<!-- HOWTO SCREEN -->
+<div id="howto" class="screen">
+  <div class="scr-inner">
+    <div class="scr-title">CONNECTIONS</div>
+    <div class="panel">
+      <div class="lbl" id="how-s1">ゲームの目的</div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p1">赤は盤の上端と下端を、白は盤の左端と右端をバーでつなぐと勝ち。</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p2">相手の点や線を閉じたループで完全に囲んでも勝ち。</p></div>
+    </div>
+    <div class="panel">
+      <div class="lbl" id="how-s2">ルール</div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p3">交互に1本ずつバーを置く。各プレイヤーのバーは合計21本。</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p4">赤と白のバーが交差する位置には、どちらか1色しか置けない。</p></div>
+    </div>
+    <div class="panel">
+      <div class="lbl" id="how-s3">モード・難易度</div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p5">CPU対戦: AIと対戦。難易度3段階。</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p6">2人対戦: 同じ端末で交互にプレイ。</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p7">かんたん: ランダムに置く。</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p8">ふつう: 接続を優先して置く。</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p9">むずかしい: 先読みして最善手を探す。</p></div>
+    </div>
+    <button class="mainbtn" id="howto-next-btn">はじめる</button>
+  </div>
+</div>
+
+<!-- TITLE SCREEN -->
+<div id="title" class="screen">
   <div class="game-title-logo">CONNECTIONS</div>
   <div class="panel">
     <div class="lbl" id="modeLabel">対戦モード</div>
@@ -161,7 +232,7 @@ body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; background: var
 </div>
 
 <!-- GAME SCREEN -->
-<div id="section-game" class="screen">
+<div id="game" class="screen">
   <div id="hud">
     <div id="turnBox"><span id="turnDot"></span><span id="turnText"></span></div>
     <div id="barsBox"><span id="barsR"></span><br><span id="barsW"></span></div>
@@ -236,7 +307,22 @@ var TJA = {
   helpBody: "赤と白が交互にバーを1本ずつ置く。赤は上下の端をつなぐと勝ち。白は左右の端をつなぐと勝ち。同じ交差点に赤と白のバーは同時に置けない。相手の点や線を閉ループで完全に囲んでも勝ち。",
   closeBtn: "閉じる",
   redName: "赤",
-  whiteName: "白"
+  whiteName: "白",
+  howS1: "ゲームの目的",
+  howP1: "赤は盤の上端と下端を、白は盤の左端と右端をバーでつなぐと勝ち。",
+  howP2: "相手の点や線を閉じたループで完全に囲んでも勝ち。",
+  howS2: "ルール",
+  howP3: "交互に1本ずつバーを置く。各プレイヤーのバーは合計21本。",
+  howP4: "赤と白のバーが交差する位置には、どちらか1色しか置けない。",
+  howS3: "モード・難易度",
+  howP5: "CPU対戦: AIと対戦。難易度3段階。",
+  howP6: "2人対戦: 同じ端末で交互にプレイ。",
+  howP7: "かんたん: ランダムに置く。",
+  howP8: "ふつう: 接続を優先して置く。",
+  howP9: "むずかしい: 先読みして最善手を探す。",
+  howtoNext: "はじめる",
+  splashSub: "CONNECTION GAME",
+  splashTap: "タップでスキップ"
 };
 var TEN = {
   modeLabel: "Mode",
@@ -283,7 +369,22 @@ var TEN = {
   helpBody: "Players alternate placing one bar per turn. Red connects Top to Bottom, White connects Left to Right. Opposite-color bars cannot share the same crossing point. Encircling all opponent pieces with a closed loop also wins.",
   closeBtn: "Close",
   redName: "Red",
-  whiteName: "White"
+  whiteName: "White",
+  howS1: "Objective",
+  howP1: "Red wins by connecting the top and bottom edges with bars. White wins by connecting left and right.",
+  howP2: "Closing a loop that encircles the opponent's studs or bars also wins.",
+  howS2: "Rules",
+  howP3: "Players alternate placing one bar per turn. Each player has 21 bars total.",
+  howP4: "Where Red and White bars cross, only one color may occupy the crossing point.",
+  howS3: "Mode & Difficulty",
+  howP5: "vs CPU: Play against AI. 3 difficulty levels.",
+  howP6: "2 Players: Take turns on the same device.",
+  howP7: "Easy: Random moves.",
+  howP8: "Normal: Prioritizes connection.",
+  howP9: "Hard: Looks ahead for best moves.",
+  howtoNext: "Let's Play",
+  splashSub: "CONNECTION GAME",
+  splashTap: "Tap to skip"
 };
 
 function T(key){ return lang === "ja" ? (TJA[key] || key) : (TEN[key] || key); }
@@ -316,7 +417,64 @@ function applyLang(){
   $("btnResign").textContent = T("btnResign");
   $("btnBack").textContent = T("btnBack");
   $("goalNote").textContent = T("goalNote");
+  $("how-s1").textContent = T("howS1");
+  $("how-p1").textContent = T("howP1");
+  $("how-p2").textContent = T("howP2");
+  $("how-s2").textContent = T("howS2");
+  $("how-p3").textContent = T("howP3");
+  $("how-p4").textContent = T("howP4");
+  $("how-s3").textContent = T("howS3");
+  $("how-p5").textContent = T("howP5");
+  $("how-p6").textContent = T("howP6");
+  $("how-p7").textContent = T("howP7");
+  $("how-p8").textContent = T("howP8");
+  $("how-p9").textContent = T("howP9");
+  $("howto-next-btn").textContent = T("howtoNext");
+  $("splash-sub").textContent = T("splashSub");
+  $("splash-tap").textContent = T("splashTap");
   if(G){ renderHud(); }
+}
+
+// ===================== 画面管理 =====================
+var currentScreen = 'splash';
+var prevScreen = 'title';
+var SCREENS = ['splash', 'howto', 'title', 'game'];
+
+function showScreen(id) {
+  var i;
+  for(i = 0; i < SCREENS.length; i++) {
+    $(SCREENS[i]).classList.remove('active');
+  }
+  $(id).classList.add('active');
+  currentScreen = id;
+  $('btn-home').style.display = (id === 'game') ? '' : 'none';
+}
+
+function goToTitle() {
+  showScreen('title');
+}
+
+function openHowto(from) {
+  prevScreen = (from !== undefined) ? from : currentScreen;
+  showScreen('howto');
+  $('app-header').classList.remove('hidden');
+}
+
+function closeHowto() {
+  showScreen(prevScreen || 'title');
+}
+
+function handleSplash() {
+  if(currentScreen !== 'splash') { return; }
+  var seen = false;
+  try { seen = localStorage.getItem('connections_seen') === '1'; } catch(e) {}
+  if(!seen) {
+    try { localStorage.setItem('connections_seen', '1'); } catch(e) {}
+    openHowto('title');
+  } else {
+    showScreen('title');
+  }
+  $('app-header').classList.remove('hidden');
 }
 
 // ===================== ゲームロジック =====================
@@ -905,7 +1063,7 @@ function endGame(winner, reason){
 
 function startGame(){
   newGame();
-  showSection("game");
+  showScreen('game');
   setMsg("");
   renderAll();
   maybeCpu();
@@ -913,7 +1071,7 @@ function startGame(){
 
 function toSetup(){
   G = null;
-  showSection("setup");
+  showScreen('title');
 }
 
 // ===================== モーダル・画面切替 =====================
@@ -939,18 +1097,6 @@ function showModal(title, body, buttons){
 
 function hideModal(){
   $("modalOverlay").className = "";
-}
-
-function showSection(name){
-  var ids = ["section-setup", "section-game"], i, el;
-  for(i = 0; i < ids.length; i++){
-    el = $(ids[i]);
-    if(ids[i] === "section-" + name){
-      el.className = "screen active";
-    }else{
-      el.className = "screen";
-    }
-  }
 }
 
 function showHelp(){
@@ -1009,7 +1155,10 @@ function init(){
   bindOptGroup("grpFirst", "first");
   refreshSetup();
   $("langBtn").addEventListener("click", toggleLang);
-  $("helpBtn").addEventListener("click", showHelp);
+  $("helpBtn").addEventListener("click", function(){ openHowto(); });
+  $("btn-home").addEventListener("click", goToTitle);
+  $("splash").addEventListener("click", handleSplash);
+  $("howto-next-btn").addEventListener("click", closeHowto);
   $("btnStart").addEventListener("click", function(){ startGame(); });
   $("btnConfirm").addEventListener("click", function(){
     if(inputAllowed() && G.selected >= 0){
@@ -1039,6 +1188,7 @@ function init(){
       { label: T("cancel"), primary: false, fn: null }
     ]);
   });
+  setTimeout(function(){ if(currentScreen === 'splash'){ handleSplash(); } }, 2600);
 }
 
 if(document.readyState === "loading"){

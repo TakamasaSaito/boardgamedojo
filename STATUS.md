@@ -3,7 +3,7 @@
 最終更新: 2026-07-27
 
 ## 現状
-新ゲーム追加用テンプレート（`_template/index.html`）を正本化し、CLAUDE.md にチェックリスト（セクション11）を追記。テンプレートは16テスト全通過済み。CONNECTIONS の起動フロー欠落修正は Issue #27 で対応予定。
+CONNECTIONS (#27) に起動フロー（splash → howto 初回のみ → title → game）と btn-home を追加し、基準フォーマットに合わせた。全13ゲームが共通の起動フロー・ヘッダー仕様を満たしている。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -37,11 +37,9 @@
 
 ## 完了済み（追加分）
 - [x] 新ゲーム追加用テンプレート正本化: `_template/index.html` / CLAUDE.md セクション11 / `docs/decisions/001-game-template.md` 作成（2026-07-27, fixes #26）
+- [x] CONNECTIONS: 起動フロー（splash→howto初回→title→game）・btn-home 追加・遊び方JA/EN作成（2026-07-27, fixes #27）
 
 ## 残タスク（GitHub Issues）
-
-### 優先
-- [ ] CONNECTIONS: 起動フロー・ホーム復帰ボタン追加 → [#27](https://github.com/TakamasaSaito/boardgamedojo/issues/27)
 
 ### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
@@ -49,4 +47,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-CONNECTIONS 起動フロー修正 → [#27](https://github.com/TakamasaSaito/boardgamedojo/issues/27)
+Google Analytics 設定（全ファイル） → [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
