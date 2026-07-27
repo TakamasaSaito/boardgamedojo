@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f0f">
+<link rel="manifest" href="../manifest.json">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="icon" href="../favicon.ico">
+<title>GAME_NAME | BoardGameDojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ========== CSS変数 ========== */
+:root {
+  --bg:       #0f0f0f;
+  --surface:  #1a1a1a;
+  --surface2: #222222;
+  --accent:   #00bcd4;
+  --text:     #e0e0e0;
+  --text-dim: #888888;
+  --radius:   12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  background-color: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* ========== グローバルヘッダー ========== */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(15,15,15,0.97);
+  border-bottom: 1px solid rgba(0,188,212,0.15);
+}
+#app-header.hidden { display: none; }
+
+.hdr-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+.hdr-btn {
+  min-width: 40px; min-height: 40px;
+  background: transparent;
+  border: 1px solid rgba(0,188,212,0.25);
+  border-radius: var(--radius);
+  color: var(--text); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+}
+.hdr-btn:active { border-color: var(--accent); color: var(--accent); }
+
+/* パンくず */
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: var(--accent); white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* スマホ: "← BoardGameDojo" のみ / PC: "← BoardGameDojo | GAME_NAME" */
+.bc-full { display: none; }
+.bc-site { display: inline; }
+.bc-current { display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } .bc-current { display: inline; } }
+
+/* ========== 画面(screen)共通 ========== */
+.screen {
+  position: fixed; inset: 0;
+  display: none; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  background: var(--bg);
+  z-index: 10;
+  padding: 60px 16px 36px;
+}
+.screen.active { display: flex; }
+
+/* スプラッシュは中央寄せ、パディングなし */
+#splash { justify-content: center; padding: 0; gap: 18px; z-index: 999; cursor: pointer; }
+
+/* ========== スプラッシュ ========== */
+.splash-logo {
+  font-family: 'Orbitron', 'Noto Sans', sans-serif;
+  font-size: 40px; font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 6px; text-transform: uppercase; text-align: center;
+  text-shadow: 0 0 30px rgba(0,188,212,0.5);
+  animation: splashSlide 0.5s ease 0.4s both;
+}
+
+.splash-sub {
+  font-size: 13px; color: var(--text-dim); letter-spacing: 3px;
+  animation: splashSlide 0.5s ease 0.6s both;
+}
+
+@keyframes splashSlide {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.splash-bar-wrap {
+  width: 160px; height: 3px;
+  background: var(--surface2);
+  border-radius: 2px; overflow: hidden;
+  animation: splashSlide 0.5s ease 0.8s both;
+}
+.splash-bar {
+  height: 100%; background: var(--accent); border-radius: 2px;
+  animation: splashBarGrow 2s ease 0.8s both;
+}
+@keyframes splashBarGrow {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+.splash-tap {
+  font-size: 11px; color: var(--text-dim); letter-spacing: 2px;
+  animation: blinkFade 1.2s ease 1.5s infinite;
+}
+@keyframes blinkFade {
+  0%,100% { opacity: 0.3; }
+  50%     { opacity: 0.9; }
+}
+
+/* ========== 画面内コンテナ ========== */
+.scr-inner {
+  width: 100%; max-width: 380px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+
+.scr-title {
+  font-family: 'Orbitron', 'Noto Sans', sans-serif;
+  font-size: 24px; font-weight: 900;
+  color: var(--accent); letter-spacing: 3px; text-transform: uppercase; text-align: center;
+}
+
+.scr-sub { font-size: 12px; color: var(--text-dim); letter-spacing: 2px; margin-top: -8px; }
+
+/* ========== ボタン ========== */
+.btn-primary {
+  width: 100%; height: 52px;
+  border: none; border-radius: var(--radius);
+  background: var(--accent); color: #000;
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 1px;
+  box-shadow: 0 4px 16px rgba(0,188,212,0.35);
+}
+.btn-primary:active { opacity: 0.8; }
+
+.btn-outline {
+  width: 100%; height: 52px;
+  border: 1px solid rgba(0,188,212,0.4); border-radius: var(--radius);
+  background: transparent; color: var(--accent);
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 1px;
+}
+.btn-outline:active { border-color: var(--accent); background: rgba(0,188,212,0.08); }
+
+/* 難易度ボタン(3択トグル) */
+.diff-row { display: flex; gap: 7px; width: 100%; }
+.diff-btn {
+  flex: 1; height: 44px;
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;
+  background: var(--surface2); color: var(--text-dim);
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.diff-btn.active {
+  background: var(--accent); border-color: var(--accent); color: #000;
+  box-shadow: 0 3px 12px rgba(0,188,212,0.4);
+}
+
+/* セクションカード */
+.card {
+  width: 100%;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: 0 0 0 1px rgba(0,188,212,0.1);
+}
+.card-label {
+  font-size: 9px; font-weight: 700;
+  color: var(--accent); letter-spacing: 2.5px; text-transform: uppercase;
+  margin-bottom: 8px; padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0,188,212,0.2);
+}
+
+/* ========== 遊び方(howto)セクション ========== */
+.how-item {
+  display: flex; align-items: flex-start; gap: 10px; margin-bottom: 7px;
+}
+.how-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); margin-top: 5px; flex-shrink: 0;
+}
+.how-item p { font-size: 12px; color: var(--text); line-height: 1.6; }
+
+/* ========== PC最適化 ========== */
+@media (min-width: 769px) {
+  .scr-inner { max-width: 560px; }
+  #game-area { max-width: 560px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== グローバルヘッダー ===================== -->
+<!-- スプラッシュ時は hidden。handleSplash() で hidden を外す -->
+<div id="app-header" class="hidden">
+  <nav class="breadcrumb">
+    <a class="bc-home" href="../index.html">
+      <span class="bc-arrow">&larr;</span>
+      <span class="bc-site bc-full">BoardGameDojo</span>
+    </a>
+    <span class="bc-sep bc-full"> | </span>
+    <span class="bc-current">GAME_NAME</span>
+  </nav>
+  <div class="hdr-right">
+    <!-- ゲーム画面のみ表示。showScreen() で制御 -->
+    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
+    <button class="hdr-btn" onclick="openHowto()">&#x2753;</button>
+  </div>
+</div>
+
+<!-- ===================== SPLASH ===================== -->
+<!-- クリックで handleSplash() / 2600ms 後に自動スキップ -->
+<div id="splash" class="screen active" onclick="handleSplash()">
+  <div class="splash-logo">GAME_NAME</div>
+  <div class="splash-sub" id="splash-sub">サブタイトル</div>
+  <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+  <div class="splash-tap" id="splash-tap">タップでスキップ</div>
+</div>
+
+<!-- ===================== HOWTO ===================== -->
+<!-- 初回起動時のみ自動表示。❓ ボタンからも開ける -->
+<div id="howto" class="screen">
+  <div class="scr-inner">
+    <div class="scr-title">GAME_NAME</div>
+
+    <div class="card">
+      <div class="card-label" id="how-s1">ゲームの目的</div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p1">TODO: 勝利条件を書く</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p2">TODO: 補足ルールを書く</p></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label" id="how-s2">操作方法</div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p3">TODO: 操作説明を書く</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p4">TODO: 操作説明を書く</p></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label" id="how-s3">モード・難易度</div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p5">CPU対戦: AIと1人で対戦。難易度3段階。</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p6">2人対戦: 同じ端末で交互にプレイ。</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p7">かんたん: TODO</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p8">ふつう: TODO</p></div>
+      <div class="how-item"><div class="how-dot"></div><p id="how-p9">むずかしい: TODO</p></div>
+    </div>
+
+    <button class="btn-primary" id="howto-next-btn" onclick="closeHowto()">はじめる</button>
+  </div>
+</div>
+
+<!-- ===================== TITLE ===================== -->
+<!-- モード選択・難易度選択 -->
+<div id="title" class="screen">
+  <div class="scr-inner">
+    <div class="scr-title">GAME_NAME</div>
+    <div class="scr-sub" id="title-sub">サブタイトル</div>
+
+    <div class="card">
+      <div class="card-label" id="lbl-mode">対戦モード</div>
+      <div class="diff-row">
+        <button class="diff-btn active" id="btn-cpu" onclick="setMode('cpu')">CPU対戦</button>
+        <button class="diff-btn"        id="btn-2p"  onclick="setMode('2p')">2人対戦</button>
+      </div>
+    </div>
+
+    <div class="card" id="diff-card">
+      <div class="card-label" id="lbl-diff">難易度</div>
+      <div class="diff-row">
+        <button class="diff-btn active" id="btn-easy"   onclick="setDiff('easy')">かんたん</button>
+        <button class="diff-btn"        id="btn-normal" onclick="setDiff('normal')">ふつう</button>
+        <button class="diff-btn"        id="btn-hard"   onclick="setDiff('hard')">むずかしい</button>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="start-btn" onclick="startGame()">ゲーム開始</button>
+  </div>
+</div>
+
+<!-- ===================== GAME ===================== -->
+<!-- ゲームロジックのプレースホルダ。ここを実装で埋める -->
+<div id="game" class="screen">
+  <div id="game-area">
+
+    <!-- TODO: ステータス表示 -->
+    <div id="status-text" style="text-align:center;padding:12px;color:var(--text-dim);">ゲームエリア（プレースホルダ）</div>
+
+    <!-- TODO: 盤面 Canvas または DOM -->
+
+    <!-- TODO: リセットボタン等 -->
+    <button class="btn-outline" id="reset-btn" onclick="startGame()" style="margin-top:16px;">&#x1F504; リセット</button>
+
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   言語
+   ============================================================ */
+var lang = 'ja';
+
+var T = {
+  ja: {
+    splashSub:   'サブタイトル',  /* サブタイトル */
+    splashTap:   'タップでスキップ', /* タップでスキップ */
+    titleSub:    'サブタイトル',  /* サブタイトル */
+    howS1:       'ゲームの目的',  /* ゲームの目的 */
+    howP1:       'TODO: 勝利条件',        /* TODO: 勝利条件 */
+    howP2:       'TODO: 補足ルール',  /* TODO: 補足ルール */
+    howS2:       '操作方法',              /* 操作方法 */
+    howP3:       'TODO: 操作説明',        /* TODO: 操作説明 */
+    howP4:       'TODO: 操作説明',        /* TODO: 操作説明 */
+    howS3:       'モード・難易度', /* モード・難易度 */
+    howP5:       'CPU対戦: AIと対戦。難易度3段階。',
+    howP6:       '2人対戦: 同じ端末で交互にプレイ。',
+    howP7:       'かんたん: TODO',         /* かんたん */
+    howP8:       'ふつう: TODO',               /* ふつう */
+    howP9:       'むずかしい: TODO',   /* むずかしい */
+    howtoNext:   'はじめる',               /* はじめる */
+    lblMode:     '対戦モード',         /* 対戦モード */
+    btnCpu:      'CPU対戦',                        /* CPU対戦 */
+    btn2p:       '2人対戦',                    /* 2人対戦 */
+    lblDiff:     '難易度',                     /* 難易度 */
+    btnEasy:     'かんたん',               /* かんたん */
+    btnNormal:   'ふつう',                     /* ふつう */
+    btnHard:     'むずかしい',         /* むずかしい */
+    startBtn:    'ゲーム開始',         /* ゲーム開始 */
+    resetBtn:    '\uD83D\uDD04 リセット',
+    langBtn:     '\uD83C\uDDEF\uD83C\uDDF5'
+  },
+  en: {
+    splashSub:   'SUBTITLE',
+    splashTap:   'Tap to skip',
+    titleSub:    'Subtitle',
+    howS1:       'Objective',
+    howP1:       'TODO: Winning condition',
+    howP2:       'TODO: Additional rules',
+    howS2:       'Controls',
+    howP3:       'TODO: How to play',
+    howP4:       'TODO: How to play',
+    howS3:       'Mode & Difficulty',
+    howP5:       'vs CPU: Play against AI. 3 difficulty levels.',
+    howP6:       '2 Players: Take turns on the same device.',
+    howP7:       'Easy: TODO',
+    howP8:       'Normal: TODO',
+    howP9:       'Hard: TODO',
+    howtoNext:   "Let's Play",
+    lblMode:     'Game Mode',
+    btnCpu:      'vs CPU',
+    btn2p:       '2 Players',
+    lblDiff:     'Difficulty',
+    btnEasy:     'Easy',
+    btnNormal:   'Normal',
+    btnHard:     'Hard',
+    startBtn:    'Start',
+    resetBtn:    '\uD83D\uDD04 Reset',
+    langBtn:     '\uD83C\uDDFA\uD83C\uDDF8'  /* \uD83C\uDDFA\uD83C\uDDF8 */
+  }
+};
+
+function applyLang() {
+  var t = T[lang];
+  var el;
+  el = document.getElementById('splash-sub');    if (el) el.textContent = t.splashSub;
+  el = document.getElementById('splash-tap');    if (el) el.textContent = t.splashTap;
+  el = document.getElementById('title-sub');     if (el) el.textContent = t.titleSub;
+  el = document.getElementById('how-s1');        if (el) el.textContent = t.howS1;
+  el = document.getElementById('how-p1');        if (el) el.textContent = t.howP1;
+  el = document.getElementById('how-p2');        if (el) el.textContent = t.howP2;
+  el = document.getElementById('how-s2');        if (el) el.textContent = t.howS2;
+  el = document.getElementById('how-p3');        if (el) el.textContent = t.howP3;
+  el = document.getElementById('how-p4');        if (el) el.textContent = t.howP4;
+  el = document.getElementById('how-s3');        if (el) el.textContent = t.howS3;
+  el = document.getElementById('how-p5');        if (el) el.textContent = t.howP5;
+  el = document.getElementById('how-p6');        if (el) el.textContent = t.howP6;
+  el = document.getElementById('how-p7');        if (el) el.textContent = t.howP7;
+  el = document.getElementById('how-p8');        if (el) el.textContent = t.howP8;
+  el = document.getElementById('how-p9');        if (el) el.textContent = t.howP9;
+  el = document.getElementById('howto-next-btn'); if (el) el.textContent = t.howtoNext;
+  el = document.getElementById('lbl-mode');      if (el) el.textContent = t.lblMode;
+  el = document.getElementById('btn-cpu');       if (el) el.textContent = t.btnCpu;
+  el = document.getElementById('btn-2p');        if (el) el.textContent = t.btn2p;
+  el = document.getElementById('lbl-diff');      if (el) el.textContent = t.lblDiff;
+  el = document.getElementById('btn-easy');      if (el) el.textContent = t.btnEasy;
+  el = document.getElementById('btn-normal');    if (el) el.textContent = t.btnNormal;
+  el = document.getElementById('btn-hard');      if (el) el.textContent = t.btnHard;
+  el = document.getElementById('start-btn');     if (el) el.textContent = t.startBtn;
+  el = document.getElementById('reset-btn');     if (el) el.textContent = t.resetBtn;
+  el = document.getElementById('lang-btn');      if (el) el.textContent = t.langBtn;
+}
+
+function toggleLang() {
+  lang = (lang === 'ja') ? 'en' : 'ja';
+  applyLang();
+}
+
+/* ============================================================
+   画面管理
+   ============================================================ */
+var currentScreen = 'splash';
+var prevScreen = 'title';
+
+/* SCREENS リストはゲームに追加した画面 id をすべて列挙する */
+var SCREENS = ['splash', 'howto', 'title', 'game'];
+
+function showScreen(id) {
+  var i;
+  for (i = 0; i < SCREENS.length; i++) {
+    document.getElementById(SCREENS[i]).classList.remove('active');
+  }
+  document.getElementById(id).classList.add('active');
+  currentScreen = id;
+  /* ゲーム画面のときだけ ⌂ ボタンを表示 */
+  document.getElementById('btn-home').style.display = (id === 'game') ? '' : 'none';
+}
+
+/* ゲーム画面から タイトルへ戻る */
+function goToTitle() {
+  showScreen('title');
+}
+
+/* ❓ ボタン / 初回起動から遊び方を開く。from: 戻り先画面id */
+function openHowto(from) {
+  prevScreen = (from !== undefined) ? from : currentScreen;
+  showScreen('howto');
+  document.getElementById('app-header').classList.remove('hidden');
+}
+
+/* 「はじめる」ボタン / ✕ で prevScreen に戻る */
+function closeHowto() {
+  showScreen(prevScreen || 'title');
+}
+
+/* スプラッシュ → 初回は howto、2回目以降は title へ */
+function handleSplash() {
+  if (currentScreen !== 'splash') { return; }
+  var seen = false;
+  /* TODO: キー名を "GAMENAME_seen" から実際のゲーム名に変更する */
+  try { seen = localStorage.getItem('GAMENAME_seen') === '1'; } catch(e) {}
+  if (!seen) {
+    try { localStorage.setItem('GAMENAME_seen', '1'); } catch(e) {}
+    openHowto('title');
+  } else {
+    showScreen('title');
+  }
+  document.getElementById('app-header').classList.remove('hidden');
+}
+
+/* 2600ms 後に自動スキップ（バー完了に合わせた時間） */
+setTimeout(function() { if (currentScreen === 'splash') { handleSplash(); } }, 2600);
+
+/* ============================================================
+   ゲームロジック（プレースホルダ）
+   ============================================================ */
+
+/* TODO: ゲーム状態変数をここに追加 */
+var gameMode = 'cpu';
+var cpuDiff = 'easy';
+var cpuThinking = false;
+
+function setMode(m) {
+  gameMode = m;
+  var diffCard = document.getElementById('diff-card');
+  if (diffCard) diffCard.style.display = (m === 'cpu') ? '' : 'none';
+  var btns = ['btn-cpu', 'btn-2p'];
+  var vals = ['cpu', '2p'];
+  var i;
+  for (i = 0; i < btns.length; i++) {
+    var b = document.getElementById(btns[i]);
+    if (b) b.className = 'diff-btn' + (vals[i] === m ? ' active' : '');
+  }
+}
+
+function setDiff(d) {
+  cpuDiff = d;
+  var btns = ['btn-easy', 'btn-normal', 'btn-hard'];
+  var vals = ['easy', 'normal', 'hard'];
+  var i;
+  for (i = 0; i < btns.length; i++) {
+    var b = document.getElementById(btns[i]);
+    if (b) b.className = 'diff-btn' + (vals[i] === d ? ' active' : '');
+  }
+}
+
+function startGame() {
+  showScreen('game');
+  /* TODO: ゲーム初期化処理 */
+}
+
+/* ============================================================
+   サウンド (Web Audio API)
+   ============================================================ */
+var audioCtx = null;
+
+function playSound(type) {
+  try {
+    if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    var ctx = audioCtx;
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    if (type === 'select') {
+      osc.type = 'sine'; osc.frequency.value = 660;
+      gain.gain.setValueAtTime(0.18, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+      osc.start(); osc.stop(ctx.currentTime + 0.12);
+    } else if (type === 'place') {
+      osc.type = 'sine'; osc.frequency.value = 440;
+      gain.gain.setValueAtTime(0.22, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+      osc.start(); osc.stop(ctx.currentTime + 0.18);
+    } else if (type === 'win') {
+      osc.type = 'triangle'; osc.frequency.value = 523;
+      osc.frequency.setValueAtTime(523, ctx.currentTime);
+      osc.frequency.setValueAtTime(659, ctx.currentTime + 0.12);
+      osc.frequency.setValueAtTime(784, ctx.currentTime + 0.24);
+      gain.gain.setValueAtTime(0.25, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.48);
+      osc.start(); osc.stop(ctx.currentTime + 0.48);
+    }
+  } catch(e) {}
+}
+
+/* ============================================================
+   初期化
+   ============================================================ */
+applyLang();
+</script>
+</body>
+</html>

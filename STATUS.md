@@ -1,9 +1,9 @@
 # STATUS.md — ボードゲームアプリ集
 
-最終更新: 2026-07-25
+最終更新: 2026-07-27
 
 ## 現状
-アプリアイコン（盤面グリッドデザイン）を作成。apple-touch-icon・icon-192/512・favicon.ico を生成し、manifest.json と全13ファイルの head に追加済み。
+新ゲーム追加用テンプレート（`_template/index.html`）を正本化し、CLAUDE.md にチェックリスト（セクション11）を追記。テンプレートは16テスト全通過済み。CONNECTIONS の起動フロー欠落修正は Issue #27 で対応予定。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -35,7 +35,13 @@
 - [x] アプリアイコン作成・配置（盤面グリッドデザイン、apple-touch-icon/icon-192/icon-512/favicon.ico、manifest.json更新）（2026-07-24）
 - [x] 全ゲーム: スマホ幅ボタンテキスト折り返し解消（Onitamaのみ修正: .btn-group .btn {flex:1}追加）（2026-07-25, fixes #23）
 
+## 完了済み（追加分）
+- [x] 新ゲーム追加用テンプレート正本化: `_template/index.html` / CLAUDE.md セクション11 / `docs/decisions/001-game-template.md` 作成（2026-07-27, fixes #26）
+
 ## 残タスク（GitHub Issues）
+
+### 優先
+- [ ] CONNECTIONS: 起動フロー・ホーム復帰ボタン追加 → [#27](https://github.com/TakamasaSaito/boardgamedojo/issues/27)
 
 ### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
@@ -43,4 +49,4 @@
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
+CONNECTIONS 起動フロー修正 → [#27](https://github.com/TakamasaSaito/boardgamedojo/issues/27)

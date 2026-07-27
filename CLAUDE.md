@@ -129,3 +129,54 @@
 - 作業終了時は STATUS.md を必ず更新してコミットに含める
 - 新タスク発生時は Issue 起票を提案する
 - 方針変更時は該当ドキュメントを同時更新する
+
+## 11. 新ゲーム追加チェックリスト
+
+新ゲームを追加するときは `_template/index.html` を土台にする。
+テンプレート採用の背景・例外ゲーム一覧は `docs/decisions/001-game-template.md` を参照。
+
+### ファイル作成
+- [ ] `game-name/index.html` を `_template/index.html` からコピーして作成
+- [ ] `GAME_NAME` プレースホルダを実際のゲーム名に全置換
+- [ ] `GAMENAME_seen` を実際のゲーム名ベースのキー（例: `connections_seen`）に変更
+
+### 起動フロー（必須3点）
+- [ ] **splash → howto（初回のみ） → title → game** の遷移が動作する
+      ※ `localStorage.getItem('GAMENAME_seen')` で初回判定
+- [ ] **howto から閉じたとき `prevScreen` の画面に正しく戻る**
+      （❓ボタンからゲーム中に開いた場合は game へ、初回自動表示なら title へ）
+- [ ] **ゲーム画面（`id="game"`）のときだけ `#btn-home` が表示され、
+      クリックで `goToTitle()` が呼ばれる**
+      ※ `showScreen()` 内の `(id === 'game') ? '' : 'none'` で制御
+
+### ヘッダー・パンくず
+- [ ] `#app-header` が存在し、スプラッシュ時は `class="hidden"`、以降は `.hidden` 除去
+- [ ] パンくずに `← BoardGameDojo | ゲーム名` が入っている
+      ※ `.bc-full` クラスは `@media (min-width: 769px)` でのみ表示（スマホは「← BoardGameDojo」のみ）
+- [ ] 言語切替ボタン（🇯🇵/🇺🇸）が `#lang-btn` として存在する
+- [ ] ヘルプボタン（❓）が存在し `openHowto()` を呼ぶ
+
+### デザイン
+- [ ] CSS変数 `--bg / --surface / --surface2 / --accent / --text / --text-dim / --radius` を使用
+- [ ] 難易度表記は **「かんたん / ふつう / むずかしい」**（3段階固定・漢字・かな混在禁止）
+- [ ] フォント: Orbitron（ロゴ）+ Noto Sans JP（UI）
+
+### メタタグ（パス必須確認）
+- [ ] `manifest` / `apple-touch-icon` / `favicon.ico` のパスが **相対パス**（`../xxx`）
+      ※ ルート絶対パス（`/xxx`）禁止。理由: GitHub Pages サブディレクトリ配信では
+        `/` がリポジトリルートを指さない（Issue #24参照）
+
+### サウンド
+- [ ] `playSound()` が実装されており、最低限 `select` / `place`（or `move`） / `win` の3種が鳴る
+
+### ポータル（index.html）の更新
+- [ ] ゲームカードを追加（画像・タイトル・説明・リンク）
+- [ ] ゲーム数の表記を更新（例: `13 GAMES` → `14 GAMES`）
+- [ ] カテゴリの `count` を更新
+- [ ] 翻訳オブジェクト `T` にゲーム名・説明を追加（ja/en 両方）
+- [ ] `applyLang()` の更新箇所に新カードの文言を含める
+
+### セルフチェック（セクション5）
+- [ ] 禁止パターン grep でゼロ件確認（バッククォート・`async`・`await` 等）
+- [ ] JS 内絵文字検査（`\uXXXX` エスケープになっているか）
+- [ ] 統一仕様チェック（`#0f0f0f` / `#00bcd4` / 12px / 言語切替 / 難易度3表記 / サウンド）
