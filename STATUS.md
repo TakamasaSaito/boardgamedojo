@@ -1,9 +1,9 @@
 # STATUS.md — ボードゲームアプリ集
 
-最終更新: 2026-07-27
+最終更新: 2026-07-30
 
 ## 現状
-CONNECTIONS (#27) に起動フロー（splash → howto 初回のみ → title → game）と btn-home を追加し、基準フォーマットに合わせた。全13ゲームが共通の起動フロー・ヘッダー仕様を満たしている。
+hex・noccanocca・the-ONE の3ゲームに対し、各画面への埋め込みヘッダーを削除してグローバル固定 `#app-header` に集約した（#28-1）。btn-home の表示制御を `showScreen()` 内に移し、言語切替ボタンも単一 `lang-btn` に統一。`padding-top: 60px` でヘッダーオフセットを確保（テンプレート準拠）。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -38,6 +38,7 @@ CONNECTIONS (#27) に起動フロー（splash → howto 初回のみ → title �
 ## 完了済み（追加分）
 - [x] 新ゲーム追加用テンプレート正本化: `_template/index.html` / CLAUDE.md セクション11 / `docs/decisions/001-game-template.md` 作成（2026-07-27, fixes #26）
 - [x] CONNECTIONS: 起動フロー（splash→howto初回→title→game）・btn-home 追加・遊び方JA/EN作成（2026-07-27, fixes #27）
+- [x] hex・noccanocca・the-ONE: 各画面埋め込みヘッダーを削除しグローバル固定 `#app-header` に統一・`showScreen()` 内で btn-home 制御・lang-btn を単一化・padding-top 60px（テンプレート準拠）（2026-07-30, #28-1）
 
 ## 残タスク（GitHub Issues）
 

@@ -33,18 +33,16 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 .screen { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; flex-direction: column; overflow-y: auto; }
 .screen.active { display: flex; }
 
-/* HEADER */
-.header {
+/* GLOBAL HEADER */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 40;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 16px; background: var(--surface);
-  border-bottom: 1px solid #2a2a2a; flex-shrink: 0; min-height: 54px;
+  padding: 0 16px;
+  background: rgba(15,15,15,0.97);
+  border-bottom: 1px solid rgba(0,188,212,0.15);
 }
-.header-logo {
-  font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900;
-  color: var(--accent); letter-spacing: 3px; cursor: pointer;
-  text-shadow: 0 0 12px rgba(0,188,212,0.5);
-}
-a.header-logo { text-decoration: none; color: var(--accent); }
+#app-header.hidden { display: none; }
 .header-right { display: flex; gap: 8px; align-items: center; }
 .icon-btn {
   width: 44px; height: 44px; border-radius: 50%;
@@ -66,6 +64,9 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid #333; }
 .btn-sm { padding: 10px 18px; font-size: 14px; min-height: 44px; }
 .btn-full { width: 100%; }
+
+/* スプラッシュ以外は固定ヘッダー分オフセット */
+.screen:not(#splash-screen) { padding-top: 60px; }
 
 /* SPLASH */
 #splash-screen { background: var(--bg); align-items: center; justify-content: center; gap: 24px; }
@@ -182,6 +183,16 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 </head>
 <body>
 
+<!-- GLOBAL HEADER -->
+<div id="app-header" class="hidden">
+  <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
+  <div class="header-right">
+    <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
+    <button class="icon-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
+    <button class="icon-btn" onclick="openHowto()">&#x2753;</button>
+  </div>
+</div>
+
 <!-- SPLASH -->
 <div id="splash-screen" class="screen active">
   <div class="splash-logo">HEX</div>
@@ -191,13 +202,6 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 
 <!-- HOME -->
 <div id="home-screen" class="screen">
-  <div class="header">
-    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
-    <div class="header-right">
-      <button class="icon-btn" id="lb0" onclick="toggleLang()">🇯🇵</button>
-      <button class="icon-btn" onclick="openHowto()">？</button>
-    </div>
-  </div>
   <div class="home-body">
     <div class="home-title">HEX</div>
     <div class="home-sub" id="home-sub">CONNECTION STRATEGY GAME</div>
@@ -210,13 +214,6 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 
 <!-- DIFFICULTY -->
 <div id="mode-screen" class="screen">
-  <div class="header">
-    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
-    <div class="header-right">
-      <button class="icon-btn" id="lb1" onclick="toggleLang()">🇯🇵</button>
-      <button class="icon-btn" onclick="openHowto()">？</button>
-    </div>
-  </div>
   <div class="mode-body">
     <div class="mode-title" id="diff-title">難易度を選んでください</div>
     <div class="diff-grid">
@@ -242,14 +239,6 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 
 <!-- GAME -->
 <div id="game-screen" class="screen">
-  <div class="header">
-    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
-    <div class="header-right">
-      <button class="icon-btn" onclick="goToTitle()">&#8962;</button>
-      <button class="icon-btn" id="lb2" onclick="toggleLang()">🇯🇵</button>
-      <button class="icon-btn" onclick="openHowto()">？</button>
-    </div>
-  </div>
   <div class="game-body">
     <div class="info-bar">
       <div class="turn-badge">
@@ -275,12 +264,6 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 
 <!-- RESULT -->
 <div id="result-screen" class="screen">
-  <div class="header">
-    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
-    <div class="header-right">
-      <button class="icon-btn" id="lb3" onclick="toggleLang()">🇯🇵</button>
-    </div>
-  </div>
   <div class="result-body">
     <div class="result-icon" id="result-icon">🏆</div>
     <div class="result-msg" id="result-msg"></div>
@@ -294,14 +277,10 @@ a.header-logo { text-decoration: none; color: var(--accent); }
 
 <!-- HOW-TO -->
 <div id="howto-screen" class="screen">
-  <div class="header">
-    <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
-    <div class="header-right">
-      <button class="icon-btn" id="lb4" onclick="toggleLang()">🇯🇵</button>
-      <button class="btn btn-ghost btn-sm" id="btn-close-howto" onclick="closeHowto()">閉じる</button>
-    </div>
-  </div>
   <div class="howto-body" id="howto-body"></div>
+  <div style="padding: 12px 20px 20px; flex-shrink: 0;">
+    <button class="btn btn-ghost btn-sm btn-full" id="btn-close-howto" onclick="closeHowto()">閉じる</button>
+  </div>
 </div>
 
 <!-- SWAP MODAL -->
@@ -435,8 +414,8 @@ function tx(key) { return TEXTS[lang][key] || ''; }
 
 function applyLang() {
   var flag = lang === 'ja' ? '\uD83C\uDDEF\uD83C\uDDF5' : '\uD83C\uDDFA\uD83C\uDDF8';
-  var lbs = document.querySelectorAll('[id^="lb"]');
-  for (var i = 0; i < lbs.length; i++) lbs[i].textContent = flag;
+  var lb = document.getElementById('lang-btn');
+  if (lb) lb.textContent = flag;
   document.getElementById('splash-sub').textContent = tx('splashSub');
   document.getElementById('home-sub').textContent = tx('homeSub');
   document.getElementById('btn-solo').textContent = tx('btnSolo');
@@ -493,6 +472,8 @@ function showScreen(id) {
   var all = document.querySelectorAll('.screen');
   for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
   document.getElementById(id).classList.add('active');
+  var btnHome = document.getElementById('btn-home');
+  if (btnHome) btnHome.style.display = (id === 'game-screen') ? '' : 'none';
 }
 
 function goHome() { showScreen('home-screen'); }
@@ -971,6 +952,7 @@ function playSound(type) {
 // =====================
 renderHowto();
 setTimeout(function() {
+  document.getElementById('app-header').classList.remove('hidden');
   var seen = false;
   try { seen = localStorage.getItem("hex_seen") === "1"; } catch(e) {}
   if (!seen) {
