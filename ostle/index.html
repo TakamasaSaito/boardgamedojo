@@ -346,19 +346,17 @@ a.hdr-logo { text-decoration: none; color: var(--accent); }
   text-align: center;
   color: var(--accent);
 }
-.modal-rule-section { margin-bottom: 16px; }
-.modal-rule-section h3 {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--border);
-}
-.modal-rule-section p { font-size: 13px; line-height: 1.8; color: var(--text-dim); }
 .modal-box .btn { margin-top: 12px; }
+
+/* ===== HOWTO ===== */
+#howto { justify-content: flex-start; padding-top: 72px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.howto-inner { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
+.howto-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+.howto-h { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+.howto-p { font-size: 13px; line-height: 1.8; color: var(--text-dim); }
+.splash-tap { font-size: 11px; color: var(--text-dim); letter-spacing: 2px; margin-top: 24px; animation: blinkFade 1.2s ease 1.5s infinite; }
+@keyframes blinkFade { 0%,100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+@media (min-width: 769px) { .howto-inner { max-width: 520px; } }
 
 /* ===== WIN MODAL ===== */
 #win-modal .modal-box { text-align: center; }
@@ -410,14 +408,43 @@ a.hdr-logo { text-decoration: none; color: var(--accent); }
   <div class="hdr-right">
     <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
-    <button class="hdr-btn" onclick="showHelp()">&#x2753;</button>
+    <button class="hdr-btn" onclick="openHowto()">&#x2753;</button>
   </div>
 </div>
 
 <!-- ===== SPLASH ===== -->
-<div id="splash" class="screen active">
+<div id="splash" class="screen active" onclick="handleSplash()">
   <div class="logo">OSTLE</div>
   <div class="tagline">PUSH &middot; FALL &middot; WIN</div>
+  <div class="splash-tap" id="splash-tap">タップでスタート</div>
+</div>
+
+<!-- ===== HOWTO ===== -->
+<div id="howto" class="screen">
+  <div class="howto-inner">
+    <div class="screen-title">OSTLE</div>
+    <div class="howto-card">
+      <div class="howto-h" id="h-s1">目的</div>
+      <p class="howto-p" id="h-p1">相手の駒を2個除去したら勝ち。</p>
+    </div>
+    <div class="howto-card">
+      <div class="howto-h" id="h-s2">手番でできること</div>
+      <p class="howto-p" id="h-p2">自分の駒か、穴コマを上下左右に1マス動かす。</p>
+    </div>
+    <div class="howto-card">
+      <div class="howto-h" id="h-s3">押し出し</div>
+      <p class="howto-p" id="h-p3">駒の進行方向に別の駒がある場合、連続して押し出せる。盤外に出た駒は除去される。</p>
+    </div>
+    <div class="howto-card">
+      <div class="howto-h" id="h-s4">穴コマ</div>
+      <p class="howto-p" id="h-p4">両プレイヤーが動かせる共有コマ。空きマスにしか動けず、他の駒を押せない。駒が穴の上に押し込まれると除去される。</p>
+    </div>
+    <div class="howto-card">
+      <div class="howto-h" id="h-s5">注意</div>
+      <p class="howto-p" id="h-p5">自分の駒も除去される場合がある。同じ手が3回繰り返されると禁止される。</p>
+    </div>
+    <button class="btn btn-primary" id="howto-next-btn" onclick="closeHowto()">はじめる</button>
+  </div>
 </div>
 
 <!-- ===== TITLE ===== -->
@@ -453,34 +480,6 @@ a.hdr-logo { text-decoration: none; color: var(--accent); }
   <div class="game-footer">
     <button class="btn" id="btn-undo" onclick="undoMove()">&#24453;&#12387;&#305;&#305;</button>
     <button class="btn" id="btn-reset" onclick="resetGame()">&#26368;&#21021;&#304;&#12363;&#12425;</button>
-  </div>
-</div>
-
-<!-- ===== HELP MODAL ===== -->
-<div class="modal-overlay" id="help-modal">
-  <div class="modal-box">
-    <h2 id="help-title">&#12523;&#12540;&#12523;</h2>
-    <div class="modal-rule-section">
-      <h3 id="help-goal-h">&#30446;&#30340;</h3>
-      <p id="help-goal">&#30456;&#25163;&#12398;&#39340;&#12434;2&#20491;&#38500;&#21435;&#12375;&#305;&#12383;&#12425;&#21213;&#12385;&#12290;</p>
-    </div>
-    <div class="modal-rule-section">
-      <h3 id="help-move-h">&#25163;&#30058;&#12391;&#12391;&#304;&#12427;&#12371;&#12392;</h3>
-      <p id="help-move">&#33258;&#20998;&#12398;&#39340;&#304;&#12289;&#31348;&#12467;&#12510;&#12434;&#19978;&#19979;&#24038;&#21491;&#306B;1&#12510;&#12473;&#21205;&#304;&#12377;&#12290;</p>
-    </div>
-    <div class="modal-rule-section">
-      <h3 id="help-push-h">&#25276;&#12375;&#20986;&#12375;</h3>
-      <p id="help-push">&#39340;&#12398;&#36914;&#34892;&#26041;&#21521;&#306B;&#21029;&#12398;&#39340;&#304;&#12354;&#308B;&#22580;&#21512;&#12289;&#36899;&#32396;&#12375;&#12390;&#25276;&#12375;&#20986;&#305;&#12379;&#308B;&#12290;&#30436;&#22806;&#306B;&#25276;&#12375;&#20986;&#12373;&#308C;&#305;&#12383;&#39340;&#306F;&#38500;&#21435;&#12373;&#308C;&#308B;&#12290;</p>
-    </div>
-    <div class="modal-rule-section">
-      <h3 id="help-hole-h">&#31348;&#12467;&#12510;</h3>
-      <p id="help-hole">&#20001;&#12503;&#12524;&#12452;&#12516;&#12540;&#304;&#21205;&#304;&#12379;&#308B;&#20849;&#26377;&#12467;&#12510;&#12290;&#31354;&#12365;&#12510;&#12473;&#306B;&#12375;&#304;&#21205;&#12369;&#12378;&#12289;&#20182;&#12398;&#39340;&#12434;&#25276;&#305;&#12379;&#12394;&#12356;&#12290;&#39340;&#304;&#31348;&#306E;&#19978;&#306B;&#25276;&#12375;&#36796;&#12414;&#12428;&#308B;&#12392;&#38500;&#21435;&#12373;&#12428;&#308B;&#12290;</p>
-    </div>
-    <div class="modal-rule-section">
-      <h3 id="help-warn-h">&#27880;&#24847;</h3>
-      <p id="help-warn">&#33258;&#20998;&#12398;&#39340;&#12418;&#38500;&#21435;&#12373;&#308C;&#308B;&#22580;&#21512;&#304;&#12354;&#308B;&#12290;&#21516;&#12376;&#25163;&#304;3&#22238;&#32繰;&#12426;&#36820;&#12373;&#308C;&#308B;&#12392;&#31105;&#27490;&#12373;&#308C;&#308B;&#12290;</p>
-    </div>
-    <button class="btn" id="btn-help-close" onclick="closeHelp()">&#38281;&#12376;&#308B;</button>
   </div>
 </div>
 
@@ -520,18 +519,18 @@ var T = {
     btn_undo:     "待った",
     btn_reset:    "最初から",
     btn_menu:     "メニュー",
-    help_title:   "ルール",
-    help_goal_h:  "目的",
-    help_goal:    "相手の駒を2個除去したら勝ち。",
-    help_move_h:  "手番でできること",
-    help_move:    "自分の駒か、穴コマを上下左右に1マス動かす。",
-    help_push_h:  "押し出し",
-    help_push:    "駒の進行方向に別の駒がある場合、連続して押し出せる。盤外に出た駒は除去される。",
-    help_hole_h:  "穴コマ",
-    help_hole:    "両プレイヤーが動かせる共有コマ。空きマスにしか動けず、他の駒を押せない。駒が穴の上に押し込まれると除去される。",
-    help_warn_h:  "注意",
-    help_warn:    "自分の駒も除去される場合がある。同じ手が3回繰り辺されると禁止される。",
-    help_close:   "閉じる",
+    splash_tap:  "タップでスタート",
+    howto_s1:   "目的",
+    howto_p1:   "相手の駒を2個除去したら勝ち。",
+    howto_s2:   "手番でできること",
+    howto_p2:   "自分の駒か、穴コマを上下左右に1マス動かす。",
+    howto_s3:   "押し出し",
+    howto_p3:   "駒の進行方向に別の駒がある場合、連続して押し出せる。盤外に出た駒は除去される。",
+    howto_s4:   "穴コマ",
+    howto_p4:   "両プレイヤーが動かせる共有コマ。空きマスにしか動けず、他の駒を押せない。駒が穴の上に押し込まれると除去される。",
+    howto_s5:   "注意",
+    howto_p5:   "自分の駒も除去される場合がある。同じ手が3回繰り返されると禁止される。",
+    howto_next: "はじめる",
     cpu_wins:     "CPUの勝利！",
     you_win:      "あなたの勝利！",
     p1_wins:      "P1の勝利！",
@@ -559,18 +558,18 @@ var T = {
     btn_undo:     "Undo",
     btn_reset:    "Restart",
     btn_menu:     "Menu",
-    help_title:   "RULES",
-    help_goal_h:  "GOAL",
-    help_goal:    "Remove 2 of your opponent's pieces to win.",
-    help_move_h:  "YOUR TURN",
-    help_move:    "Move one of your pieces or the hole piece one step up/down/left/right.",
-    help_push_h:  "PUSHING",
-    help_push:    "You can push a chain of pieces in your direction. Pieces pushed off the board are removed.",
-    help_hole_h:  "HOLE PIECE",
-    help_hole:    "A shared piece both players can move. Can only move to empty cells and cannot push pieces. A piece pushed onto the hole is removed.",
-    help_warn_h:  "NOTE",
-    help_warn:    "Your own pieces can also be removed. Repeating the same move 3 times forbids it.",
-    help_close:   "Close",
+    splash_tap:  "TAP TO START",
+    howto_s1:   "GOAL",
+    howto_p1:   "Remove 2 of your opponent's pieces to win.",
+    howto_s2:   "YOUR TURN",
+    howto_p2:   "Move one of your pieces or the hole piece one step up/down/left/right.",
+    howto_s3:   "PUSHING",
+    howto_p3:   "You can push a chain of pieces in your direction. Pieces pushed off the board are removed.",
+    howto_s4:   "HOLE PIECE",
+    howto_p4:   "A shared piece both players can move. Can only move to empty cells and cannot push pieces. A piece pushed onto the hole is removed.",
+    howto_s5:   "NOTE",
+    howto_p5:   "Your own pieces can also be removed. Repeating the same move 3 times forbids it.",
+    howto_next: "Let's Play",
     cpu_wins:     "CPU Wins!",
     you_win:      "You Win!",
     p1_wins:      "P1 Wins!",
@@ -607,18 +606,18 @@ function applyLang() {
   el = document.getElementById("label-p2");        if (el) el.textContent = t.label_p2;
   el = document.getElementById("btn-undo");        if (el) el.textContent = t.btn_undo;
   el = document.getElementById("btn-reset");       if (el) el.textContent = t.btn_reset;
-  el = document.getElementById("help-title");      if (el) el.textContent = t.help_title;
-  el = document.getElementById("help-goal-h");     if (el) el.textContent = t.help_goal_h;
-  el = document.getElementById("help-goal");       if (el) el.textContent = t.help_goal;
-  el = document.getElementById("help-move-h");     if (el) el.textContent = t.help_move_h;
-  el = document.getElementById("help-move");       if (el) el.textContent = t.help_move;
-  el = document.getElementById("help-push-h");     if (el) el.textContent = t.help_push_h;
-  el = document.getElementById("help-push");       if (el) el.textContent = t.help_push;
-  el = document.getElementById("help-hole-h");     if (el) el.textContent = t.help_hole_h;
-  el = document.getElementById("help-hole");       if (el) el.textContent = t.help_hole;
-  el = document.getElementById("help-warn-h");     if (el) el.textContent = t.help_warn_h;
-  el = document.getElementById("help-warn");       if (el) el.textContent = t.help_warn;
-  el = document.getElementById("btn-help-close");  if (el) el.textContent = t.help_close;
+  el = document.getElementById("splash-tap");      if (el) el.textContent = t.splash_tap;
+  el = document.getElementById("h-s1");            if (el) el.textContent = t.howto_s1;
+  el = document.getElementById("h-p1");            if (el) el.textContent = t.howto_p1;
+  el = document.getElementById("h-s2");            if (el) el.textContent = t.howto_s2;
+  el = document.getElementById("h-p2");            if (el) el.textContent = t.howto_p2;
+  el = document.getElementById("h-s3");            if (el) el.textContent = t.howto_s3;
+  el = document.getElementById("h-p3");            if (el) el.textContent = t.howto_p3;
+  el = document.getElementById("h-s4");            if (el) el.textContent = t.howto_s4;
+  el = document.getElementById("h-p4");            if (el) el.textContent = t.howto_p4;
+  el = document.getElementById("h-s5");            if (el) el.textContent = t.howto_s5;
+  el = document.getElementById("h-p5");            if (el) el.textContent = t.howto_p5;
+  el = document.getElementById("howto-next-btn");  if (el) el.textContent = t.howto_next;
   el = document.getElementById("btn-retry");       if (el) el.textContent = t.btn_retry;
   el = document.getElementById("btn-win-title");   if (el) el.textContent = t.btn_win_title;
   el = document.getElementById("forbidden-text");  if (el) el.textContent = t.forbidden;
@@ -637,11 +636,32 @@ function showScreen(id) {
 }
 function goToTitle() { goTitle(); }
 
-function showHelp() {
-  document.getElementById('help-modal').classList.add('active');
+var prevScreen = 'title';
+function openHowto(from) {
+  if (from !== undefined) {
+    prevScreen = from;
+  } else {
+    var cur = document.querySelector('.screen.active');
+    prevScreen = cur ? cur.id : 'title';
+  }
+  showScreen('howto');
+  document.getElementById('app-header').classList.remove('hidden');
 }
-function closeHelp() {
-  document.getElementById('help-modal').classList.remove('active');
+function closeHowto() {
+  showScreen(prevScreen);
+}
+function handleSplash() {
+  var splashEl = document.getElementById('splash');
+  if (!splashEl || !splashEl.classList.contains('active')) { return; }
+  document.getElementById('app-header').classList.remove('hidden');
+  var seen = false;
+  try { seen = localStorage.getItem('ostle_seen') === '1'; } catch(e) {}
+  if (!seen) {
+    try { localStorage.setItem('ostle_seen', '1'); } catch(e) {}
+    openHowto('title');
+  } else {
+    showScreen('title');
+  }
 }
 
 // ===== GAME CONSTANTS =====
@@ -1217,10 +1237,7 @@ function playSound(type) {
 // ===== INIT =====
 window.addEventListener('load', function() {
   applyLang();
-  setTimeout(function() {
-    showScreen('title');
-    document.getElementById('app-header').classList.remove('hidden');
-  }, 1800);
+  setTimeout(function() { handleSplash(); }, 1800);
 });
 </script>
 </body>

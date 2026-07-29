@@ -682,6 +682,7 @@ function closeHowto() {
 }
 
 function handleSplash() {
+  if (currentScreen !== "splash") { return; }
   var seen = false;
   try { seen = localStorage.getItem("egg_seen") === "1"; } catch(e) {}
   if (!seen) {
@@ -692,6 +693,7 @@ function handleSplash() {
     document.getElementById("app-header").classList.remove("hidden");
   }
 }
+setTimeout(function() { if (currentScreen === "splash") { handleSplash(); } }, 2600);
 
 /* ---- 難易度選択 ---- */
 function setDiff(d) {

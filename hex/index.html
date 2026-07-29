@@ -194,7 +194,7 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 </div>
 
 <!-- SPLASH -->
-<div id="splash-screen" class="screen active">
+<div id="splash-screen" class="screen active" onclick="handleSplash()">
   <div class="splash-logo">HEX</div>
   <div class="splash-sub" id="splash-sub">六角形連結ゲーム</div>
   <div class="spinner"></div>
@@ -951,18 +951,21 @@ function playSound(type) {
 // Init
 // =====================
 renderHowto();
-setTimeout(function() {
+function handleSplash() {
+  var splashEl = document.getElementById('splash-screen');
+  if (!splashEl || !splashEl.classList.contains('active')) { return; }
   document.getElementById('app-header').classList.remove('hidden');
   var seen = false;
-  try { seen = localStorage.getItem("hex_seen") === "1"; } catch(e) {}
+  try { seen = localStorage.getItem('hex_seen') === '1'; } catch(e) {}
   if (!seen) {
-    try { localStorage.setItem("hex_seen", "1"); } catch(e) {}
+    try { localStorage.setItem('hex_seen', '1'); } catch(e) {}
     prevScreen = 'home-screen';
     showScreen('howto-screen');
   } else {
     showScreen('home-screen');
   }
-}, 2200);
+}
+setTimeout(function() { handleSplash(); }, 2200);
 </script>
 </body>
 </html>

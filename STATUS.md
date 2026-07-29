@@ -3,7 +3,7 @@
 最終更新: 2026-07-30
 
 ## 現状
-hive・vidro のスプラッシュを独自div+opacity fade から `.screen.active` 方式に統一した（#28-2）。hive・quridor の `:root` に標準CSS変数セット（`--surface` / `--surface2` / `--text-dim` / `--radius`）を追加し、hive は CSS 内の直値を変数参照に置換。vidro はフェード演出を維持（`.hide` クラスで opacity 0.6s → `classList.remove('active')`）。
+egg・hex・ostle の3ゲームについて、スプラッシュ後遷移を localStorage 初回判定方式に統一した（#28-3）。egg は `handleSplash()` に二重呼び出しガードと自動スキップ timeout を追加。hex は `handleSplash()` 関数を新設してタップスキップに対応。ostle は howto スクリーンを新設（既存 help モーダルを削除・統合）、`openHowto()` / `closeHowto()` / `handleSplash()` を追加して `ostle_seen` による初回判定フローを実装。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
