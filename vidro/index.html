@@ -118,7 +118,8 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
 .hdr-btn{min-width:40px;min-height:40px;background:transparent;border:1px solid rgba(0,188,212,0.3);border-radius:12px;color:#888;font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
 .hdr-btn:active{border-color:#00bcd4;color:#00bcd4;}
 /* SPLASH */
-#splash{position:fixed;inset:0;background:#0f0f0f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:500;transition:opacity 0.6s ease;}
+#splash{position:fixed;inset:0;background:#0f0f0f;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:500;transition:opacity 0.6s ease;}
+#splash.active{display:flex;}
 #splash.hide{opacity:0;pointer-events:none;}
 #splash-logo{font-size:clamp(56px,18vw,88px);font-weight:900;letter-spacing:10px;color:#e0e0e0;text-shadow:0 0 40px rgba(0,188,212,0.6);opacity:0;animation:splash-in 0.8s 0.3s ease forwards;}
 #splash-logo span{color:#f0d080;}
@@ -178,7 +179,7 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
 </div>
 
 <!-- SPLASH -->
-<div id="splash">
+<div id="splash" class="active">
   <div id="splash-marbles">
     <div class="sp-marble red"></div>
     <div class="sp-marble yellow"></div>
@@ -482,7 +483,8 @@ var howtoEl=document.getElementById('howto-screen');
 function showHowto(){
   splashEl.classList.add('hide');
   setTimeout(function(){
-    splashEl.style.display='none';
+    splashEl.classList.remove('active');
+    splashEl.classList.remove('hide');
     document.getElementById('app-header').classList.remove('hidden');
     var seen=false;
     try{seen=localStorage.getItem('vidro_seen')==='1';}catch(e){}
