@@ -406,6 +406,8 @@ footer {
 
 <footer>
   <span id="footer-copy">&copy; 2025 BoardGameDojo</span>
+  &nbsp;&middot;&nbsp;
+  <a href="privacy.html" id="footer-privacy" style="color:#3a3a3a;text-decoration:none;">&#12503;&#12521;&#12452;&#12496;&#12471;&#12540;&#12509;&#12522;&#12471;&#12540;</a>
 </footer>
 
 <script>
@@ -432,7 +434,8 @@ var TJA = {
   dOn:  "移動カードで師を動かし、相手の師を倒す",
   dQr:  "壁を建てながら相手陣地へ一番乗りを目指す",
   dNn:  "乗り上げながら相手の初期配置列に到達せよ",
-  dOs:  "駒を押し合って相手の駒を2個盤外に落としたら勝ち"
+  dOs:  "駒を押し合って相手の駒を2個盤外に落としたら勝ち",
+  privacyLink: "プライバシーポリシー"
 };
 
 var TEN = {
@@ -456,7 +459,8 @@ var TEN = {
   dOn:  "Move your Master with technique cards to defeat the foe",
   dQr:  "Race across — place walls to block your opponent",
   dNn:  "Stack on pieces and reach the opponent’s starting row",
-  dOs:  "Push pieces off the board — knock out 2 to win"
+  dOs:  "Push pieces off the board — knock out 2 to win",
+  privacyLink: "Privacy Policy"
 };
 
 function t(key) { return lang === "ja" ? (TJA[key] || key) : (TEN[key] || key); }
@@ -475,12 +479,14 @@ function applyLang() {
               "n-dg",
               "d-c4","d-vi","d-eg","d-dg","d-hx","d-cn",
               "d-hi","d-qu","d-to",
-              "d-on","d-qr","d-nn","d-os"];
+              "d-on","d-qr","d-nn","d-os",
+              "footer-privacy"];
   var keys = ["catch","sub","chipFree","chipDl","catA","catB","catC",
               "nDg",
               "dC4","dVi","dEg","dDg","dHx","dCn",
               "dHi","dQu","dTo",
-              "dOn","dQr","dNn","dOs"];
+              "dOn","dQr","dNn","dOs",
+              "privacyLink"];
   for (var i = 0; i < ids.length; i++) {
     var el = document.getElementById(ids[i]);
     if (el) el.textContent = t(keys[i]);

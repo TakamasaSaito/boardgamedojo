@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f0f">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.ico">
+<title>&#12503;&#12521;&#12452;&#12496;&#12471;&#12540;&#12509;&#12522;&#12471;&#12540; | BoardGameDojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0f0f0f;
+  --surface:  #1a1a1a;
+  --surface2: #222222;
+  --accent:   #00bcd4;
+  --text:     #e0e0e0;
+  --text-dim: #888888;
+  --radius:   12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  background-color: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* ========== グローバルヘッダー ========== */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(15,15,15,0.97);
+  border-bottom: 1px solid rgba(0,188,212,0.15);
+}
+
+.hdr-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+.hdr-btn {
+  min-width: 40px; min-height: 40px;
+  background: transparent;
+  border: 1px solid rgba(0,188,212,0.25);
+  border-radius: var(--radius);
+  color: var(--text); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+}
+.hdr-btn:active { border-color: var(--accent); color: var(--accent); }
+
+/* パンくず */
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: var(--accent); white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } .bc-current { display: inline; } }
+
+/* ========== コンテンツ ========== */
+.page-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 20px 64px;
+}
+
+.page-logo {
+  font-family: 'Orbitron', 'Noto Sans', sans-serif;
+  font-size: 11px; font-weight: 700;
+  color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.page-title {
+  font-size: 22px; font-weight: 900;
+  color: var(--text); letter-spacing: 0.5px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,188,212,0.2);
+  margin-bottom: 36px;
+}
+
+/* セクション */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px; text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,188,212,0.15);
+  margin-bottom: 14px;
+}
+
+.section p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.9;
+  margin-bottom: 12px;
+}
+
+.section p:last-child { margin-bottom: 0; }
+
+.section a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.section a:hover { text-decoration: underline; }
+
+/* メモボックス */
+.note-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,188,212,0.12);
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.85;
+  margin-top: 12px;
+}
+
+/* フッター */
+footer {
+  text-align: center;
+  padding: 24px 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 11px;
+  color: #3a3a3a;
+  letter-spacing: 1px;
+}
+
+/* ========== PC最適化 ========== */
+@media (min-width: 769px) {
+  .page-wrap { max-width: 760px; padding: 80px 48px 80px; }
+  .page-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== グローバルヘッダー ===================== -->
+<div id="app-header">
+  <nav class="breadcrumb">
+    <a class="bc-home" href="index.html">
+      <span class="bc-arrow">&larr;</span>
+      <span class="bc-site">BoardGameDojo</span>
+    </a>
+    <span class="bc-sep bc-full"> | </span>
+    <span class="bc-current" id="bc-label">&#12503;&#12521;&#12452;&#12496;&#12471;&#12540;&#12509;&#12522;&#12471;&#12540;</span>
+  </nav>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
+  </div>
+</div>
+
+<!-- ===================== コンテンツ ===================== -->
+<div class="page-wrap">
+
+  <div class="page-logo">BoardGameDojo</div>
+  <h1 class="page-title" id="page-title">&#12503;&#12521;&#12452;&#12496;&#12471;&#12540;&#12509;&#12522;&#12471;&#12540;</h1>
+
+  <!-- 1. 運営者 -->
+  <section class="section">
+    <div class="section-title" id="sec1-title">&#36939;&#21942;&#32773;&#12395;&#12388;&#12356;&#12390;</div>
+    <p id="sec1-body"></p>
+  </section>
+
+  <!-- 2. アクセス解析 -->
+  <section class="section">
+    <div class="section-title" id="sec2-title">&#12450;&#12463;&#12475;&#12473;&#35299;&#26512;&#65288;Google Analytics&#65289;</div>
+    <p id="sec2-body1"></p>
+    <p>
+      <span id="sec2-link-pre"></span><a href="https://policies.google.com/privacy" target="_blank" rel="noopener" id="sec2-link1-text"></a><span id="sec2-link-mid"></span><a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" id="sec2-link2-text"></a><span id="sec2-link-post"></span>
+    </p>
+  </section>
+
+  <!-- 3. localStorage -->
+  <section class="section">
+    <div class="section-title" id="sec3-title">localStorage &#21033;&#29992;&#12395;&#12388;&#12356;&#12390;</div>
+    <p id="sec3-body1"></p>
+    <div class="note-box" id="sec3-note"></div>
+  </section>
+
+  <!-- 4. 免責事項 -->
+  <section class="section">
+    <div class="section-title" id="sec4-title">&#20253;&#36867;&#20107;&#39;&#39;&#12395;&#12388;&#12356;&#12390;</div>
+    <p id="sec4-body"></p>
+  </section>
+
+  <!-- 5. 制定日・改定方針 -->
+  <section class="section">
+    <div class="section-title" id="sec5-title">&#21046;&#23450;&#26085;&#12539;&#25913;&#23450;&#26041;&#37341;</div>
+    <p id="sec5-body"></p>
+  </section>
+
+</div>
+
+<footer>
+  <span>&copy; 2025 BoardGameDojo</span>
+</footer>
+
+<script>
+var lang = 'ja';
+
+var T = {
+  ja: {
+    pageTitle:    'プライバシーポリシー',
+    bcLabel:      'プライバシーポリシー',
+    sec1Title:    '運営者について',
+    sec1Body:     'BoardGameDojo は個人が無償で開発・運営するブラウザ向けボードゲームアプリ集です。会員登録・ログイン・ユーザーデータのサーバー保存は一切行っていません。',
+    sec2Title:    'アクセス解析（Google Analytics）',
+    sec2Body1:    '本サイトでは、アクセス解析に Google Analytics を利用する予定です。Google Analytics は Cookie を使用してトラフィックデータ（ページ閲覧数・アクセス元の地域など）を匿名で収集します。収集されたデータは個人を特定できる情報を含まず、Google 社のサーバーに送信されたのち Google 社の規約に基づき取り扱われます。',
+    sec2LinkPre:  'Google Analytics のデータ利用については、',
+    sec2Link1:    'Google プライバシーポリシー',
+    sec2LinkMid:  'をご覧ください。計測を無効化する場合は、ブラウザの Cookie 設定から Google Analytics 用の Cookie を無効にするか、',
+    sec2Link2:    'Google Analytics オプトアウト アドオン',
+    sec2LinkPost: 'をご利用ください。',
+    sec3Title:    'localStorage 利用について',
+    sec3Body1:    '13 タイトル中 11 タイトルのゲームでは、初回訪問時に「遊び方画面」を自動表示するために、ブラウザの localStorage に訪問済みフラグ（例："connect4_seen"）を保存します。このデータはお使いのデバイス内にのみ保存され、外部への送信は一切ありません。',
+    sec3Note:     '「設定 → Safari / ブラウザ → 履歴と Web サイトデータを消去」から削除できます。削除してもゲームの動作に支障はなく、初回訪問画面が再び表示されるようになるだけです。',
+    sec4Title:    '免責事項について',
+    sec4Body:     '本サイトのコンテンツは正確な情報の提供に努めますが、文字・ルール・動作に誤りや不備が含まれる可能性を完全には排除できません。本サイトの利用や閲覧に起因するいかなる損害についても、運営者は一切の責任を負いません。',
+    sec5Title:    '制定日・改定方針',
+    sec5Body:     '本ポリシーは 2026年7月30日に制定しました。内容を改定する場合は、本ページ上に改定日と改定内容を明示します。',
+    langBtn:      '\uD83C\uDDEF\uD83C\uDDF5'
+  },
+  en: {
+    pageTitle:    'Privacy Policy',
+    bcLabel:      'Privacy Policy',
+    sec1Title:    'About the Operator',
+    sec1Body:     'BoardGameDojo is a free browser-based board game collection developed and operated by an individual. No account registration, login, or server-side user data storage takes place.',
+    sec2Title:    'Analytics (Google Analytics)',
+    sec2Body1:    'This site plans to use Google Analytics for access analysis. Google Analytics uses cookies to collect traffic data (page views, geographic regions, etc.) anonymously. The data collected does not identify individuals and is sent to Google\'s servers, where it is handled in accordance with Google\'s terms of service.',
+    sec2LinkPre:  'For details on how Google uses this data, please see the ',
+    sec2Link1:    'Google Privacy Policy',
+    sec2LinkMid:  '. To opt out, you can disable Google Analytics cookies in your browser settings or install the ',
+    sec2Link2:    'Google Analytics Opt-out Browser Add-on',
+    sec2LinkPost: '.',
+    sec3Title:    'Use of Browser localStorage',
+    sec3Body1:    '11 of the 13 games use the browser\'s localStorage to save a first-visit flag (e.g., "connect4_seen") so the how-to screen is shown automatically on the first visit. This data is stored only on your device and is never sent externally.',
+    sec3Note:     'You can clear this data via Settings → Safari / Browser → Clear History and Website Data. Clearing it will not affect gameplay — the how-to screen will simply appear again on your next visit.',
+    sec4Title:    'Disclaimer',
+    sec4Body:     'While we strive to provide accurate content, we cannot guarantee that all text, rules, or game behavior is free of errors. The operator accepts no liability for any damages arising from use of or access to this site.',
+    sec5Title:    'Effective Date & Updates',
+    sec5Body:     'This policy was established on July 30, 2026. Any revisions will be noted on this page with the revision date and a summary of changes.',
+    langBtn:      '\uD83C\uDDFA\uD83C\uDDF8'
+  }
+};
+
+function applyLang() {
+  var t = T[lang];
+  var el;
+  document.documentElement.lang = lang;
+  el = document.getElementById('page-title');     if (el) el.textContent = t.pageTitle;
+  el = document.getElementById('bc-label');       if (el) el.textContent = t.bcLabel;
+  el = document.getElementById('sec1-title');     if (el) el.textContent = t.sec1Title;
+  el = document.getElementById('sec1-body');      if (el) el.textContent = t.sec1Body;
+  el = document.getElementById('sec2-title');     if (el) el.textContent = t.sec2Title;
+  el = document.getElementById('sec2-body1');     if (el) el.textContent = t.sec2Body1;
+  el = document.getElementById('sec2-link-pre');  if (el) el.textContent = t.sec2LinkPre;
+  el = document.getElementById('sec2-link1-text'); if (el) el.textContent = t.sec2Link1;
+  el = document.getElementById('sec2-link-mid');  if (el) el.textContent = t.sec2LinkMid;
+  el = document.getElementById('sec2-link2-text'); if (el) el.textContent = t.sec2Link2;
+  el = document.getElementById('sec2-link-post'); if (el) el.textContent = t.sec2LinkPost;
+  el = document.getElementById('sec3-title');     if (el) el.textContent = t.sec3Title;
+  el = document.getElementById('sec3-body1');     if (el) el.textContent = t.sec3Body1;
+  el = document.getElementById('sec3-note');      if (el) el.textContent = t.sec3Note;
+  el = document.getElementById('sec4-title');     if (el) el.textContent = t.sec4Title;
+  el = document.getElementById('sec4-body');      if (el) el.textContent = t.sec4Body;
+  el = document.getElementById('sec5-title');     if (el) el.textContent = t.sec5Title;
+  el = document.getElementById('sec5-body');      if (el) el.textContent = t.sec5Body;
+  el = document.getElementById('lang-btn');       if (el) el.textContent = t.langBtn;
+}
+
+function toggleLang() {
+  lang = (lang === 'ja') ? 'en' : 'ja';
+  applyLang();
+}
+
+applyLang();
+</script>
+</body>
+</html>
