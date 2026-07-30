@@ -206,7 +206,9 @@ footer {
 </div>
 
 <footer>
-  <span>&copy; 2025 BoardGameDojo</span>
+  <span>&copy; 2025-2026 BoardGameDojo</span>
+  &nbsp;&middot;&nbsp;
+  <a href="contact.html" id="footer-contact" style="color:#3a3a3a;text-decoration:none;"></a>
 </footer>
 
 <script>
@@ -232,6 +234,7 @@ var T = {
     sec4Body:     '本サイトのコンテンツは正確な情報の提供に努めますが、文字・ルール・動作に誤りや不備が含まれる可能性を完全には排除できません。本サイトの利用や閲覧に起因するいかなる損害についても、運営者は一切の責任を負いません。',
     sec5Title:    '制定日・改定方針',
     sec5Body:     '本ポリシーは 2026年7月30日に制定しました。内容を改定する場合は、本ページ上に改定日と改定内容を明示します。',
+    contactLink:  '\u304A\u554F\u3044\u5408\u308F\u305B',
     langBtn:      '\uD83C\uDDEF\uD83C\uDDF5'
   },
   en: {
@@ -253,6 +256,7 @@ var T = {
     sec4Body:     'While we strive to provide accurate content, we cannot guarantee that all text, rules, or game behavior is free of errors. The operator accepts no liability for any damages arising from use of or access to this site.',
     sec5Title:    'Effective Date & Updates',
     sec5Body:     'This policy was established on July 30, 2026. Any revisions will be noted on this page with the revision date and a summary of changes.',
+    contactLink:  'Contact',
     langBtn:      '\uD83C\uDDFA\uD83C\uDDF8'
   }
 };
@@ -279,6 +283,7 @@ function applyLang() {
   el = document.getElementById('sec4-body');      if (el) el.textContent = t.sec4Body;
   el = document.getElementById('sec5-title');     if (el) el.textContent = t.sec5Title;
   el = document.getElementById('sec5-body');      if (el) el.textContent = t.sec5Body;
+  el = document.getElementById('footer-contact'); if (el) el.textContent = t.contactLink;
   el = document.getElementById('lang-btn');       if (el) el.textContent = t.langBtn;
 }
 

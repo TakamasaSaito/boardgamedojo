@@ -3,7 +3,7 @@
 最終更新: 2026-07-30
 
 ## 現状
-#28（既存ゲーム基準フォーマット是正）の全4項目が完了。最終項目では noccanocca・onitama の howto 構成方針を決定し（案C: 外枠を標準化・内部構成は自由）、準拠条件を `docs/decisions/002-howto-screen-standard.md` と `CLAUDE.md` セクション11 に明文化した上で実装した。noccanocca は `onboardScreen`+`howScreen` を `id="howto"` に統合（スライドモード/参照モード切替）。onitama は `howtoScreen` を `id="howto"` に改名し `openHowto()` / `closeHowto()` を追加（`rulesScreen`/`cardsScreen` は許容拡張として維持）。
+問い合わせページ（contact.html）を作成（#8）。privacy.html / index.html のフッターに相互リンクを追加し、著作権年を 2025-2026 に統一。残タスクは Google Analytics 設定（#6）のみ。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -36,16 +36,16 @@
 - [x] 全ゲーム: スマホ幅ボタンテキスト折り返し解消（Onitamaのみ修正: .btn-group .btn {flex:1}追加）（2026-07-25, fixes #23）
 - [x] 新ゲーム追加用テンプレート正本化: `_template/index.html` / CLAUDE.md セクション11 / `docs/decisions/001-game-template.md` 作成（2026-07-27, fixes #26）
 - [x] CONNECTIONS: 起動フロー（splash→howto初回→title→game）・btn-home 追加・遊び方JA/EN作成（2026-07-27, fixes #27）
-- [x] #28-1: hex・noccanocca・the-ONE のヘッダーをグローバル固定 `#app-header` に統一（2026-07-30）
-- [x] #28-2: hive・vidro スプラッシュを `.screen.active` 方式に統一、hive・quridor の CSS変数を標準セットに統一（2026-07-30）
-- [x] #28-3: egg・hex・ostle のスプラッシュ後遷移を localStorage 初回判定方式に統一（2026-07-30）
-- [x] #28-4: noccanocca・onitama の howto 構成方針を決定（案C）・準拠条件を文書化・実装（2026-07-30, fixes #28）
+- [x] hex・noccanocca・the-ONE のヘッダーをグローバル固定 `#app-header` に統一（2026-07-30, fixes #29）
+- [x] hive・vidro スプラッシュを `.screen.active` 方式に統一、hive・quridor の CSS変数を標準セットに統一（2026-07-30, fixes #30）
+- [x] egg・ostle・hex のスプラッシュ後遷移を localStorage 初回判定方式に統一（2026-07-30, fixes #31）
+- [x] noccanocca・onitama の howto 構成方針を決定（案C）・準拠条件を文書化・実装（2026-07-30, fixes #32）
+- [x] プライバシーポリシーページ作成（2026-07-30, fixes #7）
+- [x] 問い合わせページ作成・フッター相互リンク・著作権年統一（2026-07-30, fixes #8）
 
 ## 残タスク（GitHub Issues）
 
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
-- [ ] プライバシーポリシーページ作成 → [#7](https://github.com/TakamasaSaito/boardgamedojo/issues/7)
-- [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-次のゲーム追加または既存ゲームの改善（Google Analytics 設定 #6 が積み残し最古）
+Google Analytics 設定（#6）

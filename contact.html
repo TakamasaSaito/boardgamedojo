@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f0f">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.ico">
+<title>&#12362;&#21839;&#12356;&#21512;&#12431;&#12379; | BoardGameDojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0f0f0f;
+  --surface:  #1a1a1a;
+  --surface2: #222222;
+  --accent:   #00bcd4;
+  --text:     #e0e0e0;
+  --text-dim: #888888;
+  --radius:   12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  background-color: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* ========== グローバルヘッダー ========== */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(15,15,15,0.97);
+  border-bottom: 1px solid rgba(0,188,212,0.15);
+}
+
+.hdr-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+.hdr-btn {
+  min-width: 40px; min-height: 40px;
+  background: transparent;
+  border: 1px solid rgba(0,188,212,0.25);
+  border-radius: var(--radius);
+  color: var(--text); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+}
+.hdr-btn:active { border-color: var(--accent); color: var(--accent); }
+
+/* パンくず */
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: var(--accent); white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } .bc-current { display: inline; } }
+
+/* ========== コンテンツ ========== */
+.page-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 20px 64px;
+}
+
+.page-logo {
+  font-family: 'Orbitron', 'Noto Sans', sans-serif;
+  font-size: 11px; font-weight: 700;
+  color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.page-title {
+  font-size: 22px; font-weight: 900;
+  color: var(--text); letter-spacing: 0.5px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,188,212,0.2);
+  margin-bottom: 36px;
+}
+
+/* セクション */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px; text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,188,212,0.15);
+  margin-bottom: 14px;
+}
+
+.section p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.9;
+  margin-bottom: 12px;
+}
+
+.section p:last-child { margin-bottom: 0; }
+
+.section a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.section a:hover { text-decoration: underline; }
+
+/* 箇条書き */
+.report-list {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 12px;
+}
+.report-list li {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.9;
+  padding: 2px 0 2px 18px;
+  position: relative;
+}
+.report-list li::before {
+  content: '\2013';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* メモボックス */
+.note-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,188,212,0.12);
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.85;
+  margin-top: 4px;
+}
+
+/* フッター */
+footer {
+  text-align: center;
+  padding: 24px 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 11px;
+  color: #3a3a3a;
+  letter-spacing: 1px;
+}
+
+/* ========== PC最適化 ========== */
+@media (min-width: 769px) {
+  .page-wrap { max-width: 760px; padding: 80px 48px 80px; }
+  .page-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== グローバルヘッダー ===================== -->
+<div id="app-header">
+  <nav class="breadcrumb">
+    <a class="bc-home" href="index.html">
+      <span class="bc-arrow">&larr;</span>
+      <span class="bc-site">BoardGameDojo</span>
+    </a>
+    <span class="bc-sep bc-full"> | </span>
+    <span class="bc-current" id="bc-label">&#12362;&#21839;&#12356;&#21512;&#12431;&#12379;</span>
+  </nav>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
+  </div>
+</div>
+
+<!-- ===================== コンテンツ ===================== -->
+<div class="page-wrap">
+
+  <div class="page-logo">BoardGameDojo</div>
+  <h1 class="page-title" id="page-title">&#12362;&#21839;&#12356;&#21512;&#12431;&#12379;</h1>
+
+  <!-- 1. はじめに -->
+  <section class="section">
+    <div class="section-title" id="sec1-title"></div>
+    <p id="sec1-body"></p>
+  </section>
+
+  <!-- 2. 不具合報告・機能要望 -->
+  <section class="section">
+    <div class="section-title" id="sec2-title"></div>
+    <p>
+      <span id="sec2-pre"></span><a href="https://github.com/TakamasaSaito/boardgamedojo/issues" target="_blank" rel="noopener" id="sec2-link-text"></a><span id="sec2-post"></span>
+    </p>
+    <p id="sec2-body2"></p>
+    <ul class="report-list">
+      <li id="sec2-li1"></li>
+      <li id="sec2-li2"></li>
+      <li id="sec2-li3"></li>
+      <li id="sec2-li4"></li>
+      <li id="sec2-li5"></li>
+    </ul>
+    <div class="note-box" id="sec2-note"></div>
+  </section>
+
+  <!-- 3. その他の連絡 -->
+  <section class="section">
+    <div class="section-title" id="sec3-title"></div>
+    <p id="sec3-body"></p>
+  </section>
+
+  <!-- 4. プライバシーについて -->
+  <section class="section">
+    <div class="section-title" id="sec4-title"></div>
+    <p>
+      <span id="sec4-pre"></span><a href="privacy.html" id="sec4-link-text"></a><span id="sec4-post"></span>
+    </p>
+  </section>
+
+</div>
+
+<footer>
+  <span>&copy; 2025-2026 BoardGameDojo</span>
+  &nbsp;&middot;&nbsp;
+  <a href="privacy.html" id="footer-privacy" style="color:#3a3a3a;text-decoration:none;"></a>
+</footer>
+
+<script>
+var lang = 'ja';
+
+var T = {
+  ja: {
+    pageTitle:     'お問い合わせ',
+    bcLabel:       'お問い合わせ',
+    sec1Title:     'はじめに',
+    sec1Body:      'BoardGameDojo は個人が無償で開発・運営するサービスです。お問い合わせへの返信は確約できませんが、いただいたご意見はできる限り参考にさせていただきます。',
+    sec2Title:     '不具合報告・機能要望',
+    sec2Pre:       '不具合の報告・機能のご要望は ',
+    sec2Link:      'GitHub Issues',
+    sec2Post:      ' よりお寄せください。',
+    sec2Body2:     '報告の際は以下をご記入いただけると助かります：',
+    sec2Li1:       'ゲーム名',
+    sec2Li2:       '端末とブラウザ（例：iPhone 15、Safari 17）',
+    sec2Li3:       '発生日時（おおよそで可）',
+    sec2Li4:       '再現手順（どのような操作をしたか）',
+    sec2Li5:       '発生した事象（どのような問題が起きたか）',
+    sec2Note:      '※ GitHub アカウントが必要です。',
+    sec3Title:     'その他の連絡',
+    sec3Body:      'GitHub アカウントをお持ちでない場合、現時点では他の連絡手段を用意していません。今後窓口を整備した際には本ページを更新します。',
+    sec4Title:     'プライバシーについて',
+    sec4Pre:       '本サイトでのデータ取り扱いについては「',
+    sec4Link:      'プライバシーポリシー',
+    sec4Post:      '」をご覧ください。',
+    footerPrivacy: 'プライバシーポリシー',
+    langBtn:       '\uD83C\uDDEF\uD83C\uDDF5'
+  },
+  en: {
+    pageTitle:     'Contact',
+    bcLabel:       'Contact',
+    sec1Title:     'Notice',
+    sec1Body:      'BoardGameDojo is a free service developed and operated by an individual. While we cannot guarantee a reply, all feedback is greatly appreciated and considered.',
+    sec2Title:     'Bug Reports & Feature Requests',
+    sec2Pre:       'Please submit bug reports and feature requests via ',
+    sec2Link:      'GitHub Issues',
+    sec2Post:      '.',
+    sec2Body2:     'The following information helps us investigate:',
+    sec2Li1:       'Game name',
+    sec2Li2:       'Device and browser (e.g., iPhone 15, Safari 17)',
+    sec2Li3:       'When it happened (approximate is fine)',
+    sec2Li4:       'Steps to reproduce',
+    sec2Li5:       'What happened',
+    sec2Note:      'Note: A GitHub account is required.',
+    sec3Title:     'Other Inquiries',
+    sec3Body:      'If you do not have a GitHub account, we currently have no other contact method available. This page will be updated if a new contact option becomes available.',
+    sec4Title:     'Privacy',
+    sec4Pre:       'For information on how this site handles your data, please see our “',
+    sec4Link:      'Privacy Policy',
+    sec4Post:      '”.',
+    footerPrivacy: 'Privacy Policy',
+    langBtn:       '\uD83C\uDDFA\uD83C\uDDF8'
+  }
+};
+
+function applyLang() {
+  var t = T[lang];
+  var el;
+  document.documentElement.lang = lang;
+  el = document.getElementById('page-title');     if (el) el.textContent = t.pageTitle;
+  el = document.getElementById('bc-label');       if (el) el.textContent = t.bcLabel;
+  el = document.getElementById('sec1-title');     if (el) el.textContent = t.sec1Title;
+  el = document.getElementById('sec1-body');      if (el) el.textContent = t.sec1Body;
+  el = document.getElementById('sec2-title');     if (el) el.textContent = t.sec2Title;
+  el = document.getElementById('sec2-pre');       if (el) el.textContent = t.sec2Pre;
+  el = document.getElementById('sec2-link-text'); if (el) el.textContent = t.sec2Link;
+  el = document.getElementById('sec2-post');      if (el) el.textContent = t.sec2Post;
+  el = document.getElementById('sec2-body2');     if (el) el.textContent = t.sec2Body2;
+  el = document.getElementById('sec2-li1');       if (el) el.textContent = t.sec2Li1;
+  el = document.getElementById('sec2-li2');       if (el) el.textContent = t.sec2Li2;
+  el = document.getElementById('sec2-li3');       if (el) el.textContent = t.sec2Li3;
+  el = document.getElementById('sec2-li4');       if (el) el.textContent = t.sec2Li4;
+  el = document.getElementById('sec2-li5');       if (el) el.textContent = t.sec2Li5;
+  el = document.getElementById('sec2-note');      if (el) el.textContent = t.sec2Note;
+  el = document.getElementById('sec3-title');     if (el) el.textContent = t.sec3Title;
+  el = document.getElementById('sec3-body');      if (el) el.textContent = t.sec3Body;
+  el = document.getElementById('sec4-title');     if (el) el.textContent = t.sec4Title;
+  el = document.getElementById('sec4-pre');       if (el) el.textContent = t.sec4Pre;
+  el = document.getElementById('sec4-link-text'); if (el) el.textContent = t.sec4Link;
+  el = document.getElementById('sec4-post');      if (el) el.textContent = t.sec4Post;
+  el = document.getElementById('footer-privacy'); if (el) el.textContent = t.footerPrivacy;
+  el = document.getElementById('lang-btn');       if (el) el.textContent = t.langBtn;
+}
+
+function toggleLang() {
+  lang = (lang === 'ja') ? 'en' : 'ja';
+  applyLang();
+}
+
+applyLang();
+</script>
+</body>
+</html>
