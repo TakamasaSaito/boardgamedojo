@@ -149,6 +149,22 @@ body {
   margin-top: 4px;
 }
 
+/* フォームリンクボタン */
+.form-btn {
+  display: inline-block;
+  margin: 14px 0 20px;
+  padding: 13px 28px;
+  background: var(--accent);
+  color: #000000;
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: var(--radius);
+  letter-spacing: 0.5px;
+}
+a.form-btn, a.form-btn:hover { text-decoration: none; }
+a.form-btn:active { opacity: 0.7; }
+
 /* フッター */
 footer {
   text-align: center;
@@ -195,12 +211,11 @@ footer {
     <p id="sec1-body"></p>
   </section>
 
-  <!-- 2. 不具合報告・機能要望 -->
+  <!-- 2. お問い合わせフォーム（主窓口） -->
   <section class="section">
     <div class="section-title" id="sec2-title"></div>
-    <p>
-      <span id="sec2-pre"></span><a href="https://github.com/TakamasaSaito/boardgamedojo/issues" target="_blank" rel="noopener" id="sec2-link-text"></a><span id="sec2-post"></span>
-    </p>
+    <p id="sec2-body"></p>
+    <a class="form-btn" href="https://forms.gle/bvVrG9rxDnG2ZwLP6" target="_blank" rel="noopener" id="sec2-btn"></a>
     <p id="sec2-body2"></p>
     <ul class="report-list">
       <li id="sec2-li1"></li>
@@ -208,14 +223,26 @@ footer {
       <li id="sec2-li3"></li>
       <li id="sec2-li4"></li>
       <li id="sec2-li5"></li>
+      <li id="sec2-li6"></li>
     </ul>
     <div class="note-box" id="sec2-note"></div>
   </section>
 
-  <!-- 3. その他の連絡 -->
+  <!-- 3. GitHub Issues（開発者・公開議論向け） -->
   <section class="section">
     <div class="section-title" id="sec3-title"></div>
-    <p id="sec3-body"></p>
+    <p>
+      <span id="sec3-pre"></span><a href="https://github.com/TakamasaSaito/boardgamedojo/issues" target="_blank" rel="noopener" id="sec3-link-text"></a><span id="sec3-post"></span>
+    </p>
+    <p id="sec3-body2"></p>
+    <ul class="report-list">
+      <li id="sec3-li1"></li>
+      <li id="sec3-li2"></li>
+      <li id="sec3-li3"></li>
+      <li id="sec3-li4"></li>
+      <li id="sec3-li5"></li>
+    </ul>
+    <div class="note-box" id="sec3-note"></div>
   </section>
 
   <!-- 4. プライバシーについて -->
@@ -239,54 +266,72 @@ var lang = 'ja';
 
 var T = {
   ja: {
-    pageTitle:     'お問い合わせ',
-    bcLabel:       'お問い合わせ',
-    sec1Title:     'はじめに',
-    sec1Body:      'BoardGameDojo は個人が無償で開発・運営するサービスです。お問い合わせへの返信は確約できませんが、いただいたご意見はできる限り参考にさせていただきます。',
-    sec2Title:     '不具合報告・機能要望',
-    sec2Pre:       '不具合の報告・機能のご要望は ',
-    sec2Link:      'GitHub Issues',
-    sec2Post:      ' よりお寄せください。',
-    sec2Body2:     '報告の際は以下をご記入いただけると助かります：',
-    sec2Li1:       'ゲーム名',
-    sec2Li2:       '端末とブラウザ（例：iPhone 15、Safari 17）',
-    sec2Li3:       '発生日時（おおよそで可）',
-    sec2Li4:       '再現手順（どのような操作をしたか）',
-    sec2Li5:       '発生した事象（どのような問題が起きたか）',
-    sec2Note:      '※ GitHub アカウントが必要です。',
-    sec3Title:     'その他の連絡',
-    sec3Body:      'GitHub アカウントをお持ちでない場合、現時点では他の連絡手段を用意していません。今後窓口を整備した際には本ページを更新します。',
-    sec4Title:     'プライバシーについて',
-    sec4Pre:       '本サイトでのデータ取り扱いについては「',
-    sec4Link:      'プライバシーポリシー',
-    sec4Post:      '」をご覧ください。',
+    pageTitle:   'お問い合わせ',
+    bcLabel:     'お問い合わせ',
+    sec1Title:   'はじめに',
+    sec1Body:    'BoardGameDojo は個人が無償で開発・運営するサービスです。お問い合わせへの返信は確約できませんが、いただいたご意見はできる限り参考にさせていただきます。',
+    sec2Title:   'お問い合わせフォーム',
+    sec2Body:    'ご意見・不具合報告・機能要望など、何でもお気軽にどうぞ。GitHubアカウントは不要です。',
+    sec2Btn:     'フォームを開く →',
+    sec2Body2:   'フォームの入力項目：',
+    sec2Li1:     '種別（不具合 / 機能要望 / その他）',
+    sec2Li2:     'ゲーム名',
+    sec2Li3:     '端末とブラウザ（例：iPhone 15、Safari 17）',
+    sec2Li4:     '発生日時（おおよそで可）',
+    sec2Li5:     '内容（必須）',
+    sec2Li6:     '返信用メールアドレス（任意）',
+    sec2Note:    'フォームへの入力内容は Google のサーバーに保存されます。詳しくはプライバシーポリシーをご覧ください。',
+    sec3Title:   'GitHub Issues（開発者・公開議論向け）',
+    sec3Pre:     '開発者の方や、公開の場でのやりとりを希望される方は ',
+    sec3Link:    'GitHub Issues',
+    sec3Post:    ' もご利用いただけます。',
+    sec3Body2:   '報告の際は以下をご記入いただけると助かります：',
+    sec3Li1:     'ゲーム名',
+    sec3Li2:     '端末とブラウザ（例：iPhone 15、Safari 17）',
+    sec3Li3:     '発生日時（おおよそで可）',
+    sec3Li4:     '再現手順（どのような操作をしたか）',
+    sec3Li5:     '発生した事象（どのような問題が起きたか）',
+    sec3Note:    '※ GitHubアカウントが必要です。',
+    sec4Title:   'プライバシーについて',
+    sec4Pre:     '本サイトでのデータ取り扱いについては「',
+    sec4Link:    'プライバシーポリシー',
+    sec4Post:    '」をご覧ください。',
     footerPrivacy: 'プライバシーポリシー',
-    langBtn:       '\uD83C\uDDEF\uD83C\uDDF5'
+    langBtn:     '\uD83C\uDDEF\uD83C\uDDF5'
   },
   en: {
-    pageTitle:     'Contact',
-    bcLabel:       'Contact',
-    sec1Title:     'Notice',
-    sec1Body:      'BoardGameDojo is a free service developed and operated by an individual. While we cannot guarantee a reply, all feedback is greatly appreciated and considered.',
-    sec2Title:     'Bug Reports & Feature Requests',
-    sec2Pre:       'Please submit bug reports and feature requests via ',
-    sec2Link:      'GitHub Issues',
-    sec2Post:      '.',
-    sec2Body2:     'The following information helps us investigate:',
-    sec2Li1:       'Game name',
-    sec2Li2:       'Device and browser (e.g., iPhone 15, Safari 17)',
-    sec2Li3:       'When it happened (approximate is fine)',
-    sec2Li4:       'Steps to reproduce',
-    sec2Li5:       'What happened',
-    sec2Note:      'Note: A GitHub account is required.',
-    sec3Title:     'Other Inquiries',
-    sec3Body:      'If you do not have a GitHub account, we currently have no other contact method available. This page will be updated if a new contact option becomes available.',
-    sec4Title:     'Privacy',
-    sec4Pre:       'For information on how this site handles your data, please see our “',
-    sec4Link:      'Privacy Policy',
-    sec4Post:      '”.',
+    pageTitle:   'Contact',
+    bcLabel:     'Contact',
+    sec1Title:   'Notice',
+    sec1Body:    'BoardGameDojo is a free service developed and operated by an individual. While we cannot guarantee a reply, all feedback is greatly appreciated and considered.',
+    sec2Title:   'Contact Form',
+    sec2Body:    'Use our contact form for bug reports, feature requests, or any other feedback. No GitHub account required.',
+    sec2Btn:     'Open form →',
+    sec2Body2:   'Form fields:',
+    sec2Li1:     'Type (Bug / Feature Request / Other)',
+    sec2Li2:     'Game name',
+    sec2Li3:     'Device and browser (e.g., iPhone 15, Safari 17)',
+    sec2Li4:     'When it happened (approximate is fine)',
+    sec2Li5:     'Details (required)',
+    sec2Li6:     'Reply email address (optional)',
+    sec2Note:    'Form submissions are stored on Google\'s servers. Please see our Privacy Policy for details.',
+    sec3Title:   'GitHub Issues (For Developers & Public Discussion)',
+    sec3Pre:     'Developers and users who prefer a public forum are welcome to use ',
+    sec3Link:    'GitHub Issues',
+    sec3Post:    '.',
+    sec3Body2:   'The following information helps us investigate:',
+    sec3Li1:     'Game name',
+    sec3Li2:     'Device and browser (e.g., iPhone 15, Safari 17)',
+    sec3Li3:     'When it happened (approximate is fine)',
+    sec3Li4:     'Steps to reproduce',
+    sec3Li5:     'What happened',
+    sec3Note:    'Note: A GitHub account is required.',
+    sec4Title:   'Privacy',
+    sec4Pre:     'For information on how this site handles your data, please see our "',
+    sec4Link:    'Privacy Policy',
+    sec4Post:    '".',
     footerPrivacy: 'Privacy Policy',
-    langBtn:       '\uD83C\uDDFA\uD83C\uDDF8'
+    langBtn:     '\uD83C\uDDFA\uD83C\uDDF8'
   }
 };
 
@@ -294,29 +339,38 @@ function applyLang() {
   var t = T[lang];
   var el;
   document.documentElement.lang = lang;
-  el = document.getElementById('page-title');     if (el) el.textContent = t.pageTitle;
-  el = document.getElementById('bc-label');       if (el) el.textContent = t.bcLabel;
-  el = document.getElementById('sec1-title');     if (el) el.textContent = t.sec1Title;
-  el = document.getElementById('sec1-body');      if (el) el.textContent = t.sec1Body;
-  el = document.getElementById('sec2-title');     if (el) el.textContent = t.sec2Title;
-  el = document.getElementById('sec2-pre');       if (el) el.textContent = t.sec2Pre;
-  el = document.getElementById('sec2-link-text'); if (el) el.textContent = t.sec2Link;
-  el = document.getElementById('sec2-post');      if (el) el.textContent = t.sec2Post;
-  el = document.getElementById('sec2-body2');     if (el) el.textContent = t.sec2Body2;
-  el = document.getElementById('sec2-li1');       if (el) el.textContent = t.sec2Li1;
-  el = document.getElementById('sec2-li2');       if (el) el.textContent = t.sec2Li2;
-  el = document.getElementById('sec2-li3');       if (el) el.textContent = t.sec2Li3;
-  el = document.getElementById('sec2-li4');       if (el) el.textContent = t.sec2Li4;
-  el = document.getElementById('sec2-li5');       if (el) el.textContent = t.sec2Li5;
-  el = document.getElementById('sec2-note');      if (el) el.textContent = t.sec2Note;
-  el = document.getElementById('sec3-title');     if (el) el.textContent = t.sec3Title;
-  el = document.getElementById('sec3-body');      if (el) el.textContent = t.sec3Body;
-  el = document.getElementById('sec4-title');     if (el) el.textContent = t.sec4Title;
-  el = document.getElementById('sec4-pre');       if (el) el.textContent = t.sec4Pre;
-  el = document.getElementById('sec4-link-text'); if (el) el.textContent = t.sec4Link;
-  el = document.getElementById('sec4-post');      if (el) el.textContent = t.sec4Post;
-  el = document.getElementById('footer-privacy'); if (el) el.textContent = t.footerPrivacy;
-  el = document.getElementById('lang-btn');       if (el) el.textContent = t.langBtn;
+  el = document.getElementById('page-title');      if (el) el.textContent = t.pageTitle;
+  el = document.getElementById('bc-label');        if (el) el.textContent = t.bcLabel;
+  el = document.getElementById('sec1-title');      if (el) el.textContent = t.sec1Title;
+  el = document.getElementById('sec1-body');       if (el) el.textContent = t.sec1Body;
+  el = document.getElementById('sec2-title');      if (el) el.textContent = t.sec2Title;
+  el = document.getElementById('sec2-body');       if (el) el.textContent = t.sec2Body;
+  el = document.getElementById('sec2-btn');        if (el) el.textContent = t.sec2Btn;
+  el = document.getElementById('sec2-body2');      if (el) el.textContent = t.sec2Body2;
+  el = document.getElementById('sec2-li1');        if (el) el.textContent = t.sec2Li1;
+  el = document.getElementById('sec2-li2');        if (el) el.textContent = t.sec2Li2;
+  el = document.getElementById('sec2-li3');        if (el) el.textContent = t.sec2Li3;
+  el = document.getElementById('sec2-li4');        if (el) el.textContent = t.sec2Li4;
+  el = document.getElementById('sec2-li5');        if (el) el.textContent = t.sec2Li5;
+  el = document.getElementById('sec2-li6');        if (el) el.textContent = t.sec2Li6;
+  el = document.getElementById('sec2-note');       if (el) el.textContent = t.sec2Note;
+  el = document.getElementById('sec3-title');      if (el) el.textContent = t.sec3Title;
+  el = document.getElementById('sec3-pre');        if (el) el.textContent = t.sec3Pre;
+  el = document.getElementById('sec3-link-text');  if (el) el.textContent = t.sec3Link;
+  el = document.getElementById('sec3-post');       if (el) el.textContent = t.sec3Post;
+  el = document.getElementById('sec3-body2');      if (el) el.textContent = t.sec3Body2;
+  el = document.getElementById('sec3-li1');        if (el) el.textContent = t.sec3Li1;
+  el = document.getElementById('sec3-li2');        if (el) el.textContent = t.sec3Li2;
+  el = document.getElementById('sec3-li3');        if (el) el.textContent = t.sec3Li3;
+  el = document.getElementById('sec3-li4');        if (el) el.textContent = t.sec3Li4;
+  el = document.getElementById('sec3-li5');        if (el) el.textContent = t.sec3Li5;
+  el = document.getElementById('sec3-note');       if (el) el.textContent = t.sec3Note;
+  el = document.getElementById('sec4-title');      if (el) el.textContent = t.sec4Title;
+  el = document.getElementById('sec4-pre');        if (el) el.textContent = t.sec4Pre;
+  el = document.getElementById('sec4-link-text');  if (el) el.textContent = t.sec4Link;
+  el = document.getElementById('sec4-post');       if (el) el.textContent = t.sec4Post;
+  el = document.getElementById('footer-privacy');  if (el) el.textContent = t.footerPrivacy;
+  el = document.getElementById('lang-btn');        if (el) el.textContent = t.langBtn;
 }
 
 function toggleLang() {

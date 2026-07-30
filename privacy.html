@@ -191,16 +191,23 @@ footer {
     <div class="note-box" id="sec3-note"></div>
   </section>
 
-  <!-- 4. 免責事項 -->
+  <!-- 4. お問い合わせフォーム（新規） -->
   <section class="section">
-    <div class="section-title" id="sec4-title">&#20253;&#36867;&#20107;&#39;&#39;&#12395;&#12388;&#12356;&#12390;</div>
-    <p id="sec4-body"></p>
+    <div class="section-title" id="sec4-title"></div>
+    <p id="sec4-body1"></p>
+    <p id="sec4-body2"></p>
   </section>
 
-  <!-- 5. 制定日・改定方針 -->
+  <!-- 5. 免責事項（旧 sec4） -->
   <section class="section">
-    <div class="section-title" id="sec5-title">&#21046;&#23450;&#26085;&#12539;&#25913;&#23450;&#26041;&#37341;</div>
+    <div class="section-title" id="sec5-title"></div>
     <p id="sec5-body"></p>
+  </section>
+
+  <!-- 6. 制定日・改定方針（旧 sec5） -->
+  <section class="section">
+    <div class="section-title" id="sec6-title"></div>
+    <p id="sec6-body"></p>
   </section>
 
 </div>
@@ -219,7 +226,7 @@ var T = {
     pageTitle:    'プライバシーポリシー',
     bcLabel:      'プライバシーポリシー',
     sec1Title:    '運営者について',
-    sec1Body:     'BoardGameDojo は個人が無償で開発・運営するブラウザ向けボードゲームアプリ集です。会員登録・ログイン・ユーザーデータのサーバー保存は一切行っていません。',
+    sec1Body:     'BoardGameDojo は個人が無償で開発・運営するブラウザ向けボードゲームアプリ集です。ゲームのプレイやサイト閲覧において、会員登録・ログイン・ユーザーデータのサーバー保存は一切行っていません。',
     sec2Title:    'アクセス解析（Google Analytics）',
     sec2Body1:    '本サイトでは、アクセス解析に Google Analytics を利用する予定です。Google Analytics は Cookie を使用してトラフィックデータ（ページ閲覧数・アクセス元の地域など）を匿名で収集します。収集されたデータは個人を特定できる情報を含まず、Google 社のサーバーに送信されたのち Google 社の規約に基づき取り扱われます。',
     sec2LinkPre:  'Google Analytics のデータ利用については、',
@@ -230,10 +237,13 @@ var T = {
     sec3Title:    'localStorage 利用について',
     sec3Body1:    '13 タイトル中 12 タイトルのゲームでは、初回訪問時に「遊び方画面」を自動表示するために、ブラウザの localStorage に訪問済みフラグ（例："connect4_seen"）を保存します。このデータはお使いのデバイス内にのみ保存され、外部への送信は一切ありません。',
     sec3Note:     '「設定 → Safari / ブラウザ → 履歴と Web サイトデータを消去」から削除できます。削除してもゲームの動作に支障はなく、初回訪問画面が再び表示されるようになるだけです。',
-    sec4Title:    '免責事項について',
-    sec4Body:     '本サイトのコンテンツは正確な情報の提供に努めますが、文字・ルール・動作に誤りや不備が含まれる可能性を完全には排除できません。本サイトの利用や閲覧に起因するいかなる損害についても、運営者は一切の責任を負いません。',
-    sec5Title:    '制定日・改定方針',
-    sec5Body:     '本ポリシーは 2026年7月30日に制定しました。内容を改定する場合は、本ページ上に改定日と改定内容を明示します。',
+    sec4Title:    'お問い合わせフォームについて',
+    sec4Body1:    'お問い合わせフォームには Google フォームを利用しています。フォームに入力された内容は Google 社のサーバーに保存され、Google 社のプライバシーポリシーに基づき取り扱われます。フォームのご利用にログインは不要です。ご入力いただいた内容は、お問い合わせへの対応およびサイトの改善のために運営者が確認します。',
+    sec4Body2:    '返信用メールアドレスの入力は任意です。ご入力いただいた場合、返信目的のみに使用し、それ以外の目的には使用しません。',
+    sec5Title:    '免責事項について',
+    sec5Body:     '本サイトのコンテンツは正確な情報の提供に努めますが、文字・ルール・動作に誤りや不備が含まれる可能性を完全には排除できません。本サイトの利用や閲覧に起因するいかなる損害についても、運営者は一切の責任を負いません。',
+    sec6Title:    '制定日・改定方針',
+    sec6Body:     '本ポリシーは 2026年7月30日に制定しました。内容を改定する場合は、本ページ上に改定日と改定内容を明示します。',
     contactLink:  '\u304A\u554F\u3044\u5408\u308F\u305B',
     langBtn:      '\uD83C\uDDEF\uD83C\uDDF5'
   },
@@ -241,7 +251,7 @@ var T = {
     pageTitle:    'Privacy Policy',
     bcLabel:      'Privacy Policy',
     sec1Title:    'About the Operator',
-    sec1Body:     'BoardGameDojo is a free browser-based board game collection developed and operated by an individual. No account registration, login, or server-side user data storage takes place.',
+    sec1Body:     'BoardGameDojo is a free browser-based board game collection developed and operated by an individual. Gameplay and site browsing involve no account registration, login, or server-side user data storage.',
     sec2Title:    'Analytics (Google Analytics)',
     sec2Body1:    'This site plans to use Google Analytics for access analysis. Google Analytics uses cookies to collect traffic data (page views, geographic regions, etc.) anonymously. The data collected does not identify individuals and is sent to Google\'s servers, where it is handled in accordance with Google\'s terms of service.',
     sec2LinkPre:  'For details on how Google uses this data, please see the ',
@@ -252,10 +262,13 @@ var T = {
     sec3Title:    'Use of Browser localStorage',
     sec3Body1:    '12 of the 13 games use the browser\'s localStorage to save a first-visit flag (e.g., "connect4_seen") so the how-to screen is shown automatically on the first visit. This data is stored only on your device and is never sent externally.',
     sec3Note:     'You can clear this data via Settings → Safari / Browser → Clear History and Website Data. Clearing it will not affect gameplay — the how-to screen will simply appear again on your next visit.',
-    sec4Title:    'Disclaimer',
-    sec4Body:     'While we strive to provide accurate content, we cannot guarantee that all text, rules, or game behavior is free of errors. The operator accepts no liability for any damages arising from use of or access to this site.',
-    sec5Title:    'Effective Date & Updates',
-    sec5Body:     'This policy was established on July 30, 2026. Any revisions will be noted on this page with the revision date and a summary of changes.',
+    sec4Title:    'About the Contact Form',
+    sec4Body1:    'Our contact form uses Google Forms. Submissions are stored on Google\'s servers and handled in accordance with Google\'s privacy policy. No login is required to use the form. Submissions are reviewed by the operator to respond to inquiries and improve the site.',
+    sec4Body2:    'Providing a reply email address is optional. If provided, it will be used solely for the purpose of responding to your inquiry and for no other purpose.',
+    sec5Title:    'Disclaimer',
+    sec5Body:     'While we strive to provide accurate content, we cannot guarantee that all text, rules, or game behavior is free of errors. The operator accepts no liability for any damages arising from use of or access to this site.',
+    sec6Title:    'Effective Date & Updates',
+    sec6Body:     'This policy was established on July 30, 2026. Any revisions will be noted on this page with the revision date and a summary of changes.',
     contactLink:  'Contact',
     langBtn:      '\uD83C\uDDFA\uD83C\uDDF8'
   }
@@ -265,26 +278,29 @@ function applyLang() {
   var t = T[lang];
   var el;
   document.documentElement.lang = lang;
-  el = document.getElementById('page-title');     if (el) el.textContent = t.pageTitle;
-  el = document.getElementById('bc-label');       if (el) el.textContent = t.bcLabel;
-  el = document.getElementById('sec1-title');     if (el) el.textContent = t.sec1Title;
-  el = document.getElementById('sec1-body');      if (el) el.textContent = t.sec1Body;
-  el = document.getElementById('sec2-title');     if (el) el.textContent = t.sec2Title;
-  el = document.getElementById('sec2-body1');     if (el) el.textContent = t.sec2Body1;
-  el = document.getElementById('sec2-link-pre');  if (el) el.textContent = t.sec2LinkPre;
+  el = document.getElementById('page-title');      if (el) el.textContent = t.pageTitle;
+  el = document.getElementById('bc-label');        if (el) el.textContent = t.bcLabel;
+  el = document.getElementById('sec1-title');      if (el) el.textContent = t.sec1Title;
+  el = document.getElementById('sec1-body');       if (el) el.textContent = t.sec1Body;
+  el = document.getElementById('sec2-title');      if (el) el.textContent = t.sec2Title;
+  el = document.getElementById('sec2-body1');      if (el) el.textContent = t.sec2Body1;
+  el = document.getElementById('sec2-link-pre');   if (el) el.textContent = t.sec2LinkPre;
   el = document.getElementById('sec2-link1-text'); if (el) el.textContent = t.sec2Link1;
-  el = document.getElementById('sec2-link-mid');  if (el) el.textContent = t.sec2LinkMid;
+  el = document.getElementById('sec2-link-mid');   if (el) el.textContent = t.sec2LinkMid;
   el = document.getElementById('sec2-link2-text'); if (el) el.textContent = t.sec2Link2;
-  el = document.getElementById('sec2-link-post'); if (el) el.textContent = t.sec2LinkPost;
-  el = document.getElementById('sec3-title');     if (el) el.textContent = t.sec3Title;
-  el = document.getElementById('sec3-body1');     if (el) el.textContent = t.sec3Body1;
-  el = document.getElementById('sec3-note');      if (el) el.textContent = t.sec3Note;
-  el = document.getElementById('sec4-title');     if (el) el.textContent = t.sec4Title;
-  el = document.getElementById('sec4-body');      if (el) el.textContent = t.sec4Body;
-  el = document.getElementById('sec5-title');     if (el) el.textContent = t.sec5Title;
-  el = document.getElementById('sec5-body');      if (el) el.textContent = t.sec5Body;
-  el = document.getElementById('footer-contact'); if (el) el.textContent = t.contactLink;
-  el = document.getElementById('lang-btn');       if (el) el.textContent = t.langBtn;
+  el = document.getElementById('sec2-link-post');  if (el) el.textContent = t.sec2LinkPost;
+  el = document.getElementById('sec3-title');      if (el) el.textContent = t.sec3Title;
+  el = document.getElementById('sec3-body1');      if (el) el.textContent = t.sec3Body1;
+  el = document.getElementById('sec3-note');       if (el) el.textContent = t.sec3Note;
+  el = document.getElementById('sec4-title');      if (el) el.textContent = t.sec4Title;
+  el = document.getElementById('sec4-body1');      if (el) el.textContent = t.sec4Body1;
+  el = document.getElementById('sec4-body2');      if (el) el.textContent = t.sec4Body2;
+  el = document.getElementById('sec5-title');      if (el) el.textContent = t.sec5Title;
+  el = document.getElementById('sec5-body');       if (el) el.textContent = t.sec5Body;
+  el = document.getElementById('sec6-title');      if (el) el.textContent = t.sec6Title;
+  el = document.getElementById('sec6-body');       if (el) el.textContent = t.sec6Body;
+  el = document.getElementById('footer-contact');  if (el) el.textContent = t.contactLink;
+  el = document.getElementById('lang-btn');        if (el) el.textContent = t.langBtn;
 }
 
 function toggleLang() {

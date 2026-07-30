@@ -3,7 +3,7 @@
 最終更新: 2026-07-30
 
 ## 現状
-noccanocca の `splashTap()` に `noccanocca_seen` による初回訪問判定を復元（#33）。dice-gomoku のスプラッシュ独自設計を意図的例外として docs/decisions/003 に記録。privacy.html の localStorage 記載を 11→12 タイトルに更新。残タスクは Google Analytics 設定（#6）のみ。
+contact.html に Googleフォームを主窓口として追加（#34）。GitHubアカウント不要で問い合わせ可能になった。privacy.html にフォームのデータ取り扱い（Google保存・運営者確認・返信メール任意）を新規セクションとして追記し、sec1の「サーバー保存なし」記載をゲームプレイ・閲覧に限定する文言に修正。残タスクは Google Analytics 設定（#6）のみ。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -43,6 +43,7 @@ noccanocca の `splashTap()` に `noccanocca_seen` による初回訪問判定�
 - [x] プライバシーポリシーページ作成（2026-07-30, fixes #7）
 - [x] 問い合わせページ作成・フッター相互リンク・著作権年統一（2026-07-30, fixes #8）
 - [x] noccanocca の初回訪問判定復元・dice-gomoku 例外記録・privacy.html 記載更新（2026-07-30, fixes #33）
+- [x] contact.html にGoogleフォームを主窓口として追加・privacy.html にフォームのデータ取り扱いを追記（2026-07-30, fixes #34）
 
 ## 残タスク（GitHub Issues）
 
