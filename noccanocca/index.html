@@ -1138,20 +1138,27 @@ function updateObLang() {
 
 function splashTap() {
   document.getElementById('app-header').classList.remove('hidden');
-  obStep = 0;
-  var steps = document.querySelectorAll('.onboard-step');
-  for (var i = 0; i < steps.length; i++) {
-    steps[i].className = 'onboard-step' + (i === 0 ? ' active' : '');
+  var seen = false;
+  try { seen = localStorage.getItem('noccanocca_seen') === '1'; } catch(e) {}
+  if (!seen) {
+    try { localStorage.setItem('noccanocca_seen', '1'); } catch(e) {}
+    obStep = 0;
+    var steps = document.querySelectorAll('.onboard-step');
+    for (var i = 0; i < steps.length; i++) {
+      steps[i].className = 'onboard-step' + (i === 0 ? ' active' : '');
+    }
+    for (var i = 0; i < obMax; i++) {
+      var d = document.getElementById('dot' + i);
+      if (d) d.className = 'onboard-dot' + (i === 0 ? ' active' : '');
+    }
+    updateObLang();
+    prevScreen = 'homeScreen';
+    document.getElementById('howSlideSection').style.display = '';
+    document.getElementById('howRefSection').style.display = 'none';
+    showScreen('howto');
+  } else {
+    showScreen('homeScreen');
   }
-  for (var i = 0; i < obMax; i++) {
-    var d = document.getElementById('dot' + i);
-    if (d) d.className = 'onboard-dot' + (i === 0 ? ' active' : '');
-  }
-  updateObLang();
-  prevScreen = 'homeScreen';
-  document.getElementById('howSlideSection').style.display = '';
-  document.getElementById('howRefSection').style.display = 'none';
-  showScreen('howto');
 }
 
 // ========== BOOT ==========

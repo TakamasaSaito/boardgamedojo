@@ -27,13 +27,22 @@
 
 ## 既存ゲームの例外（未是正・別Issue対応予定）
 
-| ゲーム | 乖離内容 |
-|---|---|
-| hive, vidro | スプラッシュが独自divのopacity fade（`.screen.active`方式ではない） |
-| hex, noccanocca, the-ONE | ヘッダーが各画面に個別埋め込み（グローバル固定`#app-header`ではない） |
-| egg | 常にhowto経由（localStorageによる初回判定なし） |
-| ostle | howto画面なし（splash→titleへ直行） |
-| onitama | howtoがスライド形式 + rules/cardsと画面が複数（→ 002 参照） |
+| ゲーム | 乖離内容 | 状態 |
+|---|---|---|
+| hive, vidro | スプラッシュが独自divのopacity fade（`.screen.active`方式ではない） | 未是正 |
+| hex, the-ONE | ヘッダーが各画面に個別埋め込み（グローバル固定`#app-header`ではない） | 未是正 |
+| egg | 常にhowto経由（localStorageによる初回判定なし） | 未是正 |
+| ostle | howto画面なし（splash→titleへ直行） | 未是正 |
+| onitama | howtoがスライド形式 + rules/cardsと画面が複数（→ 002 参照） | 未是正 |
+| dice-gomoku | スプラッシュがタップ不可の2秒自動遷移・独自CSS・localStorage判定なし（→ 003 参照） | 意図的例外 |
+
+### 是正済み（#28系）
+
+| ゲーム | 是正内容 | Issue |
+|---|---|---|
+| noccanocca | ヘッダーをグローバル固定 `#app-header` に統一 | #28-1 |
+| noccanocca | howto を `id="howto"` + `openHowto/closeHowto` 標準構成に統一 | #28-4 |
+| noccanocca | `noccanocca_seen` による初回訪問判定を復元 | #33 |
 
 ## howto の準拠定義について
 

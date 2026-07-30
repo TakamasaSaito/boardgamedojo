@@ -3,7 +3,7 @@
 最終更新: 2026-07-30
 
 ## 現状
-問い合わせページ（contact.html）を作成（#8）。privacy.html / index.html のフッターに相互リンクを追加し、著作権年を 2025-2026 に統一。残タスクは Google Analytics 設定（#6）のみ。
+noccanocca の `splashTap()` に `noccanocca_seen` による初回訪問判定を復元（#33）。dice-gomoku のスプラッシュ独自設計を意図的例外として docs/decisions/003 に記録。privacy.html の localStorage 記載を 11→12 タイトルに更新。残タスクは Google Analytics 設定（#6）のみ。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -42,6 +42,7 @@
 - [x] noccanocca・onitama の howto 構成方針を決定（案C）・準拠条件を文書化・実装（2026-07-30, fixes #32）
 - [x] プライバシーポリシーページ作成（2026-07-30, fixes #7）
 - [x] 問い合わせページ作成・フッター相互リンク・著作権年統一（2026-07-30, fixes #8）
+- [x] noccanocca の初回訪問判定復元・dice-gomoku 例外記録・privacy.html 記載更新（2026-07-30, fixes #33）
 
 ## 残タスク（GitHub Issues）
 
