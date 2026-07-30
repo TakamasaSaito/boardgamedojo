@@ -675,7 +675,7 @@ a.hdr-logo { text-decoration: none; color: var(--red); }
 }
 
 /* ===== HOWTO SCREEN ===== */
-#howtoScreen {
+#howto {
   justify-content: flex-start;
   gap: 0;
   padding: 0;
@@ -817,7 +817,7 @@ a.hdr-logo { text-decoration: none; color: var(--red); }
 .howto-card-cell.c { background: #555; }
 .howto-card-cell.m { background: var(--red); box-shadow: 0 0 4px rgba(192,57,43,0.5); }
 @media (min-width: 769px) {
-  #rulesScreen, #gameScreen, #howtoScreen { max-width: 680px; }
+  #rulesScreen, #gameScreen, #howto { max-width: 680px; }
   .btn-primary, .btn-secondary { max-width: 400px; }
 }
 .breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
@@ -842,7 +842,7 @@ a.hdr-logo { text-decoration: none; color: var(--red); }
   <div class="hdr-right">
     <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
-    <button class="hdr-btn" onclick="showHelp()">❓</button>
+    <button class="hdr-btn" onclick="openHowto()">&#x2753;</button>
   </div>
 </div>
 
@@ -854,7 +854,7 @@ a.hdr-logo { text-decoration: none; color: var(--red); }
 </div>
 
 <!-- HOWTO SCREEN -->
-<div id="howtoScreen" class="screen">
+<div id="howto" class="screen">
   <div class="howto-slides" id="howtoSlides">
 
     <!-- Slide 1: 概要 -->
@@ -1345,6 +1345,16 @@ function applyLang() {
   if (typeof currentPlayer !== "undefined") renderPlayerInfo();
 }
 
+function openHowto(from) {
+  prevScreen = (from !== undefined) ? from : currentScreenId();
+  if (prevScreen === "splashScreen" || prevScreen === "howto") prevScreen = "titleScreen";
+  showScreen("howto");
+}
+
+function closeHowto() {
+  showScreen(prevScreen || "titleScreen");
+}
+
 function showHelp() {
   prevScreen = currentScreenId();
   showScreen("rulesScreen");
@@ -1468,7 +1478,8 @@ function initSplash() {
     setTimeout(function() {
       splash.style.display = "none";
       if (!seen) {
-        showScreen("howtoScreen");
+        prevScreen = "titleScreen";
+        showScreen("howto");
       } else {
         showScreen("titleScreen");
       }
@@ -1564,7 +1575,7 @@ function finishHowto() {
   var btn = document.getElementById("howtoNextBtn");
   if (btn) btn.textContent = T[lang].howto_next;
   buildHowtoDots();
-  showScreen("titleScreen");
+  closeHowto();
 }
 
 // ===== SCREEN NAVIGATION =====
@@ -1575,7 +1586,7 @@ function showScreen(id) {
   }
   document.getElementById(id).classList.add("active");
   var hdr = document.getElementById("app-header");
-  if (id === "splashScreen" || id === "howtoScreen") {
+  if (id === "splashScreen" || id === "howto") {
     hdr.classList.add("hidden");
   } else {
     hdr.classList.remove("hidden");

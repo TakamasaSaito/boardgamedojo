@@ -3,7 +3,7 @@
 最終更新: 2026-07-30
 
 ## 現状
-egg・hex・ostle の3ゲームについて、スプラッシュ後遷移を localStorage 初回判定方式に統一した（#28-3）。egg は `handleSplash()` に二重呼び出しガードと自動スキップ timeout を追加。hex は `handleSplash()` 関数を新設してタップスキップに対応。ostle は howto スクリーンを新設（既存 help モーダルを削除・統合）、`openHowto()` / `closeHowto()` / `handleSplash()` を追加して `ostle_seen` による初回判定フローを実装。
+#28（既存ゲーム基準フォーマット是正）の全4項目が完了。最終項目では noccanocca・onitama の howto 構成方針を決定し（案C: 外枠を標準化・内部構成は自由）、準拠条件を `docs/decisions/002-howto-screen-standard.md` と `CLAUDE.md` セクション11 に明文化した上で実装した。noccanocca は `onboardScreen`+`howScreen` を `id="howto"` に統合（スライドモード/参照モード切替）。onitama は `howtoScreen` を `id="howto"` に改名し `openHowto()` / `closeHowto()` を追加（`rulesScreen`/`cardsScreen` は許容拡張として維持）。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -34,22 +34,18 @@ egg・hex・ostle の3ゲームについて、スプラッシュ後遷移を loc
 - [x] 全ゲーム: スマホ幅パンくずを「← BoardGameDojo」表示に修正・CSS変更のみ（2026-07-24, fixes #22）
 - [x] アプリアイコン作成・配置（盤面グリッドデザイン、apple-touch-icon/icon-192/icon-512/favicon.ico、manifest.json更新）（2026-07-24）
 - [x] 全ゲーム: スマホ幅ボタンテキスト折り返し解消（Onitamaのみ修正: .btn-group .btn {flex:1}追加）（2026-07-25, fixes #23）
-
-## 完了済み（追加分）
 - [x] 新ゲーム追加用テンプレート正本化: `_template/index.html` / CLAUDE.md セクション11 / `docs/decisions/001-game-template.md` 作成（2026-07-27, fixes #26）
 - [x] CONNECTIONS: 起動フロー（splash→howto初回→title→game）・btn-home 追加・遊び方JA/EN作成（2026-07-27, fixes #27）
-- [x] hex・noccanocca・the-ONE: 各画面埋め込みヘッダーを削除しグローバル固定 `#app-header` に統一・`showScreen()` 内で btn-home 制御・lang-btn を単一化・padding-top 60px（テンプレート準拠）（2026-07-30, #28-1）
-- [x] hive・vidro スプラッシュを `.screen.active` 方式に統一、hive・quridor の `:root` に標準CSS変数セットを追加・hive CSS直値を変数参照に置換（2026-07-30, #28-2）
+- [x] #28-1: hex・noccanocca・the-ONE のヘッダーをグローバル固定 `#app-header` に統一（2026-07-30）
+- [x] #28-2: hive・vidro スプラッシュを `.screen.active` 方式に統一、hive・quridor の CSS変数を標準セットに統一（2026-07-30）
+- [x] #28-3: egg・hex・ostle のスプラッシュ後遷移を localStorage 初回判定方式に統一（2026-07-30）
+- [x] #28-4: noccanocca・onitama の howto 構成方針を決定（案C）・準拠条件を文書化・実装（2026-07-30, fixes #28）
 
 ## 残タスク（GitHub Issues）
 
-### #28 既存ゲーム基準フォーマット是正（継続中）
-- [ ] #28 の残項目（localStorage 初回判定方式の統一など）→ [#28](https://github.com/TakamasaSaito/boardgamedojo/issues/28)
-
-### その他
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
 - [ ] プライバシーポリシーページ作成 → [#7](https://github.com/TakamasaSaito/boardgamedojo/issues/7)
 - [ ] 問い合わせページ作成 → [#8](https://github.com/TakamasaSaito/boardgamedojo/issues/8)
 
 ## 次の一手
-#28 残項目の是正作業（localStorage 初回判定など）→ [#28](https://github.com/TakamasaSaito/boardgamedojo/issues/28)
+次のゲーム追加または既存ゲームの改善（Google Analytics 設定 #6 が積み残し最古）

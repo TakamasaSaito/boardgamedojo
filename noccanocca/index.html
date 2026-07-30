@@ -95,8 +95,7 @@ body {
 @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 @keyframes glow { from { text-shadow: 0 0 20px rgba(0,188,212,0.3); } to { text-shadow: 0 0 40px rgba(0,188,212,0.8); } }
 
-/* ===== ONBOARDING ===== */
-#onboardScreen { background: var(--bg); flex-direction: column; }
+/* ===== HOWTO ===== */
 .onboard-body {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
@@ -273,7 +272,8 @@ body {
 #gameControls .btn { font-size: 14px; padding: 11px; }
 
 /* ===== HOW-TO ===== */
-#howScreen { background: var(--bg); }
+/* ===== HOWTO ===== */
+#howto { background: var(--bg); flex-direction: column; }
 .how-body { flex: 1; padding: 20px 16px; overflow-y: auto; }
 .how-section { margin-bottom: 24px; }
 .how-title { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 10px; border-bottom: 1px solid #2a2a2a; padding-bottom: 6px; }
@@ -331,7 +331,7 @@ body {
   <div class="header-right">
     <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="icon-btn" id="lang-btn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
-    <button class="icon-btn" onclick="openHow()">&#x2753;</button>
+    <button class="icon-btn" onclick="openHowto()">&#x2753;</button>
   </div>
 </div>
 
@@ -348,71 +348,102 @@ body {
     <div class="splash-tap" id="splashTap">タップして始める</div>
   </div>
 
-  <!-- ===== ONBOARDING ===== -->
-  <div id="onboardScreen" class="screen">
-    <div class="onboard-body">
+  <!-- ===== HOWTO (初回スライド + ❓参照) ===== -->
+  <div id="howto" class="screen">
+    <!-- SLIDE MODE: 初回起動時のみ表示 -->
+    <div id="howSlideSection">
+      <div class="onboard-body">
 
-      <!-- Step 1: 目的 -->
-      <div class="onboard-step active" id="ob0">
-        <div class="onboard-icon">&#x1F3C6;</div>
-        <div class="onboard-title" id="obT0">ゲームの目的</div>
-        <div class="onboard-visual">
-          <div class="ob-cell goal">
-            <div class="ob-piece white" style="transform:translate(0,0)">W</div>
+        <!-- Step 1: 目的 -->
+        <div class="onboard-step active" id="ob0">
+          <div class="onboard-icon">&#x1F3C6;</div>
+          <div class="onboard-title" id="obT0">ゲームの目的</div>
+          <div class="onboard-visual">
+            <div class="ob-cell goal">
+              <div class="ob-piece white" style="transform:translate(0,0)">W</div>
+            </div>
+            <div class="ob-arrow">&#x2190;</div>
+            <div class="ob-cell"><div class="ob-piece white">W</div></div>
+            <div style="font-size:11px;color:var(--text-dim)">vs</div>
+            <div class="ob-cell"><div class="ob-piece black">B</div></div>
+            <div class="ob-arrow">&#x2192;</div>
+            <div class="ob-cell goal-w">
+              <div class="ob-piece black" style="transform:translate(0,0)">B</div>
+            </div>
           </div>
-          <div class="ob-arrow">&#x2190;</div>
-          <div class="ob-cell"><div class="ob-piece white">W</div></div>
-          <div style="font-size:11px;color:var(--text-dim)">vs</div>
-          <div class="ob-cell"><div class="ob-piece black">B</div></div>
-          <div class="ob-arrow">&#x2192;</div>
-          <div class="ob-cell goal-w">
-            <div class="ob-piece black" style="transform:translate(0,0)">B</div>
+          <div class="onboard-desc" id="obD0">自分のコマを1つでも相手の初期配置列に到達させると勝利。または相手のコマ5つ全てに乗って動けなくしても勝利です。</div>
+        </div>
+
+        <!-- Step 2: 移動 -->
+        <div class="onboard-step" id="ob1">
+          <div class="onboard-icon">&#x1F9ED;</div>
+          <div class="onboard-title" id="obT1">コマの動き</div>
+          <div class="onboard-visual" style="flex-wrap:wrap;gap:3px;max-width:160px;justify-content:center">
+            <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+            <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+            <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+            <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+            <div class="ob-cell"><div class="ob-piece white">W</div></div>
+            <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+            <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+            <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
+            <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
           </div>
+          <div class="onboard-desc" id="obD1">コマは上下左右・斜めの8方向に1マスだけ移動できます。スタックの一番上のコマだけが動かせます。</div>
         </div>
-        <div class="onboard-desc" id="obD0">自分のコマを1つでも相手の初期配置列に到達させると勝利。または相手のコマ5つ全てに乗って動けなくしても勝利です。</div>
-      </div>
 
-      <!-- Step 2: 移動 -->
-      <div class="onboard-step" id="ob1">
-        <div class="onboard-icon">&#x1F9ED;</div>
-        <div class="onboard-title" id="obT1">コマの動き</div>
-        <div class="onboard-visual" style="flex-wrap:wrap;gap:3px;max-width:160px;justify-content:center">
-          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
-          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
-          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
-          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
-          <div class="ob-cell"><div class="ob-piece white">W</div></div>
-          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
-          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
-          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
-          <div class="ob-cell" style="border-color:rgba(0,188,212,0.4)"></div>
-        </div>
-        <div class="onboard-desc" id="obD1">コマは上下左右・斜めの8方向に1マスだけ移動できます。スタックの一番上のコマだけが動かせます。</div>
-      </div>
-
-      <!-- Step 3: スタック -->
-      <div class="onboard-step" id="ob2">
-        <div class="onboard-icon">&#x1F4E6;</div>
-        <div class="onboard-title" id="obT2">スタック（乗っかる）</div>
-        <div class="onboard-visual">
-          <div class="ob-cell">
-            <div class="ob-piece black" style="transform:translate(-4px,4px);z-index:0;opacity:0.6">B</div>
-            <div class="ob-piece white" style="transform:translate(0,0);z-index:1">W</div>
+        <!-- Step 3: スタック -->
+        <div class="onboard-step" id="ob2">
+          <div class="onboard-icon">&#x1F4E6;</div>
+          <div class="onboard-title" id="obT2">スタック（乗っかる）</div>
+          <div class="onboard-visual">
+            <div class="ob-cell">
+              <div class="ob-piece black" style="transform:translate(-4px,4px);z-index:0;opacity:0.6">B</div>
+              <div class="ob-piece white" style="transform:translate(0,0);z-index:1">W</div>
+            </div>
+            <div style="font-size:12px;color:var(--text-dim);text-align:center;line-height:1.5">&#x2190; 上のWだけ<br>動ける</div>
           </div>
-          <div style="font-size:12px;color:var(--text-dim);text-align:center;line-height:1.5">&#x2190; 上のWだけ<br>動ける</div>
+          <div class="onboard-desc" id="obD2">移動先にコマがあると上に乗れます（最大3段）。乗られたコマは動けません。自分のコマにも乗れます。4段目は不可。</div>
         </div>
-        <div class="onboard-desc" id="obD2">移動先にコマがあると上に乗れます（最大3段）。乗られたコマは動けません。自分のコマにも乗れます。4段目は不可。</div>
-      </div>
 
-      <div class="onboard-dots">
-        <div class="onboard-dot active" id="dot0"></div>
-        <div class="onboard-dot" id="dot1"></div>
-        <div class="onboard-dot" id="dot2"></div>
+        <div class="onboard-dots">
+          <div class="onboard-dot active" id="dot0"></div>
+          <div class="onboard-dot" id="dot1"></div>
+          <div class="onboard-dot" id="dot2"></div>
+        </div>
+      </div>
+      <div class="onboard-footer">
+        <button class="btn primary" id="obNextBtn" onclick="obNext()">次へ</button>
+        <button class="btn ghost" onclick="closeHowto()" id="obSkipBtn">スキップ</button>
       </div>
     </div>
-    <div class="onboard-footer">
-      <button class="btn primary" id="obNextBtn" onclick="obNext()">次へ</button>
-      <button class="btn ghost" onclick="showScreen('homeScreen')" id="obSkipBtn">スキップ</button>
+
+    <!-- REF MODE: ❓ボタンからの参照時に表示 -->
+    <div id="howRefSection" style="display:none;">
+      <div class="how-body">
+        <div class="how-section">
+          <div class="how-title" id="howT1">ゲームの目的</div>
+          <div class="how-rule" id="howR1">自分のコマを1つでも相手の陣地（初期配置列）に到達させると勝利です。または、相手のコマ5つ全てに乗って動けなくしても勝利です。</div>
+        </div>
+        <div class="how-section">
+          <div class="how-title" id="howT2">コマの動き</div>
+          <div class="how-rule" id="howR2">コマは上下左右・斜めの8方向に1マスだけ移動できます。</div>
+          <div class="how-rule" id="howR3">動かせるのは、スタックの一番上のコマだけです。</div>
+        </div>
+        <div class="how-section">
+          <div class="how-title" id="howT3">スタック（重ねる）</div>
+          <div class="how-rule" id="howR4">コマのある場所に移動すると、上に乗ることができます（最大3段）。</div>
+          <div class="how-rule" id="howR5">乗られたコマは動けなくなります。自分のコマにも乗れます。</div>
+          <div class="how-rule" id="howR6">4段目には乗れません。</div>
+        </div>
+        <div class="how-section">
+          <div class="how-title" id="howT4">ボード</div>
+          <div class="how-rule" id="howR7">5×6マス。白は下の列スタート、黒は上の列スタートです。</div>
+        </div>
+      </div>
+      <div style="padding: 0 16px 20px;">
+        <button class="btn" onclick="closeHowto()" id="btnCloseHow">閉じる</button>
+      </div>
     </div>
   </div>
 
@@ -466,33 +497,6 @@ body {
     </div>
   </div>
 
-  <!-- ===== HOW TO ===== -->
-  <div id="howScreen" class="screen">
-    <div class="how-body">
-      <div class="how-section">
-        <div class="how-title" id="howT1">ゲームの目的</div>
-        <div class="how-rule" id="howR1">自分のコマを1つでも相手の陣地（初期配置列）に到達させると勝利です。または、相手のコマ5つ全てに乗って動けなくしても勝利です。</div>
-      </div>
-      <div class="how-section">
-        <div class="how-title" id="howT2">コマの動き</div>
-        <div class="how-rule" id="howR2">コマは上下左右・斜めの8方向に1マスだけ移動できます。</div>
-        <div class="how-rule" id="howR3">動かせるのは、スタックの一番上のコマだけです。</div>
-      </div>
-      <div class="how-section">
-        <div class="how-title" id="howT3">スタック（重ねる）</div>
-        <div class="how-rule" id="howR4">コマのある場所に移動すると、上に乗ることができます（最大3段）。</div>
-        <div class="how-rule" id="howR5">乗られたコマは動けなくなります。自分のコマにも乗れます。</div>
-        <div class="how-rule" id="howR6">4段目には乗れません。</div>
-      </div>
-      <div class="how-section">
-        <div class="how-title" id="howT4">ボード</div>
-        <div class="how-rule" id="howR7">5×6マス。白は下の列スタート、黒は上の列スタートです。</div>
-      </div>
-    </div>
-    <div style="padding: 0 16px 20px;">
-      <button class="btn" onclick="closeHow()" id="btnCloseHow">閉じる</button>
-    </div>
-  </div>
 
 </div>
 
@@ -638,19 +642,17 @@ function goHome() {
 }
 function goToTitle() { goHome(); }
 
-function openHow() {
+function openHowto(from) {
   var cur = document.querySelector('.screen.active');
-  prevScreen = cur ? cur.id : 'homeScreen';
-  if (prevScreen === 'splashScreen' || prevScreen === 'onboardScreen') prevScreen = 'homeScreen';
-  showScreen('howScreen');
+  prevScreen = (from !== undefined) ? from : (cur ? cur.id : 'homeScreen');
+  if (prevScreen === 'splashScreen' || prevScreen === 'howto') prevScreen = 'homeScreen';
+  document.getElementById('howSlideSection').style.display = 'none';
+  document.getElementById('howRefSection').style.display = '';
+  showScreen('howto');
 }
 
-function closeHow() {
-  if (prevScreen === 'splashScreen') {
-    showScreen('homeScreen');
-  } else {
-    showScreen(prevScreen);
-  }
+function closeHowto() {
+  showScreen(prevScreen || 'homeScreen');
 }
 
 // ========== GAME STATE ==========
@@ -1105,7 +1107,7 @@ var obTexts = {
 function obNext() {
   obStep++;
   if (obStep >= obMax) {
-    showScreen('homeScreen');
+    closeHowto();
     obStep = 0;
     return;
   }
@@ -1146,7 +1148,10 @@ function splashTap() {
     if (d) d.className = 'onboard-dot' + (i === 0 ? ' active' : '');
   }
   updateObLang();
-  showScreen('onboardScreen');
+  prevScreen = 'homeScreen';
+  document.getElementById('howSlideSection').style.display = '';
+  document.getElementById('howRefSection').style.display = 'none';
+  showScreen('howto');
 }
 
 // ========== BOOT ==========

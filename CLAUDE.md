@@ -149,6 +149,21 @@
       クリックで `goToTitle()` が呼ばれる**
       ※ `showScreen()` 内の `(id === 'game') ? '' : 'none'` で制御
 
+### howto 画面の準拠条件
+
+**必須（これをすべて満たせば準拠）**
+- [ ] howto 画面の id が `"howto"` である（`<div id="howto" class="screen">`）
+- [ ] `openHowto(from)` / `closeHowto()` 経由で開閉する
+- [ ] `closeHowto()` で `prevScreen` の画面に戻る
+- [ ] `showScreen()` の管理下にある（`.screen` クラスで制御される）
+- [ ] howto 内の全文言が翻訳オブジェクト `T` にあり `applyLang()` で切り替わる
+
+**許容（準拠違反としない拡張）**
+- 内部の多段スライド・ドットナビ・ミニボード・カードグリッドなどの演出
+- 「スキップ」ボタンによる早期終了
+- `rulesScreen` / `cardsScreen` など howto 外の参照専用画面の追加
+  （詳細: `docs/decisions/002-howto-screen-standard.md`）
+
 ### ヘッダー・パンくず
 - [ ] `#app-header` が存在し、スプラッシュ時は `class="hidden"`、以降は `.hidden` 除去
 - [ ] パンくずに `← BoardGameDojo | ゲーム名` が入っている

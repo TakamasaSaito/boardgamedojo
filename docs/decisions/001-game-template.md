@@ -33,4 +33,10 @@
 | hex, noccanocca, the-ONE | ヘッダーが各画面に個別埋め込み（グローバル固定`#app-header`ではない） |
 | egg | 常にhowto経由（localStorageによる初回判定なし） |
 | ostle | howto画面なし（splash→titleへ直行） |
-| onitama | howtoがスライド形式 + rules/cardsと画面が複数 |
+| onitama | howtoがスライド形式 + rules/cardsと画面が複数（→ 002 参照） |
+
+## howto の準拠定義について
+
+howto 画面は「必須条件（id・開閉関数・prevScreen復帰）を満たせば準拠」とし、
+内部のスライド構成やビジュアルはゲーム固有の拡張として許容する。
+詳細は `docs/decisions/002-howto-screen-standard.md` を参照。
