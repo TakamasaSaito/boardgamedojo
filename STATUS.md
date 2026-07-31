@@ -3,7 +3,13 @@
 最終更新: 2026-07-31
 
 ## 現状
-全16ファイルのGAスニペットを同一形式・コメントアウト状態に統一（#F対応）。dice-gomoku・ostleの有効実行を解消し、スニペットのないファイルにも追加。測定ID取得後は `python3 docs/decisions/004-ga-activate.py G-XXXXXXXXXX` 一発で全有効化できる状態。残タスクは Google Analytics 測定ID設定（#6）のみ。
+基準フォーマット未準拠箇所を全5ゲームで是正（#37対応）。
+quantik: id="header"→"app-header"・翻訳キーjp→ja・isJP→currentLang方式に統一。
+hex/hive/vidro/the-ONE: howto の id="howto" + showScreen() 管理下への統合。
+vidro スプラッシュを .screen.active 方式に統一。
+the-ONE: "screen-*" プレフィックスを全画面から除去し showScreen() を直接ID参照方式に統一。
+全13ゲームのロゴフォント適用状況を docs/decisions/005-logo-font-status.md に記録。
+残タスクは Google Analytics 測定ID設定（#6）のみ。
 
 ## 完了済み
 - [x] ポータル (index.html) 作成
@@ -45,11 +51,12 @@
 - [x] noccanocca の初回訪問判定復元・dice-gomoku 例外記録・privacy.html 記載更新（2026-07-30, fixes #33）
 - [x] contact.html にGoogleフォームを主窓口として追加・privacy.html にフォームのデータ取り扱いを追記（2026-07-30, fixes #34）
 - [x] 全16ファイル: GAスニペットを同一形式・コメントアウト状態に統一（dice-gomoku・ostle の有効実行解消、13ファイルにスニペット新規追加）。GA有効化Pythonスクリプト作成（2026-07-31, fixes #35）
+- [x] 基準フォーマット未準拠箇所を是正（quantik id/翻訳キー・hex/hive/vidro/the-ONE howto id・vidroスプラッシュ・the-ONE screen-*プレフィックス除去）。全13ゲームのロゴフォント状況を docs/decisions/005-logo-font-status.md に記録（2026-07-31, fixes #37）
 
 ## 残タスク（GitHub Issues）
 
-- [ ] 基準フォーマット未準拠箇所を是正する（quantik・howto id 4本・vidroスプラッシュ）→ [#36](https://github.com/TakamasaSaito/boardgamedojo/issues/36)
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
+- [ ] Connect Four / Hive / VIDRO のタイトルロゴに Orbitron を適用（未適用・要対応）
 
 ## 次の一手
-基準フォーマット未準拠箇所の是正（#36）
+Google Analytics 測定ID取得・設定（#6）

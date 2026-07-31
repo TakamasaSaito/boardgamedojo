@@ -35,7 +35,7 @@ body {
 }
 
 /* ===== HEADER ===== */
-#header {
+#app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,6 +45,7 @@ body {
   flex-shrink: 0;
   z-index: 10;
 }
+#app-header.hidden { display: none; }
 #logo {
   font-family: "Orbitron", sans-serif;
   font-size: 18px;
@@ -53,10 +54,11 @@ body {
   letter-spacing: 2px;
 }
 a#logo { text-decoration: none; color: #00bcd4; }
-#header-right {
+.hdr-right {
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-shrink: 0;
 }
 .hdr-btn {
   background: rgba(0,188,212,0.1);
@@ -408,7 +410,7 @@ a#logo { text-decoration: none; color: #00bcd4; }
 .bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
 .bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
 .bc-current { font-size: 14px; font-weight: 700; color: #e0e0e0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.hdr-right, .header-right { flex-shrink: 0; }
+.header-right { flex-shrink: 0; }
 .bc-full { display: none; }
 .bc-site { display: inline; }
 .bc-current { display: none; }
@@ -418,9 +420,9 @@ a#logo { text-decoration: none; color: #00bcd4; }
 <body>
 
 <!-- HEADER -->
-<div id="header" style="display:none">
+<div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">QUANTIK</span></nav>
-  <div id="header-right">
+  <div class="hdr-right">
     <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇯🇵</button>
     <button class="hdr-btn" onclick="openHowto()">?</button>
@@ -525,9 +527,9 @@ a#logo { text-decoration: none; color: #00bcd4; }
 
 <script>
 // ===== LANGUAGE =====
-var isJP = true;
+var currentLang = "ja";
 var T = {
-  jp: {
+  ja: {
     splashSub: "抽象戦略ボードゲーム",
     splashBtn: "はじめる",
     modeTitle: "モード選択",
@@ -615,11 +617,11 @@ var T = {
   }
 };
 
-function lang() { return isJP ? T.jp : T.en; }
+function lang() { return T[currentLang]; }
 
 function toggleLang() {
-  isJP = !isJP;
-  document.getElementById("lang-btn").textContent = isJP ? "\uD83C\uDDFA\uD83C\uDDF8" : "\uD83C\uDDEF\uD83C\uDDF5";
+  currentLang = currentLang === "ja" ? "en" : "ja";
+  document.getElementById("lang-btn").textContent = currentLang === "ja" ? "\uD83C\uDDFA\uD83C\uDDF8" : "\uD83C\uDDEF\uD83C\uDDF5";
   applyLang();
 }
 
@@ -665,7 +667,8 @@ function showScreen(id) {
   document.getElementById(id).classList.add("active");
   currentScreen = id;
   var showHeader = (id !== "splash");
-  document.getElementById("header").style.display = showHeader ? "flex" : "none";
+  var hdr = document.getElementById("app-header");
+  if (showHeader) { hdr.classList.remove("hidden"); } else { hdr.classList.add("hidden"); }
   document.getElementById("btn-home").style.display = (id === "game") ? "" : "none";
 }
 function goToTitle() { goHome(); }

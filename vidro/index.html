@@ -126,9 +126,12 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
 .hdr-right{display:flex;align-items:center;gap:8px;}
 .hdr-btn{min-width:40px;min-height:40px;background:transparent;border:1px solid rgba(0,188,212,0.3);border-radius:12px;color:#888;font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
 .hdr-btn:active{border-color:#00bcd4;color:#00bcd4;}
+/* SCREEN 共通 */
+.screen{display:none;}
+.screen.active{display:flex;}
+
 /* SPLASH */
-#splash{position:fixed;inset:0;background:#0f0f0f;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:500;transition:opacity 0.6s ease;}
-#splash.active{display:flex;}
+#splash{position:fixed;inset:0;background:#0f0f0f;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:500;transition:opacity 0.6s ease;}
 #splash.hide{opacity:0;pointer-events:none;}
 #splash-logo{font-size:clamp(56px,18vw,88px);font-weight:900;letter-spacing:10px;color:#e0e0e0;text-shadow:0 0 40px rgba(0,188,212,0.6);opacity:0;animation:splash-in 0.8s 0.3s ease forwards;}
 #splash-logo span{color:#f0d080;}
@@ -141,8 +144,7 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
 @keyframes sp-bounce{from{transform:translateY(0);}to{transform:translateY(-8px);}}
 
 /* HOW TO */
-#howto-screen{display:none;flex-direction:column;align-items:center;gap:20px;padding:28px 24px;padding-top:68px;max-width:380px;width:100%;overflow-y:auto;max-height:100vh;}
-#howto-screen.active{display:flex;}
+#howto{flex-direction:column;align-items:center;gap:20px;padding:28px 24px;padding-top:68px;max-width:380px;width:100%;overflow-y:auto;max-height:100vh;}
 #howto-logo{font-size:clamp(28px,8vw,40px);font-weight:900;letter-spacing:5px;color:#e0e0e0;text-shadow:0 0 20px rgba(0,188,212,0.4);}
 #howto-logo span{color:#f0d080;}
 #howto-title{font-size:13px;color:#888;letter-spacing:2px;margin-top:-12px;}
@@ -157,7 +159,7 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
 #howto-next:active{transform:scale(0.96);}
 #howto-skip{font-size:11px;color:#555;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Noto Sans JP',sans-serif;}
 @media (min-width: 769px) {
-  #start-screen, #howto-screen { max-width: 520px; }
+  #start-screen, #howto { max-width: 520px; }
   #game-container { max-width: 680px; }
   #board-wrapper { max-width: 520px; }
 }
@@ -183,12 +185,12 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
   <div class="hdr-right">
     <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
-    <button class="hdr-btn" onclick="showHelp()">❓</button>
+    <button class="hdr-btn" onclick="openHowto()">❓</button>
   </div>
 </div>
 
 <!-- SPLASH -->
-<div id="splash" class="active">
+<div id="splash" class="screen active">
   <div id="splash-marbles">
     <div class="sp-marble red"></div>
     <div class="sp-marble yellow"></div>
@@ -198,7 +200,7 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
 </div>
 
 <!-- HOW TO -->
-<div id="howto-screen">
+<div id="howto" class="screen">
   <div id="howto-logo">VID<span>R</span>O</div>
   <div id="howto-title">— 遊び方 —</div>
   <div class="howto-steps">
@@ -451,7 +453,7 @@ function applyLang(){
   if(typeof mode!=='undefined'&&typeof gameOver!=='undefined'&&!gameOver)updateStatus();
 }
 
-function showHelp(){
+function openHowto(){
   prevScreen=gameContainer.classList.contains('active')?'game':'start';
   gameContainer.classList.remove('active');
   startScreen.classList.remove('active');
@@ -462,7 +464,7 @@ function goToStartFromHeader(){
   if(gameContainer.classList.contains('active')){
     goToMenu();
   } else if(howtoEl.classList.contains('active')){
-    finishHowto();
+    closeHowto();
   }
 }
 
@@ -486,7 +488,7 @@ function sfxUndo(){tone(360,'sine',0.15,0.18);}
 var startScreen=document.getElementById('start-screen');
 var gameContainer=document.getElementById('game-container');
 var splashEl=document.getElementById('splash');
-var howtoEl=document.getElementById('howto-screen');
+var howtoEl=document.getElementById('howto');
 
 // Splash → Howto or Start
 function showHowto(){
@@ -519,9 +521,9 @@ setTimeout(function(){
   if(!splashDone){splashDone=true;showHowto();}
 },2400);
 
-document.getElementById('howto-next').addEventListener('click',finishHowto);
-document.getElementById('howto-skip').addEventListener('click',finishHowto);
-function finishHowto(){
+document.getElementById('howto-next').addEventListener('click',closeHowto);
+document.getElementById('howto-skip').addEventListener('click',closeHowto);
+function closeHowto(){
   howtoEl.classList.remove('active');
   if(prevScreen==='game'){
     gameContainer.classList.add('active');
