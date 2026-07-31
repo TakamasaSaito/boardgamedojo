@@ -201,7 +201,7 @@ a.hdr-logo{text-decoration:none;color:#e0e0e0;}
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">VIDRO</span></nav>
   <div class="hdr-right">
     <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
-    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">🇺🇸</button>
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1EF;&#x1F1F5;</button>
     <button class="hdr-btn" id="help-btn" onclick="openHowto()" aria-label="遊び方を開く">❓</button>
   </div>
 </div>
@@ -432,7 +432,7 @@ var T={
 function toggleLang(){
   lang=lang==='ja'?'en':'ja';
   var btn=document.getElementById('lang-btn');
-  btn.textContent=lang==='ja'?'\uD83C\uDDFA\uD83C\uDDF8':'\uD83C\uDDEF\uD83C\uDDF5';
+  btn.textContent=lang==='ja'?'\uD83C\uDDEF\uD83C\uDDF5':'\uD83C\uDDFA\uD83C\uDDF8';
   applyLang();
 }
 
@@ -476,6 +476,7 @@ function applyLang(){
 
 function openHowto(){
   prevScreen=gameContainer.classList.contains('active')?'game':'start';
+  document.getElementById('btn-home').style.display='none';
   gameContainer.classList.remove('active');
   startScreen.classList.remove('active');
   howtoEl.classList.add('active');
@@ -548,6 +549,7 @@ function closeHowto(){
   howtoEl.classList.remove('active');
   if(prevScreen==='game'){
     gameContainer.classList.add('active');
+    document.getElementById('btn-home').style.display='';
   } else {
     startScreen.classList.add('active');
   }
@@ -829,7 +831,7 @@ function doUndo(){
     btnPlace.classList.add('active');btnFlick.classList.remove('active');
     statusEl.textContent=T[lang].status_undo;
     if(timerSec>0)startTimer();
-  }catch(e){console.error(e);}
+  }catch(e){}
 }
 
 function checkWin(){

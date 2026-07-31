@@ -442,7 +442,7 @@ a#logo { text-decoration: none; color: #00bcd4; }
   <div class="hdr-right">
     <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
     <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">🇯🇵</button>
-    <button class="hdr-btn" id="help-btn" onclick="openHowto()" aria-label="遊び方を開く">?</button>
+    <button class="hdr-btn" id="help-btn" onclick="openHowto()" aria-label="遊び方を開く">&#x2753;</button>
   </div>
 </div>
 
@@ -638,7 +638,7 @@ function lang() { return T[currentLang]; }
 
 function toggleLang() {
   currentLang = currentLang === "ja" ? "en" : "ja";
-  document.getElementById("lang-btn").textContent = currentLang === "ja" ? "\uD83C\uDDFA\uD83C\uDDF8" : "\uD83C\uDDEF\uD83C\uDDF5";
+  document.getElementById("lang-btn").textContent = currentLang === "ja" ? "\uD83C\uDDEF\uD83C\uDDF5" : "\uD83C\uDDFA\uD83C\uDDF8";
   applyLang();
 }
 

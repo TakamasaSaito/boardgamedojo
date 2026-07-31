@@ -2,7 +2,7 @@
 
 ## 背景
 
-全16ファイルに同一形式のGAスニペット（`GA_MEASUREMENT_ID` プレースホルダー）を
+全17ファイルに同一形式のGAスニペット（`GA_MEASUREMENT_ID` プレースホルダー）を
 コメントアウト状態で配置済み（Issue #F 対応、2026-07-31）。
 GA 測定 ID 取得後にこの手順で一括有効化する。
 
@@ -88,9 +88,9 @@ for f in sorted(updated):
 ### 4. 確認
 
 ```bash
-# アクティブなGAスニペットが16ファイル全部にあることを確認
+# アクティブなGAスニペットが17ファイル全部にあることを確認
 grep -rl "gtag('config'" . --include="*.html" | grep -v _template | wc -l
-# → 16 であればOK
+# → 17 であればOK
 
 # GA_MEASUREMENT_ID プレースホルダーが残っていないことを確認
 grep -r "GA_MEASUREMENT_ID" . --include="*.html" | grep -v _template
@@ -104,13 +104,14 @@ git add .
 git commit -m "Google Analytics を有効化 (${MEASUREMENT_ID}) fixes #6"
 ```
 
-## 対象ファイル（16ファイル）
+## 対象ファイル（17ファイル）
 
 | ファイル | 種別 |
 |---|---|
 | index.html | ポータル |
 | privacy.html | プライバシーポリシー |
 | contact.html | お問い合わせ |
+| disclaimer.html | 知的財産権 |
 | connect4/index.html | ゲーム |
 | connections/index.html | ゲーム |
 | dice-gomoku/index.html | ゲーム |

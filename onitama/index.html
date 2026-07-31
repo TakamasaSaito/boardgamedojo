@@ -860,7 +860,7 @@ a.hdr-logo { text-decoration: none; color: var(--red); }
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">Onitama</span></nav>
   <div class="hdr-right">
     <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
-    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">🇺🇸</button>
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1EF;&#x1F1F5;</button>
     <button class="hdr-btn" id="help-btn" onclick="openHowto()" aria-label="遊び方を開く">&#x2753;</button>
   </div>
 </div>
@@ -1303,7 +1303,7 @@ var T = {
 function toggleLang() {
   lang = lang === "ja" ? "en" : "ja";
   var btn = document.getElementById("lang-btn");
-  btn.textContent = lang === "ja" ? "\uD83C\uDDFA\uD83C\uDDF8" : "\uD83C\uDDEF\uD83C\uDDF5";
+  btn.textContent = lang === "ja" ? "\uD83C\uDDEF\uD83C\uDDF5" : "\uD83C\uDDFA\uD83C\uDDF8";
   applyLang();
 }
 

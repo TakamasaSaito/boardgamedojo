@@ -40,6 +40,21 @@
   （ただし、これらは howto の外にある独立画面であり、
     `prevScreen` 復帰の起点は必ず howto とすること）
 
+### 固定オーバーレイ方式（hive のみ）
+
+hive の howto は `showScreen()` を使わず、howto 要素に直接 `.active` クラスを
+付け外しする固定オーバーレイ方式を採用している。
+
+```js
+function openHowto(from) { howtoFrom = from; document.getElementById("howto").classList.add("active"); }
+function closeHowto() { document.getElementById("howto").classList.remove("active"); }
+```
+
+- `showScreen()` の管理外だが、howto が常時 DOM に存在する固定レイヤーのため
+  画面復帰の問題は発生しない
+- `prevScreen` ではなく `howtoFrom` で開いた文脈を保持する
+- この方式は hive 固有の意図的例外であり、他ゲームへの踏襲禁止
+
 ## 既存ゲームへの適用（是正内容）
 
 ### noccanocca（是正済み）

@@ -1,12 +1,13 @@
 # STATUS.md — ボードゲームアプリ集
 
-最終更新: 2026-07-31
+最終更新: 2026-08-01
 
 ## 現状
-disclaimer.html（知的財産権に関するご案内）を新設（#39）。
-13タイトルの権利状況を調査し一覧化（5タイトルは権利者確認済み・6タイトルは調査中・Hex/サイコロ五目並べはPD相当）。
-index.html / privacy.html / contact.html / disclaimer.html の4ページフッターリンクを統一。
-各ページが自身を除く privacy → disclaimer → contact の順でリンクを持つ体裁に揃えた。
+公開前レビュー指摘事項をすべて修正しコミット待ち状態。
+修正内容: 言語フラグ Policy A 統一（現在表示中の言語フラグを表示するよう7ファイル修正）・
+applyLang() 初期呼び出し追加（複数ファイル）・❓ボタン文字を `&#x2753;` エンティティに統一（quantik/hive）・
+vidro の btn-home 表示制御追加・console.error 除去。
+CLAUDE.md に言語フラグ仕様を明記・docs/decisions 3ファイル更新・README.md 新規作成。
 残タスクは Google Analytics 測定ID設定（#6）のみ。
 
 ## 完了済み
@@ -51,12 +52,13 @@ index.html / privacy.html / contact.html / disclaimer.html の4ページフッ�
 - [x] 全16ファイル: GAスニペットを同一形式・コメントアウト状態に統一（dice-gomoku・ostle の有効実行解消、13ファイルにスニペット新規追加）。GA有効化Pythonスクリプト作成（2026-07-31, fixes #35）
 - [x] 基準フォーマット未準拠箇所を是正（quantik id/翻訳キー・hex/hive/vidro/the-ONE howto id・vidroスプラッシュ・the-ONE screen-*プレフィックス除去）。全13ゲームのロゴフォント状況を docs/decisions/005-logo-font-status.md に記録（2026-07-31, fixes #37）
 - [x] サイト全体仕上げ: meta description + OGタグ全16ファイル・aria-label 全13ゲーム・CSS変数補完8ファイル・Orbitron 3ゲーム適用・CLAUDE.md セクション11 更新（2026-07-31, fixes #38）
-- [x] disclaimer.html 新設（知的財産権に関するご案内・JA/EN対応・権利状況一覧）・4ページフッターリンク統一（2026-07-31, fixes #39 一部）
+- [x] disclaimer.html 新設（知的財産権に関するご案内・JA/EN対応・権利状況一覧）・4ページフッターリンク統一（2026-07-31, fixes #38 一部）
+- [x] disclaimer.html 権利者情報追記・専用OG画像作成（2026-08-01, fixes #39）
+- [x] 公開前レビュー指摘事項 A〜G を修正（言語フラグ Policy A 統一・applyLang初期化・❓ボタン統一・vidro btn-home・console.error除去・CLAUDE.md更新・docs 3ファイル更新・README.md作成）（2026-08-01）
 
 ## 残タスク（GitHub Issues）
 
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
-- [ ] 知的財産権ページ: 調査中6タイトルの権利者確定・更新 → [#39](https://github.com/TakamasaSaito/boardgamedojo/issues/39)（disclaimer.html実装済み）
 
 ## 次の一手
 Google Analytics 測定ID取得・設定（#6）
