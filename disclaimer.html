@@ -10,7 +10,7 @@
 <!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
 <meta property="og:title" content="知的財産権に関するご案内 | BoardGameDojo">
 <meta property="og:description" content="BoardGameDojoは個人制作の非公式Web実装です。収録13タイトルの知的財産権は各権利者に帰属します。">
-<meta property="og:image" content="apple-touch-icon.png">
+<meta property="og:image" content="og-image.png">
 <meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/disclaimer.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -275,33 +275,37 @@ footer {
           <!-- 商業製品（権利者調査中） -->
           <tr>
             <td>Connections</td>
-            <td class="rights-investigation"></td>
+            <td>
+              <span class="rights-investigation"></span>
+              <small id="connections-note" style="display:block;margin-top:4px;font-size:11px;color:var(--text-dim)"></small>
+            </td>
             <td class="st-investigation status-investigation"></td>
           </tr>
+          <!-- 商業製品（権利者確認済み） -->
           <tr>
             <td>Ostle</td>
-            <td class="rights-investigation"></td>
-            <td class="st-investigation status-investigation"></td>
+            <td id="rights-ostle"></td>
+            <td class="st-commercial status-commercial"></td>
           </tr>
           <tr>
             <td>NOCCA&times;NOCCA</td>
-            <td class="rights-investigation"></td>
-            <td class="st-investigation status-investigation"></td>
+            <td id="rights-nocca"></td>
+            <td class="st-commercial status-commercial"></td>
           </tr>
           <tr>
             <td>VIDRO</td>
-            <td class="rights-investigation"></td>
-            <td class="st-investigation status-investigation"></td>
+            <td id="rights-vidro"></td>
+            <td class="st-commercial status-commercial"></td>
           </tr>
           <tr>
             <td>the ONE</td>
-            <td class="rights-investigation"></td>
-            <td class="st-investigation status-investigation"></td>
+            <td>OXtA cube / CGCG STUDIO HD</td>
+            <td class="st-commercial status-commercial"></td>
           </tr>
           <tr>
             <td>EGG</td>
-            <td class="rights-investigation"></td>
-            <td class="st-investigation status-investigation"></td>
+            <td id="rights-egg"></td>
+            <td class="st-commercial status-commercial"></td>
           </tr>
           <!-- パブリックドメイン相当 -->
           <tr>
@@ -354,6 +358,11 @@ var T = {
     stCommercial:    '商業製品',
     stInvestigation: '調査中',
     rightsInv:       '—（調査中）',
+    connectionsNote: '（原型は古典ゲーム Bridg-It / Gale と思われますが、権利者は未確認です）',
+    rightsOstle:     '雅ゲームス (MiyabiGames) / デザイナー: Masao Fukase',
+    rightsNocca:     'UNDANOGA (ンダノガ) / 株式会社ヒツジスタジオ',
+    rightsVidro:     'デザイン: 笠置啓太 / 販売元: 芝浦工業大学附属中学高等学校・思考ゲームデザイン愛好会ボドゲブ',
+    rightsEgg:       '製品版: ForGames（エッグ リリース・オブ・ヤバラス）/ 原作: Cameron Browne（Yabarath, 2007）',
     stDiceGomoku:    'パブリックドメイン（五目並べ）',
     stHex:           'パブリックドメイン',
     nDiceGomoku:     'サイコロ五目並べ',
@@ -378,6 +387,11 @@ var T = {
     stCommercial:    'Commercial',
     stInvestigation: 'Under investigation',
     rightsInv:       '— (under investigation)',
+    connectionsNote: '(Believed to be based on the classic game Bridg-It / Gale, but the rights holder has not been confirmed)',
+    rightsOstle:     'MiyabiGames / Designer: Masao Fukase',
+    rightsNocca:     'UNDANOGA / Hitsuji Studio Inc.',
+    rightsVidro:     'Design: Keita Kasagi / Published by: Shibaura Inst. of Tech. HS, Tabletop Game Design Club',
+    rightsEgg:       'ForGames (Egg: Release of Yabarath) / Original: Cameron Browne (Yabarath, 2007)',
     stDiceGomoku:    'Public Domain (Gomoku)',
     stHex:           'Public Domain',
     nDiceGomoku:     'Dice Gomoku',
@@ -405,6 +419,11 @@ function applyLang() {
   el = document.getElementById('th-title');         if (el) el.textContent = t.thTitle;
   el = document.getElementById('th-rights');        if (el) el.textContent = t.thRights;
   el = document.getElementById('th-status');        if (el) el.textContent = t.thStatus;
+  el = document.getElementById('connections-note');  if (el) el.textContent = t.connectionsNote;
+  el = document.getElementById('rights-ostle');      if (el) el.textContent = t.rightsOstle;
+  el = document.getElementById('rights-nocca');      if (el) el.textContent = t.rightsNocca;
+  el = document.getElementById('rights-vidro');      if (el) el.textContent = t.rightsVidro;
+  el = document.getElementById('rights-egg');        if (el) el.textContent = t.rightsEgg;
   el = document.getElementById('n-dg');             if (el) el.textContent = t.nDiceGomoku;
   el = document.getElementById('st-dg');            if (el) el.textContent = t.stDiceGomoku;
   el = document.getElementById('st-hex');           if (el) el.textContent = t.stHex;
