@@ -232,6 +232,8 @@ footer {
 <footer>
   <span>&copy; 2025-2026 BoardGameDojo</span>
   &nbsp;&middot;&nbsp;
+  <a href="disclaimer.html" id="footer-disclaimer" style="color:#3a3a3a;text-decoration:none;"></a>
+  &nbsp;&middot;&nbsp;
   <a href="contact.html" id="footer-contact" style="color:#3a3a3a;text-decoration:none;"></a>
 </footer>
 
@@ -261,6 +263,7 @@ var T = {
     sec5Body:     '本サイトのコンテンツは正確な情報の提供に努めますが、文字・ルール・動作に誤りや不備が含まれる可能性を完全には排除できません。本サイトの利用や閲覧に起因するいかなる損害についても、運営者は一切の責任を負いません。',
     sec6Title:    '制定日・改定方針',
     sec6Body:     '本ポリシーは 2026年7月30日に制定しました。内容を改定する場合は、本ページ上に改定日と改定内容を明示します。',
+    disclaimerLink: '\u77E5\u7684\u8CA1\u7523\u6A29',
     contactLink:  '\u304A\u554F\u3044\u5408\u308F\u305B',
     langBtn:      '\uD83C\uDDEF\uD83C\uDDF5'
   },
@@ -286,6 +289,7 @@ var T = {
     sec5Body:     'While we strive to provide accurate content, we cannot guarantee that all text, rules, or game behavior is free of errors. The operator accepts no liability for any damages arising from use of or access to this site.',
     sec6Title:    'Effective Date & Updates',
     sec6Body:     'This policy was established on July 30, 2026. Any revisions will be noted on this page with the revision date and a summary of changes.',
+    disclaimerLink: 'IP Notice',
     contactLink:  'Contact',
     langBtn:      '\uD83C\uDDFA\uD83C\uDDF8'
   }
@@ -316,6 +320,7 @@ function applyLang() {
   el = document.getElementById('sec5-body');       if (el) el.textContent = t.sec5Body;
   el = document.getElementById('sec6-title');      if (el) el.textContent = t.sec6Title;
   el = document.getElementById('sec6-body');       if (el) el.textContent = t.sec6Body;
+  el = document.getElementById('footer-disclaimer'); if (el) el.textContent = t.disclaimerLink;
   el = document.getElementById('footer-contact');  if (el) el.textContent = t.contactLink;
   el = document.getElementById('lang-btn');        if (el) el.textContent = t.langBtn;
   el = document.getElementById('lang-btn');        if (el) el.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');

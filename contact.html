@@ -276,6 +276,8 @@ footer {
   <span>&copy; 2025-2026 BoardGameDojo</span>
   &nbsp;&middot;&nbsp;
   <a href="privacy.html" id="footer-privacy" style="color:#3a3a3a;text-decoration:none;"></a>
+  &nbsp;&middot;&nbsp;
+  <a href="disclaimer.html" id="footer-disclaimer" style="color:#3a3a3a;text-decoration:none;"></a>
 </footer>
 
 <script>
@@ -313,7 +315,8 @@ var T = {
     sec4Pre:     '本サイトでのデータ取り扱いについては「',
     sec4Link:    'プライバシーポリシー',
     sec4Post:    '」をご覧ください。',
-    footerPrivacy: 'プライバシーポリシー',
+    footerPrivacy:    'プライバシーポリシー',
+    footerDisclaimer: '知的財産権',
     langBtn:     '\uD83C\uDDEF\uD83C\uDDF5'
   },
   en: {
@@ -347,7 +350,8 @@ var T = {
     sec4Pre:     'For information on how this site handles your data, please see our "',
     sec4Link:    'Privacy Policy',
     sec4Post:    '".',
-    footerPrivacy: 'Privacy Policy',
+    footerPrivacy:    'Privacy Policy',
+    footerDisclaimer: 'IP Notice',
     langBtn:     '\uD83C\uDDFA\uD83C\uDDF8'
   }
 };
@@ -387,6 +391,7 @@ function applyLang() {
   el = document.getElementById('sec4-link-text');  if (el) el.textContent = t.sec4Link;
   el = document.getElementById('sec4-post');       if (el) el.textContent = t.sec4Post;
   el = document.getElementById('footer-privacy');  if (el) el.textContent = t.footerPrivacy;
+  el = document.getElementById('footer-disclaimer'); if (el) el.textContent = t.footerDisclaimer;
   el = document.getElementById('lang-btn');        if (el) el.textContent = t.langBtn;
   el = document.getElementById('lang-btn');        if (el) el.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');
 }

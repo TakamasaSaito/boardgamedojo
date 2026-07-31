@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="BoardGameDojoは個人制作の非公式Web実装です。収録13タイトルの知的財産権は各権利者に帰属し、権利者との公式な許諾・提携・承認等の関係はありません。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="知的財産権に関するご案内 | BoardGameDojo">
+<meta property="og:description" content="BoardGameDojoは個人制作の非公式Web実装です。収録13タイトルの知的財産権は各権利者に帰属します。">
+<meta property="og:image" content="apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/disclaimer.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.ico">
+<title>&#30693;&#30340;&#36001;&#29987;&#27177;&#12395;&#38306;&#12377;&#12427;&#12372;&#26696;&#20869; | BoardGameDojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+<!-- Google Analytics: 実装時に GA_MEASUREMENT_ID を置換してこのコメントを外す -->
+<!--
+<script src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date()); gtag('config', 'GA_MEASUREMENT_ID');
+</script>
+-->
+<style>
+:root {
+  --bg:       #0f0f0f;
+  --surface:  #1a1a1a;
+  --surface2: #222222;
+  --accent:   #00bcd4;
+  --text:     #e0e0e0;
+  --text-dim: #888888;
+  --radius:   12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+  background-color: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* ========== グローバルヘッダー ========== */
+#app-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(15,15,15,0.97);
+  border-bottom: 1px solid rgba(0,188,212,0.15);
+}
+
+.hdr-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+.hdr-btn {
+  min-width: 40px; min-height: 40px;
+  background: transparent;
+  border: 1px solid rgba(0,188,212,0.25);
+  border-radius: var(--radius);
+  color: var(--text); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+}
+.hdr-btn:active { border-color: var(--accent); color: var(--accent); }
+
+/* パンくず */
+.breadcrumb { display: flex; align-items: center; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.bc-home { display: flex; align-items: center; gap: 4px; text-decoration: none; color: var(--accent); white-space: nowrap; }
+.bc-home:hover { opacity: 0.8; }
+.bc-arrow { font-size: 14px; }
+.bc-site { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.bc-sep { color: #444; font-size: 13px; margin: 0 6px; }
+.bc-current { font-size: 14px; font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: none; }
+@media (min-width: 769px) { .bc-full { display: inline; } .bc-current { display: inline; } }
+
+/* ========== コンテンツ ========== */
+.page-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 20px 64px;
+}
+
+.page-logo {
+  font-family: 'Orbitron', 'Noto Sans', sans-serif;
+  font-size: 11px; font-weight: 700;
+  color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.page-title {
+  font-size: 22px; font-weight: 900;
+  color: var(--text); letter-spacing: 0.5px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,188,212,0.2);
+  margin-bottom: 36px;
+}
+
+/* セクション */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px; text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,188,212,0.15);
+  margin-bottom: 14px;
+}
+
+.section p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.9;
+  margin-bottom: 12px;
+}
+
+.section p:last-child { margin-bottom: 0; }
+
+.section a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.section a:hover { text-decoration: underline; }
+
+/* メモボックス */
+.note-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,188,212,0.12);
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.85;
+  margin-top: 12px;
+}
+
+/* テーブル */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,188,212,0.12);
+}
+
+.rights-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.rights-table th {
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(0,188,212,0.2);
+}
+
+.rights-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.rights-table tr:last-child td { border-bottom: none; }
+.rights-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+.st-commercial    { color: var(--accent); font-weight: 700; }
+.st-investigation { color: #f5a623; }
+.st-pd            { color: #66bb6a; }
+
+/* フッター */
+footer {
+  text-align: center;
+  padding: 24px 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 11px;
+  color: #3a3a3a;
+  letter-spacing: 1px;
+}
+
+/* ========== PC最適化 ========== */
+@media (min-width: 769px) {
+  .page-wrap { max-width: 760px; padding: 80px 48px 80px; }
+  .page-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== グローバルヘッダー ===================== -->
+<div id="app-header">
+  <nav class="breadcrumb">
+    <a class="bc-home" href="index.html">
+      <span class="bc-arrow">&larr;</span>
+      <span class="bc-site">BoardGameDojo</span>
+    </a>
+    <span class="bc-sep bc-full"> | </span>
+    <span class="bc-current" id="bc-label"></span>
+  </nav>
+  <div class="hdr-right">
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替"></button>
+  </div>
+</div>
+
+<!-- ===================== コンテンツ ===================== -->
+<div class="page-wrap">
+
+  <div class="page-logo">BoardGameDojo</div>
+  <h1 class="page-title" id="page-title"></h1>
+
+  <!-- 1. 本サイトについて -->
+  <section class="section">
+    <div class="section-title" id="sec1-title"></div>
+    <p id="sec1-body1"></p>
+    <p id="sec1-body2"></p>
+  </section>
+
+  <!-- 2. 収録タイトルの権利状況 -->
+  <section class="section">
+    <div class="section-title" id="sec2-title"></div>
+    <div class="table-wrap">
+      <table class="rights-table">
+        <thead>
+          <tr>
+            <th id="th-title"></th>
+            <th id="th-rights"></th>
+            <th id="th-status"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 商業製品（権利者確認済み） -->
+          <tr>
+            <td>Connect Four</td>
+            <td>Hasbro, Inc. / Spin Master</td>
+            <td class="st-commercial status-commercial"></td>
+          </tr>
+          <tr>
+            <td>Hive</td>
+            <td>Gen42 Games (John Yianni)</td>
+            <td class="st-commercial status-commercial"></td>
+          </tr>
+          <tr>
+            <td>Onitama</td>
+            <td>Arcane Wonders (Shimpei Sato)</td>
+            <td class="st-commercial status-commercial"></td>
+          </tr>
+          <tr>
+            <td>Quantik</td>
+            <td>Gigamic (Nouri Khalifa)</td>
+            <td class="st-commercial status-commercial"></td>
+          </tr>
+          <tr>
+            <td>Quoridor</td>
+            <td>Gigamic (Mirko Marchesi)</td>
+            <td class="st-commercial status-commercial"></td>
+          </tr>
+          <!-- 商業製品（権利者調査中） -->
+          <tr>
+            <td>Connections</td>
+            <td class="rights-investigation"></td>
+            <td class="st-investigation status-investigation"></td>
+          </tr>
+          <tr>
+            <td>Ostle</td>
+            <td class="rights-investigation"></td>
+            <td class="st-investigation status-investigation"></td>
+          </tr>
+          <tr>
+            <td>NOCCA&times;NOCCA</td>
+            <td class="rights-investigation"></td>
+            <td class="st-investigation status-investigation"></td>
+          </tr>
+          <tr>
+            <td>VIDRO</td>
+            <td class="rights-investigation"></td>
+            <td class="st-investigation status-investigation"></td>
+          </tr>
+          <tr>
+            <td>the ONE</td>
+            <td class="rights-investigation"></td>
+            <td class="st-investigation status-investigation"></td>
+          </tr>
+          <tr>
+            <td>EGG</td>
+            <td class="rights-investigation"></td>
+            <td class="st-investigation status-investigation"></td>
+          </tr>
+          <!-- パブリックドメイン相当 -->
+          <tr>
+            <td id="n-dg"></td>
+            <td>&mdash;</td>
+            <td class="st-pd" id="st-dg"></td>
+          </tr>
+          <tr>
+            <td>Hex</td>
+            <td>Piet Hein (1942) / John Nash (1948)</td>
+            <td class="st-pd" id="st-hex"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note-box" id="sec2-note"></div>
+  </section>
+
+  <!-- 3. 権利者の方へ -->
+  <section class="section">
+    <div class="section-title" id="sec3-title"></div>
+    <p id="sec3-body1"></p>
+    <p><a href="contact.html" id="sec3-contact-link"></a></p>
+  </section>
+
+</div>
+
+<footer>
+  <span>&copy; 2025-2026 BoardGameDojo</span>
+  &nbsp;&middot;&nbsp;
+  <a href="privacy.html" id="footer-privacy" style="color:#3a3a3a;text-decoration:none;"></a>
+  &nbsp;&middot;&nbsp;
+  <a href="contact.html" id="footer-contact" style="color:#3a3a3a;text-decoration:none;"></a>
+</footer>
+
+<script>
+var lang = 'ja';
+
+var T = {
+  ja: {
+    pageTitle:       '知的財産権に関するご案内',
+    bcLabel:         '知的財産権に関するご案内',
+    sec1Title:       '本サイトについて',
+    sec1Body1:       'BoardGameDojo は個人が趣味として開発した、ブラウザ向けボードゲームアプリ集です。収録タイトルの中には、現行の商業製品として販売されているものが含まれています。',
+    sec1Body2:       '本サイトは各ゲームの権利者・出版社と公式の許諾・提携・承認等の関係はなく、非公式の実装です。ゲームのルール自体は著作権保護の対象外とされるのが一般的ですが、ゲーム名・ロゴ・固有のビジュアルは商標や著作権の対象になり得ます。本ページは法務判断ではなく、実務上の配慮として掲載しています。',
+    sec2Title:       '収録タイトルの権利状況',
+    thTitle:         'タイトル',
+    thRights:        '権利者・出版社',
+    thStatus:        '状況',
+    stCommercial:    '商業製品',
+    stInvestigation: '調査中',
+    rightsInv:       '—（調査中）',
+    stDiceGomoku:    'パブリックドメイン（五目並べ）',
+    stHex:           'パブリックドメイン',
+    nDiceGomoku:     'サイコロ五目並べ',
+    sec2Note:        '「調査中」のタイトルは現在権利者・出版社を調査中です。確認でき次第更新します。',
+    sec3Title:       '権利者の方へ',
+    sec3Body1:       '各ゲームの名称・ルール・デザインに関する権利は、それぞれの権利者に帰属します。権利者の方からご要請があった場合は、速やかに対応いたします。',
+    sec3ContactLink: 'お問い合わせはこちら',
+    privacyLink:     'プライバシーポリシー',
+    contactLink:     'お問い合わせ',
+    langBtn:         '\uD83C\uDDEF\uD83C\uDDF5'
+  },
+  en: {
+    pageTitle:       'Intellectual Property Notice',
+    bcLabel:         'IP Notice',
+    sec1Title:       'About This Site',
+    sec1Body1:       'BoardGameDojo is a free browser-based board game collection developed by an individual as a hobby project. Some of the titles included are commercially available board games.',
+    sec1Body2:       'This site is an unofficial implementation and has no official license, partnership, or endorsement from any rights holder or publisher. While game rules are generally not protected by copyright, game names, logos, and unique visuals may be subject to trademark or copyright protection. This notice is provided as a practical measure, not a legal opinion.',
+    sec2Title:       'Rights Status of Included Titles',
+    thTitle:         'Title',
+    thRights:        'Rights Holder / Publisher',
+    thStatus:        'Status',
+    stCommercial:    'Commercial',
+    stInvestigation: 'Under investigation',
+    rightsInv:       '— (under investigation)',
+    stDiceGomoku:    'Public Domain (Gomoku)',
+    stHex:           'Public Domain',
+    nDiceGomoku:     'Dice Gomoku',
+    sec2Note:        'Titles marked "Under investigation" are being researched. This page will be updated as information is confirmed.',
+    sec3Title:       'To Rights Holders',
+    sec3Body1:       'All rights, trademarks, and intellectual property related to each game belong to their respective owners. If you are a rights holder and have any concerns, please contact us and we will respond promptly.',
+    sec3ContactLink: 'Contact us here',
+    privacyLink:     'Privacy Policy',
+    contactLink:     'Contact',
+    langBtn:         '\uD83C\uDDFA\uD83C\uDDF8'
+  }
+};
+
+function applyLang() {
+  var t = T[lang];
+  var el, cells, i;
+  document.documentElement.lang = lang;
+
+  el = document.getElementById('page-title');       if (el) el.textContent = t.pageTitle;
+  el = document.getElementById('bc-label');         if (el) el.textContent = t.bcLabel;
+  el = document.getElementById('sec1-title');       if (el) el.textContent = t.sec1Title;
+  el = document.getElementById('sec1-body1');       if (el) el.textContent = t.sec1Body1;
+  el = document.getElementById('sec1-body2');       if (el) el.textContent = t.sec1Body2;
+  el = document.getElementById('sec2-title');       if (el) el.textContent = t.sec2Title;
+  el = document.getElementById('th-title');         if (el) el.textContent = t.thTitle;
+  el = document.getElementById('th-rights');        if (el) el.textContent = t.thRights;
+  el = document.getElementById('th-status');        if (el) el.textContent = t.thStatus;
+  el = document.getElementById('n-dg');             if (el) el.textContent = t.nDiceGomoku;
+  el = document.getElementById('st-dg');            if (el) el.textContent = t.stDiceGomoku;
+  el = document.getElementById('st-hex');           if (el) el.textContent = t.stHex;
+  el = document.getElementById('sec2-note');        if (el) el.textContent = t.sec2Note;
+  el = document.getElementById('sec3-title');       if (el) el.textContent = t.sec3Title;
+  el = document.getElementById('sec3-body1');       if (el) el.textContent = t.sec3Body1;
+  el = document.getElementById('sec3-contact-link'); if (el) el.textContent = t.sec3ContactLink;
+  el = document.getElementById('footer-privacy');   if (el) el.textContent = t.privacyLink;
+  el = document.getElementById('footer-contact');   if (el) el.textContent = t.contactLink;
+  el = document.getElementById('lang-btn');         if (el) el.textContent = t.langBtn;
+  el = document.getElementById('lang-btn');         if (el) el.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');
+
+  cells = document.getElementsByClassName('status-commercial');
+  for (i = 0; i < cells.length; i++) { cells[i].textContent = t.stCommercial; }
+
+  cells = document.getElementsByClassName('status-investigation');
+  for (i = 0; i < cells.length; i++) { cells[i].textContent = t.stInvestigation; }
+
+  cells = document.getElementsByClassName('rights-investigation');
+  for (i = 0; i < cells.length; i++) { cells[i].textContent = t.rightsInv; }
+}
+
+function toggleLang() {
+  lang = (lang === 'ja') ? 'en' : 'ja';
+  applyLang();
+}
+
+applyLang();
+</script>
+</body>
+</html>
