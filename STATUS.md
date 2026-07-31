@@ -3,12 +3,12 @@
 最終更新: 2026-07-31
 
 ## 現状
-基準フォーマット未準拠箇所を全5ゲームで是正（#37対応）。
-quantik: id="header"→"app-header"・翻訳キーjp→ja・isJP→currentLang方式に統一。
-hex/hive/vidro/the-ONE: howto の id="howto" + showScreen() 管理下への統合。
-vidro スプラッシュを .screen.active 方式に統一。
-the-ONE: "screen-*" プレフィックスを全画面から除去し showScreen() を直接ID参照方式に統一。
-全13ゲームのロゴフォント適用状況を docs/decisions/005-logo-font-status.md に記録。
+サイト全体仕上げ対応（#38）完了。
+全16ファイルに meta description + OGタグ（og:title/description/image/url/type + twitter:card）追加。
+全13ゲームの btn-home/lang-btn/help-btn に aria-label 付与、applyLang() で JA/EN 切替に追従。
+connections/dice-gomoku/egg/onitama に --surface2/--text-dim、hex に --text-dim、quantik/the-ONE/vidro に標準7変数 :root ブロックを追加。
+Connect Four/Hive/VIDRO のロゴに Orbitron を適用。docs/decisions/005-logo-font-status.md を全13ゲーム準拠状態に更新。
+CLAUDE.md セクション11 にメタタグ・OGタグ・aria-label を新ゲーム追加チェックリストとして追記。
 残タスクは Google Analytics 測定ID設定（#6）のみ。
 
 ## 完了済み
@@ -52,11 +52,11 @@ the-ONE: "screen-*" プレフィックスを全画面から除去し showScreen(
 - [x] contact.html にGoogleフォームを主窓口として追加・privacy.html にフォームのデータ取り扱いを追記（2026-07-30, fixes #34）
 - [x] 全16ファイル: GAスニペットを同一形式・コメントアウト状態に統一（dice-gomoku・ostle の有効実行解消、13ファイルにスニペット新規追加）。GA有効化Pythonスクリプト作成（2026-07-31, fixes #35）
 - [x] 基準フォーマット未準拠箇所を是正（quantik id/翻訳キー・hex/hive/vidro/the-ONE howto id・vidroスプラッシュ・the-ONE screen-*プレフィックス除去）。全13ゲームのロゴフォント状況を docs/decisions/005-logo-font-status.md に記録（2026-07-31, fixes #37）
+- [x] サイト全体仕上げ: meta description + OGタグ全16ファイル・aria-label 全13ゲーム・CSS変数補完8ファイル・Orbitron 3ゲーム適用・CLAUDE.md セクション11 更新（2026-07-31, fixes #38）
 
 ## 残タスク（GitHub Issues）
 
 - [ ] Google Analytics 設定（全ファイル）→ [#6](https://github.com/TakamasaSaito/boardgamedojo/issues/6)
-- [ ] Connect Four / Hive / VIDRO のタイトルロゴに Orbitron を適用（未適用・要対応）
 
 ## 次の一手
 Google Analytics 測定ID取得・設定（#6）

@@ -1,6 +1,7 @@
 # 005: ロゴフォント適用状況（全13ゲーム）
 
 作成日: 2026-07-31  
+最終更新: 2026-07-31（Issue #38 対応にて未適用3ゲームに Orbitron を適用）  
 調査背景: Issue #37 対応時に全ゲームのロゴフォントを一覧化
 
 ## 基準仕様（CLAUDE.md セクション3）
@@ -12,11 +13,11 @@
 
 | ゲーム | ディレクトリ | ロゴフォント | 状態 |
 |--------|------------|------------|------|
-| Connect Four | `connect4` | Noto Sans | 未適用・要対応 |
+| Connect Four | `connect4` | Orbitron | 標準準拠 ✅ |
 | Onitama | `onitama` | Shippori Mincho | 意図的テーマフォント（和風）✅ |
 | Quoridor | `quridor` | Orbitron | 標準準拠 ✅ |
-| Hive | `hive` | 指定なし（Noto Sans JP にフォールバック） | 未適用・要対応 |
-| VIDRO | `vidro` | 指定なし（Noto Sans JP にフォールバック） | 未適用・要対応 |
+| Hive | `hive` | Orbitron | 標準準拠 ✅ |
+| VIDRO | `vidro` | Orbitron | 標準準拠 ✅ |
 | EGG | `egg` | Bebas Neue | 意図的テーマフォント（デコ系）✅ |
 | NOCCA×NOCCA | `noccanocca` | Orbitron | 標準準拠 ✅ |
 | the ONE | `the-ONE` | Orbitron | 標準準拠 ✅ |
@@ -40,24 +41,17 @@ Google Fonts への読み込みも含む意図的な実装。CLAUDE.md の許容
 意図的な選択。縦長ディスプレイ向けのポップなデザインコンセプトに対応している。
 CLAUDE.md の「世界観に合わせたテーマフォント」として許容。
 
-### 未適用（要対応）
+### Issue #38 対応（2026-07-31）で適用した3ゲーム
 
-**Connect Four — Noto Sans**  
-`.scr-logo { font-family: 'Noto Sans', sans-serif; }` と明示されており
-Orbitron が未使用。Google Fonts 読み込みも Orbitron を含まない。
-単なる未適用と判断。別途 Issue で対応予定。
+**Connect Four**  
+`.scr-logo { font-family: 'Noto Sans', sans-serif; }` を
+`font-family: 'Orbitron', sans-serif;` に変更。
+Google Fonts リンクに Orbitron を追加。
 
-**Hive — font-family 指定なし**  
-`.screen-logo { font-size:44px; font-weight:700; }` に font-family 指定なく、
-body の Noto Sans JP にフォールバック。Orbitron 読み込みも行われていない。
-単なる未適用。別途 Issue で対応予定。
+**Hive**  
+`.screen-logo` に `font-family:'Orbitron',sans-serif;` を追加。
+Google Fonts リンクに Orbitron を追加。
 
-**VIDRO — font-family 指定なし**  
-`#splash-logo { font-size:clamp(...); }` に font-family 指定なく、
-body の Noto Sans JP にフォールバック。Orbitron 読み込みなし。
-単なる未適用。別途 Issue で対応予定。
-
-## 今後の対応
-
-未適用 3 ゲーム（Connect Four / Hive / VIDRO）に対して個別 Issue を起票し、
-Orbitron 適用を行う予定。
+**VIDRO**  
+`#splash-logo` に `font-family:'Orbitron',sans-serif;` を追加。
+CSS `@import` に Orbitron を追加。

@@ -6,6 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="CONNECTIONSはバーを盤上に置いて端から端をつなぐ2人用ボードゲームです。相手を完全に囲んでも勝ちになります。対人戦とCPU対戦（3段階難易度）をブラウザで体験できます。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="CONNECTIONS | BoardGameDojo">
+<meta property="og:description" content="CONNECTIONSはバーを盤上に置いて端から端をつなぐ2人用ボードゲームです。相手を完全に囲んでも勝ちになります。対人戦とCPU対戦（3段階難易度）をブラウザで体験できます。">
+<meta property="og:image" content="../apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/connections/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="../manifest.json">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="icon" href="../favicon.ico">
@@ -31,6 +39,8 @@
   --accent-dim: rgba(0,188,212,0.12);
   --text: #e0e0e0;
   --text2: #888888;
+  --surface2: #222222;
+  --text-dim: #888888;
   --radius: 12px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: rgba(0,0,0,0); }
@@ -157,9 +167,9 @@ body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; background: var
     <span class="bc-current">CONNECTIONS</span>
   </nav>
   <div class="hdr-right">
-    <button class="hdr-btn" id="btn-home" style="display:none">&#8962;</button>
-    <button class="hdr-btn" id="langBtn">&#127471;&#127477;</button>
-    <button class="hdr-btn" id="helpBtn">&#10067;</button>
+    <button class="hdr-btn" id="btn-home" style="display:none" aria-label="ホームへ戻る">&#8962;</button>
+    <button class="hdr-btn" id="langBtn" aria-label="言語切替">&#127471;&#127477;</button>
+    <button class="hdr-btn" id="helpBtn" aria-label="遊び方を開く">&#10067;</button>
   </div>
 </div>
 
@@ -434,6 +444,10 @@ function applyLang(){
   $("splash-sub").textContent = T("splashSub");
   $("splash-tap").textContent = T("splashTap");
   if(G){ renderHud(); }
+  var el2;
+  el2 = document.getElementById('btn-home'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? 'ホームへ戻る' : 'Back to home');
+  el2 = document.getElementById('langBtn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');
+  el2 = document.getElementById('helpBtn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '遊び方を開く' : 'Open how to play');
 }
 
 // ===================== 画面管理 =====================

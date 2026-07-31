@@ -170,7 +170,11 @@
 - [ ] パンくずに `← BoardGameDojo | ゲーム名` が入っている
       ※ `.bc-full` クラスは `@media (min-width: 769px)` でのみ表示（スマホは「← BoardGameDojo」のみ）
 - [ ] 言語切替ボタン（🇯🇵/🇺🇸）が `#lang-btn` として存在する
-- [ ] ヘルプボタン（❓）が存在し `openHowto()` を呼ぶ
+- [ ] ヘルプボタン（❓）が `id="help-btn"` で存在し `openHowto()` を呼ぶ
+- [ ] `#btn-home` / `#lang-btn` / `#help-btn` に `aria-label` を付与し、
+      `applyLang()` 内で JA/EN に切り替えること
+      JA: ホームへ戻る / 言語切替 / 遊び方を開く
+      EN: Back to home / Switch language / Open how to play
 
 ### デザイン
 - [ ] CSS変数 `--bg / --surface / --surface2 / --accent / --text / --text-dim / --radius` を使用
@@ -181,6 +185,12 @@
 - [ ] `manifest` / `apple-touch-icon` / `favicon.ico` のパスが **相対パス**（`../xxx`）
       ※ ルート絶対パス（`/xxx`）禁止。理由: GitHub Pages サブディレクトリ配信では
         `/` がリポジトリルートを指さない（Issue #24参照）
+- [ ] `<meta name="description">` が存在し、各ページ固有の日本語 description（120文字程度）
+- [ ] OG タグ一式（`og:title` / `og:description` / `og:image` / `og:url` / `og:type`）が存在する
+- [ ] `<meta name="twitter:card" content="summary_large_image">` が存在する
+- [ ] `og:image` は `../apple-touch-icon.png`（サブディレクトリ）または `apple-touch-icon.png`（ルート）
+- [ ] `og:url` のみ絶対URL（`https://takamasasaito.github.io/boardgamedojo/...`）を使用し、
+      相対パス禁止ルールの例外である旨をHTMLコメントで明記する
 
 ### サウンド
 - [ ] `playSound()` が実装されており、最低限 `select` / `place`（or `move`） / `win` の3種が鳴る

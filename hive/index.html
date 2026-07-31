@@ -6,12 +6,20 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="Hiveは昆虫タイルを盤上に並べ、相手の女王蜂を完全に囲んだ方が勝つ2人用ボードゲームです。ボードなし・駒が虫という独特の世界観。対人戦とCPU対戦をブラウザで体験できます。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="Hive | BoardGameDojo">
+<meta property="og:description" content="Hiveは昆虫タイルを盤上に並べ、相手の女王蜂を完全に囲んだ方が勝つ2人用ボードゲームです。ボードなし・駒が虫という独特の世界観。対人戦とCPU対戦をブラウザで体験できます。">
+<meta property="og:image" content="../apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/hive/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="icon" href="../favicon.ico">
 <title>Hive | BoardGameDojo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans:wght@400;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <!-- Google Analytics: 実装時に GA_MEASUREMENT_ID を置換してこのコメントを外す -->
 <!--
 <script src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
@@ -48,7 +56,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP','N
 a.logo-btn { text-decoration:none;color:var(--accent); }
 .hdr-right { display:flex;gap:8px;align-items:center; }
 .icon-btn { width:40px;height:40px;border-radius:50%;border:1px solid #2a2a2a;background:#111;color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
-.screen-logo { font-size:44px;font-weight:700;color:var(--accent);letter-spacing:6px; }
+.screen-logo { font-family:'Orbitron',sans-serif;font-size:44px;font-weight:700;color:var(--accent);letter-spacing:6px; }
 .menu-btn { width:240px;padding:15px;border-radius:var(--radius);border:1.5px solid var(--accent);background:rgba(0,188,212,0.07);color:var(--accent);font-size:15px;font-weight:700;cursor:pointer;text-align:center;min-height:52px; }
 .menu-btn.sec { border-color:#333;color:#666;background:rgba(255,255,255,0.02); }
 #howto { z-index:500;align-items:stretch;justify-content:flex-start;padding-top:0;gap:0; }
@@ -135,9 +143,9 @@ a.app-logo { text-decoration:none;font-size:16px;font-weight:700;color:var(--acc
 <div id="app-header">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HIVE</span></nav>
   <div class="hdr-right">
-    <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
-    <button class="icon-btn" id="hdr-lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
-    <button class="icon-btn" onclick="showHelp()">&#x2753;</button>
+    <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
+    <button class="icon-btn" id="hdr-lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1EF;&#x1F1F5;</button>
+    <button class="icon-btn" id="help-btn" onclick="showHelp()" aria-label="遊び方を開く">&#x2753;</button>
   </div>
 </div>
 
@@ -151,7 +159,7 @@ a.app-logo { text-decoration:none;font-size:16px;font-weight:700;color:var(--acc
   <div class="screen-hdr">
     <a class="logo-btn" href="../index.html">&#x1F41D; HIVE</a>
     <div class="hdr-right">
-      <button class="icon-btn" id="intro-lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
+      <button class="icon-btn" id="intro-lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1EF;&#x1F1F5;</button>
     </div>
   </div>
   <div style="width:100%;max-width:340px;padding:0 12px;display:flex;flex-direction:column;gap:12px;padding-top:8px;">
@@ -174,8 +182,8 @@ a.app-logo { text-decoration:none;font-size:16px;font-weight:700;color:var(--acc
   <div class="screen-hdr">
     <a class="logo-btn" href="../index.html">&#x1F41D; HIVE</a>
     <div class="hdr-right">
-      <button class="icon-btn" id="lang-btn" onclick="toggleLang()">🇯🇵</button>
-      <button class="icon-btn" onclick="openHowto(1)">?</button>
+      <button class="icon-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">🇯🇵</button>
+      <button class="icon-btn" onclick="openHowto(1)" aria-label="遊び方を開く">?</button>
     </div>
   </div>
   <div class="screen-logo">HIVE</div>
@@ -187,8 +195,8 @@ a.app-logo { text-decoration:none;font-size:16px;font-weight:700;color:var(--acc
   <div class="screen-hdr">
     <span class="logo-btn" onclick="showMode()">← HIVE</span>
     <div class="hdr-right">
-      <button class="icon-btn" id="lang-btn2" onclick="toggleLang()">🇯🇵</button>
-      <button class="icon-btn" onclick="openHowto(1)">?</button>
+      <button class="icon-btn" id="lang-btn2" onclick="toggleLang()" aria-label="言語切替">🇯🇵</button>
+      <button class="icon-btn" onclick="openHowto(1)" aria-label="遊び方を開く">?</button>
     </div>
   </div>
   <div style="font-size:20px;font-weight:700;color:#00bcd4;" id="ds-title">難易度を選択</div>
@@ -475,6 +483,17 @@ function applyLang() {
   if (ai) ai.innerHTML = t.aiThink;
   if (ST && !ST.over) updateUI();
   injectPieceIcons();
+  var el2;
+  el2 = document.getElementById('btn-home'); if (el2) el2.setAttribute('aria-label', LANG ? 'Back to home' : 'ホームへ戻る');
+  var langBtnIds = ["hdr-lang-btn","lang-btn","lang-btn2","intro-lang-btn"];
+  for (var _i = 0; _i < langBtnIds.length; _i++) {
+    el2 = document.getElementById(langBtnIds[_i]); if (el2) el2.setAttribute('aria-label', LANG ? 'Switch language' : '言語切替');
+  }
+  el2 = document.getElementById('help-btn'); if (el2) el2.setAttribute('aria-label', LANG ? 'Open how to play' : '遊び方を開く');
+  var helpBtns = document.querySelectorAll('.icon-btn[onclick*="openHowto"]');
+  for (var _j = 0; _j < helpBtns.length; _j++) {
+    helpBtns[_j].setAttribute('aria-label', LANG ? 'Open how to play' : '遊び方を開く');
+  }
 }
 
 function openHowto(from) { howtoFrom = from; document.getElementById("howto").classList.add("active"); }

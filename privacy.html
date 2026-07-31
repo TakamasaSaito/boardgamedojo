@@ -6,6 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="BoardGameDojoのプライバシーポリシーです。Google Analyticsによるアクセス解析の利用目的・データ管理方針をご確認いただけます。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="プライバシーポリシー | BoardGameDojo">
+<meta property="og:description" content="BoardGameDojoのプライバシーポリシーです。Google Analyticsによるアクセス解析の利用目的・データ管理方針をご確認いただけます。">
+<meta property="og:image" content="apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/privacy.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="favicon.ico">
@@ -168,7 +176,7 @@ footer {
     <span class="bc-current" id="bc-label">&#12503;&#12521;&#12452;&#12496;&#12471;&#12540;&#12509;&#12522;&#12471;&#12540;</span>
   </nav>
   <div class="hdr-right">
-    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1EF;&#x1F1F5;</button>
   </div>
 </div>
 
@@ -310,6 +318,7 @@ function applyLang() {
   el = document.getElementById('sec6-body');       if (el) el.textContent = t.sec6Body;
   el = document.getElementById('footer-contact');  if (el) el.textContent = t.contactLink;
   el = document.getElementById('lang-btn');        if (el) el.textContent = t.langBtn;
+  el = document.getElementById('lang-btn');        if (el) el.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');
 }
 
 function toggleLang() {

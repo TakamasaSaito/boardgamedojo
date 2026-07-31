@@ -6,13 +6,21 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="Connect Four（四目並べ）をブラウザで遊ぼう。縦・横・斜めに先に4つ並べた方が勝ち。対人戦とCPU対戦（3段階難易度）に対応。インストール不要、スマホ・PCどちらでも。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="Connect Four | BoardGameDojo">
+<meta property="og:description" content="Connect Four（四目並べ）をブラウザで遊ぼう。縦・横・斜めに先に4つ並べた方が勝ち。対人戦とCPU対戦（3段階難易度）に対応。インストール不要、スマホ・PCどちらでも。">
+<meta property="og:image" content="../apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/connect4/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="icon" href="../favicon.ico">
 <title>Connect Four | BoardGameDojo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Sans:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <!-- Google Analytics: 実装時に GA_MEASUREMENT_ID を置換してこのコメントを外す -->
 <!--
 <script src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
@@ -93,7 +101,7 @@ body {
   display: flex; flex-direction: column; align-items: center; gap: 16px;
 }
 .scr-logo {
-  font-family: 'Noto Sans', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-size: 24px; font-weight: 900;
   color: var(--accent); letter-spacing: 3px; text-transform: uppercase; text-align: center;
 }
@@ -522,9 +530,9 @@ body {
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">Connect Four</span></nav>
   <div class="hdr-right">
-    <button class="hdr-icon-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
-    <button class="hdr-icon-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
-    <button class="hdr-icon-btn" onclick="openHowto()">&#x2753;</button>
+    <button class="hdr-icon-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
+    <button class="hdr-icon-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1EF;&#x1F1F5;</button>
+    <button class="hdr-icon-btn" id="help-btn" onclick="openHowto()" aria-label="遊び方を開く">&#x2753;</button>
   </div>
 </div>
 
@@ -724,6 +732,10 @@ function applyLang() {
   document.getElementById('lang-btn').textContent       = t.langBtn;
   document.getElementById('splash-tap').textContent     = t.splashTap;
   updateStatus();
+  var el;
+  el = document.getElementById('btn-home'); if (el) el.setAttribute('aria-label', currentLang === 'ja' ? 'ホームへ戻る' : 'Back to home');
+  el = document.getElementById('lang-btn'); if (el) el.setAttribute('aria-label', currentLang === 'ja' ? '言語切替' : 'Switch language');
+  el = document.getElementById('help-btn'); if (el) el.setAttribute('aria-label', currentLang === 'ja' ? '遊び方を開く' : 'Open how to play');
 }
 
 function toggleLang() {

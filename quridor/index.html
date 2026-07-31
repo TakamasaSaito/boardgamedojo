@@ -6,6 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="Quoridor（クォリドー）は壁を建てながら相手より先に自陣から対岸へのゴールを目指す2人用ボードゲームです。壁で相手を妨害しながら最短ルートを争います。CPU対戦をブラウザで体験できます。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="Quoridor | BoardGameDojo">
+<meta property="og:description" content="Quoridor（クォリドー）は壁を建てながら相手より先に自陣から対岸へのゴールを目指す2人用ボードゲームです。壁で相手を妨害しながら最短ルートを争います。CPU対戦をブラウザで体験できます。">
+<meta property="og:image" content="../apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/quridor/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="icon" href="../favicon.ico">
@@ -254,9 +262,9 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP','Noto San
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">QUORIDOR</span></nav>
   <div class="hdr-right">
-    <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
-    <button class="icon-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
-    <button class="icon-btn" onclick="openHowto()">&#x2753;</button>
+    <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
+    <button class="icon-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1EF;&#x1F1F5;</button>
+    <button class="icon-btn" id="help-btn" onclick="openHowto()" aria-label="遊び方を開く">&#x2753;</button>
   </div>
 </div>
 
@@ -483,6 +491,10 @@ function applyLang() {
   updateDirBadge();
   updateStatusBar();
   updateModeBar();
+  var el2;
+  el2 = document.getElementById('btn-home'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '\u30DB\u30FC\u30E0\u3078\u623B\u308B' : 'Back to home');
+  el2 = document.getElementById('lang-btn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '\u8A00\u8A9E\u5207\u66FF' : 'Switch language');
+  el2 = document.getElementById('help-btn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '\u904A\u3073\u65B9\u3092\u958B\u304F' : 'Open how to play');
 }
 function toggleLang(){ lang=lang==='ja'?'en':'ja'; applyLang(); }
 

@@ -6,6 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="BoardGameDojoはブラウザだけで遊べる2人用ボードゲーム集です。Connect Four・Hive・Hex・Quantikなど13タイトルを収録。スマホ対応・インストール不要。対人戦とCPU対戦をご用意しています。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="BoardGameDojo | ブラウザで遊べる2人用ボードゲーム集">
+<meta property="og:description" content="BoardGameDojoはブラウザだけで遊べる2人用ボードゲーム集です。Connect Four・Hive・Hex・Quantikなど13タイトルを収録。スマホ対応・インストール不要。対人戦とCPU対戦をご用意しています。">
+<meta property="og:image" content="apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="icon" href="favicon.ico">
@@ -272,7 +280,7 @@ footer {
 <header>
   <div class="site-header">
     <a href="index.html" class="site-logo">BoardGameDojo</a>
-    <button id="lang-btn" onclick="toggleLang()">&#127471;&#127477;</button>
+    <button id="lang-btn" onclick="toggleLang()" aria-label="言語切替">&#127471;&#127477;</button>
   </div>
 </header>
 
@@ -495,6 +503,8 @@ function applyLang() {
     var el = document.getElementById(ids[i]);
     if (el) el.textContent = t(keys[i]);
   }
+  var lb = document.getElementById('lang-btn');
+  if (lb) lb.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');
 }
 </script>
 

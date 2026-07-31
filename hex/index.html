@@ -6,6 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="Hexは六角形のボードで対向する2辺を石の連続で繋いだ方が勝つ2人用ボードゲームです。先手有利を補うスワップルール搭載。MCTS搭載のCPU対戦もブラウザで楽しめます。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="Hex | BoardGameDojo">
+<meta property="og:description" content="Hexは六角形のボードで対向する2辺を石の連続で繋いだ方が勝つ2人用ボードゲームです。先手有利を補うスワップルール搭載。MCTS搭載のCPU対戦もブラウザで楽しめます。">
+<meta property="og:image" content="../apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/hex/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="icon" href="../favicon.ico">
@@ -28,6 +36,7 @@
   --surface2: #222;
   --accent: #00bcd4;
   --text: #e0e0e0;
+  --text-dim: #888888;
   --muted: #888;
   --p1: #f44336;
   --p2: #2196f3;
@@ -196,9 +205,9 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">HEX</span></nav>
   <div class="header-right">
-    <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
-    <button class="icon-btn" id="lang-btn" onclick="toggleLang()">&#x1F1EF;&#x1F1F5;</button>
-    <button class="icon-btn" onclick="openHowto()">&#x2753;</button>
+    <button class="icon-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
+    <button class="icon-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1EF;&#x1F1F5;</button>
+    <button class="icon-btn" id="help-btn" onclick="openHowto()" aria-label="遊び方を開く">&#x2753;</button>
   </div>
 </div>
 
@@ -448,6 +457,10 @@ function applyLang() {
   document.getElementById('sm-info-text').textContent = tx('smInfoText');
   renderHowto();
   if (document.getElementById('game-screen').classList.contains('active')) updateTurnInfo();
+  var el2;
+  el2 = document.getElementById('btn-home'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? 'ホームへ戻る' : 'Back to home');
+  el2 = document.getElementById('lang-btn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');
+  el2 = document.getElementById('help-btn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '遊び方を開く' : 'Open how to play');
 }
 
 function toggleLang() {

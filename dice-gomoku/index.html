@@ -6,6 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="サイコロ五目並べはサイコロの目で置けるコマが変わる五目並べです。縦・横・斜めに15点以上つなぐか1の目を3つ以上並べると勝ち。対人戦とCPU対戦をブラウザで楽しめます。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="サイコロ五目並べ | BoardGameDojo">
+<meta property="og:description" content="サイコロ五目並べはサイコロの目で置けるコマが変わる五目並べです。縦・横・斜めに15点以上つなぐか1の目を3つ以上並べると勝ち。対人戦とCPU対戦をブラウザで楽しめます。">
+<meta property="og:image" content="../apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/dice-gomoku/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="icon" href="../favicon.ico">
@@ -30,6 +38,8 @@
   --text-hi: #e0e0e0;
   --p1:      #e05050;
   --p2:      #5090e0;
+  --surface2: #222222;
+  --text-dim: #888888;
   --radius:  12px;
 }
 
@@ -514,9 +524,9 @@ canvas { display: block; cursor: pointer; }
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">&#x30B5;&#x30A4;&#x30B3;&#x30ED;&#x4E94;&#x76EE;</span></nav>
   <div class="hdr-right">
-    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
-    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">&#x1F1FA;&#x1F1F8;</button>
-    <button class="hdr-btn" onclick="showHelp()">&#x2753;</button>
+    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">&#x1F1FA;&#x1F1F8;</button>
+    <button class="hdr-btn" id="help-btn" onclick="showHelp()" aria-label="遊び方を開く">&#x2753;</button>
   </div>
 </div>
 
@@ -747,6 +757,10 @@ function applyLang() {
       document.getElementById('status').textContent = getStatusPlace();
     }
   }
+  var el2;
+  el2 = document.getElementById('btn-home'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? 'ホームへ戻る' : 'Back to home');
+  el2 = document.getElementById('lang-btn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');
+  el2 = document.getElementById('help-btn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '遊び方を開く' : 'Open how to play');
 }
 
 // ===== SCREEN MANAGEMENT =====

@@ -6,6 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f0f">
+<meta name="description" content="EGGは石を4つ並べると勝ちになる2人用ボードゲームですが、3つ並びは禁手です。シンプルなルールの中に深い読み合いが生まれます。対人戦とCPU対戦をブラウザで楽しめます。">
+<!-- og:url は絶対URLが必要なため、相対パス禁止ルールの例外として絶対URLを使用 -->
+<meta property="og:title" content="EGG | BoardGameDojo">
+<meta property="og:description" content="EGGは石を4つ並べると勝ちになる2人用ボードゲームですが、3つ並びは禁手です。シンプルなルールの中に深い読み合いが生まれます。対人戦とCPU対戦をブラウザで楽しめます。">
+<meta property="og:image" content="../apple-touch-icon.png">
+<meta property="og:url" content="https://takamasasaito.github.io/boardgamedojo/egg/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="icon" href="../favicon.ico">
@@ -32,6 +40,8 @@
   --text-hi: #e0e0e0;
   --danger:  #ff3a5c;
   --green:   #00ff88;
+  --surface2: #222222;
+  --text-dim: #888888;
   --radius:  12px;
 }
 * { box-sizing:border-box; margin:0; padding:0; }
@@ -377,9 +387,9 @@ svg {
 <div id="app-header" class="hidden">
   <nav class="breadcrumb"><a class="bc-home" href="../index.html"><span class="bc-arrow">&larr;</span><span class="bc-site bc-full">BoardGameDojo</span></a><span class="bc-sep bc-full"> | </span><span class="bc-current">EGG</span></nav>
   <div class="hdr-right">
-    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()">&#8962;</button>
-    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()">🇺🇸</button>
-    <button class="hdr-btn" onclick="openHowto()">❓</button>
+    <button class="hdr-btn" id="btn-home" style="display:none" onclick="goToTitle()" aria-label="ホームへ戻る">&#8962;</button>
+    <button class="hdr-btn" id="lang-btn" onclick="toggleLang()" aria-label="言語切替">🇺🇸</button>
+    <button class="hdr-btn" id="help-btn" onclick="openHowto()" aria-label="遊び方を開く">❓</button>
   </div>
 </div>
 
@@ -663,6 +673,10 @@ function applyLang() {
 
   updateDiffBadge();
   if (!gameOver) { updateStatus(); }
+  var el2;
+  el2 = document.getElementById('btn-home'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? 'ホームへ戻る' : 'Back to home');
+  el2 = document.getElementById('lang-btn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '言語切替' : 'Switch language');
+  el2 = document.getElementById('help-btn'); if (el2) el2.setAttribute('aria-label', lang === 'ja' ? '遊び方を開く' : 'Open how to play');
 }
 
 /* ---- 画面管理 ---- */
