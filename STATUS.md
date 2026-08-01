@@ -3,11 +3,11 @@
 最終更新: 2026-08-01
 
 ## 現状
-公開前レビュー指摘事項をすべて修正しコミット待ち状態。
-修正内容: 言語フラグ Policy A 統一（現在表示中の言語フラグを表示するよう7ファイル修正）・
-applyLang() 初期呼び出し追加（複数ファイル）・❓ボタン文字を `&#x2753;` エンティティに統一（quantik/hive）・
-vidro の btn-home 表示制御追加・console.error 除去。
-CLAUDE.md に言語フラグ仕様を明記・docs/decisions 3ファイル更新・README.md 新規作成。
+contact.html の CTAボタン空表示バグ（`#sec2-btn` がシアン空枠のみで文字なし）・
+disclaimer.html の `#lang-btn` 空表示バグを修正。
+全 portal 3 ページ（contact / privacy / disclaimer）と egg の howto 画面で
+「HTMLに静的日本語テキストを持たせ、JS は言語切替時の上書きのみ担当する」方針を適用。
+全13ゲームの調査を実施し、egg のみ howto テキスト12要素が空だったため同方針で修正。
 残タスクは Google Analytics 測定ID設定（#6）のみ。
 
 ## 完了済み
@@ -55,6 +55,7 @@ CLAUDE.md に言語フラグ仕様を明記・docs/decisions 3ファイル更新
 - [x] disclaimer.html 新設（知的財産権に関するご案内・JA/EN対応・権利状況一覧）・4ページフッターリンク統一（2026-07-31, fixes #38 一部）
 - [x] disclaimer.html 権利者情報追記・専用OG画像作成（2026-08-01, fixes #39）
 - [x] 公開前レビュー指摘事項 A〜G を修正（言語フラグ Policy A 統一・applyLang初期化・❓ボタン統一・vidro btn-home・console.error除去・CLAUDE.md更新・docs 3ファイル更新・README.md作成）（2026-08-01）
+- [x] contact.html / privacy.html / disclaimer.html / egg: 全空要素に静的日本語テキストを追加し JS 依存の空表示バグを解消。contact.html の GitHub Issues セクションを 1 文に簡素化。全13ゲーム調査済み（2026-08-01）
 
 ## 残タスク（GitHub Issues）
 

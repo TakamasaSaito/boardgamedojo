@@ -224,49 +224,40 @@ footer {
 
   <!-- 1. はじめに -->
   <section class="section">
-    <div class="section-title" id="sec1-title"></div>
-    <p id="sec1-body"></p>
+    <div class="section-title" id="sec1-title">はじめに</div>
+    <p id="sec1-body">BoardGameDojo は個人が無償で開発・運営するサービスです。お問い合わせへの返信は確約できませんが、いただいたご意見はできる限り参考にさせていただきます。</p>
   </section>
 
   <!-- 2. お問い合わせフォーム（主窓口） -->
   <section class="section">
-    <div class="section-title" id="sec2-title"></div>
-    <p id="sec2-body"></p>
-    <a class="form-btn" href="https://forms.gle/bvVrG9rxDnG2ZwLP6" target="_blank" rel="noopener" id="sec2-btn"></a>
-    <p id="sec2-body2"></p>
+    <div class="section-title" id="sec2-title">お問い合わせフォーム</div>
+    <p id="sec2-body">ご意見・不具合報告・機能要望など、何でもお気軽にどうぞ。GitHubアカウントは不要です。</p>
+    <a class="form-btn" href="https://forms.gle/bvVrG9rxDnG2ZwLP6" target="_blank" rel="noopener" id="sec2-btn">フォームを開く →</a>
+    <p id="sec2-body2">フォームの入力項目：</p>
     <ul class="report-list">
-      <li id="sec2-li1"></li>
-      <li id="sec2-li2"></li>
-      <li id="sec2-li3"></li>
-      <li id="sec2-li4"></li>
-      <li id="sec2-li5"></li>
-      <li id="sec2-li6"></li>
+      <li id="sec2-li1">種別（不具合 / 機能要望 / その他）</li>
+      <li id="sec2-li2">ゲーム名</li>
+      <li id="sec2-li3">端末とブラウザ（例：iPhone 15、Safari 17）</li>
+      <li id="sec2-li4">発生日時（おおよそで可）</li>
+      <li id="sec2-li5">内容（必須）</li>
+      <li id="sec2-li6">返信用メールアドレス（任意）</li>
     </ul>
-    <div class="note-box" id="sec2-note"></div>
+    <div class="note-box" id="sec2-note">フォームへの入力内容は Google のサーバーに保存されます。詳しくはプライバシーポリシーをご覧ください。</div>
   </section>
 
   <!-- 3. GitHub Issues（開発者・公開議論向け） -->
   <section class="section">
-    <div class="section-title" id="sec3-title"></div>
+    <div class="section-title" id="sec3-title">GitHub Issues（開発者・公開議論向け）</div>
     <p>
-      <span id="sec3-pre"></span><a href="https://github.com/TakamasaSaito/boardgamedojo/issues" target="_blank" rel="noopener" id="sec3-link-text"></a><span id="sec3-post"></span>
+      <span id="sec3-pre">開発者の方や、公開の場でのやりとりを希望される方は </span><a href="https://github.com/TakamasaSaito/boardgamedojo/issues" target="_blank" rel="noopener" id="sec3-link-text">GitHub Issues</a><span id="sec3-post"> もご利用いただけます（GitHubアカウントが必要です）。</span>
     </p>
-    <p id="sec3-body2"></p>
-    <ul class="report-list">
-      <li id="sec3-li1"></li>
-      <li id="sec3-li2"></li>
-      <li id="sec3-li3"></li>
-      <li id="sec3-li4"></li>
-      <li id="sec3-li5"></li>
-    </ul>
-    <div class="note-box" id="sec3-note"></div>
   </section>
 
   <!-- 4. プライバシーについて -->
   <section class="section">
-    <div class="section-title" id="sec4-title"></div>
+    <div class="section-title" id="sec4-title">プライバシーについて</div>
     <p>
-      <span id="sec4-pre"></span><a href="privacy.html" id="sec4-link-text"></a><span id="sec4-post"></span>
+      <span id="sec4-pre">本サイトでのデータ取り扱いについては「</span><a href="privacy.html" id="sec4-link-text">プライバシーポリシー</a><span id="sec4-post">」をご覧ください。</span>
     </p>
   </section>
 
@@ -275,9 +266,9 @@ footer {
 <footer>
   <span>&copy; 2025-2026 BoardGameDojo</span>
   &nbsp;&middot;&nbsp;
-  <a href="privacy.html" id="footer-privacy" style="color:#3a3a3a;text-decoration:none;"></a>
+  <a href="privacy.html" id="footer-privacy" style="color:#3a3a3a;text-decoration:none;">プライバシーポリシー</a>
   &nbsp;&middot;&nbsp;
-  <a href="disclaimer.html" id="footer-disclaimer" style="color:#3a3a3a;text-decoration:none;"></a>
+  <a href="disclaimer.html" id="footer-disclaimer" style="color:#3a3a3a;text-decoration:none;">知的財産権</a>
 </footer>
 
 <script>
@@ -303,14 +294,7 @@ var T = {
     sec3Title:   'GitHub Issues（開発者・公開議論向け）',
     sec3Pre:     '開発者の方や、公開の場でのやりとりを希望される方は ',
     sec3Link:    'GitHub Issues',
-    sec3Post:    ' もご利用いただけます。',
-    sec3Body2:   '報告の際は以下をご記入いただけると助かります：',
-    sec3Li1:     'ゲーム名',
-    sec3Li2:     '端末とブラウザ（例：iPhone 15、Safari 17）',
-    sec3Li3:     '発生日時（おおよそで可）',
-    sec3Li4:     '再現手順（どのような操作をしたか）',
-    sec3Li5:     '発生した事象（どのような問題が起きたか）',
-    sec3Note:    '※ GitHubアカウントが必要です。',
+    sec3Post:    ' もご利用いただけます（GitHubアカウントが必要です）。',
     sec4Title:   'プライバシーについて',
     sec4Pre:     '本サイトでのデータ取り扱いについては「',
     sec4Link:    'プライバシーポリシー',
@@ -338,14 +322,7 @@ var T = {
     sec3Title:   'GitHub Issues (For Developers & Public Discussion)',
     sec3Pre:     'Developers and users who prefer a public forum are welcome to use ',
     sec3Link:    'GitHub Issues',
-    sec3Post:    '.',
-    sec3Body2:   'The following information helps us investigate:',
-    sec3Li1:     'Game name',
-    sec3Li2:     'Device and browser (e.g., iPhone 15, Safari 17)',
-    sec3Li3:     'When it happened (approximate is fine)',
-    sec3Li4:     'Steps to reproduce',
-    sec3Li5:     'What happened',
-    sec3Note:    'Note: A GitHub account is required.',
+    sec3Post:    ' (a GitHub account is required).',
     sec4Title:   'Privacy',
     sec4Pre:     'For information on how this site handles your data, please see our "',
     sec4Link:    'Privacy Policy',
@@ -379,13 +356,6 @@ function applyLang() {
   el = document.getElementById('sec3-pre');        if (el) el.textContent = t.sec3Pre;
   el = document.getElementById('sec3-link-text');  if (el) el.textContent = t.sec3Link;
   el = document.getElementById('sec3-post');       if (el) el.textContent = t.sec3Post;
-  el = document.getElementById('sec3-body2');      if (el) el.textContent = t.sec3Body2;
-  el = document.getElementById('sec3-li1');        if (el) el.textContent = t.sec3Li1;
-  el = document.getElementById('sec3-li2');        if (el) el.textContent = t.sec3Li2;
-  el = document.getElementById('sec3-li3');        if (el) el.textContent = t.sec3Li3;
-  el = document.getElementById('sec3-li4');        if (el) el.textContent = t.sec3Li4;
-  el = document.getElementById('sec3-li5');        if (el) el.textContent = t.sec3Li5;
-  el = document.getElementById('sec3-note');       if (el) el.textContent = t.sec3Note;
   el = document.getElementById('sec4-title');      if (el) el.textContent = t.sec4Title;
   el = document.getElementById('sec4-pre');        if (el) el.textContent = t.sec4Pre;
   el = document.getElementById('sec4-link-text');  if (el) el.textContent = t.sec4Link;
