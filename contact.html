@@ -179,7 +179,7 @@ body {
   border-radius: var(--radius);
   letter-spacing: 0.5px;
 }
-a.form-btn, a.form-btn:hover { text-decoration: none; }
+a.form-btn, a.form-btn:link, a.form-btn:visited, a.form-btn:hover { color: #000000; text-decoration: none; }
 a.form-btn:active { opacity: 0.7; }
 
 /* フッター */
@@ -249,7 +249,7 @@ footer {
   <section class="section">
     <div class="section-title" id="sec3-title">GitHub Issues（開発者・公開議論向け）</div>
     <p>
-      <span id="sec3-pre">開発者の方や、公開の場でのやりとりを希望される方は </span><a href="https://github.com/TakamasaSaito/boardgamedojo/issues" target="_blank" rel="noopener" id="sec3-link-text">GitHub Issues</a><span id="sec3-post"> もご利用いただけます（GitHubアカウントが必要です）。</span>
+      <span id="sec3-pre">開発者の方や、公開の場でのやりとりを希望される方は </span><a href="https://github.com/TakamasaSaito/boardgamedojo/issues" target="_blank" rel="noopener" id="sec3-link-text">GitHub Issues</a><span id="sec3-post"> もご利用いただけます。</span>
     </p>
   </section>
 
@@ -294,7 +294,7 @@ var T = {
     sec3Title:   'GitHub Issues（開発者・公開議論向け）',
     sec3Pre:     '開発者の方や、公開の場でのやりとりを希望される方は ',
     sec3Link:    'GitHub Issues',
-    sec3Post:    ' もご利用いただけます（GitHubアカウントが必要です）。',
+    sec3Post:    ' もご利用いただけます。',
     sec4Title:   'プライバシーについて',
     sec4Pre:     '本サイトでのデータ取り扱いについては「',
     sec4Link:    'プライバシーポリシー',
@@ -322,7 +322,7 @@ var T = {
     sec3Title:   'GitHub Issues (For Developers & Public Discussion)',
     sec3Pre:     'Developers and users who prefer a public forum are welcome to use ',
     sec3Link:    'GitHub Issues',
-    sec3Post:    ' (a GitHub account is required).',
+    sec3Post:    '.',
     sec4Title:   'Privacy',
     sec4Pre:     'For information on how this site handles your data, please see our "',
     sec4Link:    'Privacy Policy',
